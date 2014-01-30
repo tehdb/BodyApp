@@ -1,0 +1,34 @@
+/* line 4, ../../app/styles/main.sass */
+body {
+  background: transparent;
+}
+
+/* line 7, ../../app/styles/main.sass */
+.th-sidemenu-toggle {
+  margin-right: 20px;
+}
+
+/* line 10, ../../app/styles/main.sass */
+.content {
+  padding: 100px 15px 60px;
+}
+
+/* line 13, ../../app/styles/main.sass */
+.th-footer {
+  border: 0 none;
+  padding-top: 5px;
+  margin-top: 10px;
+}
+/* line 18, ../../app/styles/main.sass */
+.th-footer .btn {
+  border-radius: 0;
+  margin: 0;
+}
+/* line 25, ../../app/styles/main.sass */
+.th-footer .btn .th-text {
+  float: left;
+  padding-left: 4px;
+  line-height: 24px;
+  font-size: 13px;
+  display: none;
+}

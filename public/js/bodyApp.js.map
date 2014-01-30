@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "bodyApp.js",
+  "sourceRoot": "",
+  "sources": [
+    "bodyApp.src.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAA,CACE,CAAkB,IADpB,CACC,CADD,CAAA,CAAA;;AAOA,CAPA,CAOiD,IAAjD,CAAO,EAAP,CAAA;EAA6D,CAAV,GAAU,EAAZ,CAAc;CACvD,EAAQ,EAAf,CAAM,KAAN;CADgD,EAAY;CAP7D,CAOA"
+}

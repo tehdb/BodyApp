@@ -1,0 +1,19 @@
+{
+	"folders":
+	[
+		{
+			"file_exclude_patterns":
+			[
+				".bowerrc"
+			],
+			"folder_exclude_patterns":
+			[
+				".temp",
+				"node_modules",
+				".sass-cache"
+			],
+			"follow_symlinks": true,
+			"path": "."
+		}
+	]
+}

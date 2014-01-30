@@ -1,0 +1,53 @@
+doctype html
+html
+	head
+		title BodyApp
+
+		meta( name="viewport", content="width=device-width, initial-scale=1" )
+
+		link( rel="stylesheet", href="vendor/sass-bootstrap/dist/css/bootstrap.css" )
+		link( rel="stylesheet", href="vendor/sass-bootstrap/dist/css/bootstrap-theme.css" )
+		link( rel="stylesheet", href="css/main.css" )
+
+
+	body(ng-app="BodyApp", ng-controller="MainCtrl")
+
+		header.navbar.navbar-default.navbar-fixed-top( role="navigation" )
+			div.container
+				div.navbar-header
+					div.navbar-brand(href="#")
+						button.btn.btn-default.th-sidemenu-toggle(role="button")
+							span.glyphicon.glyphicon-align-justify
+						span BodyApp
+
+					button.navbar-toggle( type="button", data-toggle="collapse", data-target=".navbar-collapse" )
+						span.glyphicon.glyphicon-search
+
+				div.navbar-collapse.collapse
+					ul.nav.navbar-nav
+						li.active
+							a(href="#") home
+						li
+							a(href="#") other
+
+		div.content
+			div.container
+				h1(ng-bind="title")
+
+		nav.navbar.navbar-default.navbar-fixed-bottom.th-footer( role="navigation" )
+			//- div.container
+			div.btn-group.btn-group-justified.btn-group-lg
+				a.btn.btn-default(role="button")
+					span.glyphicon.glyphicon-align-justify
+					span.th-text shedule
+				a.btn.btn-default(role="button")
+					span.glyphicon.glyphicon-align-justify
+					span.th-text exercises
+				a.btn.btn-default(role="button")
+					span.glyphicon.glyphicon-align-justify
+					span.th-text Options
+
+		script(src="vendor/jquery/jquery.js")
+		script(src="vendor/angular/angular.js")
+		script(src="vendor/sass-bootstrap/dist/js/bootstrap.js")
+		script(src="js/bodyApp.js")
