@@ -1,4 +1,4 @@
 
-angular.module("BodyApp").controller "MainCtrl", [ "$scope", ( $scope ) ->
-	$scope.title = "main ctrl title"
+angular.module("BodyApp").controller "MainCtrl", [ "$scope", ( $s ) ->
+	$s.title = "main ctrl title"
 ] #MainCtrl

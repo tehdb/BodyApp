@@ -1,14 +1,24 @@
+@import "compass/utilities/general/clearfix"
+@import "compass/css3/border-radius"
+@import "compass/css3/box-shadow"
 
 $color : transparent
+$th-gray : #ccc
+
+@import "common"
+@import "exercises"
 
 body
 	background : $color
 
-.th-sidemenu-toggle
-	margin-right : 20px
+header
+	margin : 0
+
+	.th-sidemenu-toggle
+		margin-right : 20px
 
 .content
-	padding : 100px 15px 60px
+	padding : 80px 0 60px 0
 
 .th-footer
 	border : 0 none

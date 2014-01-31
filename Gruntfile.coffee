@@ -50,6 +50,8 @@ module.exports = (grunt) ->
 			dist :
 				files :
 					"public/index.html" : "app/templates/index.jade"
+					"public/tpl/home.html" : "app/templates/home.tpl.jade"
+					"public/tpl/exercises.html" : "app/templates/exercises.tpl.jade"
 
 
 		connect :

@@ -1,0 +1,34 @@
+div.exercises
+	div.input-group
+		div.input-group-btn
+			button.btn.btn-default.dropdown-toggle(data-toggle="dropdown")
+				span Action&nbsp;
+				span.caret
+			ul.dropdown-menu
+				li
+					a(href="#") Action
+				li
+					a(href="#") Action 2
+				li
+					a(href="#") Action 3
+		input.form-control(type="text")
+		span.input-group-btn
+			button.btn.btn-default(type="button")
+				span.glyphicon.glyphicon-search
+
+	ul.th-justified-list
+		li(ng-repeat="exr in exercises")
+			div.thumb
+				span.glyphicon.glyphicon-ban-circle
+
+			h2(ng-bind="exr.title")
+
+			//- p(ng-bind="exr.descr")
+			//- span.badge 117
+
+			a.btn.btn-default(role="button", href="#")
+				span.glyphicon.glyphicon-chevron-right
+
+			ul.tags
+				li day 1
+				li day 2
