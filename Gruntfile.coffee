@@ -11,14 +11,18 @@ module.exports = (grunt) ->
 			common :
 				files :	[
 					"app/scripts/**/*.coffee",
+					"app/database/**/*.json",
 					"app/templates/**/*.jade",
 					"app/styles/**/*.sass"
 				]
 				tasks : ["build"]
 
 			scripts :
-				files : ["app/scripts/**/*.coffee"]
-				tasks : ["coffee:dist"]
+				files : ["app/scripts/**/*.coffee", "app/database/**/*.json"]
+				tasks : [
+					"coffee:dist",
+					"includes:database"
+				]
 
 			templates :
 				files : ["app/templates/**/*.jade"]
@@ -36,7 +40,8 @@ module.exports = (grunt) ->
 				sourceMap : true
 			dist :
 				files :
-					"public/js/bodyApp.js" : [
+					# "public/js/bodyApp.js" : [
+					".temp/bodyApp.js" : [
 						"app/scripts/app.coffe",
 						"app/scripts/**/*.coffee"
 					]
@@ -53,9 +58,25 @@ module.exports = (grunt) ->
 					"public/tpl/home.html" : "app/templates/home.tpl.jade"
 					"public/tpl/exercises.html" : "app/templates/exercises.tpl.jade"
 
+		uglify :
+			options :
+				# mangle : false
+				compress : true
+				#beautify : true
+			scripts :
+				files :
+					"public/js/bodyApp.min.js" : "public/js/bodyApp.js"
+
+		includes :
+			database :
+				options :
+					includeRegexp : /['"]{{([^'"]+)}}['"]/
+					debug : true
+				files :
+					"public/js/bodyApp.js" : ".temp/bodyApp.js"
+
 
 		connect :
-
 			options :
 				port : 9000
 				livereload : 35729
@@ -73,7 +94,7 @@ module.exports = (grunt) ->
 
 
 	# grunt.loadNpmTasks('grunt-contrib-coffee')
-	grunt.registerTask( "build", ["coffee:dist", "compass:dist", "jade:dist"])
+	grunt.registerTask( "build", ["coffee:dist", "includes:database", "compass:dist", "jade:dist"])
 	grunt.registerTask( "dwatch", ["watch:common"])
 	grunt.registerTask( "server", ["connect:server:keepalive", "connect:livereload"])
 

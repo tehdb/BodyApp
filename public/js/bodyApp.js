@@ -34,30 +34,20 @@ angular.module("BodyApp").controller("MainCtrl", [
 angular.module("BodyApp").service("ExercisesService", [
   "Settings", function(st) {
     var _exercises;
+/* Begin: app/database/exercises.json */
     _exercises = [
-      {
-        'title': "Exercise 1",
-        'descr': "Description 1"
-      }, {
-        'title': "Exercise 2",
-        'descr': "Description 2"
-      }, {
-        'title': "Exercise 3 Exercise 3 Exercise 3 Exercise 3 Exercise 3",
-        'descr': "Description 3 Description 3 Description 3 Description 3 Description 3 Description 3 Description 3"
-      }, {
-        'title': "Exercise 4",
-        'descr': "Description 4"
-      }, {
-        'title': "Exercise 5",
-        'descr': "Description 5"
-      }, {
-        'title': "Exercise 6",
-        'descr': "Description 6"
-      }, {
-        'title': "Exercise 7",
-        'descr': "Description 7"
-      }
-    ];
+	{
+		"title" : "Lorem ipsum dolor sit.",
+		"descr" : ""
+	},{
+		"title" : "Lorem ipsum dolor sit amet, consectetur.",
+		"descr" : ""
+	},{
+		"title" : "Lorem ipsum dolor sit.",
+		"descr" : ""
+	}
+]
+;/* End: app/database/exercises.json */
     return {
       getAllExercises: function() {
         return _exercises;
@@ -66,4 +56,4 @@ angular.module("BodyApp").service("ExercisesService", [
   }
 ]);
 
-//# sourceMappingURL=../../public/js/bodyApp.js.map
+//# sourceMappingURL=../.temp/bodyApp.js.map
