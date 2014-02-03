@@ -1,4 +1,4 @@
-angular.module("BodyApp", ["ngRoute"]).constant("Settings", {}).config([
+angular.module("BodyApp", ["ngRoute", "localytics.directives"]).constant("Settings", {}).config([
   "$routeProvider", function($rp) {
     return $rp.when("/", {
       templateUrl: "tpl/home.html",

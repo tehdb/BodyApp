@@ -1,5 +1,5 @@
 angular
-	.module("BodyApp", ["ngRoute"])
+	.module("BodyApp", ["ngRoute", "localytics.directives"])
 	.constant("Settings", {
 
 	})
@@ -12,5 +12,5 @@ angular
 			controller: "ExercisesCtrl"
 		}).otherwise({
 			redirectTo: "/"
- 		})
+		})
 	])

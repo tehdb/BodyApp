@@ -2,7 +2,8 @@
 
 module.exports = (grunt) ->
 	require('load-grunt-tasks')(grunt)	# Load grunt tasks automatically
-	require('time-grunt')(grunt) 		# Time how long tasks take
+	require('time-grunt')(grunt)		# Time how long tasks take
+
 	grunt.initConfig
 		watch :
 			options :
@@ -11,11 +12,16 @@ module.exports = (grunt) ->
 			common :
 				files :	[
 					"app/scripts/**/*.coffee",
+					"app/config/**/*.coffee",
 					"app/database/**/*.json",
 					"app/templates/**/*.jade",
 					"app/styles/**/*.sass"
 				]
 				tasks : ["build"]
+
+			config : 
+				files : ["app/config/main.coffee"]
+				tasks : ["coffee:config"]
 
 			scripts :
 				files : ["app/scripts/**/*.coffee", "app/database/**/*.json"]
@@ -32,19 +38,23 @@ module.exports = (grunt) ->
 				files : ["app/styles/**/*.sass"]
 				tasks : ["compass:dist"]
 
-
 		coffee :
 			options :
 				bare : true
 				join : true
 				sourceMap : true
+
 			dist :
 				files :
-					# "public/js/bodyApp.js" : [
 					".temp/bodyApp.js" : [
 						"app/scripts/app.coffe",
 						"app/scripts/**/*.coffee"
 					]
+
+			config :
+				files : 
+					"public/js/main.js" : "app/config/main.coffee"
+
 		compass :
 			dist :
 				options :
@@ -62,7 +72,7 @@ module.exports = (grunt) ->
 			options :
 				# mangle : false
 				compress : true
-				#beautify : true
+				# beautify : true
 			scripts :
 				files :
 					"public/js/bodyApp.min.js" : "public/js/bodyApp.js"
@@ -74,7 +84,6 @@ module.exports = (grunt) ->
 					debug : true
 				files :
 					"public/js/bodyApp.js" : ".temp/bodyApp.js"
-
 
 		connect :
 			options :
@@ -92,10 +101,7 @@ module.exports = (grunt) ->
 					base : "public"
 
 
-
-	# grunt.loadNpmTasks('grunt-contrib-coffee')
-	grunt.registerTask( "build", ["coffee:dist", "includes:database", "compass:dist", "jade:dist"])
+	grunt.registerTask( "build", ["coffee:dist", "coffee:config", "includes:database", "compass:dist", "jade:dist"])
 	grunt.registerTask( "dwatch", ["watch:common"])
 	grunt.registerTask( "server", ["connect:server:keepalive", "connect:livereload"])
-
 	grunt.registerTask( "default", [] )
