@@ -1,5 +1,5 @@
 angular
-	.module("BodyApp", ["ngRoute", "localytics.directives"])
+	.module("BodyApp", ["ngRoute"])
 	.constant("Settings", {
 
 	})

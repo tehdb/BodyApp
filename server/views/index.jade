@@ -1,0 +1,46 @@
+doctype html
+html
+	head
+		title BodyApp
+
+		meta( name="viewport", content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1" )
+
+		link( rel="stylesheet", href="vendor/sass-bootstrap/dist/css/bootstrap.css" )
+		link( rel="stylesheet", href="vendor/sass-bootstrap/dist/css/bootstrap-theme.css" )
+		link( rel="stylesheet", href="css/main.css" )
+
+
+	body(ng-app="BodyApp", ng-controller="MainCtrl")
+
+		header.navbar.navbar-default.navbar-fixed-top( role="navigation" )
+			div.container
+				div.navbar-header
+					div.navbar-brand(href="#")
+						button.btn.btn-default.th-sidemenu-toggle(role="button")
+							span.glyphicon.glyphicon-align-justify
+						span app
+
+		div.content
+				div.container.ng-view
+
+		nav.navbar.navbar-default.navbar-fixed-bottom.th-footer( role="navigation" )
+			//- div.container
+			div.btn-group.btn-group-justified.btn-group-lg
+				a.btn.btn-default(role="button", href="/")
+					span.glyphicon.glyphicon-home
+					span.th-text shedule
+
+				a.btn.btn-default(role="button", href="/#/exercises")
+					span.glyphicon.glyphicon-align-justify
+					span.th-text exercises
+
+				a.btn.btn-default(role="button")
+					span.glyphicon.glyphicon-align-justify
+					span.th-text Options
+
+		script( src="vendor/jquery/jquery.js" )
+		script( src="vendor/angular/angular.js" )
+		script( src="vendor/angular-route/angular-route.js" )
+		script( src="vendor/sass-bootstrap/dist/js/bootstrap.js" )
+		script( src="js/bodyApp.js" )
+		//- script( src="vedor/requirejs/require.js", data-main="js/main.js")
