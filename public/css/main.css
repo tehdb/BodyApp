@@ -101,37 +101,102 @@ ul.th-justified-list li .btn {
   margin-bottom: 15px;
 }
 
-/* line 11, ../../app/styles/main.sass */
+/* line 1, ../../app/styles/_chosen.sass */
+.th-chosen {
+  overflow: visible;
+  border: 1px solid #cccccc;
+  padding: 0 17px 6px 3px;
+  position: relative;
+  font-size: 13px;
+  min-height: 36px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+/* line 11, ../../app/styles/_chosen.sass */
+.th-chosen .caret {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+}
+/* line 16, ../../app/styles/_chosen.sass */
+.th-chosen ul.selected {
+  overflow: visible;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  overflow: hidden;
+  *zoom: 1;
+}
+/* line 23, ../../app/styles/_chosen.sass */
+.th-chosen ul.selected li {
+  float: left;
+  color: white;
+  margin: 6px 3px 0 3px;
+  padding: 2px 5px;
+  background: gray;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+/* line 31, ../../app/styles/_chosen.sass */
+.th-chosen ul.selected li span {
+  display: inline-block;
+}
+/* line 33, ../../app/styles/_chosen.sass */
+.th-chosen ul.selected li .glyphicon {
+  margin: 2px 0 0 5px;
+  float: right;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+/* line 38, ../../app/styles/_chosen.sass */
+.th-chosen ul.selected li .glyphicon:hover {
+  background: #b7b7b7;
+  color: black;
+}
+/* line 42, ../../app/styles/_chosen.sass */
+.th-chosen ul.options {
+  display: none;
+}
+
+/* line 13, ../../app/styles/main.sass */
 body {
   background: transparent;
 }
 
-/* line 14, ../../app/styles/main.sass */
+/* line 16, ../../app/styles/main.sass */
 header {
   margin: 0;
 }
-/* line 17, ../../app/styles/main.sass */
+/* line 19, ../../app/styles/main.sass */
 header .th-sidemenu-toggle {
   margin-right: 20px;
 }
 
-/* line 20, ../../app/styles/main.sass */
+/* line 22, ../../app/styles/main.sass */
 .content {
   padding: 80px 0 60px 0;
 }
 
-/* line 23, ../../app/styles/main.sass */
+/* line 25, ../../app/styles/main.sass */
 .th-footer {
   border: 0 none;
   padding-top: 5px;
   margin-top: 10px;
 }
-/* line 28, ../../app/styles/main.sass */
+/* line 30, ../../app/styles/main.sass */
 .th-footer .btn {
   border-radius: 0;
   margin: 0;
 }
-/* line 35, ../../app/styles/main.sass */
+/* line 37, ../../app/styles/main.sass */
 .th-footer .btn .th-text {
   float: left;
   padding-left: 4px;

@@ -15,7 +15,8 @@ angular.module("BodyApp", ["ngRoute"]).constant("Settings", {}).config([
 angular.module("BodyApp").controller("ExercisesCtrl", [
   "$scope", "ExercisesService", function($s, es) {
     $s.title = "exercices";
-    return $s.exercises = es.getAllExercises();
+    $s.exercises = es.getExercises();
+    return $s.muscles = es.getMuscles();
   }
 ]);
 
@@ -31,9 +32,49 @@ angular.module("BodyApp").controller("MainCtrl", [
   }
 ]);
 
+angular.module("BodyApp").directive("thChosen", [
+  "$q", "$timeout", "$compile", "$templateCache", function(q, to, cpl, tch) {
+    return {
+      restrict: "A",
+      scope: true,
+      controller: [
+        "$scope", "$element", "$attrs", "$transclude", function(scope, elem, attrs, transclude) {
+          return scope.unselect = function(index, event) {
+            event.preventDefault();
+            event.stopPropagation();
+            scope.selected.splice(index, 1);
+            return console.log("unselect");
+          };
+        }
+      ],
+      templateUrl: "tpl/chosen.tpl.html",
+      link: function(scope, elem, attrs) {
+        scope.options = scope[attrs.thChosen];
+        scope.selected = [
+          {
+            name: "option 1"
+          }, {
+            name: "option 2"
+          }, {
+            name: "option 3"
+          }, {
+            name: "option 4"
+          }, {
+            name: "option 5"
+          }
+        ];
+        return elem.click(function(event) {
+          console.log("click");
+          return false;
+        });
+      }
+    };
+  }
+]);
+
 angular.module("BodyApp").service("ExercisesService", [
   "Settings", function(st) {
-    var _exercises;
+    var _exercises, _muscles;
 /* Begin: app/database/exercises.json */
     _exercises = [
 	{
@@ -48,9 +89,25 @@ angular.module("BodyApp").service("ExercisesService", [
 	}
 ]
 ;/* End: app/database/exercises.json */
+/* Begin: app/database/muscles.json */
+    _muscles = [
+	{
+		"name" : "muscle 1",
+		"group" : 1
+	},{
+		"name" : "muscle 2",
+		"group" : 1
+	},{
+		"name" : "muscle 3",
+		"group" : 1
+	}
+];/* End: app/database/muscles.json */
     return {
-      getAllExercises: function() {
+      getExercises: function() {
         return _exercises;
+      },
+      getMuscles: function() {
+        return _muscles;
       }
     };
   }

@@ -64,10 +64,10 @@ module.exports = (grunt) ->
 		jade :
 			dist :
 				files :
-					"public/index.html" : "app/templates/index.jade"
+					# "public/index.html" : "app/templates/index.jade"
 					"public/tpl/home.html" : "app/templates/home.tpl.jade"
 					"public/tpl/exercises.html" : "app/templates/exercises.tpl.jade"
-
+					"public/tpl/chosen.tpl.html" : "app/templates/directives/chosen.tpl.jade"
 		uglify :
 			options :
 				# mangle : false

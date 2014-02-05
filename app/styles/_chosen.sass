@@ -1,0 +1,43 @@
+.th-chosen
+	overflow : visible
+	border: 1px solid #ccc
+	padding : 0 17px 6px 3px
+	position : relative
+	font-size : 13px
+	min-height : 36px
+
+	+border-radius( 4px )
+
+	.caret
+		position : absolute
+		right : 6px
+		top : 50%
+
+	ul.selected
+		overflow : visible
+		padding : 0
+		margin : 0
+		list-style : none
+		+clearfix
+
+		li
+			float : left
+			color : white
+			margin : 6px 3px 0 3px
+			padding : 2px 5px
+			background : gray
+			+border-radius( 4px )
+			
+			span
+				display : inline-block
+			.glyphicon
+				margin : 2px 0 0 5px
+				float : right
+				+transition( all 0.2s linear )
+
+				&:hover
+					background : shade(#ccc, 10%)
+					color : black
+
+	ul.options
+		display : none

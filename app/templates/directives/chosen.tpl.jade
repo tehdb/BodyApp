@@ -1,0 +1,11 @@
+div.th-chosen
+	span.caret
+
+	ul.selected
+		li(ng-repeat="s in selected")
+			span(ng-bind="s.name")
+			span.glyphicon.glyphicon-remove(ng-click="unselect($index, $event)")
+
+	ul.options
+		li(ng-repeat="o in options")
+			span(ng-bind="o.name")
