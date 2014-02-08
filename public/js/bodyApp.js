@@ -28,7 +28,18 @@ angular.module("BodyApp").controller("HomeCtrl", [
 
 angular.module("BodyApp").controller("MainCtrl", [
   "$scope", function($s) {
-    return $s.title = "main ctrl title";
+    $s.title = "main ctrl title";
+    return $s.safeApply = function(fn) {
+      var phase;
+      phase = this.$root.$$phase;
+      if (phase === '$apply' || phase === '$digest') {
+        if (fn && typeof fn === 'function') {
+          return fn();
+        }
+      } else {
+        return this.$apply(fn);
+      }
+    };
   }
 ]);
 
@@ -39,32 +50,58 @@ angular.module("BodyApp").directive("thChosen", [
       scope: true,
       controller: [
         "$scope", "$element", "$attrs", "$transclude", function(scope, elem, attrs, transclude) {
-          return scope.unselect = function(index, event) {
+          scope.unselect = function(index, event) {
             event.preventDefault();
             event.stopPropagation();
-            scope.selected.splice(index, 1);
-            return console.log("unselect");
+            scope.options.push(scope.selected[index]);
+            return scope.selected.splice(index, 1);
+          };
+          scope.select = function(index, event) {
+            event.preventDefault();
+            event.stopPropagation();
+            scope.selected.push(scope.options[index]);
+            scope.options.splice(index, 1);
+            return scope.showmenu = false;
+          };
+          scope.prevent = function(event) {
+            event.preventDefault();
+            return event.stopPropagation();
+          };
+          scope.clear = function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            return scope.searchText = "";
+          };
+          scope.add = function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            if (scope.newElement !== '') {
+              scope.options.push({
+                name: scope.newElement,
+                group: 1
+              });
+              return scope.newElement = '';
+            }
+          };
+          return scope.dropdown = function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            return console.log($(event.currentTarget));
           };
         }
       ],
       templateUrl: "tpl/chosen.tpl.html",
       link: function(scope, elem, attrs) {
         scope.options = scope[attrs.thChosen];
-        scope.selected = [
-          {
-            name: "option 1"
-          }, {
-            name: "option 2"
-          }, {
-            name: "option 3"
-          }, {
-            name: "option 4"
-          }, {
-            name: "option 5"
-          }
-        ];
+        scope.selected = [];
+        scope.searchText = '';
+        scope.newElement = '';
+        scope.showmenu = false;
         return elem.click(function(event) {
-          console.log("click");
+          scope.safeApply(function() {
+            scope.searchText = "";
+            return scope.showmenu = !scope.showmenu;
+          });
           return false;
         });
       }
@@ -100,8 +137,18 @@ angular.module("BodyApp").service("ExercisesService", [
 	},{
 		"name" : "muscle 3",
 		"group" : 1
+	},{
+		"name" : "muscle 4",
+		"group" : 1
+	},{
+		"name" : "muscle 5 muscle 5 muscle 5 muscle 5 muscle 5",
+		"group" : 1
+	},{
+		"name" : "muscle6muscle6muscle6muscle6muscle6muscle6muscle6muscle6muscle6muscle6muscle6",
+		"group" : 1
 	}
-];/* End: app/database/muscles.json */
+]
+;/* End: app/database/muscles.json */
     return {
       getExercises: function() {
         return _exercises;

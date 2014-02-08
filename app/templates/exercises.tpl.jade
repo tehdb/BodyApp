@@ -35,6 +35,11 @@ div.exercises
 
 	form.form-horizontal(role="form")
 		div.form-group
+			label.col-sm-2.control-label Group
+			div.col-sm-10
+				div(th-chosen="muscles")
+
+		div.form-group
 			label.col-sm-2.control-label(for="exerciseTitleInp") Title
 			div.col-sm-10
 				input.form-control(id="exerciseTitleInp", type="text", placeholder="exercise title")
@@ -44,39 +49,13 @@ div.exercises
 			div.col-sm-10
 				textarea.form-control(id="exerciseDescrInp", rows="3", placeholder="exercise description")
 
-		div.form-group
-			label.col-sm-2.control-label Group
-			div.col-sm-10
-				div(th-chosen="muscles")
-				//- select.form-control(th-chosen, multiple)
-					option(value="1") group 1
-					option(value="2", selected) group 2
-					option(value="3") group 3
-					option(value="4", selected) group 4
-					option(value="5") group 5
-
-
-
-
-
-				//- div.btn-group
-					button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown") 
-						span Group&nbsp;
-						span.caret
-
-					ul.dropdown-menu(role="menu")
-						li
-							a(href="#") group 1
-						li
-							a(href="#") group 2
-						li
-							a(href="#") group 3
 
 		div.form-group
 			div.col-sm-offset-2.col-sm-10
 				button.btn.btn-default(type="submit")
 					span.glyphicon.glyphicon-plus
 					span &nbsp;add exercise
+
 
 	//- div.btn-group.pull-right
 	//-	button.btn.btn-default(type="button")

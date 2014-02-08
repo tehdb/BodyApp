@@ -96,11 +96,6 @@ ul.th-justified-list li .btn {
   box-shadow: none;
 }
 
-/* line 2, ../../app/styles/_exercises.sass */
-.exercises div.input-group {
-  margin-bottom: 15px;
-}
-
 /* line 1, ../../app/styles/_chosen.sass */
 .th-chosen {
   overflow: visible;
@@ -109,19 +104,35 @@ ul.th-justified-list li .btn {
   position: relative;
   font-size: 13px;
   min-height: 36px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 11, ../../app/styles/_chosen.sass */
+/* line 12, ../../app/styles/_chosen.sass */
 .th-chosen .caret {
   position: absolute;
   right: 6px;
   top: 50%;
+  -webkit-transition: all 0.4s linear;
+  -moz-transition: all 0.4s linear;
+  -o-transition: all 0.4s linear;
+  transition: all 0.4s linear;
 }
-/* line 16, ../../app/styles/_chosen.sass */
+/* line 17, ../../app/styles/_chosen.sass */
+.th-chosen .caret.active {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+/* line 21, ../../app/styles/_chosen.sass */
 .th-chosen ul.selected {
   overflow: visible;
   padding: 0;
@@ -130,24 +141,30 @@ ul.th-justified-list li .btn {
   overflow: hidden;
   *zoom: 1;
 }
-/* line 23, ../../app/styles/_chosen.sass */
+/* line 28, ../../app/styles/_chosen.sass */
 .th-chosen ul.selected li {
   float: left;
-  color: white;
+  color: black;
   margin: 6px 3px 0 3px;
   padding: 2px 5px;
-  background: gray;
+  background: #cccccc;
+  max-width: 100%;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
   border-radius: 4px;
+  overflow: hidden;
+  white-space: normal;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
 }
-/* line 31, ../../app/styles/_chosen.sass */
+/* line 38, ../../app/styles/_chosen.sass */
 .th-chosen ul.selected li span {
   display: inline-block;
 }
-/* line 33, ../../app/styles/_chosen.sass */
+/* line 40, ../../app/styles/_chosen.sass */
 .th-chosen ul.selected li .glyphicon {
   margin: 2px 0 0 5px;
   float: right;
@@ -156,47 +173,84 @@ ul.th-justified-list li .btn {
   -o-transition: all 0.2s linear;
   transition: all 0.2s linear;
 }
-/* line 38, ../../app/styles/_chosen.sass */
+/* line 46, ../../app/styles/_chosen.sass */
 .th-chosen ul.selected li .glyphicon:hover {
-  background: #b7b7b7;
+  background: white;
   color: black;
 }
-/* line 42, ../../app/styles/_chosen.sass */
-.th-chosen ul.options {
-  display: none;
+/* line 50, ../../app/styles/_chosen.sass */
+.th-chosen div.options {
+  display: block;
+  position: absolute;
+  margin: 6px 0 0 -3px;
+  padding: 4px;
+  z-index: 1000;
+  background: white;
+  width: 100%;
+  border: 1px solid #cccccc;
+  background: #e5e5e5;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+/* line 62, ../../app/styles/_chosen.sass */
+.th-chosen div.options ul {
+  padding: 0;
+  margin: 0 -4px 4px -4px;
+  list-style: none;
+}
+/* line 67, ../../app/styles/_chosen.sass */
+.th-chosen div.options ul li {
+  padding: 4px 8px;
+  overflow: hidden;
+  white-space: normal;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+/* line 71, ../../app/styles/_chosen.sass */
+.th-chosen div.options ul li:nth-child(even) {
+  background: #cccccc;
+}
+/* line 74, ../../app/styles/_chosen.sass */
+.th-chosen div.options ul li:hover {
+  background: black;
+  color: white;
 }
 
-/* line 13, ../../app/styles/main.sass */
+/* line 19, ../../app/styles/main.sass */
 body {
   background: transparent;
 }
 
-/* line 16, ../../app/styles/main.sass */
+/* line 22, ../../app/styles/main.sass */
 header {
   margin: 0;
 }
-/* line 19, ../../app/styles/main.sass */
+/* line 25, ../../app/styles/main.sass */
 header .th-sidemenu-toggle {
   margin-right: 20px;
 }
 
-/* line 22, ../../app/styles/main.sass */
+/* line 28, ../../app/styles/main.sass */
 .content {
   padding: 80px 0 60px 0;
 }
 
-/* line 25, ../../app/styles/main.sass */
+/* line 31, ../../app/styles/main.sass */
 .th-footer {
   border: 0 none;
   padding-top: 5px;
   margin-top: 10px;
 }
-/* line 30, ../../app/styles/main.sass */
+/* line 36, ../../app/styles/main.sass */
 .th-footer .btn {
   border-radius: 0;
   margin: 0;
 }
-/* line 37, ../../app/styles/main.sass */
+/* line 43, ../../app/styles/main.sass */
 .th-footer .btn .th-text {
   float: left;
   padding-left: 4px;
