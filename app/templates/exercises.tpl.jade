@@ -34,10 +34,6 @@ div.exercises
 				li day 2
 
 	form.form-horizontal(role="form")
-		div.form-group
-			label.col-sm-2.control-label Group
-			div.col-sm-10
-				div(th-chosen="muscles")
 
 		div.form-group
 			label.col-sm-2.control-label(for="exerciseTitleInp") Title
@@ -49,6 +45,10 @@ div.exercises
 			div.col-sm-10
 				textarea.form-control(id="exerciseDescrInp", rows="3", placeholder="exercise description")
 
+		div.form-group
+			label.col-sm-2.control-label Muscles
+			div.col-sm-10
+				div( th-chosen="muscles" , th-chosen-addform="addMuscleForm" )
 
 		div.form-group
 			div.col-sm-offset-2.col-sm-10

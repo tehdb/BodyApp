@@ -11,6 +11,8 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 		scope.select = ( index, event ) ->
 			event.preventDefault()
 			event.stopPropagation()
+
+			# TODO: select filtered
 			scope.selected.push( scope.options[index] )
 			scope.options.splice( index, 1)
 			scope.showmenu = false
@@ -34,33 +36,49 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 				})
 
 				scope.newElement = ''
-
-		scope.dropdown = (event) ->
-			event.preventDefault()
-			event.stopPropagation()
-			#$(event.currentTarget).dropdown()
-
-			console.log $(event.currentTarget)
-
 	]
 
 
 	templateUrl : "tpl/chosen.tpl.html"
 	link : (scope, elem, attrs ) ->
+			class Link
+				constructor : ->
+					that = @
+					that.menu = elem.find('.options')
+					scope.options = scope[attrs.thChosen]
+					scope.addform = scope[attrs.thChosenAddform]
+					scope.selected = []
+					scope.searchText = ''
+					scope.newElement = ''
+					scope.showmenu = false
 
-		scope.options = scope[attrs.thChosen]
-		scope.selected = []
-		scope.searchText = ''
-		scope.newElement = ''
+					elem.click( (event) ->
+						event.preventDefault()
+						event.stopPropagation()
+						that.toggleMenu()
+					)
 
-		scope.showmenu = false
+				toggleMenu : ->
+					that = @
+					scope.safeApply ->
+						scope.searchText = ""
+						scope.showmenu = !scope.showmenu
+
+						if scope.showmenu
+							to( ->
+								wh = $(window).height() - 60
+								wot = $(document).scrollTop()
+								mh = that.menu.outerHeight()
+								mot = that.menu.parent().offset().top
+								if mot + mh > wot + wh
+									y =  -(( mot + mh ) - ( wot + wh ))
+									that.menu.css('top', y + "px")
+								else
+									that.menu.css('top', "100%")
+							,0)
 
 
-		elem.click( (event) ->
-			scope.safeApply ->
-				scope.searchText = ""
-				scope.showmenu = !scope.showmenu
-			return false
-		)
+			do -> new Link
+
 
 ])

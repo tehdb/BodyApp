@@ -29,18 +29,7 @@ div.th-chosen
 				span( ng-bind="o.name" )
 
 		div.input-group
-			div.input-group-btn
-				button.btn.btn-default.dropdown-toggle(
-					type="button",
-					data-toggle="dropdown",
-					ng-click="dropdown($event)"
-				)
-					span group&nbsp;
-					span.caret
-				ul.dropdown-menu
-					li group 1
-					li group 2
-					li group 3
+			div.input-group-btn(th-dropdown="muscleGroups")
 
 			input.form-control(
 				type="text",
@@ -48,6 +37,7 @@ div.th-chosen
 				ng-click="prevent($event)",
 				ng-model="newElement"
 			)
+
 			span.input-group-btn
 				button.btn.btn-default(
 					type="button",
