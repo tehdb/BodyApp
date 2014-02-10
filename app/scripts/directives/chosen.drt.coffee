@@ -5,42 +5,80 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 		scope.unselect = (index, event ) ->
 			event.preventDefault()
 			event.stopPropagation()
-			
+			scope.options.push( scope.selected[index] )
 			scope.selected.splice( index, 1)
-			console.log "unselect"
-		]
+
+		scope.select = ( index, event ) ->
+			event.preventDefault()
+			event.stopPropagation()
+
+			# TODO: select filtered
+			scope.selected.push( scope.options[index] )
+			scope.options.splice( index, 1)
+			scope.showmenu = false
+
+		scope.prevent = (event) ->
+			event.preventDefault()
+			event.stopPropagation()
+
+		scope.clear = (event) ->
+			event.preventDefault()
+			event.stopPropagation()
+			scope.searchText = ""
+
+		scope.add = (event) ->
+			event.preventDefault()
+			event.stopPropagation()
+			if scope.newElement isnt ''
+				scope.options.push({
+					name : scope.newElement
+					group : 1
+				})
+
+				scope.newElement = ''
+	]
+
 
 	templateUrl : "tpl/chosen.tpl.html"
 	link : (scope, elem, attrs ) ->
+			class Link
+				constructor : ->
+					that = @
+					that.menu = elem.find('.options')
+					scope.options = scope[attrs.thChosen]
+					scope.addform = scope[attrs.thChosenAddform]
+					scope.selected = []
+					scope.searchText = ''
+					scope.newElement = ''
+					scope.showmenu = false
 
-		scope.options = scope[attrs.thChosen]
-		scope.selected = [
-			{
-				name : "option 1"
-			},{
-				name : "option 2"
-			},{
-				name : "option 3"
-			},{
-				name : "option 4"
-			},{
-				name : "option 5"
-			}
-		]
+					elem.click( (event) ->
+						event.preventDefault()
+						event.stopPropagation()
+						that.toggleMenu()
+					)
 
-		elem.click( (event) ->
-			console.log "click"
-			return false
-		)
+				toggleMenu : ->
+					that = @
+					scope.safeApply ->
+						scope.searchText = ""
+						scope.showmenu = !scope.showmenu
 
-		# class Chosen
-		# 	constructor : (elem) ->
-		# 		self = @
-		# 		
+						if scope.showmenu
+							to( ->
+								wh = $(window).height() - 60
+								wot = $(document).scrollTop()
+								mh = that.menu.outerHeight()
+								mot = that.menu.parent().offset().top
+								if mot + mh > wot + wh
+									y =  -(( mot + mh ) - ( wot + wh ))
+									that.menu.css('top', y + "px")
+								else
+									that.menu.css('top', "100%")
+							,0)
 
 
+			do -> new Link
 
-		# do init = ->
-		# 	new Chosen(elem)
 
 ])

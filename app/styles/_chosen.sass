@@ -1,17 +1,22 @@
 .th-chosen
 	overflow : visible
-	border: 1px solid #ccc
+	border: 1px solid $th-gray
 	padding : 0 17px 6px 3px
 	position : relative
 	font-size : 13px
 	min-height : 36px
-
+	cursor : pointer
+	+user-select( none )
 	+border-radius( 4px )
 
 	.caret
 		position : absolute
 		right : 6px
 		top : 50%
+		+transition( all 0.4s linear )
+		&.active
+			+rotate( 180deg )
+
 
 	ul.selected
 		overflow : visible
@@ -22,22 +27,53 @@
 
 		li
 			float : left
-			color : white
+			color : $th-black
 			margin : 6px 3px 0 3px
 			padding : 2px 5px
-			background : gray
+			background : $th-gray
+			max-width : 100%
 			+border-radius( 4px )
-			
+			+text-overflow
+
 			span
 				display : inline-block
 			.glyphicon
 				margin : 2px 0 0 5px
 				float : right
+
 				+transition( all 0.2s linear )
 
 				&:hover
-					background : shade(#ccc, 10%)
-					color : black
+					background : $th-white
+					color : $th-black
 
-	ul.options
-		display : none
+	div.options
+		display : block
+		position : absolute
+		top : 100%
+		left : 0
+		margin : 0
+		padding : 5px
+		z-index : 1000
+		background : $th-white
+		width : 100%
+		border : 1px solid $th-gray
+		background : $th-gray90
+		+box-shadow( 0 0 10px 5px $th-gray )
+		+border-radius( 4px )
+
+		ul
+			padding : 0
+			margin : 0 -5px 5px -5px
+			list-style : none
+
+			li
+				padding : 4px 8px
+				+text-overflow
+
+				&:nth-child(even)
+					background : $th-gray
+
+				&:hover
+					background : $th-black
+					color : $th-white

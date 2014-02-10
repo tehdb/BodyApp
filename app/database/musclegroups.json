@@ -1,0 +1,24 @@
+[
+	{
+		"id" : 1,
+		"name" : "shoulders"
+	},{
+		"id" : 2,
+		"name" : "chest"
+	},{
+		"id" : 3,
+		"name" : "arms"
+	},{
+		"id" : 4,
+		"name" : "abdomen"
+	},{
+		"id" : 5,
+		"name" : "back"
+	},{
+		"id" : 6,
+		"name" : "buttocks"
+	},{
+		"id" : 7,
+		"name" : "legs"
+	}
+]
