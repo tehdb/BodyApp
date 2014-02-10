@@ -15,6 +15,7 @@ angular.module("BodyApp").directive "thDropdown", [ "$q", "$timeout", ( $q, $to 
 			initMenu : ->
 				that = @
 				options = $s[$a.thDropdown]
+				return if not options
 
 				for opt, idx in options
 					angular.element("<li>")

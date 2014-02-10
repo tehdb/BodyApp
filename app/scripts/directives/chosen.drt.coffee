@@ -1,4 +1,4 @@
-angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile", "$templateCache", ( q, to, cpl, tch ) ->
+angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile", "$templateCache", "$filter", ( q, to, cpl, tch, f ) ->
 	restrict : "A"
 	scope : true
 	controller : [ "$scope", "$element", "$attrs", "$transclude", (scope, elem, attrs, transclude ) ->
@@ -12,10 +12,27 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 			event.preventDefault()
 			event.stopPropagation()
 
-			# TODO: select filtered
-			scope.selected.push( scope.options[index] )
-			scope.options.splice( index, 1)
+			# select the right option from filtered options
+			if scope.searchText isnt ''
+				filtered = f("filter")( scope.options, scope.searchText )
+				selected = filtered[index]
+
+				scope.selected.push( selected )
+				for opt, idx in scope.options
+					if opt.$$hashKey is selected.$$hashKey
+						scope.options.splice( idx, 1)
+						break
+
+			# select unfiltered option
+			else 
+				scope.selected.push( scope.options[index] )
+				scope.options.splice( index, 1)
+
 			scope.showmenu = false
+
+			# TODO: что-то умнее придумать, а не вызыват метод родительского конструктора
+			# scope.updateData( scope.selected ) if typeof scope.updateData is "function"
+			scope.$emit( 'chosen.update', [scope.selected] )
 
 		scope.prevent = (event) ->
 			event.preventDefault()
@@ -52,11 +69,19 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 					scope.newElement = ''
 					scope.showmenu = false
 
+					# scope.temp = scope[ attrs.thChosenSelected ]
+
 					elem.click( (event) ->
 						event.preventDefault()
 						event.stopPropagation()
 						that.toggleMenu()
 					)
+
+					scope.$on('form.submit', (event, data) ->
+						scope.options = scope.options.concat( scope.selected )
+						scope.selected = []
+					)
+
 
 				toggleMenu : ->
 					that = @

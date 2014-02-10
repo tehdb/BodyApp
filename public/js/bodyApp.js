@@ -17,7 +17,28 @@ angular.module("BodyApp").controller("ExercisesCtrl", [
     $s.title = "exercices";
     $s.exercises = es.getExercises();
     $s.muscles = es.getMuscles();
-    return $s.muscleGroups = es.getMuscleGroups();
+    $s.muscleGroups = es.getMuscleGroups();
+    $s.temp = [
+      {
+        name: "bla"
+      }
+    ];
+    $s.formData = {
+      title: '',
+      descr: '',
+      muscles: null
+    };
+    $s.$on('chosen.update', function(event, data) {
+      return $s.formData.muscles = data[0];
+    });
+    return $s.submitForm = function() {
+      if ($s.exerciseForm.$valid) {
+        $s.exercises.push($s.formData);
+        console.log($s.formData);
+        $s.formData = {};
+        return $s.$broadcast('form.submit');
+      }
+    };
   }
 ]);
 
@@ -45,7 +66,7 @@ angular.module("BodyApp").controller("MainCtrl", [
 ]);
 
 angular.module("BodyApp").directive("thChosen", [
-  "$q", "$timeout", "$compile", "$templateCache", function(q, to, cpl, tch) {
+  "$q", "$timeout", "$compile", "$templateCache", "$filter", function(q, to, cpl, tch, f) {
     return {
       restrict: "A",
       scope: true,
@@ -58,11 +79,27 @@ angular.module("BodyApp").directive("thChosen", [
             return scope.selected.splice(index, 1);
           };
           scope.select = function(index, event) {
+            var filtered, idx, opt, selected, _i, _len, _ref;
             event.preventDefault();
             event.stopPropagation();
-            scope.selected.push(scope.options[index]);
-            scope.options.splice(index, 1);
-            return scope.showmenu = false;
+            if (scope.searchText !== '') {
+              filtered = f("filter")(scope.options, scope.searchText);
+              selected = filtered[index];
+              scope.selected.push(selected);
+              _ref = scope.options;
+              for (idx = _i = 0, _len = _ref.length; _i < _len; idx = ++_i) {
+                opt = _ref[idx];
+                if (opt.$$hashKey === selected.$$hashKey) {
+                  scope.options.splice(idx, 1);
+                  break;
+                }
+              }
+            } else {
+              scope.selected.push(scope.options[index]);
+              scope.options.splice(index, 1);
+            }
+            scope.showmenu = false;
+            return scope.$emit('chosen.update', [scope.selected]);
           };
           scope.prevent = function(event) {
             event.preventDefault();
@@ -104,6 +141,10 @@ angular.module("BodyApp").directive("thChosen", [
               event.preventDefault();
               event.stopPropagation();
               return that.toggleMenu();
+            });
+            scope.$on('form.submit', function(event, data) {
+              scope.options = scope.options.concat(scope.selected);
+              return scope.selected = [];
             });
           }
 
@@ -163,6 +204,9 @@ angular.module("BodyApp").directive("thDropdown", [
             var idx, opt, options, that, _i, _len, _results;
             that = this;
             options = $s[$a.thDropdown];
+            if (!options) {
+              return;
+            }
             _results = [];
             for (idx = _i = 0, _len = options.length; _i < _len; idx = ++_i) {
               opt = options[idx];
