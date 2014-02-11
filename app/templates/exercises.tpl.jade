@@ -33,22 +33,37 @@ div.exercises
 				li day 1
 				li day 2
 
-	form.form-horizontal(role="form")
+	form.form-horizontal(role="form", name="exrcForm", ng-submit="submitForm()")
 
 		div.form-group
-			label.col-sm-2.control-label(for="exerciseTitleInp") Title
+			label.col-sm-2.control-label(for="exrcTitleInp") Title
+			//- ( ng-class="{ 'has-error' : exrcForm.title.$invalid && !exrcForm.title.$pristine }" )
 			div.col-sm-10
-				input.form-control(id="exerciseTitleInp", type="text", placeholder="exercise title")
+				input.form-control( 
+					id="exrcTitleInp" 
+					type="text"
+					name="title"
+					placeholder="exercise title"
+					ng-model="formData.title"
+					ng-required="true"
+				)
 
 		div.form-group
 			label.col-sm-2.control-label(for="exerciseDescrInp") Description
 			div.col-sm-10
-				textarea.form-control(id="exerciseDescrInp", rows="3", placeholder="exercise description")
+				textarea.form-control(
+					id="exerciseDescrInp", 
+					rows="3", 
+					placeholder="exercise description",
+					ng-model="formData.descr"
+				)
 
 		div.form-group
 			label.col-sm-2.control-label Muscles
 			div.col-sm-10
-				div( th-chosen="muscles" , th-chosen-addform="addMuscleForm" )
+				div( th-chosen="muscles", 
+					th-chosen-addform="addMuscleForm"
+				)
 
 		div.form-group
 			div.col-sm-offset-2.col-sm-10

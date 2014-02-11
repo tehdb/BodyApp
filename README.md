@@ -9,3 +9,6 @@
 # Watch common changes
 	grunt dwatch
 
+
+npm passport for user authentication
+
