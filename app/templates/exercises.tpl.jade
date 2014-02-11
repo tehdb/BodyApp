@@ -33,17 +33,19 @@ div.exercises
 				li day 1
 				li day 2
 
-	form.form-horizontal(role="form", name="exerciseForm", ng-submit="submitForm()")
+	form.form-horizontal(role="form", name="exrcForm", ng-submit="submitForm()")
 
 		div.form-group
-			label.col-sm-2.control-label(for="exerciseTitleInp") Title
+			label.col-sm-2.control-label(for="exrcTitleInp") Title
+			//- ( ng-class="{ 'has-error' : exrcForm.title.$invalid && !exrcForm.title.$pristine }" )
 			div.col-sm-10
-				input.form-control(
-					id="exerciseTitleInp", 
-					type="text", 
-					placeholder="exercise title",
+				input.form-control( 
+					id="exrcTitleInp" 
+					type="text"
+					name="title"
+					placeholder="exercise title"
 					ng-model="formData.title"
-					required
+					ng-required="true"
 				)
 
 		div.form-group

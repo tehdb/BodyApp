@@ -1,95 +1,101 @@
 angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile", "$templateCache", "$filter", ( q, to, cpl, tch, f ) ->
 	restrict : "A"
 	scope : true
-	controller : [ "$scope", "$element", "$attrs", "$transclude", (scope, elem, attrs, transclude ) ->
-		scope.unselect = (index, event ) ->
+	controller : [ "$scope", "$element", "$attrs", "$transclude", (scp, elm, atr, trs ) ->
+		_selectedMuscleGroup = 0 # TODO: prevent emit and on
+
+		scp.$on 'dropdown.select', (event, data ) ->
+			_selectedMuscleGroup = data[0]
+
+		scp.unselect = (index, event ) ->
 			event.preventDefault()
 			event.stopPropagation()
-			scope.options.push( scope.selected[index] )
-			scope.selected.splice( index, 1)
+			scp.options.push( scp.selected[index] )
+			scp.selected.splice( index, 1)
 
-		scope.select = ( index, event ) ->
+		scp.select = ( index, event ) ->
 			event.preventDefault()
 			event.stopPropagation()
 
 			# select the right option from filtered options
-			if scope.searchText isnt ''
-				filtered = f("filter")( scope.options, scope.searchText )
+			if scp.searchText isnt ''
+				filtered = f("filter")( scp.options, scp.searchText )
 				selected = filtered[index]
 
-				scope.selected.push( selected )
-				for opt, idx in scope.options
+				scp.selected.push( selected )
+				for opt, idx in scp.options
 					if opt.$$hashKey is selected.$$hashKey
-						scope.options.splice( idx, 1)
+						scp.options.splice( idx, 1)
 						break
 
 			# select unfiltered option
 			else 
-				scope.selected.push( scope.options[index] )
-				scope.options.splice( index, 1)
+				scp.selected.push( scp.options[index] )
+				scp.options.splice( index, 1)
 
-			scope.showmenu = false
+			scp.showmenu = false
 
-			# TODO: что-то умнее придумать, а не вызыват метод родительского конструктора
-			# scope.updateData( scope.selected ) if typeof scope.updateData is "function"
-			scope.$emit( 'chosen.update', [scope.selected] )
+			# scp.updateData( scp.selected ) if typeof scp.updateData is "function"
+			scp.$emit( 'chosen.update', [scp.selected] )
 
-		scope.prevent = (event) ->
+		scp.prevent = (event) ->
 			event.preventDefault()
 			event.stopPropagation()
 
-		scope.clear = (event) ->
+		scp.clear = (event) ->
 			event.preventDefault()
 			event.stopPropagation()
-			scope.searchText = ""
+			scp.searchText = ""
 
-		scope.add = (event) ->
+		scp.add = (event) ->
 			event.preventDefault()
 			event.stopPropagation()
-			if scope.newElement isnt ''
-				scope.options.push({
-					name : scope.newElement
-					group : 1
-				})
+			if scp.newElement isnt '' and _selectedMuscleGroup isnt 0
+				opt = {
+					name : scp.newElement
+					group : _selectedMuscleGroup
+				}
 
-				scope.newElement = ''
+				scp.options.push( opt )
+				scp.newElement = ''
+				scp.$emit( 'chosen.add', [ opt ] )
 	]
 
 
 	templateUrl : "tpl/chosen.tpl.html"
-	link : (scope, elem, attrs ) ->
+	link : (scp, elm, atr ) ->
 			class Link
 				constructor : ->
 					that = @
-					that.menu = elem.find('.options')
-					scope.options = scope[attrs.thChosen]
-					scope.addform = scope[attrs.thChosenAddform]
-					scope.selected = []
-					scope.searchText = ''
-					scope.newElement = ''
-					scope.showmenu = false
+					that.menu = elm.find('.options')
+					scp.options = scp[atr.thChosen]
+					scp.addform = scp[atr.thChosenAddform]
+					scp.selected = []
+					scp.searchText = ''
+					scp.newElement = ''
+					scp.showmenu = false
 
-					# scope.temp = scope[ attrs.thChosenSelected ]
+					# scp.temp = scp[ atr.thChosenSelected ]
 
-					elem.click( (event) ->
+					elm.click( (event) ->
 						event.preventDefault()
 						event.stopPropagation()
 						that.toggleMenu()
 					)
 
-					scope.$on('form.submit', (event, data) ->
-						scope.options = scope.options.concat( scope.selected )
-						scope.selected = []
+					scp.$on('form.submit', (event, data) ->
+						scp.options = scp.options.concat( scp.selected )
+						scp.selected = []
 					)
 
 
 				toggleMenu : ->
 					that = @
-					scope.safeApply ->
-						scope.searchText = ""
-						scope.showmenu = !scope.showmenu
+					scp.safeApply ->
+						scp.searchText = ""
+						scp.showmenu = !scp.showmenu
 
-						if scope.showmenu
+						if scp.showmenu
 							to( ->
 								wh = $(window).height() - 60
 								wot = $(document).scrollTop()

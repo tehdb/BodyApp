@@ -20,6 +20,7 @@ angular.module("BodyApp").directive "thDropdown", [ "$q", "$timeout", ( $q, $to 
 				for opt, idx in options
 					angular.element("<li>")
 						.addClass("th-option")
+						.data('id', opt.id)
 						.text( opt.name )
 						.appendTo( @menu )
 						.click( (event) ->
@@ -28,6 +29,7 @@ angular.module("BodyApp").directive "thDropdown", [ "$q", "$timeout", ( $q, $to 
 							target = $(this)
 							$s.selected = target.text()
 							that.label.text( $s.selected )
+							$s.$emit( 'dropdown.select', [ target.data('id')] )
 							that.menu.hide()
 						)
 

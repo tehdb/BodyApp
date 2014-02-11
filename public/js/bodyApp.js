@@ -1,4 +1,4 @@
-angular.module("BodyApp", ["ngRoute"]).constant("Settings", {}).config([
+angular.module("BodyApp", ["ngRoute", "ngResource"]).constant("Settings", {}).config([
   "$routeProvider", function($rp) {
     return $rp.when("/", {
       templateUrl: "tpl/home.html",
@@ -13,30 +13,49 @@ angular.module("BodyApp", ["ngRoute"]).constant("Settings", {}).config([
 ]);
 
 angular.module("BodyApp").controller("ExercisesCtrl", [
-  "$scope", "ExercisesService", function($s, es) {
-    $s.title = "exercices";
-    $s.exercises = es.getExercises();
-    $s.muscles = es.getMuscles();
-    $s.muscleGroups = es.getMuscleGroups();
-    $s.temp = [
+  "$scope", "ExercisesService", function(scp, es) {
+    scp.title = "exercices";
+    scp.exercises = es.getExercises('dynamic');
+    scp.muscles = es.getMuscles('dynamic');
+    scp.muscleGroups = es.getMuscleGroups();
+    scp.temp = [
       {
         name: "bla"
       }
     ];
-    $s.formData = {
+    scp.formData = {
       title: '',
       descr: '',
       muscles: null
     };
-    $s.$on('chosen.update', function(event, data) {
-      return $s.formData.muscles = data[0];
+    scp.$on('chosen.update', function(event, data) {
+      var muscle, muscleIds, _i, _len, _ref;
+      muscleIds = [];
+      _ref = data[0];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        muscle = _ref[_i];
+        muscleIds.push(muscle._id);
+      }
+      return scp.formData.muscles = muscleIds;
     });
-    return $s.submitForm = function() {
-      if ($s.exerciseForm.$valid) {
-        $s.exercises.push($s.formData);
-        console.log($s.formData);
-        $s.formData = {};
-        return $s.$broadcast('form.submit');
+    scp.$on('chosen.add', function(event, data) {
+      return es.addMuscle({
+        "name": data[0].name,
+        "group": data[0].group
+      }).then(function(res) {
+        return data[0]._id = res.message;
+      });
+    });
+    return scp.submitForm = function() {
+      if (scp.exrcForm.$valid && (scp.formData.muscles != null)) {
+        scp.exercises.push(scp.formData);
+        es.addExercise(scp.formData);
+        scp.formData = {
+          title: '',
+          descr: '',
+          muscles: null
+        };
+        return scp.$broadcast('form.submit');
       }
     };
   }
@@ -71,90 +90,98 @@ angular.module("BodyApp").directive("thChosen", [
       restrict: "A",
       scope: true,
       controller: [
-        "$scope", "$element", "$attrs", "$transclude", function(scope, elem, attrs, transclude) {
-          scope.unselect = function(index, event) {
+        "$scope", "$element", "$attrs", "$transclude", function(scp, elm, atr, trs) {
+          var _selectedMuscleGroup;
+          _selectedMuscleGroup = 0;
+          scp.$on('dropdown.select', function(event, data) {
+            return _selectedMuscleGroup = data[0];
+          });
+          scp.unselect = function(index, event) {
             event.preventDefault();
             event.stopPropagation();
-            scope.options.push(scope.selected[index]);
-            return scope.selected.splice(index, 1);
+            scp.options.push(scp.selected[index]);
+            return scp.selected.splice(index, 1);
           };
-          scope.select = function(index, event) {
+          scp.select = function(index, event) {
             var filtered, idx, opt, selected, _i, _len, _ref;
             event.preventDefault();
             event.stopPropagation();
-            if (scope.searchText !== '') {
-              filtered = f("filter")(scope.options, scope.searchText);
+            if (scp.searchText !== '') {
+              filtered = f("filter")(scp.options, scp.searchText);
               selected = filtered[index];
-              scope.selected.push(selected);
-              _ref = scope.options;
+              scp.selected.push(selected);
+              _ref = scp.options;
               for (idx = _i = 0, _len = _ref.length; _i < _len; idx = ++_i) {
                 opt = _ref[idx];
                 if (opt.$$hashKey === selected.$$hashKey) {
-                  scope.options.splice(idx, 1);
+                  scp.options.splice(idx, 1);
                   break;
                 }
               }
             } else {
-              scope.selected.push(scope.options[index]);
-              scope.options.splice(index, 1);
+              scp.selected.push(scp.options[index]);
+              scp.options.splice(index, 1);
             }
-            scope.showmenu = false;
-            return scope.$emit('chosen.update', [scope.selected]);
+            scp.showmenu = false;
+            return scp.$emit('chosen.update', [scp.selected]);
           };
-          scope.prevent = function(event) {
+          scp.prevent = function(event) {
             event.preventDefault();
             return event.stopPropagation();
           };
-          scope.clear = function(event) {
+          scp.clear = function(event) {
             event.preventDefault();
             event.stopPropagation();
-            return scope.searchText = "";
+            return scp.searchText = "";
           };
-          return scope.add = function(event) {
+          return scp.add = function(event) {
+            var opt;
             event.preventDefault();
             event.stopPropagation();
-            if (scope.newElement !== '') {
-              scope.options.push({
-                name: scope.newElement,
-                group: 1
-              });
-              return scope.newElement = '';
+            if (scp.newElement !== '' && _selectedMuscleGroup !== 0) {
+              opt = {
+                name: scp.newElement,
+                group: _selectedMuscleGroup
+              };
+              scp.options.push(opt);
+              scp.newElement = '';
+              return scp.$emit('chosen.add', [opt]);
             }
           };
         }
       ],
       templateUrl: "tpl/chosen.tpl.html",
-      link: function(scope, elem, attrs) {
+      link: function(scp, elm, atr) {
         var Link;
         Link = (function() {
           function Link() {
             var that;
             that = this;
-            that.menu = elem.find('.options');
-            scope.options = scope[attrs.thChosen];
-            scope.addform = scope[attrs.thChosenAddform];
-            scope.selected = [];
-            scope.searchText = '';
-            scope.newElement = '';
-            scope.showmenu = false;
-            elem.click(function(event) {
+            that.menu = elm.find('.options');
+            scp.options = scp[atr.thChosen];
+            scp.addform = scp[atr.thChosenAddform];
+            scp.selected = [];
+            scp.searchText = '';
+            scp.newElement = '';
+            scp.showmenu = false;
+            elm.click(function(event) {
               event.preventDefault();
               event.stopPropagation();
               return that.toggleMenu();
             });
-            scope.$on('form.submit', function(event, data) {
-              scope.options = scope.options.concat(scope.selected);
-              return scope.selected = [];
+            scp.$on('form.submit', function(event, data) {
+              scp.options = scp.options.concat(scp.selected);
+              return scp.selected = [];
             });
           }
 
           Link.prototype.toggleMenu = function() {
             var that;
             that = this;
-            return scope.safeApply(function() {
-              scope.searchText = "";
-              scope.showmenu = !scope.showmenu;
-              if (scope.showmenu) {
+            return scp.safeApply(function() {
+              scp.searchText = "";
+              scp.showmenu = !scp.showmenu;
+              if (scp.showmenu) {
                 return to(function() {
                   var mh, mot, wh, wot, y;
                   wh = $(window).height() - 60;
@@ -210,13 +237,14 @@ angular.module("BodyApp").directive("thDropdown", [
             _results = [];
             for (idx = _i = 0, _len = options.length; _i < _len; idx = ++_i) {
               opt = options[idx];
-              _results.push(angular.element("<li>").addClass("th-option").text(opt.name).appendTo(this.menu).click(function(event) {
+              _results.push(angular.element("<li>").addClass("th-option").data('id', opt.id).text(opt.name).appendTo(this.menu).click(function(event) {
                 var target;
                 event.preventDefault();
                 event.stopPropagation();
                 target = $(this);
                 $s.selected = target.text();
                 that.label.text($s.selected);
+                $s.$emit('dropdown.select', [target.data('id')]);
                 return that.menu.hide();
               }));
             }
@@ -266,7 +294,7 @@ angular.module("BodyApp").directive("thDropdown", [
 ]);
 
 angular.module("BodyApp").service("ExercisesService", [
-  "Settings", function(st) {
+  "$q", "$resource", function(q, rsr) {
     var _exercises, _muscleGroups, _muscles;
 /* Begin: app/database/exercises.json */
     _exercises = [
@@ -332,14 +360,35 @@ angular.module("BodyApp").service("ExercisesService", [
 ]
 ;/* End: app/database/musclegroups.json */
     return {
-      getExercises: function() {
-        return _exercises;
+      getExercises: function(type) {
+        switch (type) {
+          case 'dynamic':
+            return rsr('/api/exercises/list').query();
+          case 'static':
+            return _exercises;
+        }
       },
-      getMuscles: function() {
-        return _muscles;
+      getMuscles: function(type) {
+        switch (type) {
+          case 'dynamic':
+            return rsr('/api/muscles/list').query();
+          case 'static':
+            return _muscles;
+        }
       },
       getMuscleGroups: function() {
         return _muscleGroups;
+      },
+      getExercise: function(id) {
+        return rsr('/api/exercises/get/:id').get({
+          'id': id
+        });
+      },
+      addExercise: function(exercise) {
+        return rsr('/api/exercises/add').save(exercise);
+      },
+      addMuscle: function(muscle) {
+        return rsr('api/muscles/add').save(muscle).$promise;
       }
     };
   }
