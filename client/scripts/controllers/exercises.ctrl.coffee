@@ -44,6 +44,7 @@ angular.module("BodyApp").controller "ExercisesCtrl", [ "$scope", "ExercisesServ
 				descr : ''
 				muscles : null
 			}
+			$('#addExerciseModal').modal('hide')
 			scp.$broadcast('form.submit')
 
 ] #MainCtrl

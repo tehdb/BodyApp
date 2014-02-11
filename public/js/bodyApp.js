@@ -59,6 +59,7 @@ angular.module("BodyApp").controller("ExercisesCtrl", [
           descr: '',
           muscles: null
         };
+        $('#addExerciseModal').modal('hide');
         return scp.$broadcast('form.submit');
       }
     };
