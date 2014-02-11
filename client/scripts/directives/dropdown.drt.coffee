@@ -1,20 +1,20 @@
-angular.module("BodyApp").directive "thDropdown", [ "$q", "$timeout", ( $q, $to ) ->
+angular.module("BodyApp").directive "thDropdown", [ () ->
 	restrict : "A"
 	scope : true
-	link : ( $s, $e, $a ) ->
+	link : ( scp, elm, atr ) ->
 		class Link
 			constructor : () ->
-				$s.selected = "button"
-				$e.addClass('th-dropdown')
+				scp.selected = "button"
+				elm.addClass('th-dropdown')
 
-				@label = angular.element("<span>").addClass("th-label").text( $s.selected  )
-				@menu = angular.element("<ul>").addClass("th-menu").hide().appendTo($e)
+				@label = angular.element("<span>").addClass("th-label").text( scp.selected  )
+				@menu = angular.element("<ul>").addClass("th-menu").hide().appendTo(elm)
 				@initToggle()
 				@initMenu()
 
 			initMenu : ->
 				that = @
-				options = $s[$a.thDropdown]
+				options = scp[atr.thDropdown]
 				return if not options
 
 				for opt, idx in options
@@ -27,9 +27,9 @@ angular.module("BodyApp").directive "thDropdown", [ "$q", "$timeout", ( $q, $to 
 							event.preventDefault()
 							event.stopPropagation()
 							target = $(this)
-							$s.selected = target.text()
-							that.label.text( $s.selected )
-							$s.$emit( 'dropdown.select', [ target.data('id')] )
+							scp.selected = target.text()
+							that.label.text( scp.selected )
+							scp.$emit( 'dropdown.select', [ target.data('id')] )
 							that.menu.hide()
 						)
 
@@ -45,7 +45,7 @@ angular.module("BodyApp").directive "thDropdown", [ "$q", "$timeout", ( $q, $to 
 						event.preventDefault()
 						event.stopPropagation()
 						that.toggleMenu()
-					).appendTo( $e )
+					).appendTo( elm )
 
 			toggleMenu : ->
 				that = @

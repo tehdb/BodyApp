@@ -5,6 +5,8 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 		_selectedMuscleGroup = 0 # TODO: prevent emit and on
 
 		scp.$on 'dropdown.select', (event, data ) ->
+			event.preventDefault()
+			event.stopPropagation()
 			_selectedMuscleGroup = data[0]
 
 		scp.unselect = (index, event ) ->
@@ -29,7 +31,7 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 						break
 
 			# select unfiltered option
-			else 
+			else
 				scp.selected.push( scp.options[index] )
 				scp.options.splice( index, 1)
 

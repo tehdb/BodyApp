@@ -11,31 +11,31 @@ module.exports = (grunt) ->
 
 			common :
 				files :	[
-					"app/scripts/**/*.coffee",
-					"app/config/**/*.coffee",
-					"app/database/**/*.json",
-					"app/templates/**/*.jade",
-					"app/styles/**/*.sass"
+					"client/scripts/**/*.coffee",
+					"client/config/**/*.coffee",
+					"client/database/**/*.json",
+					"client/templates/**/*.jade",
+					"client/styles/**/*.sass"
 				]
 				tasks : ["build"]
 
-			config : 
-				files : ["app/config/main.coffee"]
+			config :
+				files : ["client/config/main.coffee"]
 				tasks : ["coffee:config"]
 
 			scripts :
-				files : ["app/scripts/**/*.coffee", "app/database/**/*.json"]
+				files : ["client/scripts/**/*.coffee", "client/database/**/*.json"]
 				tasks : [
 					"coffee:dist",
 					"includes:database"
 				]
 
 			templates :
-				files : ["app/templates/**/*.jade"]
+				files : ["client/templates/**/*.jade"]
 				tasks : ["jade:dist"]
 
 			styles :
-				files : ["app/styles/**/*.sass"]
+				files : ["client/styles/**/*.sass"]
 				tasks : ["compass:dist"]
 
 		coffee :
@@ -47,27 +47,27 @@ module.exports = (grunt) ->
 			dist :
 				files :
 					".temp/bodyApp.js" : [
-						"app/scripts/app.coffe",
-						"app/scripts/**/*.coffee"
+						"client/scripts/app.coffe",
+						"client/scripts/**/*.coffee"
 					]
 
 			config :
-				files : 
-					"public/js/main.js" : "app/config/main.coffee"
+				files :
+					"public/js/main.js" : "client/config/main.coffee"
 
 		compass :
 			dist :
 				options :
-					sassDir : "app/styles"
+					sassDir : "client/styles"
 					cssDir : "public/css"
 
 		jade :
 			dist :
 				files :
-					# "public/index.html" : "app/templates/index.jade"
-					"public/tpl/home.html" : "app/templates/home.tpl.jade"
-					"public/tpl/exercises.html" : "app/templates/exercises.tpl.jade"
-					"public/tpl/chosen.tpl.html" : "app/templates/directives/chosen.tpl.jade"
+					# "public/index.html" : "client/templates/index.jade"
+					"public/tpl/home.html" : "client/templates/home.tpl.jade"
+					"public/tpl/exercises.html" : "client/templates/exercises.tpl.jade"
+					"public/tpl/chosen.tpl.html" : "client/templates/directives/chosen.tpl.jade"
 		uglify :
 			options :
 				# mangle : false

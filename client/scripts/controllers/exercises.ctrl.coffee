@@ -4,7 +4,7 @@ angular.module("BodyApp").controller "ExercisesCtrl", [ "$scope", "ExercisesServ
 	scp.exercises = es.getExercises( 'dynamic')
 	scp.muscles = es.getMuscles('dynamic')
 	scp.muscleGroups = es.getMuscleGroups()
-	
+
 	scp.temp = [
 		{name:"bla"}
 	]
@@ -16,6 +16,8 @@ angular.module("BodyApp").controller "ExercisesCtrl", [ "$scope", "ExercisesServ
 	}
 
 	scp.$on 'chosen.update', (event, data) ->
+		event.preventDefault()
+		event.stopPropagation()
 		muscleIds = []
 		for muscle in data[0]
 			muscleIds.push( muscle._id )
@@ -23,6 +25,9 @@ angular.module("BodyApp").controller "ExercisesCtrl", [ "$scope", "ExercisesServ
 		scp.formData.muscles = muscleIds
 
 	scp.$on 'chosen.add', (event, data) ->
+		event.preventDefault()
+		event.stopPropagation()
+
 		es.addMuscle({
 			"name" : data[0].name
 			"group" : data[0].group
