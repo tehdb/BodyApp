@@ -1,5 +1,6 @@
 
 Get started
+
 	npm install		# get required node.js modules
 	bower install	# get required vendor packages
 
