@@ -1,0 +1,7 @@
+div.exercise
+	h1(ng-bind="exercise.title")
+
+	p(ng-bind="exercise.descr")
+
+	ul
+		li(ng-repeat="m in muscles") {{m.name}}

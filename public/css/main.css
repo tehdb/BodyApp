@@ -31,7 +31,7 @@ ul.th-justified-list li .thumb {
   margin-right: 15px;
 }
 /* line 27, ../../client/styles/_common.sass */
-ul.th-justified-list li .thumb .glyphicon {
+ul.th-justified-list li .thumb .glyphicon, ul.th-justified-list li .thumb i {
   color: #cccccc;
   font-size: 30px;
   line-height: 60px;
@@ -267,37 +267,69 @@ ul.th-justified-list li .btn {
   background: black;
 }
 
-/* line 20, ../../client/styles/main.sass */
+/* line 1, ../../client/styles/_sidebar.sass */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  z-index: 2000;
+  width: 100%;
+  height: 100%;
+  padding: 40px 40px 40px 0;
+  opacity: 0;
+  background: none;
+  -webkit-transition: left 0.2s linear, background 0.2s linear;
+  -webkit-transition-delay: 0s, 0.1s;
+  -moz-transition: left 0.2s linear, background 0.2s linear 0.1s;
+  -o-transition: left 0.2s linear, background 0.2s linear 0.1s;
+  transition: left 0.2s linear, background 0.2s linear 0.1s;
+}
+/* line 13, ../../client/styles/_sidebar.sass */
+.sidebar.sidebar-show {
+  left: 0;
+  opacity: 1;
+  background: rgba(11, 11, 11, 0.3);
+}
+/* line 21, ../../client/styles/_sidebar.sass */
+.sidebar .list-group .list-group-item:first-child {
+  border-top-left-radius: 0;
+}
+/* line 23, ../../client/styles/_sidebar.sass */
+.sidebar .list-group .list-group-item:last-child {
+  border-bottom-left-radius: 0;
+}
+
+/* line 21, ../../client/styles/main.sass */
 body {
   background: transparent;
 }
 
-/* line 23, ../../client/styles/main.sass */
+/* line 24, ../../client/styles/main.sass */
 header {
   margin: 0;
 }
-/* line 26, ../../client/styles/main.sass */
+/* line 27, ../../client/styles/main.sass */
 header .th-sidemenu-toggle {
   margin-right: 20px;
 }
 
-/* line 29, ../../client/styles/main.sass */
+/* line 30, ../../client/styles/main.sass */
 .content {
   padding: 80px 0 60px 0;
 }
 
-/* line 32, ../../client/styles/main.sass */
+/* line 33, ../../client/styles/main.sass */
 .th-footer {
   border: 0 none;
   padding-top: 5px;
   margin-top: 10px;
 }
-/* line 37, ../../client/styles/main.sass */
+/* line 38, ../../client/styles/main.sass */
 .th-footer .btn {
   border-radius: 0;
   margin: 0;
 }
-/* line 44, ../../client/styles/main.sass */
+/* line 45, ../../client/styles/main.sass */
 .th-footer .btn .th-text {
   float: left;
   padding-left: 4px;

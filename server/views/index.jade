@@ -7,6 +7,7 @@ html
 
 		link( rel="stylesheet", href="vendor/sass-bootstrap/dist/css/bootstrap.css" )
 		link( rel="stylesheet", href="vendor/sass-bootstrap/dist/css/bootstrap-theme.css" )
+		link( href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css", rel="stylesheet")
 		link( rel="stylesheet", href="css/main.css" )
 
 
@@ -16,15 +17,27 @@ html
 			div.container
 				div.navbar-header
 					div.navbar-brand(href="#")
-						button.btn.btn-default.th-sidemenu-toggle(role="button")
-							span.glyphicon.glyphicon-align-justify
+						button.btn.btn-default.th-sidemenu-toggle(role="button", ng-click="toggleSidebar()")
+							//- span.glyphicon.glyphicon-align-justify
+							i.fa.fa-bars
 						span app
+
+		div.sidebar(ng-click="toggleSidebar(false)", ng-class="{ 'sidebar-show' : sidebarShow}")
+			ul.list-group
+				a.list-group-item( href="/" )
+					//- span.glyphicon.glyphicon-home
+					i.fa.fa-home
+					span &nbsp;Home
+				a.list-group-item( href="/#/exercises" )
+					//- span.glyphicon.glyphicon-align-justify
+					i.fa.fa-bars
+					span &nbsp;Exercises
+
 
 		div.content
 				div.container.ng-view
 
-		nav.navbar.navbar-default.navbar-fixed-bottom.th-footer( role="navigation" )
-			//- div.container
+		//- nav.navbar.navbar-default.navbar-fixed-bottom.th-footer( role="navigation" )
 			div.btn-group.btn-group-justified.btn-group-lg
 				a.btn.btn-default(role="button", href="/")
 					span.glyphicon.glyphicon-home

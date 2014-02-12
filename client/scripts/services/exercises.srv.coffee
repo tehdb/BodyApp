@@ -16,6 +16,11 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", ( q, 
 				when 'dynamic' then return rsr('/api/muscles/list').query()
 				when 'static' then return _muscles
 
+		getMusclesByIds : (ids) ->
+			rsr('/api/muscles/get/:ids').query({ 'ids' : ids.join(',') })
+
+
+
 		getMuscleGroups : ->
 			return _muscleGroups
 

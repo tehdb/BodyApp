@@ -1,8 +1,15 @@
 
-angular.module("BodyApp").controller "MainCtrl", [ "$scope", ( $s ) ->
-	$s.title = "main ctrl title"
+angular.module("BodyApp").controller "MainCtrl", [ "$scope", ( scp ) ->
+	scp.title = "main ctrl title"
+	scp.sidebarShow = false
 
-	$s.safeApply = (fn) ->
+	scp.toggleSidebar = ( param ) ->
+		if param? and typeof param is 'boolean'
+			scp.sidebarShow = param
+		else
+			scp.sidebarShow = not scp.sidebarShow
+
+	scp.safeApply = (fn) ->
 		phase = this.$root.$$phase;
 		if(phase == '$apply' || phase == '$digest')
 			fn() if fn and typeof(fn) is 'function'

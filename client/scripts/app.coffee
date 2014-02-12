@@ -3,14 +3,24 @@ angular
 	.constant("Settings", {
 
 	})
-	.config( ["$routeProvider", ( $rp ) ->
-		$rp.when("/", {
-			templateUrl: "tpl/home.html",
-			controller: "HomeCtrl"
-		}).when("/exercises", {
-			templateUrl: "tpl/exercises.html",
-			controller: "ExercisesCtrl"
-		}).otherwise({
-			redirectTo: "/"
-		})
+	.config( ["$routeProvider", ( rpr ) ->
+		rpr
+			.when("/", {
+				templateUrl: "tpl/home.html",
+				controller: "HomeCtrl"
+			})
+
+			.when("/exercises", {
+				templateUrl: "tpl/exercises.html",
+				controller: "ExercisesCtrl"
+			})
+
+			.when("/exercise/:id", {
+				templateUrl: "tpl/exercise.html",
+				controller: "ExerciseCtrl"
+			})
+
+			.otherwise({
+				redirectTo: "/"
+			})
 	])

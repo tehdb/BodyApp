@@ -4,13 +4,13 @@ div.th-chosen
 	ul.selected
 		li( ng-repeat="s in selected" )
 			span( ng-bind="s.name" )
-			span.glyphicon.glyphicon-remove( ng-click="unselect( $index, $event )" )
+			i.fa.fa-times( ng-click="unselect( $index, $event )" )
 
 
 	div.options( ng-show="showmenu" )
 		div.input-group
 			span.input-group-addon
-				span.glyphicon.glyphicon-search
+				i.fa.fa-search
 			input.form-control.filter(
 				type="text",
 				placeholder="filter",
@@ -23,7 +23,7 @@ div.th-chosen
 					ng-click="clear( $event )",
 					ng-class="{ 'disabled' : searchText == ''}"
 				)
-					span.glyphicon.glyphicon-remove
+					i.fa.fa-times
 		ul
 			li( ng-repeat="o in options | filter:searchText", ng-click="select( $index, $event )" )
 				span( ng-bind="o.name" )
@@ -44,5 +44,5 @@ div.th-chosen
 					ng-click="add( $event )",
 					ng-class="{ 'disabled' : newElement == ''}"
 				)
-					span.glyphicon.glyphicon-plus
+					i.fa.fa-plus
 

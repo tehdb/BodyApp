@@ -13,3 +13,9 @@ Get started
 
 use npm passport for user authentication
 
+set/get enviroment variables
+
+	NODE_ENV=production node app.js
+	app.configure('production', function(){})
+
+

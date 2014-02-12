@@ -1,13 +1,25 @@
 angular.module("BodyApp", ["ngRoute", "ngResource"]).constant("Settings", {}).config([
-  "$routeProvider", function($rp) {
-    return $rp.when("/", {
+  "$routeProvider", function(rpr) {
+    return rpr.when("/", {
       templateUrl: "tpl/home.html",
       controller: "HomeCtrl"
     }).when("/exercises", {
       templateUrl: "tpl/exercises.html",
       controller: "ExercisesCtrl"
+    }).when("/exercise/:id", {
+      templateUrl: "tpl/exercise.html",
+      controller: "ExerciseCtrl"
     }).otherwise({
       redirectTo: "/"
+    });
+  }
+]);
+
+angular.module("BodyApp").controller("ExerciseCtrl", [
+  "$scope", "$routeParams", "ExercisesService", function(scp, rps, es) {
+    scp.exercise = es.getExercise(rps.id);
+    return scp.exercise.$promise.then(function(data) {
+      return scp.muscles = es.getMusclesByIds(data.muscles);
     });
   }
 ]);
@@ -73,9 +85,17 @@ angular.module("BodyApp").controller("HomeCtrl", [
 ]);
 
 angular.module("BodyApp").controller("MainCtrl", [
-  "$scope", function($s) {
-    $s.title = "main ctrl title";
-    return $s.safeApply = function(fn) {
+  "$scope", function(scp) {
+    scp.title = "main ctrl title";
+    scp.sidebarShow = false;
+    scp.toggleSidebar = function(param) {
+      if ((param != null) && typeof param === 'boolean') {
+        return scp.sidebarShow = param;
+      } else {
+        return scp.sidebarShow = !scp.sidebarShow;
+      }
+    };
+    return scp.safeApply = function(fn) {
       var phase;
       phase = this.$root.$$phase;
       if (phase === '$apply' || phase === '$digest') {
@@ -382,6 +402,11 @@ angular.module("BodyApp").service("ExercisesService", [
           case 'static':
             return _muscles;
         }
+      },
+      getMusclesByIds: function(ids) {
+        return rsr('/api/muscles/get/:ids').query({
+          'ids': ids.join(',')
+        });
       },
       getMuscleGroups: function() {
         return _muscleGroups;
