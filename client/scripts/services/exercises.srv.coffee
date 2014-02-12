@@ -1,9 +1,9 @@
 
 angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", ( q, rsr ) ->
 
-	_exercises = "{{../app/database/exercises.json}}"
-	_muscles = "{{../app/database/muscles.json}}"
-	_muscleGroups = "{{../app/database/musclegroups.json}}"
+	_exercises = "{{../client/database/exercises.json}}"
+	_muscles = "{{../client/database/muscles.json}}"
+	_muscleGroups = "{{../client/database/musclegroups.json}}"
 
 	return {
 		getExercises : (type) ->

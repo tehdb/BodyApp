@@ -30,6 +30,8 @@ angular.module("BodyApp").controller("ExercisesCtrl", [
     };
     scp.$on('chosen.update', function(event, data) {
       var muscle, muscleIds, _i, _len, _ref;
+      event.preventDefault();
+      event.stopPropagation();
       muscleIds = [];
       _ref = data[0];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -39,6 +41,8 @@ angular.module("BodyApp").controller("ExercisesCtrl", [
       return scp.formData.muscles = muscleIds;
     });
     scp.$on('chosen.add', function(event, data) {
+      event.preventDefault();
+      event.stopPropagation();
       return es.addMuscle({
         "name": data[0].name,
         "group": data[0].group
@@ -55,6 +59,7 @@ angular.module("BodyApp").controller("ExercisesCtrl", [
           descr: '',
           muscles: null
         };
+        $('#addExerciseModal').modal('hide');
         return scp.$broadcast('form.submit');
       }
     };
@@ -94,6 +99,8 @@ angular.module("BodyApp").directive("thChosen", [
           var _selectedMuscleGroup;
           _selectedMuscleGroup = 0;
           scp.$on('dropdown.select', function(event, data) {
+            event.preventDefault();
+            event.stopPropagation();
             return _selectedMuscleGroup = data[0];
           });
           scp.unselect = function(index, event) {
@@ -211,18 +218,18 @@ angular.module("BodyApp").directive("thChosen", [
 ]);
 
 angular.module("BodyApp").directive("thDropdown", [
-  "$q", "$timeout", function($q, $to) {
+  function() {
     return {
       restrict: "A",
       scope: true,
-      link: function($s, $e, $a) {
+      link: function(scp, elm, atr) {
         var Link;
         Link = (function() {
           function Link() {
-            $s.selected = "button";
-            $e.addClass('th-dropdown');
-            this.label = angular.element("<span>").addClass("th-label").text($s.selected);
-            this.menu = angular.element("<ul>").addClass("th-menu").hide().appendTo($e);
+            scp.selected = "button";
+            elm.addClass('th-dropdown');
+            this.label = angular.element("<span>").addClass("th-label").text(scp.selected);
+            this.menu = angular.element("<ul>").addClass("th-menu").hide().appendTo(elm);
             this.initToggle();
             this.initMenu();
           }
@@ -230,7 +237,7 @@ angular.module("BodyApp").directive("thDropdown", [
           Link.prototype.initMenu = function() {
             var idx, opt, options, that, _i, _len, _results;
             that = this;
-            options = $s[$a.thDropdown];
+            options = scp[atr.thDropdown];
             if (!options) {
               return;
             }
@@ -242,9 +249,9 @@ angular.module("BodyApp").directive("thDropdown", [
                 event.preventDefault();
                 event.stopPropagation();
                 target = $(this);
-                $s.selected = target.text();
-                that.label.text($s.selected);
-                $s.$emit('dropdown.select', [target.data('id')]);
+                scp.selected = target.text();
+                that.label.text(scp.selected);
+                scp.$emit('dropdown.select', [target.data('id')]);
                 return that.menu.hide();
               }));
             }
@@ -258,7 +265,7 @@ angular.module("BodyApp").directive("thDropdown", [
               event.preventDefault();
               event.stopPropagation();
               return that.toggleMenu();
-            }).appendTo($e);
+            }).appendTo(elm);
           };
 
           Link.prototype.toggleMenu = function() {
@@ -296,7 +303,7 @@ angular.module("BodyApp").directive("thDropdown", [
 angular.module("BodyApp").service("ExercisesService", [
   "$q", "$resource", function(q, rsr) {
     var _exercises, _muscleGroups, _muscles;
-/* Begin: app/database/exercises.json */
+/* Begin: client/database/exercises.json */
     _exercises = [
 	{
 		"title" : "Lorem ipsum dolor sit.",
@@ -309,8 +316,8 @@ angular.module("BodyApp").service("ExercisesService", [
 		"descr" : ""
 	}
 ]
-;/* End: app/database/exercises.json */
-/* Begin: app/database/muscles.json */
+;/* End: client/database/exercises.json */
+/* Begin: client/database/muscles.json */
     _muscles = [
 	{
 		"name" : "muscle 1",
@@ -332,8 +339,8 @@ angular.module("BodyApp").service("ExercisesService", [
 		"group" : 1
 	}
 ]
-;/* End: app/database/muscles.json */
-/* Begin: app/database/musclegroups.json */
+;/* End: client/database/muscles.json */
+/* Begin: client/database/musclegroups.json */
     _muscleGroups = [
 	{
 		"id" : 1,
@@ -358,7 +365,7 @@ angular.module("BodyApp").service("ExercisesService", [
 		"name" : "legs"
 	}
 ]
-;/* End: app/database/musclegroups.json */
+;/* End: client/database/musclegroups.json */
     return {
       getExercises: function(type) {
         switch (type) {

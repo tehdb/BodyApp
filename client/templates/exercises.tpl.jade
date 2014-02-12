@@ -1,0 +1,100 @@
+div.exercises
+	div.input-group
+		div.input-group-btn
+			button.btn.btn-default.dropdown-toggle(data-toggle="dropdown")
+				span Action&nbsp;
+				span.caret
+			ul.dropdown-menu
+				li
+					a(href="#") Action
+				li
+					a(href="#") Action 2
+				li
+					a(href="#") Action 3
+		input.form-control(type="text")
+		span.input-group-btn
+			button.btn.btn-default(type="button")
+				span.glyphicon.glyphicon-search
+
+	ul.th-justified-list
+		li(ng-repeat="exr in exercises")
+			div.thumb
+				span.glyphicon.glyphicon-ban-circle
+
+			h2(ng-bind="exr.title")
+
+			//- p(ng-bind="exr.descr")
+			//- span.badge 117
+
+			a.btn.btn-default(role="button", href="#")
+				span.glyphicon.glyphicon-chevron-right
+
+			ul.tags
+				li day 1
+				li day 2
+
+	button.btn.btn-primary.pull-right(
+		data-toggle="modal"
+		data-target="#addExerciseModal"
+	)
+		span.glyphicon.glyphicon-plus
+		span &nbsp;add exercise
+
+
+	div.modal.fade(
+		id="addExerciseModal"
+		tabindex="-1"
+		role="dialog"
+	)
+		div.modal-dialog
+			div.modal-content
+				div.modal-header
+					button.close(
+						type="button"
+						data-dismiss="modal"
+						aria-hidden="true"
+
+					) &times;
+
+					h4.modal-title add exercise
+
+				div.modal-body
+					form.form-horizontal(role="form", name="exrcForm", ng-submit="submitForm()")
+						div.form-group
+							label.col-sm-2.control-label(for="exrcTitleInp") Title
+							//- ( ng-class="{ 'has-error' : exrcForm.title.$invalid && !exrcForm.title.$pristine }" )
+							div.col-sm-10
+								input.form-control(
+									id="exrcTitleInp"
+									type="text"
+									name="title"
+									placeholder="exercise title"
+									ng-model="formData.title"
+									ng-required="true"
+								)
+
+						div.form-group
+							label.col-sm-2.control-label(for="exerciseDescrInp") Description
+							div.col-sm-10
+								textarea.form-control(
+									id="exerciseDescrInp",
+									rows="3",
+									placeholder="exercise description",
+									ng-model="formData.descr"
+								)
+
+						div.form-group
+							label.col-sm-2.control-label Muscles
+							div.col-sm-10
+								div( th-chosen="muscles",
+									th-chosen-addform="addMuscleForm"
+								)
+
+						div.form-group
+							div.col-sm-offset-2.col-sm-10
+								button.btn.btn-default.pull-right(type="submit")
+									span.glyphicon.glyphicon-plus
+									span &nbsp;add exercise
+
+
+

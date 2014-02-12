@@ -1,14 +1,15 @@
 
-# Get startet
-	npm install
-	bower install
+Get started
 
-# Start server
-	grunt server
+	npm install		# get required node.js modules
+	bower install	# get required vendor packages
 
-# Watch common changes
-	grunt dwatch
+	mongod 			# start monogdb
+	npm start		# start server
+
+	grunt dwatch 	# watch for changes and compile client source
 
 
-npm passport for user authentication
+
+use npm passport for user authentication
 
