@@ -17,9 +17,8 @@ angular.module("BodyApp", ["ngRoute", "ngResource"]).constant("Settings", {}).co
 
 angular.module("BodyApp").controller("ExerciseCtrl", [
   "$scope", "$routeParams", "ExercisesService", function(scp, rps, es) {
-    scp.exercise = es.getExercise(rps.id);
-    return scp.exercise.$promise.then(function(data) {
-      return scp.muscles = es.getMusclesByIds(data.muscles);
+    return es.getExercise(rps.id).then(function(exercise) {
+      return scp.exercise = exercise;
     });
   }
 ]);
@@ -27,7 +26,9 @@ angular.module("BodyApp").controller("ExerciseCtrl", [
 angular.module("BodyApp").controller("ExercisesCtrl", [
   "$scope", "ExercisesService", function(scp, es) {
     scp.title = "exercices";
-    scp.exercises = es.getExercises('dynamic');
+    es.getExercises().then(function(data) {
+      return scp.exercises = data;
+    });
     scp.muscles = es.getMuscles('dynamic');
     scp.muscleGroups = es.getMuscleGroups();
     scp.temp = [
@@ -321,8 +322,137 @@ angular.module("BodyApp").directive("thDropdown", [
 ]);
 
 angular.module("BodyApp").service("ExercisesService", [
-  "$q", "$resource", function(q, rsr) {
-    var _exercises, _muscleGroups, _muscles;
+  "$q", "$resource", "$timeout", "$http", function(q, rsr, tmt, htp) {
+    var ExercisesService, _es, _exercises, _muscleGroups, _muscles;
+    ExercisesService = (function() {
+      function ExercisesService() {
+        var that;
+        that = this;
+        that.data = {
+          exercises: null,
+          muscles: null
+        };
+      }
+
+      ExercisesService.prototype.exercises = function() {
+        var deferred, that;
+        that = this;
+        deferred = q.defer();
+        if (that.data.exercises == null) {
+          htp({
+            method: "GET",
+            url: '/api/exercises/list'
+          }).success(function(exercises, status, headers, config) {
+            that.data.exercises = exercises;
+            return that.muscles().then(function() {
+              var exercise, muscleId, muscles, _i, _j, _len, _len1, _ref;
+              for (_i = 0, _len = exercises.length; _i < _len; _i++) {
+                exercise = exercises[_i];
+                muscles = [];
+                _ref = exercise.muscles;
+                for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
+                  muscleId = _ref[_j];
+                  muscles.push(that.muscle(muscleId));
+                }
+                exercise.muscles = muscles;
+              }
+              return deferred.resolve(that.data.exercises);
+            });
+          }).error(function(data, status, headers, config) {
+            return deferred.reject(status);
+          });
+        } else {
+          tmt(function() {
+            return deferred.resolve(that.data.exercises);
+          }, 0);
+        }
+        return deferred.promise;
+      };
+
+      ExercisesService.prototype.exercise = function(id) {
+        var deferred, exercise, that, _i, _len, _ref;
+        if (id == null) {
+          id = null;
+        }
+        that = this;
+        if (id != null) {
+          deferred = q.defer();
+          if (that.data.exercises == null) {
+            that.exercises().then(function() {
+              var exercise, _i, _len, _ref, _results;
+              _ref = that.data.exercises;
+              _results = [];
+              for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                exercise = _ref[_i];
+                if (exercise._id === id) {
+                  _results.push(deferred.resolve(exercise));
+                } else {
+                  _results.push(void 0);
+                }
+              }
+              return _results;
+            });
+          } else {
+            _ref = that.data.exercises;
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              exercise = _ref[_i];
+              if (exercise._id === id) {
+                deferred.resolve(exercise);
+              }
+            }
+          }
+          return deferred.promise;
+        } else {
+          return null;
+        }
+      };
+
+      ExercisesService.prototype.muscle = function(id) {
+        var muscle, that, _i, _len, _ref;
+        if (id == null) {
+          id = null;
+        }
+        that = this;
+        if (id != null) {
+          _ref = that.data.muscles;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            muscle = _ref[_i];
+            if (muscle._id === id) {
+              return muscle;
+            }
+          }
+          return null;
+        } else {
+          return null;
+        }
+      };
+
+      ExercisesService.prototype.muscles = function() {
+        var deferred, that;
+        that = this;
+        deferred = q.defer();
+        if (that.data.muscles == null) {
+          htp({
+            method: "GET",
+            url: '/api/muscles/list'
+          }).success(function(data, status, headers, config) {
+            that.data.muscles = data;
+            return deferred.resolve(that.data.muscles);
+          }).error(function(data, status, headers, config) {
+            return deferred.reject(status);
+          });
+        } else {
+          tmt(function() {
+            return deferred.resolve(that.data.muscles);
+          }, 0);
+        }
+        return deferred.promise;
+      };
+
+      return ExercisesService;
+
+    })();
+    _es = new ExercisesService();
 /* Begin: client/database/exercises.json */
     _exercises = [
 	{
@@ -387,21 +517,17 @@ angular.module("BodyApp").service("ExercisesService", [
 ]
 ;/* End: client/database/musclegroups.json */
     return {
-      getExercises: function(type) {
-        switch (type) {
-          case 'dynamic':
-            return rsr('/api/exercises/list').query();
-          case 'static':
-            return _exercises;
-        }
+      getExercises: function() {
+        return _es.exercises();
       },
-      getMuscles: function(type) {
-        switch (type) {
-          case 'dynamic':
-            return rsr('/api/muscles/list').query();
-          case 'static':
-            return _muscles;
-        }
+      getExercise: function(id) {
+        return _es.exercise(id);
+      },
+      getMuscles: function() {
+        return _es.muscles();
+      },
+      getMuscle: function(id) {
+        return _es.muscle(id);
       },
       getMusclesByIds: function(ids) {
         return rsr('/api/muscles/get/:ids').query({
@@ -410,11 +536,6 @@ angular.module("BodyApp").service("ExercisesService", [
       },
       getMuscleGroups: function() {
         return _muscleGroups;
-      },
-      getExercise: function(id) {
-        return rsr('/api/exercises/get/:id').get({
-          'id': id
-        });
       },
       addExercise: function(exercise) {
         return rsr('/api/exercises/add').save(exercise);

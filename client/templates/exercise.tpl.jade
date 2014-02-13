@@ -1,7 +1,12 @@
 div.exercise
 	h1(ng-bind="exercise.title")
 
+	div.thumb.pull-left
+		i.fa.fa-picture-o
+
 	p(ng-bind="exercise.descr")
 
-	ul
-		li(ng-repeat="m in muscles") {{m.name}}
+	ul.muscles
+		li(ng-repeat="m in exercise.muscles") 
+			i.fa.fa-male
+			span(ng-bind="m.name")

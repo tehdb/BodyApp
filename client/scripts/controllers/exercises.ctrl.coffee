@@ -1,9 +1,12 @@
 
 angular.module("BodyApp").controller "ExercisesCtrl", [ "$scope", "ExercisesService", ( scp, es ) ->
 	scp.title = "exercices"
-	scp.exercises = es.getExercises( 'dynamic')
+	es.getExercises().then (data) ->
+		scp.exercises = data
+
 	scp.muscles = es.getMuscles('dynamic')
 	scp.muscleGroups = es.getMuscleGroups()
+
 
 	scp.temp = [
 		{name:"bla"}

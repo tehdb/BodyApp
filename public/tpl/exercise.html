@@ -1,1 +1,1 @@
-<div class="exercise"><h1 ng-bind="exercise.title"></h1><p ng-bind="exercise.descr"></p><ul><li ng-repeat="m in muscles">{{m.name}}</li></ul></div>
+<div class="exercise"><h1 ng-bind="exercise.title"></h1><div class="thumb pull-left"><i class="fa fa-picture-o"></i></div><p ng-bind="exercise.descr"></p><ul class="muscles"><li ng-repeat="m in exercise.muscles"><i class="fa fa-male"></i><span ng-bind="m.name"></span></li></ul></div>

@@ -33,8 +33,13 @@ div.exercises
 				i.fa.fa-chevron-right
 
 			ul.tags
-				li day 1
-				li day 2
+				li(ng-repeat="m in exr.muscles")
+					i.fa.fa-male 
+					span(ng-bind="m.name")
+				//- li day 1
+				//- li day 2
+
+
 
 	button.btn.btn-primary(
 		data-toggle="modal"
