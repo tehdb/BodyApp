@@ -1,22 +1,28 @@
 
 angular.module("BodyApp").controller "ExercisesCtrl", [ "$scope", "ExercisesService", ( scp, es ) ->
 	scp.title = "exercices"
+
+	scp.data = {
+		exercices : "exercices"
+		muscles : "muscles"
+	}
+
+	# scp.exercices = null
+	# scp.muscles = null
+
 	es.getExercises().then (data) ->
-		scp.exercises = data
+		scp.data.exercises = data
 
-	scp.muscles = es.getMuscles('dynamic')
-	scp.muscleGroups = es.getMuscleGroups()
-
-
-	scp.temp = [
-		{name:"bla"}
-	]
+	es.getMuscles().then (data) ->
+		scp.safeApply ->
+			scp.data.muscles = data
 
 	scp.formData = {
 		title : ''
 		descr : ''
 		muscles : null
 	}
+
 
 	scp.$on 'chosen.update', (event, data) ->
 		event.preventDefault()
@@ -39,15 +45,17 @@ angular.module("BodyApp").controller "ExercisesCtrl", [ "$scope", "ExercisesServ
 
 	scp.submitForm = ->
 		if scp.exrcForm.$valid && scp.formData.muscles?
-			scp.exercises.push( scp.formData )
 
-			es.addExercise( scp.formData )
-			scp.formData = {
-				title : ''
-				descr : ''
-				muscles : null
-			}
-			$('#addExerciseModal').modal('hide')
-			scp.$broadcast('form.submit')
+			es.addExercise( scp.formData ).then (data) ->
+				scp.data.exercises.push( data )
+				console.log data
+				scp.formData = {
+					title : ''
+					descr : ''
+					muscles : null
+				}
+				$('#addExerciseModal').modal('hide')
+				scp.$broadcast('form.submit')
+			
 
 ] #MainCtrl

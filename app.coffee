@@ -1,8 +1,8 @@
 express = require("express")
 routes = {
-	common :	require( "./server/routes/common" )
-	exercises :	require( "./server/routes/exercises" )
-	muscles :	require( "./server/routes/muscles" )
+	common :	require( "./server/routes/common.rt" )
+	exercises :	require( "./server/routes/exercises.rt" )
+	muscles :	require( "./server/routes/muscles.rt" )
 }
 path = require( "path" )
 db = require( "./server/db" )

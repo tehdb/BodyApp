@@ -100,6 +100,12 @@ ul.th-justified-list li .btn {
   box-shadow: none;
 }
 
+/* line 5, ../../client/styles/_exercises.sass */
+.exercises p {
+  padding: 15px;
+  margin: 15px 0;
+}
+
 /* line 3, ../../client/styles/_exercise.sass */
 .exercise .thumb {
   width: 64px;

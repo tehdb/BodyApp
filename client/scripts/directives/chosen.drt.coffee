@@ -52,6 +52,10 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 		scp.add = (event) ->
 			event.preventDefault()
 			event.stopPropagation()
+
+			console.log scp.options
+
+
 			if scp.newElement isnt '' and _selectedMuscleGroup isnt 0
 				opt = {
 					name : scp.newElement
@@ -66,52 +70,48 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 
 	templateUrl : "tpl/chosen.tpl.html"
 	link : (scp, elm, atr ) ->
-			class Link
-				constructor : ->
-					that = @
-					that.menu = elm.find('.options')
-					scp.options = scp[atr.thChosen]
-					scp.addform = scp[atr.thChosenAddform]
-					scp.selected = []
-					scp.searchText = ''
-					scp.newElement = ''
-					scp.showmenu = false
-
-					# scp.temp = scp[ atr.thChosenSelected ]
-
-					elm.click( (event) ->
-						event.preventDefault()
-						event.stopPropagation()
-						that.toggleMenu()
-					)
-
-					scp.$on('form.submit', (event, data) ->
-						scp.options = scp.options.concat( scp.selected )
-						scp.selected = []
-					)
+		_menu = elm.find('.options')
 
 
-				toggleMenu : ->
-					that = @
-					scp.safeApply ->
-						scp.searchText = ""
-						scp.showmenu = !scp.showmenu
-
-						if scp.showmenu
-							to( ->
-								wh = $(window).height() - 60
-								wot = $(document).scrollTop()
-								mh = that.menu.outerHeight()
-								mot = that.menu.parent().offset().top
-								if mot + mh > wot + wh
-									y =  -(( mot + mh ) - ( wot + wh ))
-									that.menu.css('top', y + "px")
-								else
-									that.menu.css('top', "100%")
-							,0)
+		scp.options = scp[atr.thChosen]
+		#scp.addform = scp[atr.thChosenAddform]
+		scp.selected = []
+		scp.searchText = ''
+		scp.newElement = ''
+		scp.showmenu = false
 
 
-			do -> new Link
+
+		_toggleMenu = ->
+			#scp.safeApply ->
+			scp.searchText = ""
+			scp.showmenu = !scp.showmenu
+
+			if scp.showmenu
+				to( ->
+					wh = $(window).height() - 60
+					wot = $(document).scrollTop()
+					mh = _menu.outerHeight()
+					mot = _menu.parent().offset().top
+					if mot + mh > wot + wh
+						y =  -(( mot + mh ) - ( wot + wh ))
+						_menu.css('top', y + "px")
+					else
+						_menu.css('top', "100%")
+				,0)
 
 
+		elm.click( (event) ->
+			event.preventDefault()
+			event.stopPropagation()
+			
+			#_toggleMenu()
+			console.log scp
+			
+		)
+
+		scp.$on('form.submit', (event, data) ->
+			scp.options = scp.options.concat( scp.selected )
+			scp.selected = []
+		)
 ])

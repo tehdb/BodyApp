@@ -1,87 +1,205 @@
 
-angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$timeout", "$http", ( q, rsr, tmt, htp) ->
+angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$timeout", "$http", "$log", ( q, rsr, tmt, htp, lg) ->
 
 	class ExercisesService
 		constructor : ->
 			that = @
-			that.data = {
-				exercises : null
-				muscles : null
-			}
+			that.$ = $(that)
+			that.initialized = false
 
-		exercises : ->
+			that.$.one('data.loaded', ( event, data) ->
+				that.data = data
+				that.initialized = true
+				that.$.trigger('data.ready')
+
+				#lg.info that.data
+			)
+			that.initData()
+
+
+		initData : ->
 			that = @
+
+			that.getExercisesFromServer().then (exercises) ->
+				that.getMusclesFromServer().then (muscles) ->
+					_.each exercises, ( e ) ->
+						e.muscles = _.filter muscles, (val) ->
+							return _.contains( e.muscles, val._id )
+
+						that.$.trigger('data.loaded', {
+							exercises : exercises
+							muscles : muscles
+						})
+
+		getExercisesFromServer : ->
 			deferred = q.defer()
-			if not that.data.exercises?
-				htp(
-					method : "GET"
-					url : '/api/exercises/list'
-				).success( (exercises, status, headers, config) ->
-					that.data.exercises = exercises
-					that.muscles().then ->
-						for exercise in exercises
-							muscles = []
-							for muscleId in exercise.muscles
-								muscles.push( that.muscle( muscleId) )
-							exercise.muscles = muscles
-						#console.log that.data.exercises
-						deferred.resolve( that.data.exercises )
-				).error (data, status, headers, config) ->
-					deferred.reject( status )
-			else
-				tmt( ->
-					deferred.resolve( that.data.exercises )
-				, 0 )
-				
+			htp(
+				method : "GET"
+				url : '/api/exercises/list'
+			).success( (exercises, status, headers, config) ->
+				deferred.resolve( exercises )
+			).error (data, status, headers, config) ->
+				deferred.reject( status )
 			return deferred.promise
 
-		exercise : ( id = null) ->
-			that = @
-			if id?
-				deferred = q.defer()
-				if not that.data.exercises?
-					that.exercises().then ->
-						for exercise in that.data.exercises
-							deferred.resolve( exercise ) if exercise._id is id
-				else
-					for exercise in that.data.exercises
-						deferred.resolve( exercise ) if exercise._id is id
+		getMusclesFromServer : ->
+			deferred = q.defer()
+			htp(
+				method : "GET"
+				url : '/api/muscles/list'
+			).success( (muscles, status, headers, config) ->
+				deferred.resolve( muscles )
+			).error (data, status, headers, config) ->
+				deferred.reject( status )
+			return deferred.promise
 
-				return deferred.promise
-			else
-				# TODO : add exercise
-				return null
+
+
+		exercises : ( param ) ->
+			that = @
+			deferred = q.defer()
+			if _.isUndefined( param )
+				if not that.initialized 
+					that.$.one 'data.ready', ( event ) ->
+						deferred.resolve( that.data.exercises )
+				else
+					deferred.resolve( that.data.exercises )
+
+			else if _.isString( param )
+				if not that.initialized
+					that.$.one 'data.ready', ( event ) ->
+						exercise = _.findWhere( that.data.exercises, {
+							_id : param
+						})
+						deferred.resolve( exercise )
+				else
+					deferred.resolve( that.data.exercises )
+
+			return deferred.promise
+
+		muscles : ( param ) ->
+			that = @
+			deferred = q.defer()
+			if _.isUndefined( param )
+				if not that.initialized 
+					that.$.one 'data.ready', ( event ) ->
+						deferred.resolve( that.data.muscles )
+				else
+					deferred.resolve( that.data.muscles )
+
+			return deferred.promise
+
+		# muscles : ->
+		# 	that = @
+		# 	deferred = q.defer()
+	
+		# 	if not that.data.muscles?
+		# 		htp(
+		# 			method : "GET"
+		# 			url : '/api/muscles/list'
+		# 		).success( (data, status, headers, config) ->
+		# 			that.data.muscles = data
+		# 			deferred.resolve( that.data.muscles )
+		# 		).error (data, status, headers, config) ->
+		# 			deferred.reject( status )
+		# 	else
+		# 		tmt( ->
+		# 			deferred.resolve( that.data.muscles )
+		# 		,0)
+
+		# 	return deferred.promise
+
+		# add, get exercises
+		
+		# @param param [undefined] 		get all exercises
+		# @param param [string] 		getExerciseset exercise by id
+		# @param param [array] 			get exercises by id's
+		# @param param [object] 		add exercise
+		
+		exercise12 : ( param = undefined ) ->
+			that = @
+			deferred = q.defer()
+
+			switch (typeof param )
+				when 'string'
+					if not that.data.exercises?
+						that.exercises().then ->
+							deferred.resolve( e ) if e._id is param for e in that.data.exercises
+					else
+						deferred.resolve( e ) if e._id is param for e in that.data.exercises
+
+
+				when 'undefined'
+					if not that.data.exercises?
+						htp(
+							method : "GET"
+							url : '/api/exercises/list'
+						).success( (data, status, headers, config) ->
+							that.data.exercises = data
+							that.muscles().then ->
+								for e, idx in that.data.exercises
+									muscles = []
+									muscles.push( that.muscle( mid) ) for mid in e.muscles
+									that.data.exercises[idx].muscles = muscles
+								deferred.resolve( that.data.exercises )
+						).error (data, status, headers, config) ->
+							deferred.reject( status )
+					else
+						tmt( ->
+							deferred.resolve( that.data.exercises )
+						, 0 )
+
+				when 'object'
+					if param instanceof Object
+						# rsr('/api/exercises/add').save( exercise )
+						htp(
+							method : "POST"
+							url : "/api/exercises/add"
+							data : param
+							headers: {
+								'Content-Type' : 'application/json;charset=UTF-8'
+								'Accept' : 'application/json, text/plain, */*'
+							}
+						).success( (exercise, status, headers, config) ->
+							muscles = []
+							muscles.push( that.muscle(mid) ) for mid in exercise.muscles
+							exercise.muscles = muscles
+							deferred.resolve( exercise )
+						).error (data, status, headers, config) ->
+							deferred.reject( status )
+						
+
+					else if param instanceof Array
+						console.log 'get exercises by ids'
+
+
+			return deferred.promise
 
 		
 		muscle : ( id = null) ->
 			that = @
+
 			if id?
 				for muscle in that.data.muscles
-					return muscle if muscle._id is id
+					if muscle._id is id
+						return {
+							_id : muscle._id
+							name : muscle.name
+							group : muscle.group
+						}
 				return null
 			else
 				# TODO : add muscle
 				return null
 
-		muscles : ->
-			that = @
-			deferred = q.defer()
-	
-			if not that.data.muscles?
-				htp(
-					method : "GET"
-					url : '/api/muscles/list'
-				).success( (data, status, headers, config) ->
-					that.data.muscles = data
-					deferred.resolve( that.data.muscles )
-				).error (data, status, headers, config) ->
-					deferred.reject( status )
+		checkInit : (cb) ->
+			if @initialized 
+				cb()
 			else
-				tmt( ->
-					deferred.resolve( that.data.muscles )
-				,0)
+				@.$.one 'data.ready', ->
+					cb()
 
-			return deferred.promise
+
 
 
 	_es = new ExercisesService()
@@ -91,22 +209,34 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 	_muscleGroups = "{{../client/database/musclegroups.json}}"
 
 
-
 	return {
 		getExercises : ->
-			return _es.exercises()
-		
+			deferred = q.defer()
+			_es.checkInit ->
+				deferred.resolve( _es.data.exercises )
+			return deferred.promise
+
 		getExercise : ( id ) ->
-			return _es.exercise( id )
+			deferred = q.defer()
+			_es.checkInit ->
+				deferred.resolve( _.findWhere( _es.data.exercises, {_id : id }) )
+			return deferred.promise
+	
+		addExercise : ( exercise ) ->
+			return _es.exercises( exercise)
+			#rsr('/api/exercises/add').save( exercise )
 
 		getMuscles : ->
-			return _es.muscles()
+			deferred = q.defer()
+			_es.checkInit ->
+				deferred.resolve( _es.data.muscles )
+			return deferred.promise
 
 		getMuscle : ( id ) ->
-			return _es.muscle( id )
+			return _es.muscles( id )
 
-		getMusclesByIds : (ids) ->
-			rsr('/api/muscles/get/:ids').query({ 'ids' : ids.join(',') })
+		#getMusclesByIds : (ids) ->
+		#	rsr('/api/muscles/get/:ids').query({ 'ids' : ids.join(',') })
 
 
 
@@ -114,10 +244,6 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 			return _muscleGroups
 
 
-
-
-		addExercise : ( exercise ) ->
-			rsr('/api/exercises/add').save( exercise )
 
 
 		addMuscle : ( muscle ) ->

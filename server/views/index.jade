@@ -5,9 +5,9 @@ html
 
 		meta( name="viewport", content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1" )
 
-		link( rel="stylesheet", href="vendor/sass-bootstrap/dist/css/bootstrap.css" )
-		link( rel="stylesheet", href="vendor/sass-bootstrap/dist/css/bootstrap-theme.css" )
-		link( href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css", rel="stylesheet")
+		link( rel="stylesheet", href="vendor/bootstrap/dist/css/bootstrap.css" )
+		link( rel="stylesheet", href="vendor/bootstrap/dist/css/bootstrap-theme.css" )
+		link( rel="stylesheet", href="vendor/font-awesome/css/font-awesome.css" )
 		link( rel="stylesheet", href="css/main.css" )
 
 
@@ -20,7 +20,7 @@ html
 						button.btn.btn-default.th-sidemenu-toggle(role="button", ng-click="toggleSidebar()")
 							//- span.glyphicon.glyphicon-align-justify
 							i.fa.fa-bars
-						span app
+						span a
 
 		div.sidebar(ng-click="toggleSidebar(false)", ng-class="{ 'sidebar-show' : sidebarShow}")
 			ul.list-group
@@ -51,10 +51,13 @@ html
 					span.glyphicon.glyphicon-cog
 					span.th-text Options
 
+		script( src="vendor/underscore/underscore.js")
 		script( src="vendor/jquery/jquery.js" )
 		script( src="vendor/angular/angular.js" )
 		script( src="vendor/angular-route/angular-route.js" )
 		script( src="vendor/angular-resource/angular-resource.js" )
 		script( src="js/bodyApp.js" )
-		script( src="vendor/sass-bootstrap/dist/js/bootstrap.js" )
+
+		script( src="vendor/bootstrap/dist/js/bootstrap.js" )
+
 		//- script( src="vedor/requirejs/require.js", data-main="js/main.js")

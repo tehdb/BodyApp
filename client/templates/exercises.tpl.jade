@@ -17,8 +17,12 @@ div.exercises
 				//-span.glyphicon.glyphicon-search
 				i.fa.fa-search
 
+
+	p.bg-danger(ng-hide="exercises.length > 0" ) No entries
+
+
 	ul.th-justified-list
-		li(ng-repeat="exr in exercises")
+		li(ng-repeat="exr in data.exercises")
 			div.thumb
 				//- span.glyphicon.glyphicon-ban-circle
 				i.fa.fa-picture-o
@@ -94,9 +98,9 @@ div.exercises
 						div.form-group
 							label.col-sm-2.control-label Muscles
 							div.col-sm-10
-								div( th-chosen="muscles",
-									th-chosen-addform="addMuscleForm"
-								)
+								//- div( th-chosen="data.muscles" )
+								//- TODO: add exercise directive instead of th-chosen
+								add-exercise
 
 						div.form-group
 							div.col-sm-offset-2.col-sm-10
