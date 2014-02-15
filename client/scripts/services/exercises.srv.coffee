@@ -59,7 +59,7 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 			that = @
 			deferred = q.defer()
 			if _.isUndefined( param )
-				if not that.initialized 
+				if not that.initialized
 					that.$.one 'data.ready', ( event ) ->
 						deferred.resolve( that.data.exercises )
 				else
@@ -81,18 +81,20 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 			that = @
 			deferred = q.defer()
 			if _.isUndefined( param )
-				if not that.initialized 
+				if not that.initialized
 					that.$.one 'data.ready', ( event ) ->
 						deferred.resolve( that.data.muscles )
 				else
 					deferred.resolve( that.data.muscles )
+
+
 
 			return deferred.promise
 
 		# muscles : ->
 		# 	that = @
 		# 	deferred = q.defer()
-	
+
 		# 	if not that.data.muscles?
 		# 		htp(
 		# 			method : "GET"
@@ -110,12 +112,12 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 		# 	return deferred.promise
 
 		# add, get exercises
-		
+
 		# @param param [undefined] 		get all exercises
 		# @param param [string] 		getExerciseset exercise by id
 		# @param param [array] 			get exercises by id's
 		# @param param [object] 		add exercise
-		
+
 		exercise12 : ( param = undefined ) ->
 			that = @
 			deferred = q.defer()
@@ -167,7 +169,7 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 							deferred.resolve( exercise )
 						).error (data, status, headers, config) ->
 							deferred.reject( status )
-						
+
 
 					else if param instanceof Array
 						console.log 'get exercises by ids'
@@ -175,7 +177,7 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 
 			return deferred.promise
 
-		
+
 		muscle : ( id = null) ->
 			that = @
 
@@ -192,8 +194,8 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 				# TODO : add muscle
 				return null
 
-		checkInit : (cb) ->
-			if @initialized 
+		apply : (cb) ->
+			if @initialized
 				cb()
 			else
 				@.$.one 'data.ready', ->
@@ -212,24 +214,49 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 	return {
 		getExercises : ->
 			deferred = q.defer()
-			_es.checkInit ->
+			_es.apply ->
 				deferred.resolve( _es.data.exercises )
 			return deferred.promise
 
 		getExercise : ( id ) ->
 			deferred = q.defer()
-			_es.checkInit ->
-				deferred.resolve( _.findWhere( _es.data.exercises, {_id : id }) )
+			_es.apply ->
+				deferred.resolve( _.findWhere( _.clone(_es.data.exercises, {_id : id }) ) )
 			return deferred.promise
-	
+
+		addMuscle : ( muscle ) ->
+			deferred = q.defer()
+			htp(
+				method : "POST"
+				url : "/api/muscles/add"
+				data : muscle
+				headers: {
+					'Content-Type' : 'application/json;charset=UTF-8'
+					'Accept' : 'application/json, text/plain, */*'
+				}
+			).success( (muscle, status, headers, config) ->
+				_es.data.muscles.push( muscle )
+				deferred.resolve( _.clone( muscle) )
+			).error (data, status, headers, config) ->
+				deferred.reject( status )
+
+			# _es.apply ->
+			# 	# TODO: add persistence
+			# 	m = _.clone( muscle )
+			# 	_es.data.muscles.push( m )
+			# 	deferred.resolve( m )
+
+			return deferred.promise
+			#rsr('api/muscles/add').save( muscle ).$promise
+
 		addExercise : ( exercise ) ->
 			return _es.exercises( exercise)
 			#rsr('/api/exercises/add').save( exercise )
 
 		getMuscles : ->
 			deferred = q.defer()
-			_es.checkInit ->
-				deferred.resolve( _es.data.muscles )
+			_es.apply ->
+				deferred.resolve( _.clone( _es.data.muscles ) )
 			return deferred.promise
 
 		getMuscle : ( id ) ->
@@ -244,9 +271,5 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 			return _muscleGroups
 
 
-
-
-		addMuscle : ( muscle ) ->
-			rsr('api/muscles/add').save( muscle ).$promise
 	}
 ]

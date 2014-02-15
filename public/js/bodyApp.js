@@ -27,22 +27,21 @@ angular.module("BodyApp").controller("ExercisesCtrl", [
   "$scope", "ExercisesService", function(scp, es) {
     scp.title = "exercices";
     scp.data = {
-      exercices: "exercices",
-      muscles: "muscles"
+      addMuscleForm: es.getMuscleGroups(),
+      muscles: null,
+      exercises: null
     };
-    es.getExercises().then(function(data) {
-      return scp.data.exercises = data;
-    });
-    es.getMuscles().then(function(data) {
-      return scp.safeApply(function() {
-        return scp.data.muscles = data;
-      });
-    });
     scp.formData = {
       title: '',
       descr: '',
       muscles: null
     };
+    es.getExercises().then(function(data) {
+      return scp.data.exercises = data;
+    });
+    es.getMuscles().then(function(data) {
+      return scp.data.muscles = data;
+    });
     scp.$on('chosen.update', function(event, data) {
       var muscle, muscleIds, _i, _len, _ref;
       event.preventDefault();
@@ -58,15 +57,14 @@ angular.module("BodyApp").controller("ExercisesCtrl", [
     scp.$on('chosen.add', function(event, data) {
       event.preventDefault();
       event.stopPropagation();
-      return es.addMuscle({
-        "name": data[0].name,
-        "group": data[0].group
-      }).then(function(res) {
-        return data[0]._id = res.message;
+      return es.addMuscle(data).then(function(data) {
+        return scp.data.muscles.push(data);
       });
     });
     return scp.submitForm = function() {
       if (scp.exrcForm.$valid && (scp.formData.muscles != null)) {
+        console.log(scp.formData);
+        return false;
         return es.addExercise(scp.formData).then(function(data) {
           scp.data.exercises.push(data);
           console.log(data);
@@ -115,111 +113,120 @@ angular.module("BodyApp").controller("MainCtrl", [
 ]);
 
 angular.module("BodyApp").directive("thChosen", [
-  "$q", "$timeout", "$compile", "$templateCache", "$filter", function(q, to, cpl, tch, f) {
+  "$q", "$timeout", "$compile", "$templateCache", "$filter", function(q, tmt, cpl, tch, f) {
     return {
-      restrict: "A",
-      scope: true,
-      controller: [
-        "$scope", "$element", "$attrs", "$transclude", function(scp, elm, atr, trs) {
-          var _selectedMuscleGroup;
-          _selectedMuscleGroup = 0;
-          scp.$on('dropdown.select', function(event, data) {
-            event.preventDefault();
-            event.stopPropagation();
-            return _selectedMuscleGroup = data[0];
-          });
-          scp.unselect = function(index, event) {
-            event.preventDefault();
-            event.stopPropagation();
-            scp.options.push(scp.selected[index]);
-            return scp.selected.splice(index, 1);
-          };
-          scp.select = function(index, event) {
-            var filtered, idx, opt, selected, _i, _len, _ref;
-            event.preventDefault();
-            event.stopPropagation();
-            if (scp.searchText !== '') {
-              filtered = f("filter")(scp.options, scp.searchText);
-              selected = filtered[index];
-              scp.selected.push(selected);
-              _ref = scp.options;
-              for (idx = _i = 0, _len = _ref.length; _i < _len; idx = ++_i) {
-                opt = _ref[idx];
-                if (opt.$$hashKey === selected.$$hashKey) {
-                  scp.options.splice(idx, 1);
-                  break;
-                }
-              }
-            } else {
-              scp.selected.push(scp.options[index]);
-              scp.options.splice(index, 1);
-            }
-            scp.showmenu = false;
-            return scp.$emit('chosen.update', [scp.selected]);
-          };
-          scp.prevent = function(event) {
-            event.preventDefault();
-            return event.stopPropagation();
-          };
-          scp.clear = function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            return scp.searchText = "";
-          };
-          return scp.add = function(event) {
-            var opt;
-            event.preventDefault();
-            event.stopPropagation();
-            console.log(scp.options);
-            if (scp.newElement !== '' && _selectedMuscleGroup !== 0) {
-              opt = {
-                name: scp.newElement,
-                group: _selectedMuscleGroup
-              };
-              scp.options.push(opt);
-              scp.newElement = '';
-              return scp.$emit('chosen.add', [opt]);
-            }
-          };
-        }
-      ],
+      restrict: "E",
+      scope: {
+        options: "=",
+        addform: "=addform"
+      },
+      replace: true,
       templateUrl: "tpl/chosen.tpl.html",
       link: function(scp, elm, atr) {
-        var _menu, _toggleMenu;
-        _menu = elm.find('.options');
-        scp.options = scp[atr.thChosen];
+        var _$menu, _selectedMuscleGroup;
         scp.selected = [];
         scp.searchText = '';
         scp.newElement = '';
-        scp.showmenu = false;
-        _toggleMenu = function() {
-          scp.searchText = "";
-          scp.showmenu = !scp.showmenu;
-          if (scp.showmenu) {
-            return to(function() {
-              var mh, mot, wh, wot, y;
-              wh = $(window).height() - 60;
-              wot = $(document).scrollTop();
-              mh = _menu.outerHeight();
-              mot = _menu.parent().offset().top;
-              if (mot + mh > wot + wh) {
-                y = -((mot + mh) - (wot + wh));
-                return _menu.css('top', y + "px");
-              } else {
-                return _menu.css('top', "100%");
-              }
-            }, 0);
-          }
+        scp.toggles = {
+          showMenu: false,
+          showFilter: false,
+          showAddForm: false,
+          listChange: false
         };
-        elm.click(function(event) {
+        _selectedMuscleGroup = 0;
+        _$menu = $(elm).find('.options');
+        scp.$watch('[toggles.showMenu, toggles.showFilter, toggles.showAddForm, toggles.listChange]', function(nv, ov) {
+          console.log(nv);
+          if (_.contains(nv, true)) {
+            return tmt(function() {
+              var dif, mh, wh;
+              _$menu.css('y', 0);
+              wh = $(window).height() + $(document).scrollTop();
+              mh = _$menu.outerHeight() + _$menu.offset().top + 10;
+              dif = wh - mh;
+              if (dif < 0) {
+                _$menu.css('y', dif);
+              }
+              return scp.toggles.listChange = false;
+            }, 100);
+          }
+        }, true);
+        scp.$on('dropdown.select', function(event, data) {
           event.preventDefault();
           event.stopPropagation();
-          return console.log(scp);
+          return _selectedMuscleGroup = data[0];
         });
-        return scp.$on('form.submit', function(event, data) {
+        scp.$on('form.submit', function(event, data) {
           scp.options = scp.options.concat(scp.selected);
           return scp.selected = [];
         });
+        scp.toggleMenu = function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+          scp.searchText = "";
+          return scp.toggles.showMenu = !scp.toggles.showMenu;
+        };
+        scp.toggleFilter = function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+          return scp.toggles.showFilter = !scp.toggles.showFilter;
+        };
+        scp.toggleAddForm = function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+          return scp.toggles.showAddForm = !scp.toggles.showAddForm;
+        };
+        scp.unselect = function(index, event) {
+          event.preventDefault();
+          event.stopPropagation();
+          scp.options.push(scp.selected[index]);
+          scp.selected.splice(index, 1);
+          return scp.toggles.listChange = true;
+        };
+        scp.select = function(index, event) {
+          var filtered, idx, opt, selected, _i, _len, _ref;
+          event.preventDefault();
+          event.stopPropagation();
+          if (scp.searchText !== '') {
+            filtered = f("filter")(scp.options, scp.searchText);
+            selected = filtered[index];
+            scp.selected.push(selected);
+            _ref = scp.options;
+            for (idx = _i = 0, _len = _ref.length; _i < _len; idx = ++_i) {
+              opt = _ref[idx];
+              if (opt.$$hashKey === selected.$$hashKey) {
+                scp.options.splice(idx, 1);
+                break;
+              }
+            }
+          } else {
+            scp.selected.push(scp.options[index]);
+            scp.options.splice(index, 1);
+          }
+          scp.toggles.showMenu = false;
+          return scp.$emit('chosen.update', [scp.selected]);
+        };
+        scp.prevent = function(event) {
+          event.preventDefault();
+          return event.stopPropagation();
+        };
+        scp.clear = function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+          return scp.searchText = "";
+        };
+        return scp.add = function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+          if (scp.newElement !== '' && _selectedMuscleGroup !== 0) {
+            scp.$emit('chosen.add', {
+              name: scp.newElement,
+              group: _selectedMuscleGroup
+            });
+            scp.newElement = '';
+            return scp.toggles.listChange = true;
+          }
+        };
       }
     };
   }
@@ -228,81 +235,44 @@ angular.module("BodyApp").directive("thChosen", [
 angular.module("BodyApp").directive("thDropdown", [
   function() {
     return {
-      restrict: "A",
-      scope: true,
+      restrict: "E",
+      replace: true,
+      scope: {
+        options: "=options",
+        "class": "@class"
+      },
+      templateUrl: "tpl/dropdown.tpl.html",
       link: function(scp, elm, atr) {
-        var Link;
-        Link = (function() {
-          function Link() {
-            scp.selected = "button";
-            elm.addClass('th-dropdown');
-            this.label = angular.element("<span>").addClass("th-label").text(scp.selected);
-            this.menu = angular.element("<ul>").addClass("th-menu").hide().appendTo(elm);
-            this.initToggle();
-            this.initMenu();
+        var _$menu;
+        scp.hideMenu = true;
+        scp.selected = {
+          name: "Select"
+        };
+        _$menu = $(elm).find('.th-menu');
+        scp.$watch('hideMenu', function(nv, ov) {
+          var dif, mh, wh;
+          if (nv === false) {
+            _$menu.css('y', 0);
+            wh = $(window).height() + $(document).scrollTop();
+            mh = _$menu.outerHeight() + _$menu.offset().top + 10;
+            dif = wh - mh;
+            if (dif < 0) {
+              return _$menu.css('y', dif);
+            }
           }
-
-          Link.prototype.initMenu = function() {
-            var idx, opt, options, that, _i, _len, _results;
-            that = this;
-            options = scp[atr.thDropdown];
-            if (!options) {
-              return;
-            }
-            _results = [];
-            for (idx = _i = 0, _len = options.length; _i < _len; idx = ++_i) {
-              opt = options[idx];
-              _results.push(angular.element("<li>").addClass("th-option").data('id', opt.id).text(opt.name).appendTo(this.menu).click(function(event) {
-                var target;
-                event.preventDefault();
-                event.stopPropagation();
-                target = $(this);
-                scp.selected = target.text();
-                that.label.text(scp.selected);
-                scp.$emit('dropdown.select', [target.data('id')]);
-                return that.menu.hide();
-              }));
-            }
-            return _results;
-          };
-
-          Link.prototype.initToggle = function() {
-            var that;
-            that = this;
-            return angular.element("<button>").addClass('btn btn-default dropdown-toggle th-toggle').attr("type", "button").append(that.label).append('<span class="caret"></span>').click(function(event) {
-              event.preventDefault();
-              event.stopPropagation();
-              return that.toggleMenu();
-            }).appendTo(elm);
-          };
-
-          Link.prototype.toggleMenu = function() {
-            var mh, mot, mw, that, wh, wot, y;
-            that = this;
-            if (that.menu.is(':visible')) {
-              return that.menu.hide();
-            } else {
-              that.menu.show();
-              mw = that.menu.outerWidth();
-              mh = that.menu.outerHeight();
-              mot = that.menu.parent().offset().top;
-              wh = $(window).height() - 60;
-              wot = $(document).scrollTop();
-              if (mot + mh > wot + wh) {
-                y = -((mot + mh) - (wot + wh));
-                return that.menu.css('top', y + "px");
-              } else {
-                return that.menu.css('top', "100%");
-              }
-            }
-          };
-
-          return Link;
-
-        })();
-        return (function() {
-          return new Link();
-        })();
+        });
+        scp.select = function(event, idx) {
+          event.preventDefault();
+          event.stopPropagation();
+          scp.selected = scp.options[idx];
+          scp.hideMenu = true;
+          return scp.$emit('dropdown.select', [scp.selected.id]);
+        };
+        return scp.toggle = function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+          return scp.hideMenu = !scp.hideMenu;
+        };
       }
     };
   }
@@ -540,7 +510,7 @@ angular.module("BodyApp").service("ExercisesService", [
         }
       };
 
-      ExercisesService.prototype.checkInit = function(cb) {
+      ExercisesService.prototype.apply = function(cb) {
         if (this.initialized) {
           return cb();
         } else {
@@ -621,7 +591,7 @@ angular.module("BodyApp").service("ExercisesService", [
       getExercises: function() {
         var deferred;
         deferred = q.defer();
-        _es.checkInit(function() {
+        _es.apply(function() {
           return deferred.resolve(_es.data.exercises);
         });
         return deferred.promise;
@@ -629,10 +599,29 @@ angular.module("BodyApp").service("ExercisesService", [
       getExercise: function(id) {
         var deferred;
         deferred = q.defer();
-        _es.checkInit(function() {
-          return deferred.resolve(_.findWhere(_es.data.exercises, {
+        _es.apply(function() {
+          return deferred.resolve(_.findWhere(_.clone(_es.data.exercises, {
             _id: id
-          }));
+          })));
+        });
+        return deferred.promise;
+      },
+      addMuscle: function(muscle) {
+        var deferred;
+        deferred = q.defer();
+        htp({
+          method: "POST",
+          url: "/api/muscles/add",
+          data: muscle,
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Accept': 'application/json, text/plain, */*'
+          }
+        }).success(function(muscle, status, headers, config) {
+          _es.data.muscles.push(muscle);
+          return deferred.resolve(_.clone(muscle));
+        }).error(function(data, status, headers, config) {
+          return deferred.reject(status);
         });
         return deferred.promise;
       },
@@ -642,8 +631,8 @@ angular.module("BodyApp").service("ExercisesService", [
       getMuscles: function() {
         var deferred;
         deferred = q.defer();
-        _es.checkInit(function() {
-          return deferred.resolve(_es.data.muscles);
+        _es.apply(function() {
+          return deferred.resolve(_.clone(_es.data.muscles));
         });
         return deferred.promise;
       },
@@ -652,9 +641,6 @@ angular.module("BodyApp").service("ExercisesService", [
       },
       getMuscleGroups: function() {
         return _muscleGroups;
-      },
-      addMuscle: function(muscle) {
-        return rsr('api/muscles/add').save(muscle).$promise;
       }
     };
   }

@@ -8,34 +8,25 @@ exports.addMuscle = (db) ->
 				record = new MusclesSchema( req.body )
 				record.save (err, rec) ->
 					if err
-						res.status(500).json({
-							status : 'failure'
-						})
+						res.status(500).json( { status : 'failure' } )
 					else
-						res.status(200).json({
-							status : 'success'
-							message : rec._id
-						})
+						res.send( rec )
 
 exports.getMuscles = (db) ->
 	return (req, res) ->
 		# allowOrigin( res )
 		MusclesSchema.find {}, (err, docs) ->
 			if err
-				res.status(500).json({
-					status : 'failure'
-				})
+				res.status(500).json( { status : 'failure' } )
 			else
 				res.send( docs )
 
 exports.getMusclesByIds = (db) ->
 	return (req, res) ->
 		ids = req.params.ids.split(",")
-		
+
 		MusclesSchema.find { "_id" : { $in : ids} }, (err, docs) ->
 			if err
-				res.status(500).json({
-					status : 'failure'
-				})
+				res.status(500).json( { status : 'failure' } )
 			else
 				res.send( docs )

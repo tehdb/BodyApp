@@ -1,71 +1,52 @@
 angular.module("BodyApp").directive "thDropdown", [ () ->
-	restrict : "A"
-	scope : true
+	restrict : "E"
+	replace : true
+	scope : {
+		options : "=options"
+		class : "@class"
+	}
+	templateUrl : "tpl/dropdown.tpl.html"
 	link : ( scp, elm, atr ) ->
-		class Link
-			constructor : () ->
-				scp.selected = "button"
-				elm.addClass('th-dropdown')
-
-				@label = angular.element("<span>").addClass("th-label").text( scp.selected  )
-				@menu = angular.element("<ul>").addClass("th-menu").hide().appendTo(elm)
-				@initToggle()
-				@initMenu()
-
-			initMenu : ->
-				that = @
-				options = scp[atr.thDropdown]
-				return if not options
-
-				for opt, idx in options
-					angular.element("<li>")
-						.addClass("th-option")
-						.data('id', opt.id)
-						.text( opt.name )
-						.appendTo( @menu )
-						.click( (event) ->
-							event.preventDefault()
-							event.stopPropagation()
-							target = $(this)
-							scp.selected = target.text()
-							that.label.text( scp.selected )
-							scp.$emit( 'dropdown.select', [ target.data('id')] )
-							that.menu.hide()
-						)
-
-			initToggle : ->
-				that = @
-
-				angular.element("<button>")
-					.addClass('btn btn-default dropdown-toggle th-toggle')
-					.attr("type", "button")
-					.append( that.label )
-					.append( '<span class="caret"></span>')
-					.click( (event) ->
-						event.preventDefault()
-						event.stopPropagation()
-						that.toggleMenu()
-					).appendTo( elm )
-
-			toggleMenu : ->
-				that = @
-				if that.menu.is(':visible')
-					that.menu.hide()
-				else
-					that.menu.show()
-					mw = that.menu.outerWidth()
-					mh = that.menu.outerHeight()
-					mot = that.menu.parent().offset().top
-
-					wh = $(window).height() - 60
-					wot = $(document).scrollTop()
-
-					if mot + mh > wot + wh
-						y =  -(( mot + mh ) - ( wot + wh ))
-						that.menu.css('top', y + "px")
-					else
-						that.menu.css('top', "100%")
+		scp.hideMenu = true
+		scp.selected =  {
+			name : "Select"
+		}
+		_$menu = $(elm).find('.th-menu')
+		# _moveMenu = ->
+		# 	_$menu.css('top', "100%")
+		# 	wh = $(window).height() + $(document).scrollTop()
+		# 	mh = _$menu.outerHeight() + _$menu.offset().top
+		# 	dif = wh - mh
+		# 	if dif < 0
+		# 		_$menu.css('top', dif + "px")
 
 
-		do -> new Link()
+
+		scp.$watch 'hideMenu', (nv, ov) ->
+			if nv is false
+				_$menu.css('y', 0)
+				wh = $(window).height() + $(document).scrollTop()
+				mh = _$menu.outerHeight() + _$menu.offset().top + 10
+				dif = wh - mh
+				if dif < 0
+					_$menu.css('y', dif)
+
+
+
+		scp.select = (event, idx) ->
+			event.preventDefault()
+			event.stopPropagation()
+			scp.selected = scp.options[idx]
+			scp.hideMenu = true
+			# TODO: make the form dynamic
+			scp.$emit 'dropdown.select', [ scp.selected.id ]
+
+
+		scp.toggle = (event)->
+			event.preventDefault()
+			event.stopPropagation()
+			scp.hideMenu = not scp.hideMenu
+
+
+
 ]

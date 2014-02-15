@@ -1,5 +1,5 @@
-div.th-chosen
-	span.caret(ng-class="{'active' : showmenu}")
+div.th-chosen(ng-click="toggleMenu($event)")
+	span.caret(ng-class="{'active' : toggles.showmenu}")
 
 	ul.selected
 		li( ng-repeat="s in selected" )
@@ -7,10 +7,14 @@ div.th-chosen
 			i.fa.fa-times( ng-click="unselect( $index, $event )" )
 
 
-	div.options( ng-show="showmenu" )
-		div.input-group
-			span.input-group-addon
-				i.fa.fa-search
+	div.options( ng-show="toggles.showMenu" )
+		div.th-icon-btn.filter-btn(ng-click="toggleFilter($event)", title="filter")
+			i.fa.fa-filter
+
+
+		div.input-group.filter-form(ng-show="toggles.showFilter")
+			//- span.input-group-addon
+			//- 	i.fa.fa-search
 			input.form-control.filter(
 				type="text",
 				placeholder="filter",
@@ -28,8 +32,13 @@ div.th-chosen
 			li( ng-repeat="o in options | filter:searchText", ng-click="select( $index, $event )" )
 				span( ng-bind="o.name" )
 
-		div.input-group
-			div.input-group-btn(th-dropdown="muscleGroups")
+
+		div.th-icon-btn.add-btn(ng-click="toggleAddForm($event)", title="add option")
+			i.fa.fa-plus
+		//- TODO: make the form dynamic
+		div.input-group.add-form(ng-show="toggles.showAddForm")
+			//- div.input-group-btn
+			th-dropdown(options="addform", class="input-group-btn")
 
 			input.form-control(
 				type="text",

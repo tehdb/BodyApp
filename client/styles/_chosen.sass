@@ -6,6 +6,7 @@
 	font-size : 13px
 	min-height : 36px
 	cursor : pointer
+	z-index : 2000
 	+user-select( none )
 	+border-radius( 4px )
 
@@ -37,15 +38,15 @@
 
 			span
 				display : inline-block
-			.glyphicon
-				margin : 2px 0 0 5px
-				float : right
 
+			i
+				margin-left : 5px
+				+border-radius( 2px )
 				+transition( all 0.2s linear )
 
 				&:hover
-					background : $th-white
-					color : $th-black
+					background : $th-black
+					color : $th-white
 
 	div.options
 		display : block
@@ -59,21 +60,42 @@
 		width : 100%
 		border : 1px solid $th-gray
 		background : $th-gray90
-		+box-shadow( 0 0 10px 5px $th-gray )
+		// +box-shadow( 0 0 10px 5px $th-gray )
 		+border-radius( 4px )
+
+		.filter-btn
+			position : absolute
+			top : 5px
+			right : 5px
+			z-index : 2020
+
+		.add-btn
+			position : absolute
+			bottom : 5px
+			right : 5px
+			z-index : 2020
+
+
+
+		.filter-form, .add-form
+			margin : 5px 0
+			padding : 0 60px 0 0
 
 		ul
 			padding : 0
 			margin : 0 -5px 5px -5px
 			list-style : none
+			z-index : 2010
 
 			li
 				padding : 4px 8px
 				+text-overflow
 
-				&:nth-child(even)
-					background : $th-gray
+				// &:nth-child(even)
+				// 	background : $th-gray
 
 				&:hover
-					background : $th-black
 					color : $th-white
+					+text-shadow( 0 0 2px $th-black)
+					// background : $th-black
+					// color : $th-white

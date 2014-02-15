@@ -1,27 +1,25 @@
-
 angular.module("BodyApp").controller "ExercisesCtrl", [ "$scope", "ExercisesService", ( scp, es ) ->
 	scp.title = "exercices"
 
 	scp.data = {
-		exercices : "exercices"
-		muscles : "muscles"
+		#muscleGroups : es.getMuscleGroups()
+		addMuscleForm : es.getMuscleGroups()
+		muscles : null
+		exercises : null
 	}
-
-	# scp.exercices = null
-	# scp.muscles = null
-
-	es.getExercises().then (data) ->
-		scp.data.exercises = data
-
-	es.getMuscles().then (data) ->
-		scp.safeApply ->
-			scp.data.muscles = data
-
 	scp.formData = {
 		title : ''
 		descr : ''
 		muscles : null
 	}
+
+
+	es.getExercises().then (data) ->
+		scp.data.exercises = data
+
+
+	es.getMuscles().then (data) ->
+		scp.data.muscles = data
 
 
 	scp.$on 'chosen.update', (event, data) ->
@@ -33,19 +31,19 @@ angular.module("BodyApp").controller "ExercisesCtrl", [ "$scope", "ExercisesServ
 
 		scp.formData.muscles = muscleIds
 
+	# add new muscle
 	scp.$on 'chosen.add', (event, data) ->
 		event.preventDefault()
 		event.stopPropagation()
 
-		es.addMuscle({
-			"name" : data[0].name
-			"group" : data[0].group
-		}).then ( res ) ->
-			data[0]._id = res.message
+		es.addMuscle( data ).then (data) ->
+			scp.data.muscles.push( data )
 
 	scp.submitForm = ->
 		if scp.exrcForm.$valid && scp.formData.muscles?
+			console.log scp.formData
 
+			return false
 			es.addExercise( scp.formData ).then (data) ->
 				scp.data.exercises.push( data )
 				console.log data
@@ -56,6 +54,6 @@ angular.module("BodyApp").controller "ExercisesCtrl", [ "$scope", "ExercisesServ
 				}
 				$('#addExerciseModal').modal('hide')
 				scp.$broadcast('form.submit')
-			
+
 
 ] #MainCtrl

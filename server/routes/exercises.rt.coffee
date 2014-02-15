@@ -44,7 +44,6 @@ exports.addExercise = (db) ->
 							status : 'failure'
 						})
 					else
-						console.log rec
 						res.send( rec )
 						# res.status(200).json({
 						# 	status : 'success'

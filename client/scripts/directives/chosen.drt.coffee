@@ -1,19 +1,75 @@
-angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile", "$templateCache", "$filter", ( q, to, cpl, tch, f ) ->
-	restrict : "A"
-	scope : true
-	controller : [ "$scope", "$element", "$attrs", "$transclude", (scp, elm, atr, trs ) ->
-		_selectedMuscleGroup = 0 # TODO: prevent emit and on
+angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile", "$templateCache", "$filter", ( q, tmt, cpl, tch, f ) ->
+	restrict : "E"
+	scope : {
+		options : "=" # or "=options"
+		addform : "=addform"
+	}
+	replace : true
+	templateUrl : "tpl/chosen.tpl.html"
+
+	link : (scp, elm, atr ) ->
+		scp.selected = []
+		scp.searchText = ''
+		scp.newElement = ''
+
+		scp.toggles = {
+			showMenu : false
+			showFilter : false
+			showAddForm : false
+			listChange : false
+		}
+
+		_selectedMuscleGroup = 0
+		_$menu = $(elm).find('.options')
+
+		scp.$watch( '[toggles.showMenu, toggles.showFilter, toggles.showAddForm, toggles.listChange]', (nv, ov) ->
+			console.log nv
+			if _.contains( nv, true )
+				tmt( ->
+					_$menu.css('y', 0)
+					wh = $(window).height() + $(document).scrollTop()
+					mh = _$menu.outerHeight() + _$menu.offset().top + 10
+					dif = wh - mh
+					_$menu.css('y', dif) if dif < 0
+					scp.toggles.listChange = false
+				,100)
+
+		, true )
 
 		scp.$on 'dropdown.select', (event, data ) ->
 			event.preventDefault()
 			event.stopPropagation()
 			_selectedMuscleGroup = data[0]
 
+		scp.$on('form.submit', (event, data) ->
+			scp.options = scp.options.concat( scp.selected )
+			scp.selected = []
+		)
+
+		scp.toggleMenu = (event) ->
+			event.preventDefault()
+			event.stopPropagation()
+			scp.searchText = ""
+			scp.toggles.showMenu = !scp.toggles.showMenu
+
+		scp.toggleFilter = (event) ->
+			event.preventDefault()
+			event.stopPropagation()
+			scp.toggles.showFilter =  !scp.toggles.showFilter
+
+		scp.toggleAddForm = (event) ->
+			event.preventDefault()
+			event.stopPropagation()
+			scp.toggles.showAddForm =  !scp.toggles.showAddForm
+
 		scp.unselect = (index, event ) ->
 			event.preventDefault()
 			event.stopPropagation()
 			scp.options.push( scp.selected[index] )
 			scp.selected.splice( index, 1)
+			# scp.toggles.showMenu = false
+			scp.toggles.listChange = true
+
 
 		scp.select = ( index, event ) ->
 			event.preventDefault()
@@ -35,7 +91,7 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 				scp.selected.push( scp.options[index] )
 				scp.options.splice( index, 1)
 
-			scp.showmenu = false
+			scp.toggles.showMenu = false
 
 			# scp.updateData( scp.selected ) if typeof scp.updateData is "function"
 			scp.$emit( 'chosen.update', [scp.selected] )
@@ -44,74 +100,24 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 			event.preventDefault()
 			event.stopPropagation()
 
+
 		scp.clear = (event) ->
 			event.preventDefault()
 			event.stopPropagation()
 			scp.searchText = ""
 
+
 		scp.add = (event) ->
 			event.preventDefault()
 			event.stopPropagation()
 
-			console.log scp.options
-
-
 			if scp.newElement isnt '' and _selectedMuscleGroup isnt 0
-				opt = {
+				scp.$emit( 'chosen.add', {
 					name : scp.newElement
 					group : _selectedMuscleGroup
-				}
-
-				scp.options.push( opt )
+				})
 				scp.newElement = ''
-				scp.$emit( 'chosen.add', [ opt ] )
-	]
+				scp.toggles.listChange = true
 
 
-	templateUrl : "tpl/chosen.tpl.html"
-	link : (scp, elm, atr ) ->
-		_menu = elm.find('.options')
-
-
-		scp.options = scp[atr.thChosen]
-		#scp.addform = scp[atr.thChosenAddform]
-		scp.selected = []
-		scp.searchText = ''
-		scp.newElement = ''
-		scp.showmenu = false
-
-
-
-		_toggleMenu = ->
-			#scp.safeApply ->
-			scp.searchText = ""
-			scp.showmenu = !scp.showmenu
-
-			if scp.showmenu
-				to( ->
-					wh = $(window).height() - 60
-					wot = $(document).scrollTop()
-					mh = _menu.outerHeight()
-					mot = _menu.parent().offset().top
-					if mot + mh > wot + wh
-						y =  -(( mot + mh ) - ( wot + wh ))
-						_menu.css('top', y + "px")
-					else
-						_menu.css('top', "100%")
-				,0)
-
-
-		elm.click( (event) ->
-			event.preventDefault()
-			event.stopPropagation()
-			
-			#_toggleMenu()
-			console.log scp
-			
-		)
-
-		scp.$on('form.submit', (event, data) ->
-			scp.options = scp.options.concat( scp.selected )
-			scp.selected = []
-		)
 ])

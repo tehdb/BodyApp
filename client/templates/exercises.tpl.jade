@@ -18,7 +18,7 @@ div.exercises
 				i.fa.fa-search
 
 
-	p.bg-danger(ng-hide="exercises.length > 0" ) No entries
+	p.bg-danger(ng-hide="data.exercises.length > 0" ) No entries
 
 
 	ul.th-justified-list
@@ -38,7 +38,7 @@ div.exercises
 
 			ul.tags
 				li(ng-repeat="m in exr.muscles")
-					i.fa.fa-male 
+					i.fa.fa-male
 					span(ng-bind="m.name")
 				//- li day 1
 				//- li day 2
@@ -100,7 +100,7 @@ div.exercises
 							div.col-sm-10
 								//- div( th-chosen="data.muscles" )
 								//- TODO: add exercise directive instead of th-chosen
-								add-exercise
+								th-chosen( options="data.muscles", addform="data.addMuscleForm")
 
 						div.form-group
 							div.col-sm-offset-2.col-sm-10
