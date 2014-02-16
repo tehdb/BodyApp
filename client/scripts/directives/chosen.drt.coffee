@@ -16,35 +16,37 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 			showMenu : false
 			showFilter : false
 			showAddForm : false
-			listChange : false
 		}
 
 		_selectedMuscleGroup = 0
 		_$menu = $(elm).find('.options')
+		_adjustMenu = ->
+			#tmt( ->
+			_$menu.css('y', 0)
+			wh = $(window).height() + $(document).scrollTop()
+			mh = _$menu.outerHeight() + _$menu.offset().top + 10
+			dif = wh - mh
+			_$menu.css('y', dif) if dif < 0
+			#, 11)
 
-		scp.$watch( '[toggles.showMenu, toggles.showFilter, toggles.showAddForm, toggles.listChange]', (nv, ov) ->
-			console.log nv
+		scp.$watch( '[toggles.showMenu, toggles.showFilter, toggles.showAddForm]', (nv, ov) ->
 			if _.contains( nv, true )
-				tmt( ->
-					_$menu.css('y', 0)
-					wh = $(window).height() + $(document).scrollTop()
-					mh = _$menu.outerHeight() + _$menu.offset().top + 10
-					dif = wh - mh
-					_$menu.css('y', dif) if dif < 0
-					scp.toggles.listChange = false
-				,100)
-
+				_adjustMenu()
 		, true )
+
+		scp.$watch( 'options', (nv, ov) ->
+			_adjustMenu()
+		, true )
+			#console.log nv, ov
 
 		scp.$on 'dropdown.select', (event, data ) ->
 			event.preventDefault()
 			event.stopPropagation()
 			_selectedMuscleGroup = data[0]
 
-		scp.$on('form.submit', (event, data) ->
+		scp.$on 'form.submit', (event, data) ->
 			scp.options = scp.options.concat( scp.selected )
 			scp.selected = []
-		)
 
 		scp.toggleMenu = (event) ->
 			event.preventDefault()
@@ -67,9 +69,6 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 			event.stopPropagation()
 			scp.options.push( scp.selected[index] )
 			scp.selected.splice( index, 1)
-			# scp.toggles.showMenu = false
-			scp.toggles.listChange = true
-
 
 		scp.select = ( index, event ) ->
 			event.preventDefault()
@@ -92,20 +91,16 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 				scp.options.splice( index, 1)
 
 			scp.toggles.showMenu = false
-
-			# scp.updateData( scp.selected ) if typeof scp.updateData is "function"
 			scp.$emit( 'chosen.update', [scp.selected] )
 
 		scp.prevent = (event) ->
 			event.preventDefault()
 			event.stopPropagation()
 
-
 		scp.clear = (event) ->
 			event.preventDefault()
 			event.stopPropagation()
 			scp.searchText = ""
-
 
 		scp.add = (event) ->
 			event.preventDefault()
@@ -117,7 +112,4 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 					group : _selectedMuscleGroup
 				})
 				scp.newElement = ''
-				scp.toggles.listChange = true
-
-
 ])

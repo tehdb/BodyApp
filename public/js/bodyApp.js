@@ -123,33 +123,34 @@ angular.module("BodyApp").directive("thChosen", [
       replace: true,
       templateUrl: "tpl/chosen.tpl.html",
       link: function(scp, elm, atr) {
-        var _$menu, _selectedMuscleGroup;
+        var _$menu, _adjustMenu, _selectedMuscleGroup;
         scp.selected = [];
         scp.searchText = '';
         scp.newElement = '';
         scp.toggles = {
           showMenu: false,
           showFilter: false,
-          showAddForm: false,
-          listChange: false
+          showAddForm: false
         };
         _selectedMuscleGroup = 0;
         _$menu = $(elm).find('.options');
-        scp.$watch('[toggles.showMenu, toggles.showFilter, toggles.showAddForm, toggles.listChange]', function(nv, ov) {
-          console.log(nv);
-          if (_.contains(nv, true)) {
-            return tmt(function() {
-              var dif, mh, wh;
-              _$menu.css('y', 0);
-              wh = $(window).height() + $(document).scrollTop();
-              mh = _$menu.outerHeight() + _$menu.offset().top + 10;
-              dif = wh - mh;
-              if (dif < 0) {
-                _$menu.css('y', dif);
-              }
-              return scp.toggles.listChange = false;
-            }, 100);
+        _adjustMenu = function() {
+          var dif, mh, wh;
+          _$menu.css('y', 0);
+          wh = $(window).height() + $(document).scrollTop();
+          mh = _$menu.outerHeight() + _$menu.offset().top + 10;
+          dif = wh - mh;
+          if (dif < 0) {
+            return _$menu.css('y', dif);
           }
+        };
+        scp.$watch('[toggles.showMenu, toggles.showFilter, toggles.showAddForm]', function(nv, ov) {
+          if (_.contains(nv, true)) {
+            return _adjustMenu();
+          }
+        }, true);
+        scp.$watch('options', function(nv, ov) {
+          return _adjustMenu();
         }, true);
         scp.$on('dropdown.select', function(event, data) {
           event.preventDefault();
@@ -180,8 +181,7 @@ angular.module("BodyApp").directive("thChosen", [
           event.preventDefault();
           event.stopPropagation();
           scp.options.push(scp.selected[index]);
-          scp.selected.splice(index, 1);
-          return scp.toggles.listChange = true;
+          return scp.selected.splice(index, 1);
         };
         scp.select = function(index, event) {
           var filtered, idx, opt, selected, _i, _len, _ref;
@@ -223,8 +223,7 @@ angular.module("BodyApp").directive("thChosen", [
               name: scp.newElement,
               group: _selectedMuscleGroup
             });
-            scp.newElement = '';
-            return scp.toggles.listChange = true;
+            return scp.newElement = '';
           }
         };
       }

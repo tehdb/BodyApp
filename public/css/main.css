@@ -273,33 +273,35 @@ ul.th-justified-list li .btn {
   -o-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 66, ../../client/styles/_chosen.sass */
+/* line 67, ../../client/styles/_chosen.sass */
 .th-chosen div.options .filter-btn {
   position: absolute;
   top: 5px;
   right: 5px;
   z-index: 2020;
 }
-/* line 72, ../../client/styles/_chosen.sass */
+/* line 73, ../../client/styles/_chosen.sass */
 .th-chosen div.options .add-btn {
   position: absolute;
   bottom: 5px;
   right: 5px;
   z-index: 2020;
 }
-/* line 80, ../../client/styles/_chosen.sass */
+/* line 81, ../../client/styles/_chosen.sass */
 .th-chosen div.options .filter-form, .th-chosen div.options .add-form {
   margin: 5px 0;
   padding: 0 60px 0 0;
 }
-/* line 84, ../../client/styles/_chosen.sass */
+/* line 85, ../../client/styles/_chosen.sass */
 .th-chosen div.options ul {
   padding: 0;
   margin: 0 -5px 5px -5px;
   list-style: none;
   z-index: 2010;
+  max-height: 300px;
+  overflow: scroll;
 }
-/* line 90, ../../client/styles/_chosen.sass */
+/* line 93, ../../client/styles/_chosen.sass */
 .th-chosen div.options ul li {
   padding: 4px 8px;
   overflow: hidden;
@@ -308,7 +310,7 @@ ul.th-justified-list li .btn {
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
 }
-/* line 97, ../../client/styles/_chosen.sass */
+/* line 100, ../../client/styles/_chosen.sass */
 .th-chosen div.options ul li:hover {
   color: white;
   text-shadow: 0 0 2px black;
