@@ -119,9 +119,8 @@ angular.module("BodyApp").directive("thChosen", [
       replace: true,
       templateUrl: "tpl/chosen.tpl.html",
       link: function(scp, elm, atr) {
-        var _$menu, _adjustMenu, _selectedMuscleGroup, _watchForChanges;
-        scp.available = scp.options;
-        console.log(scp.available);
+        var unwatchOptions, _$menu, _adjustMenu, _selectedMuscleGroup, _watchForChanges;
+        scp.available = null;
         scp.searchText = '';
         scp.newElement = '';
         scp.toggles = {
@@ -141,6 +140,12 @@ angular.module("BodyApp").directive("thChosen", [
             return _$menu.css('y', dif);
           }
         };
+        unwatchOptions = scp.$watch('options', function(nv, ov) {
+          if (nv != null) {
+            scp.available = angular.copy(nv);
+            return unwatchOptions();
+          }
+        });
         _watchForChanges = function() {
           scp.$watch('[toggles.showMenu, toggles.showFilter, toggles.showAddForm]', function(nv, ov) {
             if (_.contains(nv, true)) {
@@ -179,9 +184,20 @@ angular.module("BodyApp").directive("thChosen", [
           return scp.selected.splice(index, 1);
         };
         scp.select = function(index, event) {
+          event.preventDefault();
+          event.stopPropagation();
+          scp.selected.push(scp.available[index]);
+          scp.available.splice(index, 1);
+          console.log(scp.options);
+          console.log(scp.available);
+          console.log(scp.selected);
+          return scp.toggles.showMenu = false;
+        };
+        scp.select2 = function(index, event) {
           var filtered, idx, opt, selected, _i, _len, _ref;
           event.preventDefault();
           event.stopPropagation();
+          console.log(scp.options);
           if (scp.searchText !== '') {
             filtered = f("filter")(scp.options, scp.searchText);
             selected = filtered[index];

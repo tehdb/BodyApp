@@ -11,9 +11,8 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 	link : (scp, elm, atr ) ->
 		#console.log scp.selected
 		#scp.selected = scp.selected || []
-		scp.available = scp.options
+		scp.available = null
 
-		console.log scp.available
 		scp.searchText = ''
 		scp.newElement = ''
 
@@ -31,6 +30,13 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 			mh = _$menu.outerHeight() + _$menu.offset().top + 10
 			dif = wh - mh
 			_$menu.css('y', dif) if dif < 0
+
+
+		unwatchOptions = scp.$watch 'options', (nv, ov) ->
+			if nv?
+				scp.available = angular.copy(nv)
+				unwatchOptions()
+
 
 		# do _watchForChanges = ->
 		_watchForChanges = ->
@@ -75,9 +81,24 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 			scp.options.push( scp.selected[index] )
 			scp.selected.splice( index, 1)
 
-		scp.select = ( index, event ) ->
+		scp.select = (index, event) ->
 			event.preventDefault()
 			event.stopPropagation()
+
+			scp.selected.push( scp.available[index] )
+			scp.available.splice( index, 1)
+
+			console.log scp.options
+			console.log scp.available
+			console.log scp.selected
+
+			scp.toggles.showMenu = false
+
+		scp.select2 = ( index, event ) ->
+			event.preventDefault()
+			event.stopPropagation()
+
+			console.log scp.options
 
 			# select the right option from filtered options
 			if scp.searchText isnt ''
