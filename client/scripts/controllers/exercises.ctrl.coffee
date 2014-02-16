@@ -7,10 +7,10 @@ angular.module("BodyApp").controller "ExercisesCtrl", [ "$scope", "ExercisesServ
 		muscles : null
 		exercises : null
 	}
-	scp.formData = {
+	scp.addForm = {
 		title : ''
 		descr : ''
-		muscles : null
+		muscles : []
 	}
 
 
@@ -22,35 +22,40 @@ angular.module("BodyApp").controller "ExercisesCtrl", [ "$scope", "ExercisesServ
 		scp.data.muscles = data
 
 
-	scp.$on 'chosen.update', (event, data) ->
-		event.preventDefault()
-		event.stopPropagation()
-		muscleIds = []
-		for muscle in data[0]
-			muscleIds.push( muscle._id )
+	# scp.$on 'chosen.update', (event, data) ->
+	# 	event.preventDefault()
+	# 	event.stopPropagation()
+	# 	muscleIds = []
+	# 	for muscle in data[0]
+	# 		muscleIds.push( muscle._id )
 
-		scp.formData.muscles = muscleIds
+	# 	scp.formData.muscles = muscleIds
 
 	# add new muscle
-	scp.$on 'chosen.add', (event, data) ->
-		event.preventDefault()
-		event.stopPropagation()
+	# scp.$on 'chosen.add', (event, data) ->
+	# 	event.preventDefault()
+	# 	event.stopPropagation()
 
-		es.addMuscle( data ).then (data) ->
-			scp.data.muscles.push( data )
+	# 	es.addMuscle( data ).then (data) ->
+	# 		scp.data.muscles.push( data )
+
+	# scp.$watch( "data.muscles", (nv, ov) ->
+	# 	console.log nv, ov
+	# , true )
 
 	scp.submitForm = ->
-		if scp.exrcForm.$valid && scp.formData.muscles?
-			console.log scp.formData
+		if scp.exrcForm.$valid && scp.addForm.muscles.length > 0
+			muscleIds = []
+			_.each scp.addForm.muscles, (muscle) ->
+				muscleIds.push( muscle._id)
+			scp.addForm.muscles = muscleIds
 
-			return false
-			es.addExercise( scp.formData ).then (data) ->
+			es.addExercise( scp.addForm ).then (data) ->
 				scp.data.exercises.push( data )
-				console.log data
-				scp.formData = {
+				scp.addForm = {
 					title : ''
 					descr : ''
-					muscles : null
+					muscles : []
 				}
 				$('#addExerciseModal').modal('hide')
 				scp.$broadcast('form.submit')

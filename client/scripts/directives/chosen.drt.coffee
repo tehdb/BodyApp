@@ -3,12 +3,17 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 	scope : {
 		options : "=" # or "=options"
 		addform : "=addform"
+		selected : "="
 	}
 	replace : true
 	templateUrl : "tpl/chosen.tpl.html"
 
 	link : (scp, elm, atr ) ->
-		scp.selected = []
+		#console.log scp.selected
+		#scp.selected = scp.selected || []
+		scp.available = scp.options
+
+		console.log scp.available
 		scp.searchText = ''
 		scp.newElement = ''
 
@@ -21,32 +26,32 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 		_selectedMuscleGroup = 0
 		_$menu = $(elm).find('.options')
 		_adjustMenu = ->
-			#tmt( ->
 			_$menu.css('y', 0)
 			wh = $(window).height() + $(document).scrollTop()
 			mh = _$menu.outerHeight() + _$menu.offset().top + 10
 			dif = wh - mh
 			_$menu.css('y', dif) if dif < 0
-			#, 11)
 
-		scp.$watch( '[toggles.showMenu, toggles.showFilter, toggles.showAddForm]', (nv, ov) ->
-			if _.contains( nv, true )
+		# do _watchForChanges = ->
+		_watchForChanges = ->
+			scp.$watch( '[toggles.showMenu, toggles.showFilter, toggles.showAddForm]', (nv, ov) ->
+				if _.contains( nv, true )
+					_adjustMenu()
+			, true )
+
+			scp.$watch( 'options', (nv, ov) ->
 				_adjustMenu()
-		, true )
+			, true )
 
-		scp.$watch( 'options', (nv, ov) ->
-			_adjustMenu()
-		, true )
-			#console.log nv, ov
 
 		scp.$on 'dropdown.select', (event, data ) ->
 			event.preventDefault()
 			event.stopPropagation()
 			_selectedMuscleGroup = data[0]
 
-		scp.$on 'form.submit', (event, data) ->
-			scp.options = scp.options.concat( scp.selected )
-			scp.selected = []
+		# scp.$on 'form.submit', (event, data) ->
+		# 	scp.options = scp.options.concat( scp.selected )
+		# 	scp.selected = []
 
 		scp.toggleMenu = (event) ->
 			event.preventDefault()
@@ -107,9 +112,13 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 			event.stopPropagation()
 
 			if scp.newElement isnt '' and _selectedMuscleGroup isnt 0
-				scp.$emit( 'chosen.add', {
+				scp.options.push({
 					name : scp.newElement
 					group : _selectedMuscleGroup
 				})
+				# scp.$emit( 'chosen.add', {
+				# 	name : scp.newElement
+				# 	group : _selectedMuscleGroup
+				# })
 				scp.newElement = ''
 ])

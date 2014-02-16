@@ -3,8 +3,9 @@ ul.th-justified-list {
   list-style: none;
   margin: 0 -15px;
   padding: 0;
+  min-height: 90px;
 }
-/* line 6, ../../client/styles/_common.sass */
+/* line 7, ../../client/styles/_common.sass */
 ul.th-justified-list li {
   border-bottom: 1px solid #cccccc;
   padding: 15px 60px 15px 15px;
@@ -12,11 +13,11 @@ ul.th-justified-list li {
   overflow: hidden;
   *zoom: 1;
 }
-/* line 14, ../../client/styles/_common.sass */
+/* line 15, ../../client/styles/_common.sass */
 ul.th-justified-list li:last-child {
   border-bottom: 0 none;
 }
-/* line 17, ../../client/styles/_common.sass */
+/* line 18, ../../client/styles/_common.sass */
 ul.th-justified-list li .thumb {
   width: 64px;
   height: 64px;
@@ -30,13 +31,13 @@ ul.th-justified-list li .thumb {
   text-align: center;
   margin-right: 15px;
 }
-/* line 27, ../../client/styles/_common.sass */
+/* line 28, ../../client/styles/_common.sass */
 ul.th-justified-list li .thumb .glyphicon, ul.th-justified-list li .thumb i {
   color: #cccccc;
   font-size: 30px;
   line-height: 60px;
 }
-/* line 32, ../../client/styles/_common.sass */
+/* line 33, ../../client/styles/_common.sass */
 ul.th-justified-list li h2 {
   font-size: 14px;
   font-weight: bold;
@@ -44,12 +45,12 @@ ul.th-justified-list li h2 {
   margin: 0;
   padding: 0 0 10px 0;
 }
-/* line 39, ../../client/styles/_common.sass */
+/* line 40, ../../client/styles/_common.sass */
 ul.th-justified-list li p {
   font-size: 14px;
   font-weight: normal;
 }
-/* line 43, ../../client/styles/_common.sass */
+/* line 44, ../../client/styles/_common.sass */
 ul.th-justified-list li ul.tags {
   padding: 0;
   margin: 0;
@@ -57,7 +58,7 @@ ul.th-justified-list li ul.tags {
   overflow: hidden;
   *zoom: 1;
 }
-/* line 48, ../../client/styles/_common.sass */
+/* line 49, ../../client/styles/_common.sass */
 ul.th-justified-list li ul.tags li {
   font-size: 10px;
   padding: 4px 8px;
@@ -71,15 +72,15 @@ ul.th-justified-list li ul.tags li {
   -o-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 57, ../../client/styles/_common.sass */
+/* line 58, ../../client/styles/_common.sass */
 ul.th-justified-list li ul.tags li i {
   margin-right: 5px;
 }
-/* line 60, ../../client/styles/_common.sass */
+/* line 61, ../../client/styles/_common.sass */
 ul.th-justified-list li ul.tags li:last-child {
   margin-right: 0;
 }
-/* line 63, ../../client/styles/_common.sass */
+/* line 64, ../../client/styles/_common.sass */
 ul.th-justified-list li .badge {
   position: absolute;
   top: 10px;
@@ -87,7 +88,7 @@ ul.th-justified-list li .badge {
   background: none;
   color: #cccccc;
 }
-/* line 70, ../../client/styles/_common.sass */
+/* line 71, ../../client/styles/_common.sass */
 ul.th-justified-list li .btn {
   position: absolute;
   right: 5px;
@@ -100,7 +101,7 @@ ul.th-justified-list li .btn {
   box-shadow: none;
 }
 
-/* line 79, ../../client/styles/_common.sass */
+/* line 80, ../../client/styles/_common.sass */
 .th-icon-btn {
   padding: 5px 10px;
   -webkit-border-radius: 2px;
@@ -109,7 +110,7 @@ ul.th-justified-list li .btn {
   -o-border-radius: 2px;
   border-radius: 2px;
 }
-/* line 82, ../../client/styles/_common.sass */
+/* line 83, ../../client/styles/_common.sass */
 .th-icon-btn:hover {
   color: white;
   background: black;
@@ -266,33 +267,32 @@ ul.th-justified-list li .btn {
   background: white;
   width: 100%;
   border: 1px solid #cccccc;
-  background: #e5e5e5;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 67, ../../client/styles/_chosen.sass */
+/* line 66, ../../client/styles/_chosen.sass */
 .th-chosen div.options .filter-btn {
   position: absolute;
   top: 5px;
   right: 5px;
   z-index: 2020;
 }
-/* line 73, ../../client/styles/_chosen.sass */
+/* line 72, ../../client/styles/_chosen.sass */
 .th-chosen div.options .add-btn {
   position: absolute;
   bottom: 5px;
   right: 5px;
   z-index: 2020;
 }
-/* line 81, ../../client/styles/_chosen.sass */
+/* line 80, ../../client/styles/_chosen.sass */
 .th-chosen div.options .filter-form, .th-chosen div.options .add-form {
   margin: 5px 0;
   padding: 0 60px 0 0;
 }
-/* line 85, ../../client/styles/_chosen.sass */
+/* line 84, ../../client/styles/_chosen.sass */
 .th-chosen div.options ul {
   padding: 0;
   margin: 0 -5px 5px -5px;
@@ -301,7 +301,7 @@ ul.th-justified-list li .btn {
   max-height: 300px;
   overflow: scroll;
 }
-/* line 93, ../../client/styles/_chosen.sass */
+/* line 92, ../../client/styles/_chosen.sass */
 .th-chosen div.options ul li {
   padding: 4px 8px;
   overflow: hidden;
@@ -310,7 +310,7 @@ ul.th-justified-list li .btn {
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
 }
-/* line 100, ../../client/styles/_chosen.sass */
+/* line 99, ../../client/styles/_chosen.sass */
 .th-chosen div.options ul li:hover {
   color: white;
   text-shadow: 0 0 2px black;

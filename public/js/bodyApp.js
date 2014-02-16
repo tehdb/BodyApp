@@ -18,7 +18,18 @@ angular.module("BodyApp", ["ngRoute", "ngResource"]).constant("Settings", {}).co
 angular.module("BodyApp").controller("ExerciseCtrl", [
   "$scope", "$routeParams", "ExercisesService", function(scp, rps, es) {
     return es.getExercise(rps.id).then(function(exercise) {
-      return scp.exercise = exercise;
+      scp.exercise = exercise;
+      es.getMuscles().then(function(muscles) {
+        return scp.muscles = muscles;
+      });
+      scp.form = {
+        title: exercise.title,
+        descr: exercise.descr,
+        muscles: exercise.muscles
+      };
+      return scp.submitForm = function() {
+        return console.log(scp.formData);
+      };
     });
   }
 ]);
@@ -31,10 +42,10 @@ angular.module("BodyApp").controller("ExercisesCtrl", [
       muscles: null,
       exercises: null
     };
-    scp.formData = {
+    scp.addForm = {
       title: '',
       descr: '',
-      muscles: null
+      muscles: []
     };
     es.getExercises().then(function(data) {
       return scp.data.exercises = data;
@@ -42,36 +53,20 @@ angular.module("BodyApp").controller("ExercisesCtrl", [
     es.getMuscles().then(function(data) {
       return scp.data.muscles = data;
     });
-    scp.$on('chosen.update', function(event, data) {
-      var muscle, muscleIds, _i, _len, _ref;
-      event.preventDefault();
-      event.stopPropagation();
-      muscleIds = [];
-      _ref = data[0];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        muscle = _ref[_i];
-        muscleIds.push(muscle._id);
-      }
-      return scp.formData.muscles = muscleIds;
-    });
-    scp.$on('chosen.add', function(event, data) {
-      event.preventDefault();
-      event.stopPropagation();
-      return es.addMuscle(data).then(function(data) {
-        return scp.data.muscles.push(data);
-      });
-    });
     return scp.submitForm = function() {
-      if (scp.exrcForm.$valid && (scp.formData.muscles != null)) {
-        console.log(scp.formData);
-        return false;
-        return es.addExercise(scp.formData).then(function(data) {
+      var muscleIds;
+      if (scp.exrcForm.$valid && scp.addForm.muscles.length > 0) {
+        muscleIds = [];
+        _.each(scp.addForm.muscles, function(muscle) {
+          return muscleIds.push(muscle._id);
+        });
+        scp.addForm.muscles = muscleIds;
+        return es.addExercise(scp.addForm).then(function(data) {
           scp.data.exercises.push(data);
-          console.log(data);
-          scp.formData = {
+          scp.addForm = {
             title: '',
             descr: '',
-            muscles: null
+            muscles: []
           };
           $('#addExerciseModal').modal('hide');
           return scp.$broadcast('form.submit');
@@ -118,13 +113,15 @@ angular.module("BodyApp").directive("thChosen", [
       restrict: "E",
       scope: {
         options: "=",
-        addform: "=addform"
+        addform: "=addform",
+        selected: "="
       },
       replace: true,
       templateUrl: "tpl/chosen.tpl.html",
       link: function(scp, elm, atr) {
-        var _$menu, _adjustMenu, _selectedMuscleGroup;
-        scp.selected = [];
+        var _$menu, _adjustMenu, _selectedMuscleGroup, _watchForChanges;
+        scp.available = scp.options;
+        console.log(scp.available);
         scp.searchText = '';
         scp.newElement = '';
         scp.toggles = {
@@ -144,22 +141,20 @@ angular.module("BodyApp").directive("thChosen", [
             return _$menu.css('y', dif);
           }
         };
-        scp.$watch('[toggles.showMenu, toggles.showFilter, toggles.showAddForm]', function(nv, ov) {
-          if (_.contains(nv, true)) {
+        _watchForChanges = function() {
+          scp.$watch('[toggles.showMenu, toggles.showFilter, toggles.showAddForm]', function(nv, ov) {
+            if (_.contains(nv, true)) {
+              return _adjustMenu();
+            }
+          }, true);
+          return scp.$watch('options', function(nv, ov) {
             return _adjustMenu();
-          }
-        }, true);
-        scp.$watch('options', function(nv, ov) {
-          return _adjustMenu();
-        }, true);
+          }, true);
+        };
         scp.$on('dropdown.select', function(event, data) {
           event.preventDefault();
           event.stopPropagation();
           return _selectedMuscleGroup = data[0];
-        });
-        scp.$on('form.submit', function(event, data) {
-          scp.options = scp.options.concat(scp.selected);
-          return scp.selected = [];
         });
         scp.toggleMenu = function(event) {
           event.preventDefault();
@@ -219,7 +214,7 @@ angular.module("BodyApp").directive("thChosen", [
           event.preventDefault();
           event.stopPropagation();
           if (scp.newElement !== '' && _selectedMuscleGroup !== 0) {
-            scp.$emit('chosen.add', {
+            scp.options.push({
               name: scp.newElement,
               group: _selectedMuscleGroup
             });
@@ -299,14 +294,14 @@ angular.module("BodyApp").service("ExercisesService", [
         that = this;
         return that.getExercisesFromServer().then(function(exercises) {
           return that.getMusclesFromServer().then(function(muscles) {
-            return _.each(exercises, function(e) {
-              e.muscles = _.filter(muscles, function(val) {
-                return _.contains(e.muscles, val._id);
+            _.each(exercises, function(exercise) {
+              return exercise.muscles = _.filter(muscles, function(val) {
+                return _.contains(exercise.muscles, val._id);
               });
-              return that.$.trigger('data.loaded', {
-                exercises: exercises,
-                muscles: muscles
-              });
+            });
+            return that.$.trigger('data.loaded', {
+              exercises: exercises,
+              muscles: muscles
             });
           });
         });
@@ -591,7 +586,7 @@ angular.module("BodyApp").service("ExercisesService", [
         var deferred;
         deferred = q.defer();
         _es.apply(function() {
-          return deferred.resolve(_es.data.exercises);
+          return deferred.resolve(_.clone(_es.data.exercises));
         });
         return deferred.promise;
       },
@@ -599,7 +594,7 @@ angular.module("BodyApp").service("ExercisesService", [
         var deferred;
         deferred = q.defer();
         _es.apply(function() {
-          return deferred.resolve(_.findWhere(_.clone(_es.data.exercises, {
+          return deferred.resolve(_.clone(_.findWhere(_es.data.exercises, {
             _id: id
           })));
         });
@@ -625,7 +620,26 @@ angular.module("BodyApp").service("ExercisesService", [
         return deferred.promise;
       },
       addExercise: function(exercise) {
-        return _es.exercises(exercise);
+        var deferred;
+        deferred = q.defer();
+        htp({
+          method: "POST",
+          url: "/api/exercises/add",
+          data: exercise,
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Accept': 'application/json, text/plain, */*'
+          }
+        }).success(function(exercise, status, headers, config) {
+          exercise.muscles = _.filter(_es.data.muscles, function(val) {
+            return _.contains(exercise.muscles, val._id);
+          });
+          _es.data.exercises.push(exercise);
+          return deferred.resolve(_.clone(exercise));
+        }).error(function(data, status, headers, config) {
+          return deferred.reject(status);
+        });
+        return deferred.promise;
       },
       getMuscles: function() {
         var deferred;

@@ -7,13 +7,11 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 			that.$ = $(that)
 			that.initialized = false
 
-			that.$.one('data.loaded', ( event, data) ->
+			that.$.one 'data.loaded', ( event, data) ->
 				that.data = data
 				that.initialized = true
 				that.$.trigger('data.ready')
 
-				#lg.info that.data
-			)
 			that.initData()
 
 
@@ -22,14 +20,14 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 
 			that.getExercisesFromServer().then (exercises) ->
 				that.getMusclesFromServer().then (muscles) ->
-					_.each exercises, ( e ) ->
-						e.muscles = _.filter muscles, (val) ->
-							return _.contains( e.muscles, val._id )
+					_.each exercises, ( exercise ) ->
+						exercise.muscles = _.filter muscles, (val) ->
+							return _.contains( exercise.muscles, val._id )
 
-						that.$.trigger('data.loaded', {
-							exercises : exercises
-							muscles : muscles
-						})
+					that.$.trigger('data.loaded', {
+						exercises : exercises
+						muscles : muscles
+					})
 
 		getExercisesFromServer : ->
 			deferred = q.defer()
@@ -215,13 +213,13 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 		getExercises : ->
 			deferred = q.defer()
 			_es.apply ->
-				deferred.resolve( _es.data.exercises )
+				deferred.resolve( _.clone( _es.data.exercises ) )
 			return deferred.promise
 
 		getExercise : ( id ) ->
 			deferred = q.defer()
 			_es.apply ->
-				deferred.resolve( _.findWhere( _.clone(_es.data.exercises, {_id : id }) ) )
+				deferred.resolve( _.clone( _.findWhere( _es.data.exercises, {_id : id } ) ) )
 			return deferred.promise
 
 		addMuscle : ( muscle ) ->
@@ -250,7 +248,25 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 			#rsr('api/muscles/add').save( muscle ).$promise
 
 		addExercise : ( exercise ) ->
-			return _es.exercises( exercise)
+			deferred = q.defer()
+			htp(
+				method : "POST"
+				url : "/api/exercises/add"
+				data : exercise
+				headers: {
+					'Content-Type' : 'application/json;charset=UTF-8'
+					'Accept' : 'application/json, text/plain, */*'
+				}
+			).success( (exercise, status, headers, config) ->
+				exercise.muscles = _.filter _es.data.muscles, (val) ->
+					return _.contains( exercise.muscles, val._id )
+				_es.data.exercises.push( exercise )
+				deferred.resolve( _.clone( exercise) )
+			).error (data, status, headers, config) ->
+				deferred.reject( status )
+			return deferred.promise
+
+			#return _es.exercises( exercise)
 			#rsr('/api/exercises/add').save( exercise )
 
 		getMuscles : ->

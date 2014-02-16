@@ -18,7 +18,7 @@ div.exercises
 				i.fa.fa-search
 
 
-	p.bg-danger(ng-hide="data.exercises.length > 0" ) No entries
+	p.text-danger(ng-show="data.exercises.length == 0" ) No entries
 
 
 	ul.th-justified-list
@@ -81,7 +81,7 @@ div.exercises
 									type="text"
 									name="title"
 									placeholder="exercise title"
-									ng-model="formData.title"
+									ng-model="addForm.title"
 									ng-required="true"
 								)
 
@@ -92,7 +92,7 @@ div.exercises
 									id="exerciseDescrInp",
 									rows="3",
 									placeholder="exercise description",
-									ng-model="formData.descr"
+									ng-model="addForm.descr"
 								)
 
 						div.form-group
@@ -100,7 +100,7 @@ div.exercises
 							div.col-sm-10
 								//- div( th-chosen="data.muscles" )
 								//- TODO: add exercise directive instead of th-chosen
-								th-chosen( options="data.muscles", addform="data.addMuscleForm")
+								th-chosen( options="data.muscles", selected="addForm.muscles" addform="data.addMuscleForm")
 
 						div.form-group
 							div.col-sm-offset-2.col-sm-10

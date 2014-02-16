@@ -28,6 +28,9 @@ div.th-chosen(ng-click="toggleMenu($event)")
 					ng-class="{ 'disabled' : searchText == ''}"
 				)
 					i.fa.fa-times
+
+		p.text-danger(ng-show="options.length == 0" ) No entries
+
 		ul
 			li( ng-repeat="o in options | filter:searchText", ng-click="select( $index, $event )" )
 				span( ng-bind="o.name" )

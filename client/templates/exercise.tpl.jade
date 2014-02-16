@@ -7,6 +7,69 @@ div.exercise
 	p(ng-bind="exercise.descr")
 
 	ul.muscles
-		li(ng-repeat="m in exercise.muscles") 
+		li(ng-repeat="m in exercise.muscles")
 			i.fa.fa-male
 			span(ng-bind="m.name")
+
+	button.btn.btn-primary(
+		data-toggle="modal"
+		data-target="#editExerciseModal"
+	)
+		//-span.glyphicon.glyphicon-plus
+		i.fa.fa-pencil
+		span &nbsp;edit exercise
+
+	div.modal.fade(
+		id="editExerciseModal"
+		tabindex="-1"
+		role="dialog"
+	)
+		div.modal-dialog
+			div.modal-content
+				div.modal-header
+					button.close(
+						type="button"
+						data-dismiss="modal"
+						aria-hidden="true"
+					) &times;
+
+					h4.modal-title edit exercise
+
+				div.modal-body
+					form.form-horizontal(role="form", name="exrcForm", ng-submit="submitForm()")
+						div.form-group
+							label.col-sm-2.control-label(for="exrcTitleInp") Title
+							//- ( ng-class="{ 'has-error' : exrcForm.title.$invalid && !exrcForm.title.$pristine }" )
+							div.col-sm-10
+								input.form-control(
+									id="exrcTitleInp"
+									type="text"
+									name="title"
+									placeholder="exercise title"
+									ng-model="form.title"
+									ng-required="true"
+								)
+
+						div.form-group
+							label.col-sm-2.control-label(for="exerciseDescrInp") Description
+							div.col-sm-10
+								textarea.form-control(
+									id="exerciseDescrInp",
+									rows="3",
+									placeholder="exercise description",
+									ng-model="form.descr"
+								)
+
+						div.form-group
+							label.col-sm-2.control-label Muscles
+							div.col-sm-10
+								//- div( th-chosen="data.muscles" )
+								//- TODO: add exercise directive instead of th-chosen
+								th-chosen( options="muscles", addform="addMuscleForm", selected="form.muscles")
+
+						div.form-group
+							div.col-sm-offset-2.col-sm-10
+								button.btn.btn-default.pull-right(type="submit")
+									//- span.glyphicon.glyphicon-plus
+									i.fa.fa-refresh
+									span &nbsp;update exercise
