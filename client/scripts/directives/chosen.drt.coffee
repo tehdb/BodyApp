@@ -24,6 +24,8 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 
 		_selectedMuscleGroup = 0
 		_$menu = $(elm).find('.options')
+
+
 		_adjustMenu = ->
 			_$menu.css('y', 0)
 			wh = $(window).height() + $(document).scrollTop()
@@ -32,10 +34,23 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 			_$menu.css('y', dif) if dif < 0
 
 
-		unwatchOptions = scp.$watch 'options', (nv, ov) ->
-			if nv?
-				scp.available = angular.copy(nv)
-				unwatchOptions()
+		do _watchOptionChanges = ->
+			scp.$watch( 'options' , (nv,ov) ->
+				if nv? and not ov?
+					scp.available = angular.copy(nv)
+				else if nv? and ov? and nv isnt ov
+					lastIdx = nv.length - 1
+					newOption = nv[lastIdx]
+					if newOption._id?
+						scp.available.push( angular.copy(newOption) )
+			, true )
+
+
+		do _watchSelectedChanges = ->
+			scp.$watch( 'selected', (nv,ov) ->
+				if nv?.length is 0 and ov?.length > 0
+					scp.available = angular.copy( scp.options )
+			, true )
 
 
 		# do _watchForChanges = ->
@@ -50,14 +65,22 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 			, true )
 
 
+		scp.add = (event) ->
+			event.preventDefault()
+			event.stopPropagation()
+			if scp.newElement isnt '' and _selectedMuscleGroup isnt 0
+				newOption = {
+					name : scp.newElement
+					group : _selectedMuscleGroup
+				}
+				scp.options.push( newOption )
+				scp.newElement = ''
+
+
 		scp.$on 'dropdown.select', (event, data ) ->
 			event.preventDefault()
 			event.stopPropagation()
 			_selectedMuscleGroup = data[0]
-
-		# scp.$on 'form.submit', (event, data) ->
-		# 	scp.options = scp.options.concat( scp.selected )
-		# 	scp.selected = []
 
 		scp.toggleMenu = (event) ->
 			event.preventDefault()
@@ -85,39 +108,23 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 			event.preventDefault()
 			event.stopPropagation()
 
-			scp.selected.push( scp.available[index] )
-			scp.available.splice( index, 1)
-
-			console.log scp.options
-			console.log scp.available
-			console.log scp.selected
-
-			scp.toggles.showMenu = false
-
-		scp.select2 = ( index, event ) ->
-			event.preventDefault()
-			event.stopPropagation()
-
-			console.log scp.options
-
 			# select the right option from filtered options
 			if scp.searchText isnt ''
-				filtered = f("filter")( scp.options, scp.searchText )
+				filtered = f("filter")( scp.available, scp.searchText )
 				selected = filtered[index]
-
 				scp.selected.push( selected )
-				for opt, idx in scp.options
+				for opt, idx in scp.available
 					if opt.$$hashKey is selected.$$hashKey
-						scp.options.splice( idx, 1)
+						scp.available.splice( idx, 1)
 						break
 
 			# select unfiltered option
 			else
-				scp.selected.push( scp.options[index] )
-				scp.options.splice( index, 1)
+				scp.selected.push( scp.available[index] )
+				scp.available.splice( index, 1)
 
 			scp.toggles.showMenu = false
-			scp.$emit( 'chosen.update', [scp.selected] )
+
 
 		scp.prevent = (event) ->
 			event.preventDefault()
@@ -127,19 +134,4 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 			event.preventDefault()
 			event.stopPropagation()
 			scp.searchText = ""
-
-		scp.add = (event) ->
-			event.preventDefault()
-			event.stopPropagation()
-
-			if scp.newElement isnt '' and _selectedMuscleGroup isnt 0
-				scp.options.push({
-					name : scp.newElement
-					group : _selectedMuscleGroup
-				})
-				# scp.$emit( 'chosen.add', {
-				# 	name : scp.newElement
-				# 	group : _selectedMuscleGroup
-				# })
-				scp.newElement = ''
 ])

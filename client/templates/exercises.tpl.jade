@@ -14,7 +14,6 @@ div.exercises
 		input.form-control(type="text")
 		span.input-group-btn
 			button.btn.btn-default(type="button")
-				//-span.glyphicon.glyphicon-search
 				i.fa.fa-search
 
 
@@ -24,24 +23,17 @@ div.exercises
 	ul.th-justified-list
 		li(ng-repeat="exr in data.exercises")
 			div.thumb
-				//- span.glyphicon.glyphicon-ban-circle
 				i.fa.fa-picture-o
 
 			h2(ng-bind="exr.title")
 
-			//- p(ng-bind="exr.descr")
-			//- span.badge 117
-
 			a.btn.btn-default(role="button", ng-href="/#/exercise/{{exr._id}}")
-				//- span.glyphicon.glyphicon-chevron-right
 				i.fa.fa-chevron-right
 
 			ul.tags
 				li(ng-repeat="m in exr.muscles")
 					i.fa.fa-male
 					span(ng-bind="m.name")
-				//- li day 1
-				//- li day 2
 
 
 
@@ -49,7 +41,6 @@ div.exercises
 		data-toggle="modal"
 		data-target="#addExerciseModal"
 	)
-		//-span.glyphicon.glyphicon-plus
 		i.fa.fa-plus
 		span &nbsp;add exercise
 
@@ -98,14 +89,16 @@ div.exercises
 						div.form-group
 							label.col-sm-2.control-label Muscles
 							div.col-sm-10
-								//- div( th-chosen="data.muscles" )
-								//- TODO: add exercise directive instead of th-chosen
-								th-chosen( options="data.muscles", selected="addForm.muscles" addform="data.addMuscleForm")
+								//- TODO: generalize th-chosen
+								th-chosen(
+									options="data.muscles"
+									selected="addForm.muscles"
+									addform="data.addMuscleForm"
+								)
 
 						div.form-group
 							div.col-sm-offset-2.col-sm-10
 								button.btn.btn-default.pull-right(type="submit")
-									//- span.glyphicon.glyphicon-plus
 									i.fa.fa-plus
 									span &nbsp;add exercise
 

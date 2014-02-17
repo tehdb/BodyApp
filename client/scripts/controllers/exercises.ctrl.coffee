@@ -39,15 +39,25 @@ angular.module("BodyApp").controller "ExercisesCtrl", [ "$scope", "ExercisesServ
 	# 	es.addMuscle( data ).then (data) ->
 	# 		scp.data.muscles.push( data )
 
-	# scp.$watch( "data.muscles", (nv, ov) ->
-	# 	console.log nv, ov
-	# , true )
+	do watchMuscleChanges = ->
+		skip = false
+		scp.$watch( "data.muscles", (nv, ov) ->
+			if nv? and ov? and nv isnt ov
+				lastIdx = nv.length - 1
+				newMuscle = nv[lastIdx]
+				if skip
+					skip = false
+				else
+					es.addMuscle( newMuscle ).then (data) ->
+						scp.data.muscles[lastIdx] = data
+						skip = true
+		, true )
 
 	scp.submitForm = ->
 		if scp.exrcForm.$valid && scp.addForm.muscles.length > 0
 			muscleIds = []
 			_.each scp.addForm.muscles, (muscle) ->
-				muscleIds.push( muscle._id)
+				muscleIds.push( muscle._id )
 			scp.addForm.muscles = muscleIds
 
 			es.addExercise( scp.addForm ).then (data) ->

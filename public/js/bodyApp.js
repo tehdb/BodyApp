@@ -36,6 +36,7 @@ angular.module("BodyApp").controller("ExerciseCtrl", [
 
 angular.module("BodyApp").controller("ExercisesCtrl", [
   "$scope", "ExercisesService", function(scp, es) {
+    var watchMuscleChanges;
     scp.title = "exercices";
     scp.data = {
       addMuscleForm: es.getMuscleGroups(),
@@ -53,6 +54,25 @@ angular.module("BodyApp").controller("ExercisesCtrl", [
     es.getMuscles().then(function(data) {
       return scp.data.muscles = data;
     });
+    (watchMuscleChanges = function() {
+      var skip;
+      skip = false;
+      return scp.$watch("data.muscles", function(nv, ov) {
+        var lastIdx, newMuscle;
+        if ((nv != null) && (ov != null) && nv !== ov) {
+          lastIdx = nv.length - 1;
+          newMuscle = nv[lastIdx];
+          if (skip) {
+            return skip = false;
+          } else {
+            return es.addMuscle(newMuscle).then(function(data) {
+              scp.data.muscles[lastIdx] = data;
+              return skip = true;
+            });
+          }
+        }
+      }, true);
+    })();
     return scp.submitForm = function() {
       var muscleIds;
       if (scp.exrcForm.$valid && scp.addForm.muscles.length > 0) {
@@ -119,7 +139,7 @@ angular.module("BodyApp").directive("thChosen", [
       replace: true,
       templateUrl: "tpl/chosen.tpl.html",
       link: function(scp, elm, atr) {
-        var unwatchOptions, _$menu, _adjustMenu, _selectedMuscleGroup, _watchForChanges;
+        var _$menu, _adjustMenu, _selectedMuscleGroup, _watchForChanges, _watchOptionChanges, _watchSelectedChanges;
         scp.available = null;
         scp.searchText = '';
         scp.newElement = '';
@@ -140,12 +160,27 @@ angular.module("BodyApp").directive("thChosen", [
             return _$menu.css('y', dif);
           }
         };
-        unwatchOptions = scp.$watch('options', function(nv, ov) {
-          if (nv != null) {
-            scp.available = angular.copy(nv);
-            return unwatchOptions();
-          }
-        });
+        (_watchOptionChanges = function() {
+          return scp.$watch('options', function(nv, ov) {
+            var lastIdx, newOption;
+            if ((nv != null) && (ov == null)) {
+              return scp.available = angular.copy(nv);
+            } else if ((nv != null) && (ov != null) && nv !== ov) {
+              lastIdx = nv.length - 1;
+              newOption = nv[lastIdx];
+              if (newOption._id != null) {
+                return scp.available.push(angular.copy(newOption));
+              }
+            }
+          }, true);
+        })();
+        (_watchSelectedChanges = function() {
+          return scp.$watch('selected', function(nv, ov) {
+            if ((nv != null ? nv.length : void 0) === 0 && (ov != null ? ov.length : void 0) > 0) {
+              return scp.available = angular.copy(scp.options);
+            }
+          }, true);
+        })();
         _watchForChanges = function() {
           scp.$watch('[toggles.showMenu, toggles.showFilter, toggles.showAddForm]', function(nv, ov) {
             if (_.contains(nv, true)) {
@@ -155,6 +190,19 @@ angular.module("BodyApp").directive("thChosen", [
           return scp.$watch('options', function(nv, ov) {
             return _adjustMenu();
           }, true);
+        };
+        scp.add = function(event) {
+          var newOption;
+          event.preventDefault();
+          event.stopPropagation();
+          if (scp.newElement !== '' && _selectedMuscleGroup !== 0) {
+            newOption = {
+              name: scp.newElement,
+              group: _selectedMuscleGroup
+            };
+            scp.options.push(newOption);
+            return scp.newElement = '';
+          }
         };
         scp.$on('dropdown.select', function(event, data) {
           event.preventDefault();
@@ -184,58 +232,35 @@ angular.module("BodyApp").directive("thChosen", [
           return scp.selected.splice(index, 1);
         };
         scp.select = function(index, event) {
-          event.preventDefault();
-          event.stopPropagation();
-          scp.selected.push(scp.available[index]);
-          scp.available.splice(index, 1);
-          console.log(scp.options);
-          console.log(scp.available);
-          console.log(scp.selected);
-          return scp.toggles.showMenu = false;
-        };
-        scp.select2 = function(index, event) {
           var filtered, idx, opt, selected, _i, _len, _ref;
           event.preventDefault();
           event.stopPropagation();
-          console.log(scp.options);
           if (scp.searchText !== '') {
-            filtered = f("filter")(scp.options, scp.searchText);
+            filtered = f("filter")(scp.available, scp.searchText);
             selected = filtered[index];
             scp.selected.push(selected);
-            _ref = scp.options;
+            _ref = scp.available;
             for (idx = _i = 0, _len = _ref.length; _i < _len; idx = ++_i) {
               opt = _ref[idx];
               if (opt.$$hashKey === selected.$$hashKey) {
-                scp.options.splice(idx, 1);
+                scp.available.splice(idx, 1);
                 break;
               }
             }
           } else {
-            scp.selected.push(scp.options[index]);
-            scp.options.splice(index, 1);
+            scp.selected.push(scp.available[index]);
+            scp.available.splice(index, 1);
           }
-          scp.toggles.showMenu = false;
-          return scp.$emit('chosen.update', [scp.selected]);
+          return scp.toggles.showMenu = false;
         };
         scp.prevent = function(event) {
           event.preventDefault();
           return event.stopPropagation();
         };
-        scp.clear = function(event) {
+        return scp.clear = function(event) {
           event.preventDefault();
           event.stopPropagation();
           return scp.searchText = "";
-        };
-        return scp.add = function(event) {
-          event.preventDefault();
-          event.stopPropagation();
-          if (scp.newElement !== '' && _selectedMuscleGroup !== 0) {
-            scp.options.push({
-              name: scp.newElement,
-              group: _selectedMuscleGroup
-            });
-            return scp.newElement = '';
-          }
         };
       }
     };
