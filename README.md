@@ -1,9 +1,15 @@
 ToDo
  - fiter exercises
- - exercses page
- - edit exercise
- - delete exercise
+ - style exercse page
+ - edit/delete exercise
+ - set list
+ - add/edit set dialog
+ - progress diagram
+ - zoom exercise image
+ - exercise animation
+ - training days page
 
+ 
 Get started
 
 	npm install		# get required node.js modules
