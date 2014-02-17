@@ -39,7 +39,7 @@ angular.module("BodyApp").controller("ExercisesCtrl", [
     var watchMuscleChanges;
     scp.title = "exercices";
     scp.data = {
-      addMuscleForm: es.getMuscleGroups(),
+      muscleGroups: es.getMuscleGroups(),
       muscles: null,
       exercises: null
     };
@@ -127,146 +127,6 @@ angular.module("BodyApp").controller("MainCtrl", [
   }
 ]);
 
-angular.module("BodyApp").directive("thChosen", [
-  "$q", "$timeout", "$compile", "$templateCache", "$filter", function(q, tmt, cpl, tch, f) {
-    return {
-      restrict: "E",
-      scope: {
-        options: "=",
-        addform: "=addform",
-        selected: "="
-      },
-      replace: true,
-      templateUrl: "tpl/chosen.tpl.html",
-      link: function(scp, elm, atr) {
-        var _$menu, _adjustMenu, _selectedMuscleGroup, _watchForChanges, _watchOptionChanges, _watchSelectedChanges;
-        scp.available = null;
-        scp.searchText = '';
-        scp.newElement = '';
-        scp.toggles = {
-          showMenu: false,
-          showFilter: false,
-          showAddForm: false
-        };
-        _selectedMuscleGroup = 0;
-        _$menu = $(elm).find('.options');
-        _adjustMenu = function() {
-          var dif, mh, wh;
-          _$menu.css('y', 0);
-          wh = $(window).height() + $(document).scrollTop();
-          mh = _$menu.outerHeight() + _$menu.offset().top + 10;
-          dif = wh - mh;
-          if (dif < 0) {
-            return _$menu.css('y', dif);
-          }
-        };
-        (_watchOptionChanges = function() {
-          return scp.$watch('options', function(nv, ov) {
-            var lastIdx, newOption;
-            if ((nv != null) && (ov == null)) {
-              return scp.available = angular.copy(nv);
-            } else if ((nv != null) && (ov != null) && nv !== ov) {
-              lastIdx = nv.length - 1;
-              newOption = nv[lastIdx];
-              if (newOption._id != null) {
-                return scp.available.push(angular.copy(newOption));
-              }
-            }
-          }, true);
-        })();
-        (_watchSelectedChanges = function() {
-          return scp.$watch('selected', function(nv, ov) {
-            if ((nv != null ? nv.length : void 0) === 0 && (ov != null ? ov.length : void 0) > 0) {
-              return scp.available = angular.copy(scp.options);
-            }
-          }, true);
-        })();
-        _watchForChanges = function() {
-          scp.$watch('[toggles.showMenu, toggles.showFilter, toggles.showAddForm]', function(nv, ov) {
-            if (_.contains(nv, true)) {
-              return _adjustMenu();
-            }
-          }, true);
-          return scp.$watch('options', function(nv, ov) {
-            return _adjustMenu();
-          }, true);
-        };
-        scp.add = function(event) {
-          var newOption;
-          event.preventDefault();
-          event.stopPropagation();
-          if (scp.newElement !== '' && _selectedMuscleGroup !== 0) {
-            newOption = {
-              name: scp.newElement,
-              group: _selectedMuscleGroup
-            };
-            scp.options.push(newOption);
-            return scp.newElement = '';
-          }
-        };
-        scp.$on('dropdown.select', function(event, data) {
-          event.preventDefault();
-          event.stopPropagation();
-          return _selectedMuscleGroup = data[0];
-        });
-        scp.toggleMenu = function(event) {
-          event.preventDefault();
-          event.stopPropagation();
-          scp.searchText = "";
-          return scp.toggles.showMenu = !scp.toggles.showMenu;
-        };
-        scp.toggleFilter = function(event) {
-          event.preventDefault();
-          event.stopPropagation();
-          return scp.toggles.showFilter = !scp.toggles.showFilter;
-        };
-        scp.toggleAddForm = function(event) {
-          event.preventDefault();
-          event.stopPropagation();
-          return scp.toggles.showAddForm = !scp.toggles.showAddForm;
-        };
-        scp.unselect = function(index, event) {
-          event.preventDefault();
-          event.stopPropagation();
-          scp.options.push(scp.selected[index]);
-          return scp.selected.splice(index, 1);
-        };
-        scp.select = function(index, event) {
-          var filtered, idx, opt, selected, _i, _len, _ref;
-          event.preventDefault();
-          event.stopPropagation();
-          if (scp.searchText !== '') {
-            filtered = f("filter")(scp.available, scp.searchText);
-            selected = filtered[index];
-            scp.selected.push(selected);
-            _ref = scp.available;
-            for (idx = _i = 0, _len = _ref.length; _i < _len; idx = ++_i) {
-              opt = _ref[idx];
-              if (opt.$$hashKey === selected.$$hashKey) {
-                scp.available.splice(idx, 1);
-                break;
-              }
-            }
-          } else {
-            scp.selected.push(scp.available[index]);
-            scp.available.splice(index, 1);
-          }
-          return scp.toggles.showMenu = false;
-        };
-        scp.prevent = function(event) {
-          event.preventDefault();
-          return event.stopPropagation();
-        };
-        return scp.clear = function(event) {
-          event.preventDefault();
-          event.stopPropagation();
-          return scp.searchText = "";
-        };
-      }
-    };
-  }
-]);
-
 angular.module("BodyApp").directive("thDropdown", [
   function() {
     return {
@@ -307,6 +167,148 @@ angular.module("BodyApp").directive("thDropdown", [
           event.preventDefault();
           event.stopPropagation();
           return scp.hideMenu = !scp.hideMenu;
+        };
+      }
+    };
+  }
+]);
+
+angular.module("BodyApp").directive("muscleChosen", [
+  "$q", "$timeout", "$compile", "$templateCache", "$filter", function(q, tmt, cpl, tch, f) {
+    return {
+      restrict: "E",
+      scope: {
+        options: "=",
+        groups: "=addform",
+        selected: "="
+      },
+      replace: true,
+      templateUrl: "tpl/muscle-chosen.tpl.html",
+      link: function(scp, elm, atr) {
+        var _$menu, _adjustMenu, _selectedMuscleGroup, _watchForChanges, _watchOptionChanges, _watchSelectedChanges;
+        scp.data = {
+          available: null,
+          searchText: '',
+          newOption: ''
+        };
+        scp.toggles = {
+          showMenu: false,
+          showFilter: false,
+          showAddForm: false
+        };
+        _selectedMuscleGroup = 0;
+        _$menu = $(elm).find('.options');
+        _adjustMenu = function() {
+          var dif, mh, wh;
+          _$menu.css('y', 0);
+          wh = $(window).height() + $(document).scrollTop();
+          mh = _$menu.outerHeight() + _$menu.offset().top + 10;
+          dif = wh - mh;
+          if (dif < 0) {
+            return _$menu.css('y', dif);
+          }
+        };
+        (_watchOptionChanges = function() {
+          return scp.$watch('options', function(nv, ov) {
+            var lastIdx, newOption;
+            if ((nv != null) && (ov == null)) {
+              return scp.data.available = angular.copy(nv);
+            } else if ((nv != null) && (ov != null) && nv !== ov) {
+              lastIdx = nv.length - 1;
+              newOption = nv[lastIdx];
+              if (newOption._id != null) {
+                return scp.data.available.push(angular.copy(newOption));
+              }
+            }
+          }, true);
+        })();
+        (_watchSelectedChanges = function() {
+          return scp.$watch('selected', function(nv, ov) {
+            if ((nv != null ? nv.length : void 0) === 0 && (ov != null ? ov.length : void 0) > 0) {
+              return scp.data.available = angular.copy(scp.options);
+            }
+          }, true);
+        })();
+        _watchForChanges = function() {
+          scp.$watch('[toggles.showMenu, toggles.showFilter, toggles.showAddForm]', function(nv, ov) {
+            if (_.contains(nv, true)) {
+              return _adjustMenu();
+            }
+          }, true);
+          return scp.$watch('options', function(nv, ov) {
+            return _adjustMenu();
+          }, true);
+        };
+        scp.add = function(event) {
+          var newOption;
+          event.preventDefault();
+          event.stopPropagation();
+          if (scp.data.newOption !== '' && _selectedMuscleGroup !== 0) {
+            newOption = {
+              name: scp.data.newOption,
+              group: _selectedMuscleGroup
+            };
+            scp.options.push(newOption);
+            return scp.data.newOption = '';
+          }
+        };
+        scp.$on('dropdown.select', function(event, data) {
+          event.preventDefault();
+          event.stopPropagation();
+          return _selectedMuscleGroup = data[0];
+        });
+        scp.toggleMenu = function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+          scp.data.searchText = "";
+          return scp.toggles.showMenu = !scp.toggles.showMenu;
+        };
+        scp.toggleFilter = function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+          return scp.toggles.showFilter = !scp.toggles.showFilter;
+        };
+        scp.toggleAddForm = function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+          return scp.toggles.showAddForm = !scp.toggles.showAddForm;
+        };
+        scp.unselect = function(index, event) {
+          event.preventDefault();
+          event.stopPropagation();
+          scp.options.push(scp.selected[index]);
+          return scp.selected.splice(index, 1);
+        };
+        scp.select = function(index, event) {
+          var filtered, idx, opt, selected, _i, _len, _ref;
+          event.preventDefault();
+          event.stopPropagation();
+          if (scp.data.searchText !== '') {
+            filtered = f("filter")(scp.data.available, scp.data.searchText);
+            selected = filtered[index];
+            scp.selected.push(selected);
+            _ref = scp.data.available;
+            for (idx = _i = 0, _len = _ref.length; _i < _len; idx = ++_i) {
+              opt = _ref[idx];
+              if (opt.$$hashKey === selected.$$hashKey) {
+                scp.data.available.splice(idx, 1);
+                break;
+              }
+            }
+          } else {
+            scp.selected.push(scp.data.available[index]);
+            scp.data.available.splice(index, 1);
+          }
+          return scp.toggles.showMenu = false;
+        };
+        scp.prevent = function(event) {
+          event.preventDefault();
+          return event.stopPropagation();
+        };
+        return scp.clear = function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+          return scp.data.searchText = "";
         };
       }
     };

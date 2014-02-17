@@ -90,10 +90,10 @@ div.exercises
 							label.col-sm-2.control-label Muscles
 							div.col-sm-10
 								//- TODO: generalize th-chosen
-								th-chosen(
+								muscle-chosen(
 									options="data.muscles"
 									selected="addForm.muscles"
-									addform="data.addMuscleForm"
+									groups="data.muscleGroups"
 								)
 
 						div.form-group

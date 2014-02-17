@@ -1,3 +1,8 @@
+ToDo
+ - fiter exercises
+ - exercses page
+ - edit exercise
+ - delete exercise
 
 Get started
 

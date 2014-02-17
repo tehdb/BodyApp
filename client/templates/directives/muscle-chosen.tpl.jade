@@ -18,21 +18,21 @@ div.th-chosen(ng-click="toggleMenu($event)")
 			input.form-control.filter(
 				type="text",
 				placeholder="filter",
-				ng-model="searchText",
+				ng-model="data.searchText",
 				ng-click="prevent($event)"
 			)
 			span.input-group-btn
 				button.btn.btn-default(
 					type="button",
 					ng-click="clear( $event )",
-					ng-class="{ 'disabled' : searchText == ''}"
+					ng-class="{ 'disabled' : data.searchText == ''}"
 				)
 					i.fa.fa-times
 
 		p.text-danger(ng-show="options.length == 0" ) No entries
 
 		ul
-			li( ng-repeat="o in available | filter:searchText", ng-click="select( $index, $event )" )
+			li( ng-repeat="o in data.available | filter:data.searchText", ng-click="select( $index, $event )" )
 				span( ng-bind="o.name" )
 
 
@@ -41,20 +41,20 @@ div.th-chosen(ng-click="toggleMenu($event)")
 		//- TODO: make the form dynamic
 		div.input-group.add-form(ng-show="toggles.showAddForm")
 			//- div.input-group-btn
-			th-dropdown(options="addform", class="input-group-btn")
+			th-dropdown(options="groups", class="input-group-btn")
 
 			input.form-control(
 				type="text",
 				placeholder="add element",
 				ng-click="prevent($event)",
-				ng-model="newElement"
+				ng-model="data.newOption"
 			)
 
 			span.input-group-btn
 				button.btn.btn-default(
 					type="button",
 					ng-click="add( $event )",
-					ng-class="{ 'disabled' : newElement == ''}"
+					ng-class="{ 'disabled' : data.newOption == ''}"
 				)
 					i.fa.fa-plus
 

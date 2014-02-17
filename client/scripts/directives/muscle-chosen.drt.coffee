@@ -1,20 +1,21 @@
-angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile", "$templateCache", "$filter", ( q, tmt, cpl, tch, f ) ->
+angular.module("BodyApp").directive( "muscleChosen", [ "$q", "$timeout", "$compile", "$templateCache", "$filter", ( q, tmt, cpl, tch, f ) ->
 	restrict : "E"
 	scope : {
 		options : "=" # or "=options"
-		addform : "=addform"
+		groups : "=addform"
 		selected : "="
 	}
 	replace : true
-	templateUrl : "tpl/chosen.tpl.html"
+	templateUrl : "tpl/muscle-chosen.tpl.html"
 
 	link : (scp, elm, atr ) ->
 		#console.log scp.selected
 		#scp.selected = scp.selected || []
-		scp.available = null
-
-		scp.searchText = ''
-		scp.newElement = ''
+		scp.data = {
+			available : null
+			searchText : ''
+			newOption : ''
+		}
 
 		scp.toggles = {
 			showMenu : false
@@ -24,7 +25,6 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 
 		_selectedMuscleGroup = 0
 		_$menu = $(elm).find('.options')
-
 
 		_adjustMenu = ->
 			_$menu.css('y', 0)
@@ -37,19 +37,19 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 		do _watchOptionChanges = ->
 			scp.$watch( 'options' , (nv,ov) ->
 				if nv? and not ov?
-					scp.available = angular.copy(nv)
+					scp.data.available = angular.copy(nv)
 				else if nv? and ov? and nv isnt ov
 					lastIdx = nv.length - 1
 					newOption = nv[lastIdx]
 					if newOption._id?
-						scp.available.push( angular.copy(newOption) )
+						scp.data.available.push( angular.copy(newOption) )
 			, true )
 
 
 		do _watchSelectedChanges = ->
 			scp.$watch( 'selected', (nv,ov) ->
 				if nv?.length is 0 and ov?.length > 0
-					scp.available = angular.copy( scp.options )
+					scp.data.available = angular.copy( scp.options )
 			, true )
 
 
@@ -68,13 +68,13 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 		scp.add = (event) ->
 			event.preventDefault()
 			event.stopPropagation()
-			if scp.newElement isnt '' and _selectedMuscleGroup isnt 0
+			if scp.data.newOption isnt '' and _selectedMuscleGroup isnt 0
 				newOption = {
-					name : scp.newElement
+					name : scp.data.newOption
 					group : _selectedMuscleGroup
 				}
 				scp.options.push( newOption )
-				scp.newElement = ''
+				scp.data.newOption = ''
 
 
 		scp.$on 'dropdown.select', (event, data ) ->
@@ -85,7 +85,7 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 		scp.toggleMenu = (event) ->
 			event.preventDefault()
 			event.stopPropagation()
-			scp.searchText = ""
+			scp.data.searchText = ""
 			scp.toggles.showMenu = !scp.toggles.showMenu
 
 		scp.toggleFilter = (event) ->
@@ -109,19 +109,19 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 			event.stopPropagation()
 
 			# select the right option from filtered options
-			if scp.searchText isnt ''
-				filtered = f("filter")( scp.available, scp.searchText )
+			if scp.data.searchText isnt ''
+				filtered = f("filter")( scp.data.available, scp.data.searchText )
 				selected = filtered[index]
 				scp.selected.push( selected )
-				for opt, idx in scp.available
+				for opt, idx in scp.data.available
 					if opt.$$hashKey is selected.$$hashKey
-						scp.available.splice( idx, 1)
+						scp.data.available.splice( idx, 1)
 						break
 
 			# select unfiltered option
 			else
-				scp.selected.push( scp.available[index] )
-				scp.available.splice( index, 1)
+				scp.selected.push( scp.data.available[index] )
+				scp.data.available.splice( index, 1)
 
 			scp.toggles.showMenu = false
 
@@ -133,5 +133,5 @@ angular.module("BodyApp").directive( "thChosen", [ "$q", "$timeout", "$compile",
 		scp.clear = (event) ->
 			event.preventDefault()
 			event.stopPropagation()
-			scp.searchText = ""
+			scp.data.searchText = ""
 ])

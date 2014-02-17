@@ -2,8 +2,8 @@ angular.module("BodyApp").controller "ExercisesCtrl", [ "$scope", "ExercisesServ
 	scp.title = "exercices"
 
 	scp.data = {
-		#muscleGroups : es.getMuscleGroups()
-		addMuscleForm : es.getMuscleGroups()
+		muscleGroups : es.getMuscleGroups()
+		#addMuscleForm : es.getMuscleGroups()
 		muscles : null
 		exercises : null
 	}
