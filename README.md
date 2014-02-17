@@ -8,6 +8,7 @@ ToDo
  - zoom exercise image
  - exercise animation
  - training days page
+ - use npm passport for user authentication
 
  
 Get started
@@ -22,7 +23,6 @@ Get started
 
 
 
-use npm passport for user authentication
 
 set/get enviroment variables
 
