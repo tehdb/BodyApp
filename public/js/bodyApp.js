@@ -31,8 +31,7 @@ angular.module("BodyApp").controller("ExerciseCtrl", [
       var exercise;
       exercise = _.pick(scp.data.exercise, '_id', 'title', 'descr');
       exercise.muscles = _.pluck(scp.data.exercise.muscles, '_id');
-      return es.addExercise(exercise).then(function(data) {
-        console.info(data);
+      return es.updateExercise(exercise).then(function(data) {
         return $('#editExerciseModal').modal('hide');
       });
     };
@@ -542,6 +541,38 @@ angular.module("BodyApp").service("ExercisesService", [
         }
       };
 
+      ExercisesService.prototype.upsertExercise = function(action, exercise, deferred) {
+        var that;
+        that = this;
+        return htp({
+          method: "POST",
+          url: "/api/exercises/add",
+          data: exercise,
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Accept': 'application/json, text/plain, */*'
+          }
+        }).success(function(exercise, status, headers, config) {
+          exercise.muscles = _.filter(_es.data.muscles, function(val) {
+            return _.contains(exercise.muscles, val._id);
+          });
+          switch (action) {
+            case 'insert':
+              that.data.exercises.push(exercise);
+              break;
+            case 'update':
+              _.each(that.data.exercises, function(element, index) {
+                if (element._id === exercise._id) {
+                  return that.data.exercises[index] = exercise;
+                }
+              });
+          }
+          return deferred.resolve(_.clone(exercise));
+        }).error(function(data, status, headers, config) {
+          return deferred.reject(status);
+        });
+      };
+
       return ExercisesService;
 
     })();
@@ -653,23 +684,13 @@ angular.module("BodyApp").service("ExercisesService", [
       addExercise: function(exercise) {
         var deferred;
         deferred = q.defer();
-        htp({
-          method: "POST",
-          url: "/api/exercises/add",
-          data: exercise,
-          headers: {
-            'Content-Type': 'application/json;charset=UTF-8',
-            'Accept': 'application/json, text/plain, */*'
-          }
-        }).success(function(exercise, status, headers, config) {
-          exercise.muscles = _.filter(_es.data.muscles, function(val) {
-            return _.contains(exercise.muscles, val._id);
-          });
-          _es.data.exercises.push(exercise);
-          return deferred.resolve(_.clone(exercise));
-        }).error(function(data, status, headers, config) {
-          return deferred.reject(status);
-        });
+        _es.upsertExercise("insert", exercise, deferred);
+        return deferred.promise;
+      },
+      updateExercise: function(exercise) {
+        var deferred;
+        deferred = q.defer();
+        _es.upsertExercise("update", exercise, deferred);
         return deferred.promise;
       },
       getMuscles: function() {

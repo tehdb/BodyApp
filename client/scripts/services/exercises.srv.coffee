@@ -199,6 +199,33 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 				@.$.one 'data.ready', ->
 					cb()
 
+		upsertExercise : (action, exercise, deferred) ->
+			that = @
+			htp(
+				method : "POST"
+				url : "/api/exercises/add"
+				data : exercise
+				headers: {
+					'Content-Type' : 'application/json;charset=UTF-8'
+					'Accept' : 'application/json, text/plain, */*'
+				}
+			).success( (exercise, status, headers, config) ->
+				exercise.muscles = _.filter _es.data.muscles, (val) ->
+					return _.contains( exercise.muscles, val._id )
+
+				switch action
+					when 'insert'
+						that.data.exercises.push( exercise )
+					when 'update'
+						# TODO: find out how to break the each loop
+						_.each that.data.exercises, (element, index) ->
+							if element._id is exercise._id
+								that.data.exercises[index] = exercise
+
+				deferred.resolve( _.clone( exercise ) )
+			).error (data, status, headers, config) ->
+				deferred.reject( status )
+
 
 
 
@@ -249,21 +276,12 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 
 		addExercise : ( exercise ) ->
 			deferred = q.defer()
-			htp(
-				method : "POST"
-				url : "/api/exercises/add"
-				data : exercise
-				headers: {
-					'Content-Type' : 'application/json;charset=UTF-8'
-					'Accept' : 'application/json, text/plain, */*'
-				}
-			).success( (exercise, status, headers, config) ->
-				exercise.muscles = _.filter _es.data.muscles, (val) ->
-					return _.contains( exercise.muscles, val._id )
-				_es.data.exercises.push( exercise )
-				deferred.resolve( _.clone( exercise) )
-			).error (data, status, headers, config) ->
-				deferred.reject( status )
+			_es.upsertExercise( "insert", exercise, deferred )
+			return deferred.promise
+
+		updateExercise : (exercise) ->
+			deferred = q.defer()
+			_es.upsertExercise( "update", exercise, deferred )
 			return deferred.promise
 
 
