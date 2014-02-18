@@ -3,10 +3,15 @@ angular.module("BodyApp").controller "ExercisesCtrl", [ "$scope", "ExercisesServ
 
 	scp.data = {
 		muscleGroups : es.getMuscleGroups()
-		#addMuscleForm : es.getMuscleGroups()
+		muscleGroup : null
 		muscles : null
 		exercises : null
+		filtered : null
+		searchText : ''
 	}
+
+	scp.data.muscleGroup = scp.data.muscleGroups[0]
+
 	scp.addForm = {
 		title : ''
 		descr : ''
@@ -21,37 +26,26 @@ angular.module("BodyApp").controller "ExercisesCtrl", [ "$scope", "ExercisesServ
 	es.getMuscles().then (data) ->
 		scp.data.muscles = data
 
+	# do filterExercisesByMusclegroup = ->
+	# 	scp.$watch( "data.muscleGroup", (nv,ov) ->
+	# 		if nv?
+	# 			console.log nv
+	# 	, true)
 
-	# scp.$on 'chosen.update', (event, data) ->
-	# 	event.preventDefault()
-	# 	event.stopPropagation()
-	# 	muscleIds = []
-	# 	for muscle in data[0]
-	# 		muscleIds.push( muscle._id )
 
-	# 	scp.formData.muscles = muscleIds
-
-	# add new muscle
-	# scp.$on 'chosen.add', (event, data) ->
-	# 	event.preventDefault()
-	# 	event.stopPropagation()
-
-	# 	es.addMuscle( data ).then (data) ->
-	# 		scp.data.muscles.push( data )
-
-	do watchMuscleChanges = ->
-		skip = false
-		scp.$watch( "data.muscles", (nv, ov) ->
-			if nv? and ov? and nv isnt ov
-				lastIdx = nv.length - 1
-				newMuscle = nv[lastIdx]
-				if skip
-					skip = false
-				else
-					es.addMuscle( newMuscle ).then (data) ->
-						scp.data.muscles[lastIdx] = data
-						skip = true
-		, true )
+	# do watchMuscleChanges = ->
+	# 	skip = false
+	# 	scp.$watch( "data.muscles", (nv, ov) ->
+	# 		if nv? and ov? and nv isnt ov
+	# 			lastIdx = nv.length - 1
+	# 			newMuscle = nv[lastIdx]
+	# 			if skip
+	# 				skip = false
+	# 			else
+	# 				es.addMuscle( newMuscle ).then (data) ->
+	# 					scp.data.muscles[lastIdx] = data
+	# 					skip = true
+	# 	, true )
 
 	scp.submitForm = ->
 		if scp.exrcForm.$valid && scp.addForm.muscles.length > 0
@@ -68,7 +62,6 @@ angular.module("BodyApp").controller "ExercisesCtrl", [ "$scope", "ExercisesServ
 					muscles : []
 				}
 				$('#addExerciseModal').modal('hide')
-				scp.$broadcast('form.submit')
+				#scp.$broadcast('form.submit')
 
-
-] #MainCtrl
+]

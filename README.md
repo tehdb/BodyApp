@@ -1,5 +1,5 @@
 ToDo
- - fiter exercises
+ - ~~fiter exercises~~
  - style exercse page
  - edit/delete exercise
  - set list

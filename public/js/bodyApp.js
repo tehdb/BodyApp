@@ -17,32 +17,40 @@ angular.module("BodyApp", ["ngRoute", "ngResource"]).constant("Settings", {}).co
 
 angular.module("BodyApp").controller("ExerciseCtrl", [
   "$scope", "$routeParams", "ExercisesService", function(scp, rps, es) {
-    return es.getExercise(rps.id).then(function(exercise) {
-      scp.exercise = exercise;
-      es.getMuscles().then(function(muscles) {
-        return scp.muscles = muscles;
-      });
-      scp.form = {
-        title: exercise.title,
-        descr: exercise.descr,
-        muscles: exercise.muscles
-      };
-      return scp.submitForm = function() {
-        return console.log(scp.formData);
-      };
+    scp.data = {
+      exercise: null,
+      muscles: null
+    };
+    es.getExercise(rps.id).then(function(exercise) {
+      return scp.data.exercise = exercise;
     });
+    es.getMuscles().then(function(muscles) {
+      return scp.data.muscles = muscles;
+    });
+    return scp.submitForm = function() {
+      var exercise;
+      exercise = _.pick(scp.data.exercise, '_id', 'title', 'descr');
+      exercise.muscles = _.pluck(scp.data.exercise.muscles, '_id');
+      return es.addExercise(exercise).then(function(data) {
+        console.info(data);
+        return $('#editExerciseModal').modal('hide');
+      });
+    };
   }
 ]);
 
 angular.module("BodyApp").controller("ExercisesCtrl", [
   "$scope", "ExercisesService", function(scp, es) {
-    var watchMuscleChanges;
     scp.title = "exercices";
     scp.data = {
       muscleGroups: es.getMuscleGroups(),
+      muscleGroup: null,
       muscles: null,
-      exercises: null
+      exercises: null,
+      filtered: null,
+      searchText: ''
     };
+    scp.data.muscleGroup = scp.data.muscleGroups[0];
     scp.addForm = {
       title: '',
       descr: '',
@@ -54,25 +62,6 @@ angular.module("BodyApp").controller("ExercisesCtrl", [
     es.getMuscles().then(function(data) {
       return scp.data.muscles = data;
     });
-    (watchMuscleChanges = function() {
-      var skip;
-      skip = false;
-      return scp.$watch("data.muscles", function(nv, ov) {
-        var lastIdx, newMuscle;
-        if ((nv != null) && (ov != null) && nv !== ov) {
-          lastIdx = nv.length - 1;
-          newMuscle = nv[lastIdx];
-          if (skip) {
-            return skip = false;
-          } else {
-            return es.addMuscle(newMuscle).then(function(data) {
-              scp.data.muscles[lastIdx] = data;
-              return skip = true;
-            });
-          }
-        }
-      }, true);
-    })();
     return scp.submitForm = function() {
       var muscleIds;
       if (scp.exrcForm.$valid && scp.addForm.muscles.length > 0) {
@@ -88,8 +77,7 @@ angular.module("BodyApp").controller("ExercisesCtrl", [
             descr: '',
             muscles: []
           };
-          $('#addExerciseModal').modal('hide');
-          return scp.$broadcast('form.submit');
+          return $('#addExerciseModal').modal('hide');
         });
       }
     };
@@ -134,34 +122,19 @@ angular.module("BodyApp").directive("thDropdown", [
       replace: true,
       scope: {
         options: "=options",
+        selected: "=selected",
         "class": "@class"
       },
       templateUrl: "tpl/dropdown.tpl.html",
       link: function(scp, elm, atr) {
         var _$menu;
         scp.hideMenu = true;
-        scp.selected = {
-          name: "Select"
-        };
         _$menu = $(elm).find('.th-menu');
-        scp.$watch('hideMenu', function(nv, ov) {
-          var dif, mh, wh;
-          if (nv === false) {
-            _$menu.css('y', 0);
-            wh = $(window).height() + $(document).scrollTop();
-            mh = _$menu.outerHeight() + _$menu.offset().top + 10;
-            dif = wh - mh;
-            if (dif < 0) {
-              return _$menu.css('y', dif);
-            }
-          }
-        });
         scp.select = function(event, idx) {
           event.preventDefault();
           event.stopPropagation();
           scp.selected = scp.options[idx];
-          scp.hideMenu = true;
-          return scp.$emit('dropdown.select', [scp.selected.id]);
+          return scp.hideMenu = true;
         };
         return scp.toggle = function(event) {
           event.preventDefault();
@@ -174,29 +147,30 @@ angular.module("BodyApp").directive("thDropdown", [
 ]);
 
 angular.module("BodyApp").directive("muscleChosen", [
-  "$q", "$timeout", "$compile", "$templateCache", "$filter", function(q, tmt, cpl, tch, f) {
+  "$q", "$timeout", "$compile", "$templateCache", "ExercisesService", function(q, tmt, cpl, tch, es) {
     return {
       restrict: "E",
       scope: {
         options: "=",
-        groups: "=addform",
         selected: "="
       },
       replace: true,
       templateUrl: "tpl/muscle-chosen.tpl.html",
       link: function(scp, elm, atr) {
-        var _$menu, _adjustMenu, _selectedMuscleGroup, _watchForChanges, _watchOptionChanges, _watchSelectedChanges;
+        var _$menu, _adjustMenu, _watchForChanges, _watchOptionChanges, _watchSelectedChanges;
         scp.data = {
           available: null,
           searchText: '',
-          newOption: ''
+          newMuscle: '',
+          muscleGroups: es.getMuscleGroups(),
+          muscleGroup: null
         };
+        scp.data.muscleGroup = scp.data.muscleGroups[0];
         scp.toggles = {
           showMenu: false,
           showFilter: false,
           showAddForm: false
         };
-        _selectedMuscleGroup = 0;
         _$menu = $(elm).find('.options');
         _adjustMenu = function() {
           var dif, mh, wh;
@@ -210,15 +184,18 @@ angular.module("BodyApp").directive("muscleChosen", [
         };
         (_watchOptionChanges = function() {
           return scp.$watch('options', function(nv, ov) {
-            var lastIdx, newOption;
+            var filtered;
             if ((nv != null) && (ov == null)) {
-              return scp.data.available = angular.copy(nv);
-            } else if ((nv != null) && (ov != null) && nv !== ov) {
-              lastIdx = nv.length - 1;
-              newOption = nv[lastIdx];
-              if (newOption._id != null) {
-                return scp.data.available.push(angular.copy(newOption));
+              if (_.isArray(scp.selected) && scp.selected.length > 0) {
+                filtered = _.filter(nv, function(o) {
+                  return !_.contains(_.pluck(scp.selected, '_id'), o._id);
+                });
+                return scp.data.available = angular.copy(filtered);
+              } else {
+                return scp.data.available = angular.copy(nv);
               }
+            } else if ((nv != null) && (ov != null) && nv !== ov) {
+              return scp.data.available.push(angular.copy(_.last(nv)));
             }
           }, true);
         })();
@@ -240,23 +217,18 @@ angular.module("BodyApp").directive("muscleChosen", [
           }, true);
         };
         scp.add = function(event) {
-          var newOption;
           event.preventDefault();
           event.stopPropagation();
-          if (scp.data.newOption !== '' && _selectedMuscleGroup !== 0) {
-            newOption = {
-              name: scp.data.newOption,
-              group: _selectedMuscleGroup
-            };
-            scp.options.push(newOption);
-            return scp.data.newOption = '';
+          if (scp.data.newMuscle !== '') {
+            return es.addMuscle({
+              name: scp.data.newMuscle,
+              group: scp.data.muscleGroup.id
+            }).then(function(data) {
+              scp.options.push(data);
+              return scp.data.newMuscle = '';
+            });
           }
         };
-        scp.$on('dropdown.select', function(event, data) {
-          event.preventDefault();
-          event.stopPropagation();
-          return _selectedMuscleGroup = data[0];
-        });
         scp.toggleMenu = function(event) {
           event.preventDefault();
           event.stopPropagation();
@@ -314,6 +286,19 @@ angular.module("BodyApp").directive("muscleChosen", [
     };
   }
 ]);
+
+angular.module("BodyApp").filter("musclegroup", function() {
+  return function(exercises, musclegroup) {
+    var filtered;
+    if ((musclegroup != null ? musclegroup.id : void 0) !== 0) {
+      filtered = _.filter(exercises, function(e) {
+        return _.contains(_.pluck(e.muscles, 'group'), musclegroup.id);
+      });
+      return filtered;
+    }
+    return exercises;
+  };
+});
 
 angular.module("BodyApp").service("ExercisesService", [
   "$q", "$resource", "$timeout", "$http", "$log", function(q, rsr, tmt, htp, lg) {
@@ -601,6 +586,9 @@ angular.module("BodyApp").service("ExercisesService", [
 /* Begin: client/database/musclegroups.json */
     _muscleGroups = [
 	{
+		"id" : 0,
+		"name" : "entire"
+	},{
 		"id" : 1,
 		"name" : "shoulders"
 	},{

@@ -1,21 +1,23 @@
-angular.module("BodyApp").directive( "muscleChosen", [ "$q", "$timeout", "$compile", "$templateCache", "$filter", ( q, tmt, cpl, tch, f ) ->
+angular.module("BodyApp").directive( "muscleChosen", [ "$q", "$timeout", "$compile", "$templateCache", "ExercisesService", ( q, tmt, cpl, tch, es ) ->
 	restrict : "E"
 	scope : {
 		options : "=" # or "=options"
-		groups : "=addform"
 		selected : "="
 	}
 	replace : true
 	templateUrl : "tpl/muscle-chosen.tpl.html"
 
 	link : (scp, elm, atr ) ->
-		#console.log scp.selected
-		#scp.selected = scp.selected || []
 		scp.data = {
 			available : null
 			searchText : ''
-			newOption : ''
+			newMuscle : ''
+			muscleGroups : es.getMuscleGroups()
+			muscleGroup : null
 		}
+
+		scp.data.muscleGroup = scp.data.muscleGroups[0]
+
 
 		scp.toggles = {
 			showMenu : false
@@ -23,7 +25,7 @@ angular.module("BodyApp").directive( "muscleChosen", [ "$q", "$timeout", "$compi
 			showAddForm : false
 		}
 
-		_selectedMuscleGroup = 0
+		# _selectedMuscleGroup = 0
 		_$menu = $(elm).find('.options')
 
 		_adjustMenu = ->
@@ -36,13 +38,24 @@ angular.module("BodyApp").directive( "muscleChosen", [ "$q", "$timeout", "$compi
 
 		do _watchOptionChanges = ->
 			scp.$watch( 'options' , (nv,ov) ->
+				# on initialize 
 				if nv? and not ov?
-					scp.data.available = angular.copy(nv)
+					# check if options are selected
+					if _.isArray( scp.selected ) and scp.selected.length > 0
+						filtered = _.filter nv, (o) ->
+							return not _.contains( _.pluck( scp.selected , '_id' ), o._id )
+						scp.data.available = angular.copy( filtered )
+					else
+						scp.data.available = angular.copy(nv)
+
+				# on add new muscle
+				# TODO: on remove muscle?
 				else if nv? and ov? and nv isnt ov
-					lastIdx = nv.length - 1
-					newOption = nv[lastIdx]
-					if newOption._id?
-						scp.data.available.push( angular.copy(newOption) )
+					scp.data.available.push( angular.copy( _.last( nv ) ) )
+					#lastIdx = nv.length - 1
+					#newMuscle = nv[lastIdx]
+					#if newMuscle._id?
+					#	scp.data.available.push( angular.copy(newMuscle) )
 			, true )
 
 
@@ -68,19 +81,20 @@ angular.module("BodyApp").directive( "muscleChosen", [ "$q", "$timeout", "$compi
 		scp.add = (event) ->
 			event.preventDefault()
 			event.stopPropagation()
-			if scp.data.newOption isnt '' and _selectedMuscleGroup isnt 0
-				newOption = {
-					name : scp.data.newOption
-					group : _selectedMuscleGroup
-				}
-				scp.options.push( newOption )
-				scp.data.newOption = ''
+
+			if scp.data.newMuscle isnt '' #and _selectedMuscleGroup isnt 0
+				es.addMuscle({
+					name : scp.data.newMuscle
+					group : scp.data.muscleGroup.id
+				}).then (data) ->
+					scp.options.push( data )
+					scp.data.newMuscle = ''
 
 
-		scp.$on 'dropdown.select', (event, data ) ->
-			event.preventDefault()
-			event.stopPropagation()
-			_selectedMuscleGroup = data[0]
+		# scp.$on 'dropdown.select', (event, data ) ->
+		# 	event.preventDefault()
+		# 	event.stopPropagation()
+		# 	_selectedMuscleGroup = data[0]
 
 		scp.toggleMenu = (event) ->
 			event.preventDefault()

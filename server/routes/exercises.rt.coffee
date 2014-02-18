@@ -32,13 +32,17 @@ exports.addExercise = (db) ->
 		res.format
 			json : ->
 				rb = req.body
+
 				record = new ExerciseSchema({
 					title : rb.title
 					descr : rb.descr
 					muscles : rb.muscles
 				})
 
-				record.save( (err, rec) ->
+
+				ExerciseSchema.update( _id : { _id : rb._id }, record, {upsert : true}, (err, rec) ->
+					console.log err
+				#record.save( (err, rec) ->
 					if err
 						res.status(500).json({
 							status : 'failure'

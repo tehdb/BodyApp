@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "ultimative fitness app",
   "scripts": {
-    "test": "grunt test",
+    "prestart" : "grunt build",
     "start": "nodemon app.coffee"
   },
   "engines": {

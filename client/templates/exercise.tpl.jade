@@ -1,15 +1,43 @@
 div.exercise
-	h1(ng-bind="exercise.title")
+	h2( class="title"
+		ng-bind="data.exercise.title"
+	)
 
 	div.thumb.pull-left
 		i.fa.fa-picture-o
 
-	p(ng-bind="exercise.descr")
+	p(ng-bind="data.exercise.descr")
 
 	ul.muscles
-		li(ng-repeat="m in exercise.muscles")
+		li(ng-repeat="m in data.exercise.muscles")
 			i.fa.fa-male
 			span(ng-bind="m.name")
+
+	ul.sets
+		li.last
+			div.index 0
+			div.heft 100 kg
+			div.repeats 12
+
+		li.last
+			div.index 1
+			div.heft 100 kg
+			div.repeats 10
+
+		li.last
+			div.index 2
+			div.heft 100 kg
+			div.repeats 8
+
+		li.last
+			div.index 3
+			div.heft 100 kg
+			div.repeats 6
+
+
+	button.btn.btn-primary.add-set-btn
+		i.fa.fa-plus
+		span &nbsp;add set
 
 	button.btn.btn-primary(
 		data-toggle="modal"
@@ -18,6 +46,7 @@ div.exercise
 		//-span.glyphicon.glyphicon-plus
 		i.fa.fa-pencil
 		span &nbsp;edit exercise
+
 
 	div.modal.fade(
 		id="editExerciseModal"
@@ -36,7 +65,11 @@ div.exercise
 					h4.modal-title edit exercise
 
 				div.modal-body
-					form.form-horizontal(role="form", name="exrcForm", ng-submit="submitForm()")
+					form.form-horizontal(
+						role="form"
+						name="updateForm"
+						ng-submit="submitForm()"
+					)
 						div.form-group
 							label.col-sm-2.control-label(for="exrcTitleInp") Title
 							//- ( ng-class="{ 'has-error' : exrcForm.title.$invalid && !exrcForm.title.$pristine }" )
@@ -46,7 +79,7 @@ div.exercise
 									type="text"
 									name="title"
 									placeholder="exercise title"
-									ng-model="form.title"
+									ng-model="data.exercise.title"
 									ng-required="true"
 								)
 
@@ -57,7 +90,7 @@ div.exercise
 									id="exerciseDescrInp",
 									rows="3",
 									placeholder="exercise description",
-									ng-model="form.descr"
+									ng-model="data.exercise.descr"
 								)
 
 						div.form-group
@@ -65,7 +98,10 @@ div.exercise
 							div.col-sm-10
 								//- div( th-chosen="data.muscles" )
 								//- TODO: add exercise directive instead of th-chosen
-								th-chosen( options="muscles", addform="addMuscleForm", selected="form.muscles")
+								muscle-chosen( 
+									options="data.muscles"
+									selected="data.exercise.muscles"
+								)
 
 						div.form-group
 							div.col-sm-offset-2.col-sm-10

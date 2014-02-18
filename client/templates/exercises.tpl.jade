@@ -1,27 +1,27 @@
 div.exercises
 	div.input-group
-		div.input-group-btn
-			button.btn.btn-default.dropdown-toggle(data-toggle="dropdown")
-				span Action&nbsp;
-				span.caret
-			ul.dropdown-menu
-				li
-					a(href="#") Action
-				li
-					a(href="#") Action 2
-				li
-					a(href="#") Action 3
-		input.form-control(type="text")
-		span.input-group-btn
+		th-dropdown(
+			class="input-group-btn",
+			options="data.muscleGroups"
+			selected="data.muscleGroup"
+		)
+
+		input.form-control(
+			type="text"
+			ng-model="data.searchText"
+			placeholder="search exercise"
+
+		)
+		//- span.input-group-btn
 			button.btn.btn-default(type="button")
 				i.fa.fa-search
 
 
-	p.text-danger(ng-show="data.exercises.length == 0" ) No entries
+	p.text-danger(ng-show="data.filtered.length == 0" ) No entries
 
 
 	ul.th-justified-list
-		li(ng-repeat="exr in data.exercises")
+		li(ng-repeat="exr in data.filtered = (data.exercises | filter:data.searchText | musclegroup:data.muscleGroup)")
 			div.thumb
 				i.fa.fa-picture-o
 
@@ -93,7 +93,6 @@ div.exercises
 								muscle-chosen(
 									options="data.muscles"
 									selected="addForm.muscles"
-									groups="data.muscleGroups"
 								)
 
 						div.form-group

@@ -38,23 +38,26 @@ div.th-chosen(ng-click="toggleMenu($event)")
 
 		div.th-icon-btn.add-btn(ng-click="toggleAddForm($event)", title="add option")
 			i.fa.fa-plus
-		//- TODO: make the form dynamic
+
 		div.input-group.add-form(ng-show="toggles.showAddForm")
-			//- div.input-group-btn
-			th-dropdown(options="groups", class="input-group-btn")
+			th-dropdown(
+				class="input-group-btn"
+				options="data.muscleGroups"
+				selected="data.muscleGroup"
+			)
 
 			input.form-control(
 				type="text",
 				placeholder="add element",
 				ng-click="prevent($event)",
-				ng-model="data.newOption"
+				ng-model="data.newMuscle"
 			)
 
 			span.input-group-btn
 				button.btn.btn-default(
 					type="button",
 					ng-click="add( $event )",
-					ng-class="{ 'disabled' : data.newOption == ''}"
+					ng-class="{ 'disabled' : data.newMuscle == ''}"
 				)
 					i.fa.fa-plus
 

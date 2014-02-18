@@ -1,13 +1,13 @@
 .th-dropdown
 	position : relative
-	z-index  : 2000
+	// z-index  : 2000
 
 	.th-toggle
 		.th-label
 			margin-right : 5px
 
 	ul.th-menu
-
+		list-style : none
 		position : absolute
 		top : 100%
 		left : 0
@@ -22,6 +22,7 @@
 		li.th-option
 			padding : 5px 10px
 			font-size : 12px
+			cursor : pointer
 
 			&:nth-child(even)
 				background : $th-white

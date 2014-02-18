@@ -266,8 +266,6 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 				deferred.reject( status )
 			return deferred.promise
 
-			#return _es.exercises( exercise)
-			#rsr('/api/exercises/add').save( exercise )
 
 		getMuscles : ->
 			deferred = q.defer()
