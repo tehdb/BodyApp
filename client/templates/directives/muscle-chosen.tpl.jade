@@ -32,7 +32,10 @@ div.th-chosen(ng-click="toggleMenu($event)")
 		p.text-danger(ng-show="options.length == 0" ) No entries
 
 		ul
-			li( ng-repeat="o in data.available | filter:data.searchText", ng-click="select( $index, $event )" )
+			li(
+				ng-repeat="o in data.filtered = ( data.available | filter:data.searchText )"
+				ng-click="select( $index, $event )"
+			)
 				span( ng-bind="o.name" )
 
 

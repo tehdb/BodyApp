@@ -96,8 +96,6 @@ div.exercise
 						div.form-group
 							label.col-sm-2.control-label Muscles
 							div.col-sm-10
-								//- div( th-chosen="data.muscles" )
-								//- TODO: add exercise directive instead of th-chosen
 								muscle-chosen( 
 									options="data.muscles"
 									selected="data.exercise.muscles"
@@ -105,7 +103,12 @@ div.exercise
 
 						div.form-group
 							div.col-sm-offset-2.col-sm-10
-								button.btn.btn-default.pull-right(type="submit")
-									//- span.glyphicon.glyphicon-plus
+								button.btn.btn-danger.pull-left(ng-click="deleteExercise($event)")
+									i.fa.fa-minus
+									span &nbsp;delete
+
+								button.btn.btn-success.pull-right(type="submit")
 									i.fa.fa-refresh
 									span &nbsp;update exercise
+
+

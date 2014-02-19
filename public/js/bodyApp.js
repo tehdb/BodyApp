@@ -16,7 +16,8 @@ angular.module("BodyApp", ["ngRoute", "ngResource"]).constant("Settings", {}).co
 ]);
 
 angular.module("BodyApp").controller("ExerciseCtrl", [
-  "$scope", "$routeParams", "ExercisesService", function(scp, rps, es) {
+  "$scope", "$routeParams", "$location", "ExercisesService", function(scp, rps, lcn, es) {
+    var _hideEditExerciseModal;
     scp.data = {
       exercise: null,
       muscles: null
@@ -27,12 +28,32 @@ angular.module("BodyApp").controller("ExerciseCtrl", [
     es.getMuscles().then(function(muscles) {
       return scp.data.muscles = muscles;
     });
-    return scp.submitForm = function() {
+    _hideEditExerciseModal = function(cb) {
+      var modal;
+      modal = $('#editExerciseModal').modal('hide');
+      if (_.isFunction(cb)) {
+        return modal.one('hidden.bs.modal', function() {
+          return cb();
+        });
+      }
+    };
+    scp.submitForm = function() {
       var exercise;
       exercise = _.pick(scp.data.exercise, '_id', 'title', 'descr');
       exercise.muscles = _.pluck(scp.data.exercise.muscles, '_id');
       return es.updateExercise(exercise).then(function(data) {
-        return $('#editExerciseModal').modal('hide');
+        return _hideEditExerciseModal();
+      });
+    };
+    return scp.deleteExercise = function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      return es.deleteExercise(scp.data.exercise._id).then(function(data) {
+        return _hideEditExerciseModal(function() {
+          return scp.safeApply(function() {
+            return lcn.path('/exercises');
+          });
+        });
       });
     };
   }
@@ -159,6 +180,7 @@ angular.module("BodyApp").directive("muscleChosen", [
         var _$menu, _adjustMenu, _watchForChanges, _watchOptionChanges, _watchSelectedChanges;
         scp.data = {
           available: null,
+          filtered: null,
           searchText: '',
           newMuscle: '',
           muscleGroups: es.getMuscleGroups(),
@@ -251,12 +273,11 @@ angular.module("BodyApp").directive("muscleChosen", [
           return scp.selected.splice(index, 1);
         };
         scp.select = function(index, event) {
-          var filtered, idx, opt, selected, _i, _len, _ref;
+          var idx, opt, selected, _i, _len, _ref;
           event.preventDefault();
           event.stopPropagation();
           if (scp.data.searchText !== '') {
-            filtered = f("filter")(scp.data.available, scp.data.searchText);
-            selected = filtered[index];
+            selected = data.filtered[index];
             scp.selected.push(selected);
             _ref = scp.data.available;
             for (idx = _i = 0, _len = _ref.length; _i < _len; idx = ++_i) {
@@ -301,7 +322,7 @@ angular.module("BodyApp").filter("musclegroup", function() {
 
 angular.module("BodyApp").service("ExercisesService", [
   "$q", "$resource", "$timeout", "$http", "$log", function(q, rsr, tmt, htp, lg) {
-    var ExercisesService, _es, _exercises, _muscleGroups, _muscles;
+    var ExercisesService, _es, _muscleGroups;
     ExercisesService = (function() {
       function ExercisesService() {
         var that;
@@ -362,175 +383,6 @@ angular.module("BodyApp").service("ExercisesService", [
         return deferred.promise;
       };
 
-      ExercisesService.prototype.exercises = function(param) {
-        var deferred, that;
-        that = this;
-        deferred = q.defer();
-        if (_.isUndefined(param)) {
-          if (!that.initialized) {
-            that.$.one('data.ready', function(event) {
-              return deferred.resolve(that.data.exercises);
-            });
-          } else {
-            deferred.resolve(that.data.exercises);
-          }
-        } else if (_.isString(param)) {
-          if (!that.initialized) {
-            that.$.one('data.ready', function(event) {
-              var exercise;
-              exercise = _.findWhere(that.data.exercises, {
-                _id: param
-              });
-              return deferred.resolve(exercise);
-            });
-          } else {
-            deferred.resolve(that.data.exercises);
-          }
-        }
-        return deferred.promise;
-      };
-
-      ExercisesService.prototype.muscles = function(param) {
-        var deferred, that;
-        that = this;
-        deferred = q.defer();
-        if (_.isUndefined(param)) {
-          if (!that.initialized) {
-            that.$.one('data.ready', function(event) {
-              return deferred.resolve(that.data.muscles);
-            });
-          } else {
-            deferred.resolve(that.data.muscles);
-          }
-        }
-        return deferred.promise;
-      };
-
-      ExercisesService.prototype.exercise12 = function(param) {
-        var deferred, e, that;
-        if (param == null) {
-          param = void 0;
-        }
-        that = this;
-        deferred = q.defer();
-        switch (typeof param) {
-          case 'string':
-            if (that.data.exercises == null) {
-              that.exercises().then(function() {
-                var e;
-                if ((function() {
-                  var _i, _len, _ref, _results;
-                  _ref = that.data.exercises;
-                  _results = [];
-                  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                    e = _ref[_i];
-                    _results.push(e._id === param);
-                  }
-                  return _results;
-                })()) {
-                  return deferred.resolve(e);
-                }
-              });
-            } else {
-              if ((function() {
-                var _i, _len, _ref, _results;
-                _ref = that.data.exercises;
-                _results = [];
-                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                  e = _ref[_i];
-                  _results.push(e._id === param);
-                }
-                return _results;
-              })()) {
-                deferred.resolve(e);
-              }
-            }
-            break;
-          case 'undefined':
-            if (that.data.exercises == null) {
-              htp({
-                method: "GET",
-                url: '/api/exercises/list'
-              }).success(function(data, status, headers, config) {
-                that.data.exercises = data;
-                return that.muscles().then(function() {
-                  var idx, mid, muscles, _i, _j, _len, _len1, _ref, _ref1;
-                  _ref = that.data.exercises;
-                  for (idx = _i = 0, _len = _ref.length; _i < _len; idx = ++_i) {
-                    e = _ref[idx];
-                    muscles = [];
-                    _ref1 = e.muscles;
-                    for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-                      mid = _ref1[_j];
-                      muscles.push(that.muscle(mid));
-                    }
-                    that.data.exercises[idx].muscles = muscles;
-                  }
-                  return deferred.resolve(that.data.exercises);
-                });
-              }).error(function(data, status, headers, config) {
-                return deferred.reject(status);
-              });
-            } else {
-              tmt(function() {
-                return deferred.resolve(that.data.exercises);
-              }, 0);
-            }
-            break;
-          case 'object':
-            if (param instanceof Object) {
-              htp({
-                method: "POST",
-                url: "/api/exercises/add",
-                data: param,
-                headers: {
-                  'Content-Type': 'application/json;charset=UTF-8',
-                  'Accept': 'application/json, text/plain, */*'
-                }
-              }).success(function(exercise, status, headers, config) {
-                var mid, muscles, _i, _len, _ref;
-                muscles = [];
-                _ref = exercise.muscles;
-                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                  mid = _ref[_i];
-                  muscles.push(that.muscle(mid));
-                }
-                exercise.muscles = muscles;
-                return deferred.resolve(exercise);
-              }).error(function(data, status, headers, config) {
-                return deferred.reject(status);
-              });
-            } else if (param instanceof Array) {
-              console.log('get exercises by ids');
-            }
-        }
-        return deferred.promise;
-      };
-
-      ExercisesService.prototype.muscle = function(id) {
-        var muscle, that, _i, _len, _ref;
-        if (id == null) {
-          id = null;
-        }
-        that = this;
-        if (id != null) {
-          _ref = that.data.muscles;
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            muscle = _ref[_i];
-            if (muscle._id === id) {
-              return {
-                _id: muscle._id,
-                name: muscle.name,
-                group: muscle.group
-              };
-            }
-          }
-          return null;
-        } else {
-          return null;
-        }
-      };
-
       ExercisesService.prototype.apply = function(cb) {
         if (this.initialized) {
           return cb();
@@ -541,18 +393,19 @@ angular.module("BodyApp").service("ExercisesService", [
         }
       };
 
-      ExercisesService.prototype.upsertExercise = function(action, exercise, deferred) {
+      ExercisesService.prototype.upsert = function(action, exercise, deferred) {
         var that;
         that = this;
         return htp({
           method: "POST",
-          url: "/api/exercises/add",
+          url: "/api/exercises/upsert",
           data: exercise,
           headers: {
             'Content-Type': 'application/json;charset=UTF-8',
             'Accept': 'application/json, text/plain, */*'
           }
         }).success(function(exercise, status, headers, config) {
+          var e, eidx, _i, _len, _ref;
           exercise.muscles = _.filter(_es.data.muscles, function(val) {
             return _.contains(exercise.muscles, val._id);
           });
@@ -561,11 +414,14 @@ angular.module("BodyApp").service("ExercisesService", [
               that.data.exercises.push(exercise);
               break;
             case 'update':
-              _.each(that.data.exercises, function(element, index) {
-                if (element._id === exercise._id) {
-                  return that.data.exercises[index] = exercise;
+              _ref = that.data.exercises;
+              for (eidx = _i = 0, _len = _ref.length; _i < _len; eidx = ++_i) {
+                e = _ref[eidx];
+                if (e._id === exercise._id) {
+                  that.data.exercises[eidx] = exercise;
+                  break;
                 }
-              });
+              }
           }
           return deferred.resolve(_.clone(exercise));
         }).error(function(data, status, headers, config) {
@@ -573,47 +429,27 @@ angular.module("BodyApp").service("ExercisesService", [
         });
       };
 
+      ExercisesService.prototype["delete"] = function(id, deferred) {
+        var that;
+        that = this;
+        return htp({
+          method: "POST",
+          url: "/api/exercises/delete/" + id,
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Accept': 'application/json, text/plain, */*'
+          }
+        }).success(function(exercise, status, headers, config) {
+          return deferred.resolve(true);
+        }).error(function(data, status, headers, config) {
+          return deferred.reject(false);
+        });
+      };
+
       return ExercisesService;
 
     })();
     _es = new ExercisesService();
-/* Begin: client/database/exercises.json */
-    _exercises = [
-	{
-		"title" : "Lorem ipsum dolor sit.",
-		"descr" : ""
-	},{
-		"title" : "Lorem ipsum dolor sit amet, consectetur.",
-		"descr" : ""
-	},{
-		"title" : "Lorem ipsum dolor sit.",
-		"descr" : ""
-	}
-]
-;/* End: client/database/exercises.json */
-/* Begin: client/database/muscles.json */
-    _muscles = [
-	{
-		"name" : "muscle 1",
-		"group" : 1
-	},{
-		"name" : "muscle 2",
-		"group" : 1
-	},{
-		"name" : "muscle 3",
-		"group" : 1
-	},{
-		"name" : "muscle 4",
-		"group" : 1
-	},{
-		"name" : "muscle 5",
-		"group" : 1
-	},{
-		"name" : "muscle 6",
-		"group" : 1
-	}
-]
-;/* End: client/database/muscles.json */
 /* Begin: client/database/musclegroups.json */
     _muscleGroups = [
 	{
@@ -684,13 +520,19 @@ angular.module("BodyApp").service("ExercisesService", [
       addExercise: function(exercise) {
         var deferred;
         deferred = q.defer();
-        _es.upsertExercise("insert", exercise, deferred);
+        _es.upsert("insert", exercise, deferred);
         return deferred.promise;
       },
       updateExercise: function(exercise) {
         var deferred;
         deferred = q.defer();
-        _es.upsertExercise("update", exercise, deferred);
+        _es.upsert("update", exercise, deferred);
+        return deferred.promise;
+      },
+      deleteExercise: function(id) {
+        var deferred;
+        deferred = q.defer();
+        _es["delete"](id, deferred);
         return deferred.promise;
       },
       getMuscles: function() {

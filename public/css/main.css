@@ -161,7 +161,7 @@ ul.th-justified-list li .btn {
 .exercise .muscles li {
   float: left;
   padding: 5px 10px;
-  margin-right: 5px;
+  margin: 0 5px 5px 0;
   color: white;
   background: #cccccc;
   -webkit-border-radius: 2px;

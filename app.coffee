@@ -22,16 +22,17 @@ app
 	.use( express.errorHandler({dumpExceptions: true, showStack: true}) )
 	
 	# routes
-	.options(/\/api\/\w*\/(add|get)/,	routes.common.allowOrigin )
+	.options(/\/api\/\w*\/(add|get)/,		routes.common.allowOrigin )
 
-	.get(	"/",						routes.common.index() )
+	.get(	"/",							routes.common.index() )
 
-	.get(	"/api/exercises/list",		routes.exercises.getExercises(db) )
-	.post(	"/api/exercises/add",		routes.exercises.addExercise(db) )
-	.get(	"/api/exercises/get/:id",	routes.exercises.getExercise(db) )
+	.get(	"/api/exercises/list",			routes.exercises.list(db) )
+	.get(	"/api/exercises/get/:id",		routes.exercises.find(db) )
+	.post(	"/api/exercises/upsert",		routes.exercises.upsert(db) )
+	.post(	"/api/exercises/delete/:id",	routes.exercises.delete(db) )
 	
-	.get(	"/api/muscles/list",		routes.muscles.getMuscles(db) )
-	.post(	"/api/muscles/add",			routes.muscles.addMuscle(db) )
-	.get(	"/api/muscles/get/:ids",	routes.muscles.getMusclesByIds(db) )
+	.get(	"/api/muscles/list",			routes.muscles.getMuscles(db) )
+	.post(	"/api/muscles/add",				routes.muscles.addMuscle(db) )
+	.get(	"/api/muscles/get/:ids",		routes.muscles.getMusclesByIds(db) )
 
 	.listen( app.get("port") )

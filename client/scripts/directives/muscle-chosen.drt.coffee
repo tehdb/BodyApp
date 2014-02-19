@@ -10,6 +10,7 @@ angular.module("BodyApp").directive( "muscleChosen", [ "$q", "$timeout", "$compi
 	link : (scp, elm, atr ) ->
 		scp.data = {
 			available : null
+			filtered : null
 			searchText : ''
 			newMuscle : ''
 			muscleGroups : es.getMuscleGroups()
@@ -124,8 +125,7 @@ angular.module("BodyApp").directive( "muscleChosen", [ "$q", "$timeout", "$compi
 
 			# select the right option from filtered options
 			if scp.data.searchText isnt ''
-				filtered = f("filter")( scp.data.available, scp.data.searchText )
-				selected = filtered[index]
+				selected = data.filtered[index]
 				scp.selected.push( selected )
 				for opt, idx in scp.data.available
 					if opt.$$hashKey is selected.$$hashKey
