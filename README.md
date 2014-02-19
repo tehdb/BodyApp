@@ -1,8 +1,9 @@
 ToDo
  - ~~fiter exercises~~
  - ~~edit/delete exercise~~
- - ~~set list~
- - add/edit set dialog
+ - ~~set list~~
+ - ~~add/edit set dialog~~
+ - store sets
  - progress diagram
  - zoom exercise image
  - exercise animation
