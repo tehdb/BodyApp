@@ -39,7 +39,7 @@ angular.module("BodyApp").directive( "muscleChosen", [ "$q", "$timeout", "$compi
 
 		do _watchOptionChanges = ->
 			scp.$watch( 'options' , (nv,ov) ->
-				# on initialize 
+				# on initialize
 				if nv? and not ov?
 					# check if options are selected
 					if _.isArray( scp.selected ) and scp.selected.length > 0
@@ -125,7 +125,7 @@ angular.module("BodyApp").directive( "muscleChosen", [ "$q", "$timeout", "$compi
 
 			# select the right option from filtered options
 			if scp.data.searchText isnt ''
-				selected = data.filtered[index]
+				selected = scp.data.filtered[index]
 				scp.selected.push( selected )
 				for opt, idx in scp.data.available
 					if opt.$$hashKey is selected.$$hashKey

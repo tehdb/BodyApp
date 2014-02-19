@@ -21,7 +21,7 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 			that.getExercisesFromServer().then (exercises) ->
 				that.getMusclesFromServer().then (muscles) ->
 					_.each exercises, ( exercise ) ->
-						exercise.muscles = _.filter muscles, (val) ->
+						exercise.muscles = _.clone _.filter muscles, (val) ->
 							return _.contains( exercise.muscles, val._id )
 
 					that.$.trigger('data.loaded', {
@@ -52,59 +52,6 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 				deferred.reject( status )
 			return deferred.promise
 
-
-		# exercises : ( param ) ->
-		# 	that = @
-		# 	deferred = q.defer()
-		# 	if _.isUndefined( param )
-		# 		if not that.initialized
-		# 			that.$.one 'data.ready', ( event ) ->
-		# 				deferred.resolve( that.data.exercises )
-		# 		else
-		# 			deferred.resolve( that.data.exercises )
-
-		# 	else if _.isString( param )
-		# 		if not that.initialized
-		# 			that.$.one 'data.ready', ( event ) ->
-		# 				exercise = _.findWhere( that.data.exercises, {
-		# 					_id : param
-		# 				})
-		# 				deferred.resolve( exercise )
-		# 		else
-		# 			deferred.resolve( that.data.exercises )
-
-		# 	return deferred.promise
-
-		# muscles : ( param ) ->
-		# 	that = @
-		# 	deferred = q.defer()
-		# 	if _.isUndefined( param )
-		# 		if not that.initialized
-		# 			that.$.one 'data.ready', ( event ) ->
-		# 				deferred.resolve( that.data.muscles )
-		# 		else
-		# 			deferred.resolve( that.data.muscles )
-
-
-
-		# 	return deferred.promise
-
-		# muscle : ( id = null) ->
-		# 	that = @
-
-		# 	if id?
-		# 		for muscle in that.data.muscles
-		# 			if muscle._id is id
-		# 				return {
-		# 					_id : muscle._id
-		# 					name : muscle.name
-		# 					group : muscle.group
-		# 				}
-		# 		return null
-		# 	else
-		# 		# TODO : add muscle
-		# 		return null
-
 		apply : (cb) ->
 			if @initialized
 				cb()
@@ -123,12 +70,13 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 					'Accept' : 'application/json, text/plain, */*'
 				}
 			).success( (exercise, status, headers, config) ->
-				exercise.muscles = _.filter _es.data.muscles, (val) ->
+				exercise.muscles = angular.copy _.filter _es.data.muscles, (val) ->
 					return _.contains( exercise.muscles, val._id )
 
 				switch action
 					when 'insert'
-						that.data.exercises.push( exercise )
+						that.data.exercises.push exercise
+
 					when 'update'
 						for e, eidx in that.data.exercises
 							if e._id is exercise._id
@@ -137,8 +85,8 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 						# _.each that.data.exercises, (element, index) ->
 						# 	if element._id is exercise._id
 						# 		that.data.exercises[index] = exercise
-
-				deferred.resolve( _.clone( exercise ) )
+				deferred.resolve exercise
+				# deferred.resolve( _.clone( exercise ) )
 			).error (data, status, headers, config) ->
 				deferred.reject( status )
 
@@ -151,7 +99,11 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 					'Content-Type' : 'application/json;charset=UTF-8'
 					'Accept' : 'application/json, text/plain, */*'
 				}
-			).success( (exercise, status, headers, config) ->
+			).success( (data, status, headers, config) ->
+				for e, eidx in that.data.exercises
+					if e._id is id
+						that.data.exercises.splice eidx, 1
+						break
 				deferred.resolve( true )
 			).error (data, status, headers, config) ->
 				deferred.reject( false )
@@ -166,13 +118,15 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 		getExercises : ->
 			deferred = q.defer()
 			_es.apply ->
-				deferred.resolve( _.clone( _es.data.exercises ) )
+				# deferred.resolve( _.clone( _es.data.exercises ) )
+				deferred.resolve _es.data.exercises
 			return deferred.promise
 
 		getExercise : ( id ) ->
 			deferred = q.defer()
 			_es.apply ->
-				deferred.resolve( _.clone( _.findWhere( _es.data.exercises, {_id : id } ) ) )
+				# deferred.resolve( _.clone( _.findWhere( _es.data.exercises, {_id : id } ) ) )
+				deferred.resolve _.findWhere( _es.data.exercises, { _id : id } )
 			return deferred.promise
 
 		addMuscle : ( muscle ) ->
@@ -187,7 +141,8 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 				}
 			).success( (muscle, status, headers, config) ->
 				_es.data.muscles.push( muscle )
-				deferred.resolve( _.clone( muscle) )
+				# deferred.resolve( _.clone( muscle) )
+				deferred.resolve muscle
 			).error (data, status, headers, config) ->
 				deferred.reject( status )
 			return deferred.promise
@@ -213,7 +168,10 @@ angular.module("BodyApp").service "ExercisesService", [ "$q", "$resource", "$tim
 		getMuscles : ->
 			deferred = q.defer()
 			_es.apply ->
-				deferred.resolve( _.clone( _es.data.muscles ) )
+				# deferred.resolve( _.clone( _es.data.muscles ) )
+				tmt( ->
+					deferred.resolve _es.data.muscles
+				,0)
 			return deferred.promise
 
 

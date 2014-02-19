@@ -1,6 +1,6 @@
 .exercise
-	
-	.title
+
+	.heading
 		margin-top : 0
 		font-size: 14px
 		font-weight: bold
@@ -37,22 +37,44 @@
 			i
 				margin-right : 5px
 
-	ul.sets
-		list-style : none
+	.sets
 		margin : 20px 0
-		
-		li
-			padding : 10px 0
-			font-weight : bold
-			width : 100%
+
+		.set
+			margin : 10px 0
 			+clearfix
 
-			&.last
+			&.previous
 				color : $th-gray
 
-			div
-				width : 33.33%
-				float : left
+			&.current
+				color : $th-black
+
+			.btn
+				color : $th-white
+
+	.upsert-form
+		.raw
+			margin : 10px 0
+			+clearfix
+
+
+	// ul.sets
+	// 	list-style : none
+	// 	margin : 20px 0
+
+	// 	li
+	// 		padding : 10px 0
+	// 		font-weight : bold
+	// 		width : 100%
+	// 		+clearfix
+
+	// 		&.last
+	// 			color : $th-gray
+
+	// 		div
+	// 			width : 33.33%
+	// 			float : left
 
 	.add-set-btn
 		margin-right : 5px

@@ -36,7 +36,7 @@ angular.module("BodyApp").controller "ExercisesCtrl", [ "$scope", "ExercisesServ
 			scp.addForm.muscles = muscleIds
 
 			es.addExercise( scp.addForm ).then (data) ->
-				scp.data.exercises.push( data )
+				# scp.data.exercises.push( data )
 				scp.addForm = {
 					title : ''
 					descr : ''

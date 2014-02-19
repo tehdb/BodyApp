@@ -4,8 +4,8 @@ ExerciseSchema = require('../schemas/exercise.schm')
 exports.list = (db) ->
 	return (req, res) ->
 		ExerciseSchema.find {}, (err, docs) ->
-			if err 
-				res.status(500).json({ status : 'failure' }) 
+			if err
+				res.status(500).json({ status : 'failure' })
 				return false
 
 			res.send(docs)
@@ -39,21 +39,21 @@ exports.upsert = (db) ->
 
 				ExerciseSchema.findById rb._id, (err, doc) ->
 					if doc?
-						ExerciseSchema.findOneAndUpdate doc._id, exercise, (err, rec) ->
+						ExerciseSchema.findByIdAndUpdate doc._id, exercise, (err, rec) ->
 							if err
 								res.status(500).json({ status : 'failure' })
 								return false
 
-							res.send(rec) 
+							res.send(rec)
 					else
 						es = new ExerciseSchema(exercise)
 						es.save (err, rec) ->
 							if err
 								res.status(500).json({ status : 'failure'})
 								return false
-							
+
 							res.send( rec )
-						
+
 
 exports.delete = (db) ->
 	return (req, res) ->

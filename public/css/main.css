@@ -124,7 +124,7 @@ ul.th-justified-list li .btn {
 }
 
 /* line 3, ../../client/styles/_exercise.sass */
-.exercise .title {
+.exercise .heading {
   margin-top: 0;
   font-size: 14px;
   font-weight: bold;
@@ -175,28 +175,34 @@ ul.th-justified-list li .btn {
   margin-right: 5px;
 }
 /* line 40, ../../client/styles/_exercise.sass */
-.exercise ul.sets {
-  list-style: none;
+.exercise .sets {
   margin: 20px 0;
 }
-/* line 44, ../../client/styles/_exercise.sass */
-.exercise ul.sets li {
-  padding: 10px 0;
-  font-weight: bold;
-  width: 100%;
+/* line 43, ../../client/styles/_exercise.sass */
+.exercise .sets .set {
+  margin: 10px 0;
   overflow: hidden;
   *zoom: 1;
 }
-/* line 50, ../../client/styles/_exercise.sass */
-.exercise ul.sets li.last {
+/* line 47, ../../client/styles/_exercise.sass */
+.exercise .sets .set.previous {
   color: #cccccc;
 }
+/* line 50, ../../client/styles/_exercise.sass */
+.exercise .sets .set.current {
+  color: black;
+}
 /* line 53, ../../client/styles/_exercise.sass */
-.exercise ul.sets li div {
-  width: 33.33%;
-  float: left;
+.exercise .sets .set .btn {
+  color: white;
 }
 /* line 57, ../../client/styles/_exercise.sass */
+.exercise .upsert-form .raw {
+  margin: 10px 0;
+  overflow: hidden;
+  *zoom: 1;
+}
+/* line 79, ../../client/styles/_exercise.sass */
 .exercise .add-set-btn {
   margin-right: 5px;
 }

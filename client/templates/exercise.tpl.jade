@@ -1,5 +1,5 @@
 div.exercise
-	h2( class="title"
+	h2( class="heading"
 		ng-bind="data.exercise.title"
 	)
 
@@ -13,31 +13,67 @@ div.exercise
 			i.fa.fa-male
 			span(ng-bind="m.name")
 
-	ul.sets
-		li.last
-			div.index 0
-			div.heft 100 kg
-			div.repeats 12
+	h2.heading Sets
+	div.container.sets
+		div.raw.set( ng-repeat="set in data.sets", ng-class="set.type")
+			div.col-xs-3
+				span.idx(ng-bind="set.idx")
+			div.col-xs-3
+				span.heft(ng-bind="set.heft | heft")
+			div.col-xs-3
+				span.reps(ng-bind="set.reps")
+			div.col-xs-3
+				button.btn.btn-xs(
+					ng-show="$index == data.activeSetIdx"
+					data-toggle="modal"
+					data-target="#upsertSetModal"
+				)
+					i.fa.fa-plus
 
-		li.last
-			div.index 1
-			div.heft 100 kg
-			div.repeats 10
+	div.modal.fade(
+		id="upsertSetModal"
+		tabindex="-1"
+		role="dialog"
+	)
+		div.modal-dialog
+			div.modal-content
+				div.modal-header
+					button.close(
+						type="button"
+						data-dismiss="modal"
+						aria-hidden="true"
+					) &times;
 
-		li.last
-			div.index 2
-			div.heft 100 kg
-			div.repeats 8
+					h4.modal-title edit set
 
-		li.last
-			div.index 3
-			div.heft 100 kg
-			div.repeats 6
-
-
-	button.btn.btn-primary.add-set-btn
-		i.fa.fa-plus
-		span &nbsp;add set
+				div.modal-body
+					form.form-horizontal.upsert-form(
+						role="form"
+						name="upsertSetForm"
+						ng-submit="submitUpsertForm()"
+					)
+						div.raw
+							div.col-xs-6 heft
+							div.col-xs-6 reps
+						div.raw
+							div.col-xs-6
+								input.form-control(
+									type="text"
+									name="heft"
+									placeholder="heft"
+									ng-model="data.activeSet.heft"
+								)
+							div.col-xs-6
+								input.form-control(
+									type="text"
+									name="reps"
+									placeholder="reps"
+									ng-model="data.activeSet.reps"
+								)
+						div.raw
+							button.btn.btn-success.pull-right(type="submit")
+								i.fa.fa-refresh
+								span &nbsp;update set
 
 	button.btn.btn-primary(
 		data-toggle="modal"
@@ -96,7 +132,7 @@ div.exercise
 						div.form-group
 							label.col-sm-2.control-label Muscles
 							div.col-sm-10
-								muscle-chosen( 
+								muscle-chosen(
 									options="data.muscles"
 									selected="data.exercise.muscles"
 								)

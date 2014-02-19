@@ -1,8 +1,7 @@
 ToDo
  - ~~fiter exercises~~
- - style exercse page
- - edit/delete exercise
- - set list
+ - ~~edit/delete exercise~~
+ - ~~set list~
  - add/edit set dialog
  - progress diagram
  - zoom exercise image
@@ -10,7 +9,7 @@ ToDo
  - training days page
  - use npm passport for user authentication
 
- 
+
 Get started
 
 	npm install		# get required node.js modules
