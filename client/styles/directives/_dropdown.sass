@@ -1,0 +1,33 @@
+.th-dropdown
+	position : relative
+	// z-index  : 2000
+
+	.th-toggle
+		.th-label
+			margin-right : 5px
+
+	ul.th-menu
+		list-style : none
+		position : absolute
+		top : 100%
+		left : 0
+		margin : 0 !important
+		padding : 0 !important
+		border : 1px solid $th-gray
+		z-index : 2010
+		background : $th-white
+		// +box-shadow( 0 0 10px 5px $th-gray )
+		+border-radius( 5px )
+
+		li.th-option
+			padding : 5px 10px
+			font-size : 12px
+			cursor : pointer
+
+			&:nth-child(even)
+				background : $th-white
+
+			&:hover
+				color : $th-white
+				background : $th-black
+

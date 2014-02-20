@@ -11,14 +11,19 @@ $color : transparent
 $th-gray : #ccc
 
 
-@import "colors"
-@import "mixins"
-@import "common"
-@import "exercises"
-@import "exercise"
-@import "chosen"
-@import "dropdown"
-@import "sidebar"
+@import "common/colors"
+@import "common/mixins"
+@import "common/common"
+@import "common/buttons"
+@import "common/sidebar"
+
+@import "pages/exercises"
+@import "pages/exercise"
+
+@import "directives/chosen"
+@import "directives/dropdown"
+@import "directives/th-modal"
+@import "directives/th-number-input"
 
 body
 	background : $color

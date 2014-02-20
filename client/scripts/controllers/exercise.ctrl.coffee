@@ -8,8 +8,18 @@ angular.module("BodyApp").controller "ExerciseCtrl", [
 			exercise : null
 			muscles : null
 			sets : null
+			set : {
+				active : null
+				activeIdx : 0
+				temp : null
+			}
 			activeSet : null
 			activeSetIdx : 0
+			upsertModal : {
+				show : false
+				pos : null 
+				confirmed : false
+			}
 		}
 
 		scp.data.sets = [
@@ -32,6 +42,7 @@ angular.module("BodyApp").controller "ExerciseCtrl", [
 		]
 		scp.data.activeSet = scp.data.sets[scp.data.activeSetIdx]
 
+
 		es.getExercise( rps.id ).then (exercise) ->
 			scp.data.exercise = exercise
 
@@ -48,6 +59,12 @@ angular.module("BodyApp").controller "ExerciseCtrl", [
 				modal.one 'hidden.bs.modal', ->
 					cb()
 
+		scp.toggleUpsertModal = (event) ->
+			event.preventDefault()
+			event.stopPropagation()
+			scp.data.upsertModal.show = not scp.data.upsertModal.show
+			scp.data.upsertModal.pos = [event.pageX, event.pageY]
+
 		scp.submitForm = ->
 			exercise = _.pick( scp.data.exercise, '_id', 'title', 'descr')
 			exercise.muscles = _.pluck( scp.data.exercise.muscles, '_id')
@@ -55,19 +72,21 @@ angular.module("BodyApp").controller "ExerciseCtrl", [
 			es.updateExercise( exercise ).then (data) ->
 				_hideEditExerciseModal()
 
-		scp.submitUpsertForm = ->
-			scp.data.activeSet.type = "current"
-			if ++scp.data.activeSetIdx > scp.data.sets.length - 1
-				scp.data.sets.push {
-					idx : scp.data.activeSetIdx + 1
-					heft : scp.data.activeSet.heft
-					reps : scp.data.activeSet.reps
-					type : "previous"
-				}
+		# scp.submitUpsertForm = ->
+		# 	scp.data.activeSet.type = "current"
+		# 	if ++scp.data.activeSetIdx > scp.data.sets.length - 1
+		# 		scp.data.sets.push {
+		# 			idx : scp.data.activeSetIdx + 1
+		# 			heft : scp.data.activeSet.heft
+		# 			reps : scp.data.activeSet.reps
+		# 			type : "previous"
+		# 		}
 
-			scp.data.activeSet = scp.data.sets[scp.data.activeSetIdx]
+		# 	scp.data.activeSet = scp.data.sets[scp.data.activeSetIdx]
+		# 	scp.data.upsertModal.show = false
+		# 	console.log scp.data.upsertModal.confirmed
 			# TODO: sove issue with "Referencing DOM nodes in Angular expressions is disallowed"
-			$('#upsertSetModal').modal('hide')
+			#$('#upsertSetModal').modal('hide')
 
 
 

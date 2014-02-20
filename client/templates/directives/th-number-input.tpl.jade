@@ -1,0 +1,19 @@
+div.th-number-input
+	
+	button.btn.btn-default.increment(
+		type="button"
+		ng-click="increment()"
+	)
+		i.fa.fa-plus
+	
+	input.form-control( 
+		ng-class="class"
+		ng-model="value"
+		type="text"
+	)
+
+	button.btn.btn-default.decrement(
+		type="button"
+		ng-click="decrement()"
+	)
+		i.fa.fa-minus

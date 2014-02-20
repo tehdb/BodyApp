@@ -1,4 +1,4 @@
-angular.module("BodyApp", ["ngRoute", "ngResource"]).constant("Settings", {}).config([
+angular.module("BodyApp", ["ngRoute", "ngResource", "ngAnimate"]).constant("Settings", {}).config([
   "$routeProvider", function(rpr) {
     return rpr.when("/", {
       templateUrl: "tpl/home.html",
@@ -22,8 +22,18 @@ angular.module("BodyApp").controller("ExerciseCtrl", [
       exercise: null,
       muscles: null,
       sets: null,
+      set: {
+        active: null,
+        activeIdx: 0,
+        temp: null
+      },
       activeSet: null,
-      activeSetIdx: 0
+      activeSetIdx: 0,
+      upsertModal: {
+        show: false,
+        pos: null,
+        confirmed: false
+      }
     };
     scp.data.sets = [
       {
@@ -59,6 +69,12 @@ angular.module("BodyApp").controller("ExerciseCtrl", [
         });
       }
     };
+    scp.toggleUpsertModal = function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      scp.data.upsertModal.show = !scp.data.upsertModal.show;
+      return scp.data.upsertModal.pos = [event.pageX, event.pageY];
+    };
     scp.submitForm = function() {
       var exercise;
       exercise = _.pick(scp.data.exercise, '_id', 'title', 'descr');
@@ -66,19 +82,6 @@ angular.module("BodyApp").controller("ExerciseCtrl", [
       return es.updateExercise(exercise).then(function(data) {
         return _hideEditExerciseModal();
       });
-    };
-    scp.submitUpsertForm = function() {
-      scp.data.activeSet.type = "current";
-      if (++scp.data.activeSetIdx > scp.data.sets.length - 1) {
-        scp.data.sets.push({
-          idx: scp.data.activeSetIdx + 1,
-          heft: scp.data.activeSet.heft,
-          reps: scp.data.activeSet.reps,
-          type: "previous"
-        });
-      }
-      scp.data.activeSet = scp.data.sets[scp.data.activeSetIdx];
-      return $('#upsertSetModal').modal('hide');
     };
     return scp.deleteExercise = function(event) {
       event.preventDefault();
@@ -335,6 +338,90 @@ angular.module("BodyApp").directive("muscleChosen", [
           event.preventDefault();
           event.stopPropagation();
           return scp.data.searchText = "";
+        };
+      }
+    };
+  }
+]);
+
+angular.module("BodyApp").directive("thModal", [
+  "$q", "$timeout", function(q, tmt) {
+    return {
+      restrict: "E",
+      scope: {
+        show: "=",
+        pos: "=",
+        confirm: "="
+      },
+      replace: true,
+      transclude: true,
+      templateUrl: "tpl/th-modal.tpl.html",
+      link: function(scp, elm, atr) {
+        var _$content;
+        _$content = elm.find('.th-modal-content:first');
+        scp.data = {
+          confirmable: false
+        };
+        scp.apply = function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+          if (scp.confirm != null) {
+            scp.confirm = true;
+          }
+          return scp.show = false;
+        };
+        scp.cancel = function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+          if (scp.confirm != null) {
+            scp.confirm = false;
+          }
+          return scp.show = false;
+        };
+        return scp.$watch("show", function(nv, ov) {
+          var y, _ref;
+          if (nv === true) {
+            if (_.isBoolean(scp.confirm)) {
+              scp.data.confirmable = true;
+            }
+            y = (_ref = scp.pos) != null ? _ref[1] : void 0;
+            if (_.isNumber(y) && y > 10) {
+              y -= Math.round(_$content.height() / 2);
+              return _$content.css({
+                y: y
+              });
+            }
+          }
+        });
+      }
+    };
+  }
+]);
+
+angular.module("BodyApp").directive("thNumberInput", [
+  "$q", "$timeout", function(q, tmt) {
+    return {
+      restrict: "E",
+      scope: {
+        value: "=",
+        "class": "@",
+        step: "@"
+      },
+      replace: true,
+      transclude: false,
+      templateUrl: "tpl/th-number-input.tpl.html",
+      link: function(scp, elm, atr) {
+        scp.increment = function() {
+          if (!_.isNumber(scp.value)) {
+            scp.value = parseFloat(scp.value, 10);
+          }
+          return scp.value += parseFloat(scp.step, 10) || 1;
+        };
+        return scp.decrement = function() {
+          if (!_.isNumber(scp.value)) {
+            scp.value = parseFloat(scp.value, 10);
+          }
+          return scp.value -= parseFloat(scp.step, 10) || 1;
         };
       }
     };

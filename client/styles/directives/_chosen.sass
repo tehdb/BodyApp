@@ -1,0 +1,106 @@
+.th-chosen
+	overflow : visible
+	border: 1px solid $th-gray
+	padding : 0 17px 6px 3px
+	position : relative
+	font-size : 13px
+	min-height : 36px
+	cursor : pointer
+	z-index : 2000
+	+user-select( none )
+	+border-radius( 4px )
+
+	.caret
+		position : absolute
+		right : 6px
+		top : 50%
+		+transition( all 0.4s linear )
+		&.active
+			+rotate( 180deg )
+
+
+	ul.selected
+		overflow : visible
+		padding : 0
+		margin : 0
+		list-style : none
+		+clearfix
+
+		li
+			float : left
+			color : $th-black
+			margin : 6px 3px 0 3px
+			padding : 2px 5px
+			background : $th-gray
+			max-width : 100%
+			+border-radius( 4px )
+			+text-overflow
+
+			span
+				display : inline-block
+
+			i
+				margin-left : 5px
+				+border-radius( 2px )
+				+transition( all 0.2s linear )
+
+				&:hover
+					background : $th-black
+					color : $th-white
+
+	div.options
+		display : block
+		position : absolute
+		top : 100%
+		left : 0
+		margin : 0
+		padding : 5px
+		z-index : 1000
+		background : $th-white
+		width : 100%
+		border : 1px solid $th-gray
+		// +box-shadow( 0 0 10px 5px $th-gray )
+		//+transition( all 0.2s linear )
+		+border-radius( 4px )
+
+		.filter-btn
+			position : absolute
+			top : 5px
+			right : 5px
+			z-index : 2020
+
+		.add-btn
+			position : absolute
+			bottom : 5px
+			right : 5px
+			z-index : 2020
+
+
+
+		.filter-form, .add-form
+			margin : 5px 0
+			padding : 0 60px 0 0
+
+		ul
+			padding : 0
+			margin : 0 -5px 5px -5px
+			list-style : none
+			z-index : 2010
+			max-height : 300px
+			overflow-x : hidden
+			overflow-y : scroll
+
+			li
+				padding : 4px 8px
+				+text-overflow
+
+				// &:nth-child(even)
+				// 	background : $th-gray
+
+				&:hover
+					color : $th-white
+					+text-shadow( 0 0 2px $th-black)
+					// background : $th-black
+					// color : $th-white
+
+	

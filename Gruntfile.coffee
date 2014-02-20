@@ -69,6 +69,8 @@ module.exports = (grunt) ->
 					"public/tpl/exercises.html" : "client/templates/exercises.tpl.jade"
 					"public/tpl/exercise.html" : "client/templates/exercise.tpl.jade"
 					"public/tpl/muscle-chosen.tpl.html" : "client/templates/directives/muscle-chosen.tpl.jade"
+					"public/tpl/th-modal.tpl.html" : "client/templates/directives/th-modal.tpl.jade"
+					"public/tpl/th-number-input.tpl.html" : "client/templates/directives/th-number-input.tpl.jade"
 					"public/tpl/dropdown.tpl.html" : "client/templates/directives/dropdown.tpl.jade"
 		uglify :
 			options :

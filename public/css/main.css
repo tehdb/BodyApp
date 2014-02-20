@@ -1,11 +1,11 @@
-/* line 1, ../../client/styles/_common.sass */
+/* line 1, ../../client/styles/common/_common.sass */
 ul.th-justified-list {
   list-style: none;
   margin: 0 -15px;
   padding: 0;
   min-height: 90px;
 }
-/* line 7, ../../client/styles/_common.sass */
+/* line 7, ../../client/styles/common/_common.sass */
 ul.th-justified-list li {
   border-bottom: 1px solid #cccccc;
   padding: 15px 60px 15px 15px;
@@ -13,11 +13,11 @@ ul.th-justified-list li {
   overflow: hidden;
   *zoom: 1;
 }
-/* line 15, ../../client/styles/_common.sass */
+/* line 15, ../../client/styles/common/_common.sass */
 ul.th-justified-list li:last-child {
   border-bottom: 0 none;
 }
-/* line 18, ../../client/styles/_common.sass */
+/* line 18, ../../client/styles/common/_common.sass */
 ul.th-justified-list li .thumb {
   width: 64px;
   height: 64px;
@@ -31,13 +31,13 @@ ul.th-justified-list li .thumb {
   text-align: center;
   margin-right: 15px;
 }
-/* line 28, ../../client/styles/_common.sass */
+/* line 28, ../../client/styles/common/_common.sass */
 ul.th-justified-list li .thumb .glyphicon, ul.th-justified-list li .thumb i {
   color: #cccccc;
   font-size: 30px;
   line-height: 60px;
 }
-/* line 33, ../../client/styles/_common.sass */
+/* line 33, ../../client/styles/common/_common.sass */
 ul.th-justified-list li h2 {
   font-size: 14px;
   font-weight: bold;
@@ -45,12 +45,12 @@ ul.th-justified-list li h2 {
   margin: 0;
   padding: 0 0 10px 0;
 }
-/* line 40, ../../client/styles/_common.sass */
+/* line 40, ../../client/styles/common/_common.sass */
 ul.th-justified-list li p {
   font-size: 14px;
   font-weight: normal;
 }
-/* line 44, ../../client/styles/_common.sass */
+/* line 44, ../../client/styles/common/_common.sass */
 ul.th-justified-list li ul.tags {
   padding: 0;
   margin: 0;
@@ -58,7 +58,7 @@ ul.th-justified-list li ul.tags {
   overflow: hidden;
   *zoom: 1;
 }
-/* line 49, ../../client/styles/_common.sass */
+/* line 49, ../../client/styles/common/_common.sass */
 ul.th-justified-list li ul.tags li {
   font-size: 10px;
   padding: 4px 8px;
@@ -72,15 +72,15 @@ ul.th-justified-list li ul.tags li {
   -o-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 58, ../../client/styles/_common.sass */
+/* line 58, ../../client/styles/common/_common.sass */
 ul.th-justified-list li ul.tags li i {
   margin-right: 5px;
 }
-/* line 61, ../../client/styles/_common.sass */
+/* line 61, ../../client/styles/common/_common.sass */
 ul.th-justified-list li ul.tags li:last-child {
   margin-right: 0;
 }
-/* line 64, ../../client/styles/_common.sass */
+/* line 64, ../../client/styles/common/_common.sass */
 ul.th-justified-list li .badge {
   position: absolute;
   top: 10px;
@@ -88,7 +88,7 @@ ul.th-justified-list li .badge {
   background: none;
   color: #cccccc;
 }
-/* line 71, ../../client/styles/_common.sass */
+/* line 71, ../../client/styles/common/_common.sass */
 ul.th-justified-list li .btn {
   position: absolute;
   right: 5px;
@@ -102,7 +102,7 @@ ul.th-justified-list li .btn {
   border-radius: 17px;
 }
 
-/* line 81, ../../client/styles/_common.sass */
+/* line 81, ../../client/styles/common/_common.sass */
 .th-icon-btn {
   padding: 5px 10px;
   -webkit-border-radius: 2px;
@@ -111,25 +111,74 @@ ul.th-justified-list li .btn {
   -o-border-radius: 2px;
   border-radius: 2px;
 }
-/* line 84, ../../client/styles/_common.sass */
+/* line 84, ../../client/styles/common/_common.sass */
 .th-icon-btn:hover {
   color: white;
   background: black;
 }
 
-/* line 5, ../../client/styles/_exercises.sass */
+/* line 3, ../../client/styles/common/_buttons.sass */
+.btn.icon-left i {
+  margin-right: 5px;
+}
+/* line 7, ../../client/styles/common/_buttons.sass */
+.btn.icon-right i {
+  margin-left: 5px;
+}
+
+/* line 1, ../../client/styles/common/_sidebar.sass */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  z-index: 2000;
+  width: 100%;
+  height: 100%;
+  padding: 40px 40px 40px 0;
+  opacity: 0;
+  background: none;
+  -webkit-transition: left 0.2s linear, background 0.2s linear;
+  -webkit-transition-delay: 0s, 0.1s;
+  -moz-transition: left 0.2s linear, background 0.2s linear 0.1s;
+  -o-transition: left 0.2s linear, background 0.2s linear 0.1s;
+  transition: left 0.2s linear, background 0.2s linear 0.1s;
+}
+/* line 13, ../../client/styles/common/_sidebar.sass */
+.sidebar.sidebar-show {
+  left: 0;
+  opacity: 1;
+  background: rgba(11, 11, 11, 0.3);
+}
+/* line 20, ../../client/styles/common/_sidebar.sass */
+.sidebar .list-group .list-group-item {
+  font-size: 22px;
+}
+/* line 23, ../../client/styles/common/_sidebar.sass */
+.sidebar .list-group .list-group-item i {
+  margin-right: 10px;
+}
+/* line 26, ../../client/styles/common/_sidebar.sass */
+.sidebar .list-group .list-group-item:first-child {
+  border-top-left-radius: 0;
+}
+/* line 28, ../../client/styles/common/_sidebar.sass */
+.sidebar .list-group .list-group-item:last-child {
+  border-bottom-left-radius: 0;
+}
+
+/* line 5, ../../client/styles/pages/_exercises.sass */
 .exercises p {
   padding: 15px;
   margin: 15px 0;
 }
 
-/* line 3, ../../client/styles/_exercise.sass */
+/* line 3, ../../client/styles/pages/_exercise.sass */
 .exercise .heading {
   margin-top: 0;
   font-size: 14px;
   font-weight: bold;
 }
-/* line 8, ../../client/styles/_exercise.sass */
+/* line 8, ../../client/styles/pages/_exercise.sass */
 .exercise .thumb {
   width: 64px;
   height: 64px;
@@ -143,13 +192,13 @@ ul.th-justified-list li .btn {
   text-align: center;
   margin-right: 15px;
 }
-/* line 18, ../../client/styles/_exercise.sass */
+/* line 18, ../../client/styles/pages/_exercise.sass */
 .exercise .thumb .glyphicon, .exercise .thumb i {
   color: #cccccc;
   font-size: 30px;
   line-height: 60px;
 }
-/* line 23, ../../client/styles/_exercise.sass */
+/* line 23, ../../client/styles/pages/_exercise.sass */
 .exercise .muscles {
   list-style: none;
   display: block;
@@ -157,7 +206,7 @@ ul.th-justified-list li .btn {
   overflow: hidden;
   *zoom: 1;
 }
-/* line 29, ../../client/styles/_exercise.sass */
+/* line 29, ../../client/styles/pages/_exercise.sass */
 .exercise .muscles li {
   float: left;
   padding: 5px 10px;
@@ -170,44 +219,53 @@ ul.th-justified-list li .btn {
   -o-border-radius: 2px;
   border-radius: 2px;
 }
-/* line 37, ../../client/styles/_exercise.sass */
+/* line 37, ../../client/styles/pages/_exercise.sass */
 .exercise .muscles li i {
   margin-right: 5px;
 }
-/* line 40, ../../client/styles/_exercise.sass */
+/* line 40, ../../client/styles/pages/_exercise.sass */
 .exercise .sets {
   margin: 20px 0;
 }
-/* line 43, ../../client/styles/_exercise.sass */
+/* line 43, ../../client/styles/pages/_exercise.sass */
 .exercise .sets .set {
   margin: 10px 0;
   overflow: hidden;
   *zoom: 1;
 }
-/* line 47, ../../client/styles/_exercise.sass */
+/* line 47, ../../client/styles/pages/_exercise.sass */
 .exercise .sets .set.previous {
   color: #cccccc;
 }
-/* line 50, ../../client/styles/_exercise.sass */
+/* line 50, ../../client/styles/pages/_exercise.sass */
 .exercise .sets .set.current {
   color: black;
 }
-/* line 53, ../../client/styles/_exercise.sass */
+/* line 53, ../../client/styles/pages/_exercise.sass */
 .exercise .sets .set .btn {
   color: white;
 }
-/* line 57, ../../client/styles/_exercise.sass */
+/* line 57, ../../client/styles/pages/_exercise.sass */
 .exercise .upsert-form .raw {
   margin: 10px 0;
   overflow: hidden;
   *zoom: 1;
 }
-/* line 79, ../../client/styles/_exercise.sass */
+/* line 61, ../../client/styles/pages/_exercise.sass */
+.exercise .upsert-form .raw.heading {
+  font-weight: normal;
+  text-align: center;
+}
+/* line 65, ../../client/styles/pages/_exercise.sass */
+.exercise .upsert-form .raw.controls {
+  margin-top: 20px;
+}
+/* line 86, ../../client/styles/pages/_exercise.sass */
 .exercise .add-set-btn {
   margin-right: 5px;
 }
 
-/* line 1, ../../client/styles/_chosen.sass */
+/* line 1, ../../client/styles/directives/_chosen.sass */
 .th-chosen {
   overflow: visible;
   border: 1px solid #cccccc;
@@ -226,7 +284,7 @@ ul.th-justified-list li .btn {
   -o-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 13, ../../client/styles/_chosen.sass */
+/* line 13, ../../client/styles/directives/_chosen.sass */
 .th-chosen .caret {
   position: absolute;
   right: 6px;
@@ -236,7 +294,7 @@ ul.th-justified-list li .btn {
   -o-transition: all 0.4s linear;
   transition: all 0.4s linear;
 }
-/* line 18, ../../client/styles/_chosen.sass */
+/* line 18, ../../client/styles/directives/_chosen.sass */
 .th-chosen .caret.active {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
@@ -244,7 +302,7 @@ ul.th-justified-list li .btn {
   -o-transform: rotate(180deg);
   transform: rotate(180deg);
 }
-/* line 22, ../../client/styles/_chosen.sass */
+/* line 22, ../../client/styles/directives/_chosen.sass */
 .th-chosen ul.selected {
   overflow: visible;
   padding: 0;
@@ -253,7 +311,7 @@ ul.th-justified-list li .btn {
   overflow: hidden;
   *zoom: 1;
 }
-/* line 29, ../../client/styles/_chosen.sass */
+/* line 29, ../../client/styles/directives/_chosen.sass */
 .th-chosen ul.selected li {
   float: left;
   color: black;
@@ -272,11 +330,11 @@ ul.th-justified-list li .btn {
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
 }
-/* line 39, ../../client/styles/_chosen.sass */
+/* line 39, ../../client/styles/directives/_chosen.sass */
 .th-chosen ul.selected li span {
   display: inline-block;
 }
-/* line 42, ../../client/styles/_chosen.sass */
+/* line 42, ../../client/styles/directives/_chosen.sass */
 .th-chosen ul.selected li i {
   margin-left: 5px;
   -webkit-border-radius: 2px;
@@ -289,12 +347,12 @@ ul.th-justified-list li .btn {
   -o-transition: all 0.2s linear;
   transition: all 0.2s linear;
 }
-/* line 47, ../../client/styles/_chosen.sass */
+/* line 47, ../../client/styles/directives/_chosen.sass */
 .th-chosen ul.selected li i:hover {
   background: black;
   color: white;
 }
-/* line 51, ../../client/styles/_chosen.sass */
+/* line 51, ../../client/styles/directives/_chosen.sass */
 .th-chosen div.options {
   display: block;
   position: absolute;
@@ -312,26 +370,26 @@ ul.th-justified-list li .btn {
   -o-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 66, ../../client/styles/_chosen.sass */
+/* line 66, ../../client/styles/directives/_chosen.sass */
 .th-chosen div.options .filter-btn {
   position: absolute;
   top: 5px;
   right: 5px;
   z-index: 2020;
 }
-/* line 72, ../../client/styles/_chosen.sass */
+/* line 72, ../../client/styles/directives/_chosen.sass */
 .th-chosen div.options .add-btn {
   position: absolute;
   bottom: 5px;
   right: 5px;
   z-index: 2020;
 }
-/* line 80, ../../client/styles/_chosen.sass */
+/* line 80, ../../client/styles/directives/_chosen.sass */
 .th-chosen div.options .filter-form, .th-chosen div.options .add-form {
   margin: 5px 0;
   padding: 0 60px 0 0;
 }
-/* line 84, ../../client/styles/_chosen.sass */
+/* line 84, ../../client/styles/directives/_chosen.sass */
 .th-chosen div.options ul {
   padding: 0;
   margin: 0 -5px 5px -5px;
@@ -341,7 +399,7 @@ ul.th-justified-list li .btn {
   overflow-x: hidden;
   overflow-y: scroll;
 }
-/* line 93, ../../client/styles/_chosen.sass */
+/* line 93, ../../client/styles/directives/_chosen.sass */
 .th-chosen div.options ul li {
   padding: 4px 8px;
   overflow: hidden;
@@ -350,21 +408,21 @@ ul.th-justified-list li .btn {
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
 }
-/* line 100, ../../client/styles/_chosen.sass */
+/* line 100, ../../client/styles/directives/_chosen.sass */
 .th-chosen div.options ul li:hover {
   color: white;
   text-shadow: 0 0 2px black;
 }
 
-/* line 1, ../../client/styles/_dropdown.sass */
+/* line 1, ../../client/styles/directives/_dropdown.sass */
 .th-dropdown {
   position: relative;
 }
-/* line 6, ../../client/styles/_dropdown.sass */
+/* line 6, ../../client/styles/directives/_dropdown.sass */
 .th-dropdown .th-toggle .th-label {
   margin-right: 5px;
 }
-/* line 9, ../../client/styles/_dropdown.sass */
+/* line 9, ../../client/styles/directives/_dropdown.sass */
 .th-dropdown ul.th-menu {
   list-style: none;
   position: absolute;
@@ -381,85 +439,192 @@ ul.th-justified-list li .btn {
   -o-border-radius: 5px;
   border-radius: 5px;
 }
-/* line 22, ../../client/styles/_dropdown.sass */
+/* line 22, ../../client/styles/directives/_dropdown.sass */
 .th-dropdown ul.th-menu li.th-option {
   padding: 5px 10px;
   font-size: 12px;
   cursor: pointer;
 }
-/* line 27, ../../client/styles/_dropdown.sass */
+/* line 27, ../../client/styles/directives/_dropdown.sass */
 .th-dropdown ul.th-menu li.th-option:nth-child(even) {
   background: white;
 }
-/* line 30, ../../client/styles/_dropdown.sass */
+/* line 30, ../../client/styles/directives/_dropdown.sass */
 .th-dropdown ul.th-menu li.th-option:hover {
   color: white;
   background: black;
 }
 
-/* line 1, ../../client/styles/_sidebar.sass */
-.sidebar {
+/* line 2, ../../client/styles/directives/_th-modal.sass */
+.th-modal {
   position: fixed;
   top: 0;
-  left: -100%;
-  z-index: 2000;
-  width: 100%;
-  height: 100%;
-  padding: 40px 40px 40px 0;
-  opacity: 0;
-  background: none;
-  -webkit-transition: left 0.2s linear, background 0.2s linear;
-  -webkit-transition-delay: 0s, 0.1s;
-  -moz-transition: left 0.2s linear, background 0.2s linear 0.1s;
-  -o-transition: left 0.2s linear, background 0.2s linear 0.1s;
-  transition: left 0.2s linear, background 0.2s linear 0.1s;
-}
-/* line 13, ../../client/styles/_sidebar.sass */
-.sidebar.sidebar-show {
+  right: 0;
+  bottom: 0;
   left: 0;
+  z-index: 3000;
+}
+/* line 10, ../../client/styles/directives/_th-modal.sass */
+.th-modal.ng-hide-add, .th-modal.ng-hide-remove {
+  display: block !important;
+}
+/* line 13, ../../client/styles/directives/_th-modal.sass */
+.th-modal.ng-hide-add {
+  -webkit-transition: opacity 0 linear;
+  -moz-transition: opacity 0 linear;
+  -o-transition: opacity 0 linear;
+  transition: opacity 0 linear;
   opacity: 1;
-  background: rgba(11, 11, 11, 0.3);
 }
-/* line 21, ../../client/styles/_sidebar.sass */
-.sidebar .list-group .list-group-item:first-child {
-  border-top-left-radius: 0;
+/* line 16, ../../client/styles/directives/_th-modal.sass */
+.th-modal.ng-hide-add.ng-hide-add-active {
+  opacity: 0;
 }
-/* line 23, ../../client/styles/_sidebar.sass */
-.sidebar .list-group .list-group-item:last-child {
-  border-bottom-left-radius: 0;
+/* line 19, ../../client/styles/directives/_th-modal.sass */
+.th-modal.ng-hide-remove {
+  -webkit-transition: opacity 0.3s linear;
+  -moz-transition: opacity 0.3s linear;
+  -o-transition: opacity 0.3s linear;
+  transition: opacity 0.3s linear;
+  opacity: 0;
+}
+/* line 22, ../../client/styles/directives/_th-modal.sass */
+.th-modal.ng-hide-remove.ng-hide-remove-active {
+  opacity: 1;
+}
+/* line 25, ../../client/styles/directives/_th-modal.sass */
+.th-modal .th-modal-backdrop {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 3001;
+  background: black;
+  opacity: 0.5;
+}
+/* line 35, ../../client/styles/directives/_th-modal.sass */
+.th-modal .th-modal-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px;
+  margin: 10px;
+  z-index: 3002;
+  background: white;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+/* line 45, ../../client/styles/directives/_th-modal.sass */
+.th-modal .th-modal-content .th-modal-head {
+  overflow: hidden;
+  *zoom: 1;
+}
+/* line 48, ../../client/styles/directives/_th-modal.sass */
+.th-modal .th-modal-content .th-modal-head h5 {
+  font-size: 15px;
+  font-weight: bold;
+  padding-left: 15px;
+}
+/* line 54, ../../client/styles/directives/_th-modal.sass */
+.th-modal .th-modal-content .th-modal-head .btn {
+  background: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+/* line 60, ../../client/styles/directives/_th-modal.sass */
+.th-modal .th-modal-content .th-modal-foot {
+  margin-top: 20px;
+  padding-bottom: 15px;
+  overflow: hidden;
+  *zoom: 1;
+}
+/* line 65, ../../client/styles/directives/_th-modal.sass */
+.th-modal .th-modal-content .th-modal-foot .cancel-btn {
+  float: left;
+  margin-left: 15px;
+}
+/* line 69, ../../client/styles/directives/_th-modal.sass */
+.th-modal .th-modal-content .th-modal-foot .apply-btn {
+  float: right;
+  margin-right: 15px;
 }
 
-/* line 23, ../../client/styles/main.sass */
+/* line 2, ../../client/styles/directives/_th-number-input.sass */
+.th-number-input button {
+  margin: 0;
+  width: 100%;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+/* line 7, ../../client/styles/directives/_th-number-input.sass */
+.th-number-input button.increment {
+  -moz-border-radius-bottomright: 0;
+  -webkit-border-bottom-right-radius: 0;
+  border-bottom-right-radius: 0;
+  -moz-border-radius-bottomleft: 0;
+  -webkit-border-bottom-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+/* line 11, ../../client/styles/directives/_th-number-input.sass */
+.th-number-input button.decrement {
+  -moz-border-radius-topright: 0;
+  -webkit-border-top-right-radius: 0;
+  border-top-right-radius: 0;
+  -moz-border-radius-topleft: 0;
+  -webkit-border-top-left-radius: 0;
+  border-top-left-radius: 0;
+}
+/* line 16, ../../client/styles/directives/_th-number-input.sass */
+.th-number-input input {
+  text-align: center;
+  font-weight: bold;
+  font-size: 22px;
+  border-top: 0 none;
+  border-bottom: 0 none;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+}
+
+/* line 28, ../../client/styles/main.sass */
 body {
   background: transparent;
 }
 
-/* line 26, ../../client/styles/main.sass */
+/* line 31, ../../client/styles/main.sass */
 header {
   margin: 0;
 }
-/* line 29, ../../client/styles/main.sass */
+/* line 34, ../../client/styles/main.sass */
 header .th-sidemenu-toggle {
   margin-right: 20px;
 }
 
-/* line 32, ../../client/styles/main.sass */
+/* line 37, ../../client/styles/main.sass */
 .content {
   padding: 80px 0 60px 0;
 }
 
-/* line 35, ../../client/styles/main.sass */
+/* line 40, ../../client/styles/main.sass */
 .th-footer {
   border: 0 none;
   padding-top: 5px;
   margin-top: 10px;
 }
-/* line 40, ../../client/styles/main.sass */
+/* line 45, ../../client/styles/main.sass */
 .th-footer .btn {
   border-radius: 0;
   margin: 0;
 }
-/* line 47, ../../client/styles/main.sass */
+/* line 52, ../../client/styles/main.sass */
 .th-footer .btn .th-text {
   float: left;
   padding-left: 4px;

@@ -1,5 +1,5 @@
 angular
-	.module("BodyApp", ["ngRoute", "ngResource"])
+	.module("BodyApp", ["ngRoute", "ngResource", "ngAnimate"])
 	.constant("Settings", {
 
 	})

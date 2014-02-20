@@ -25,55 +25,38 @@ div.exercise
 			div.col-xs-3
 				button.btn.btn-xs(
 					ng-show="$index == data.activeSetIdx"
-					data-toggle="modal"
-					data-target="#upsertSetModal"
+					ng-click="toggleUpsertModal($event)"
 				)
+					//- data-toggle="modal"
+					//- data-target="#upsertSetModal"
 					i.fa.fa-plus
 
-	div.modal.fade(
-		id="upsertSetModal"
-		tabindex="-1"
-		role="dialog"
+
+	th-modal( 
+		show="data.upsertModal.show"
+		pos="data.upsertModal.pos"
+		confirm = "data.upsertModal.confirmed"
 	)
-		div.modal-dialog
-			div.modal-content
-				div.modal-header
-					button.close(
-						type="button"
-						data-dismiss="modal"
-						aria-hidden="true"
-					) &times;
-
-					h4.modal-title edit set
-
-				div.modal-body
-					form.form-horizontal.upsert-form(
-						role="form"
-						name="upsertSetForm"
-						ng-submit="submitUpsertForm()"
+		div.upsert-form
+			div.raw.heading
+				div.col-xs-6 heft
+				div.col-xs-6 reps
+			div.raw
+				div.col-xs-6
+					th-number-input(
+						value="data.activeSet.heft"
+						step="5"
 					)
-						div.raw
-							div.col-xs-6 heft
-							div.col-xs-6 reps
-						div.raw
-							div.col-xs-6
-								input.form-control(
-									type="text"
-									name="heft"
-									placeholder="heft"
-									ng-model="data.activeSet.heft"
-								)
-							div.col-xs-6
-								input.form-control(
-									type="text"
-									name="reps"
-									placeholder="reps"
-									ng-model="data.activeSet.reps"
-								)
-						div.raw
-							button.btn.btn-success.pull-right(type="submit")
-								i.fa.fa-refresh
-								span &nbsp;update set
+
+				div.col-xs-6
+					th-number-input(
+						value="data.activeSet.reps"
+						step="1"
+					)
+
+
+
+
 
 	button.btn.btn-primary(
 		data-toggle="modal"

@@ -1,0 +1,85 @@
+
+.th-modal
+	position : fixed
+	top : 0
+	right : 0
+	bottom : 0
+	left : 0
+	z-index : 3000
+
+	&.ng-hide-add, &.ng-hide-remove
+		display : block !important
+
+	&.ng-hide-add
+		+transition( opacity 0 linear )
+		opacity : 1
+		&.ng-hide-add-active
+			opacity : 0
+
+	&.ng-hide-remove
+		+transition( opacity 0.3s linear )
+		opacity : 0
+		&.ng-hide-remove-active
+			opacity : 1
+
+	.th-modal-backdrop
+		position : absolute
+		top : 0
+		right : 0
+		bottom : 0
+		left : 0
+		z-index : 3001
+		background : $th-black
+		opacity : 0.5
+
+	.th-modal-content
+		position : absolute
+		top : 0
+		left : 0
+		padding : 10px
+		margin : 10px
+		z-index : 3002
+		background : $th-white
+		+border-radius( 5px )
+
+		.th-modal-head
+			+clearfix
+			
+			h5
+				font-size : 15px
+				font-weight : bold
+				padding-left : 15px
+
+
+			.btn
+				background : none
+				+box-shadow( none )
+
+		.th-modal-body
+
+		.th-modal-foot
+			margin-top : 20px
+			padding-bottom : 15px
+			+clearfix
+
+			.cancel-btn
+				float : left
+				margin-left : 15px
+
+			.apply-btn
+				float : right
+				margin-right : 15px
+
+
+
+// .th-modal-show-setup
+// 	opacity : 0
+
+// 	&.th-modal-show-start
+// 		opacity : 1
+
+// .th-modal-hide-setup
+// 	opacity : 1
+
+// 	&.th-modal-hide-start
+// 		opacity : 1

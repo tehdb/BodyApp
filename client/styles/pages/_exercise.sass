@@ -1,0 +1,87 @@
+.exercise
+
+	.heading
+		margin-top : 0
+		font-size: 14px
+		font-weight: bold
+
+	.thumb
+		width : 64px
+		height : 64px
+		float : left
+		border : 1px solid $th-gray
+		+border-radius( 2px )
+		text-align : center
+		margin-right : 15px
+
+		// TODO: temp
+		.glyphicon, i
+			color : $th-gray
+			font-size : 30px
+			line-height : 60px
+
+	.muscles
+		list-style : none
+		display : block
+		padding : 0
+		+clearfix
+
+		li
+			float : left
+			padding : 5px 10px
+			margin : 0 5px 5px 0
+			color : $th-white
+			background : $th-gray
+			+border-radius( 2px )
+
+			i
+				margin-right : 5px
+
+	.sets
+		margin : 20px 0
+
+		.set
+			margin : 10px 0
+			+clearfix
+
+			&.previous
+				color : $th-gray
+
+			&.current
+				color : $th-black
+
+			.btn
+				color : $th-white
+
+	.upsert-form
+		.raw
+			margin : 10px 0
+			+clearfix
+
+			&.heading
+				font-weight: normal
+				text-align : center
+
+			&.controls
+				margin-top : 20px
+
+
+	// ul.sets
+	// 	list-style : none
+	// 	margin : 20px 0
+
+	// 	li
+	// 		padding : 10px 0
+	// 		font-weight : bold
+	// 		width : 100%
+	// 		+clearfix
+
+	// 		&.last
+	// 			color : $th-gray
+
+	// 		div
+	// 			width : 33.33%
+	// 			float : left
+
+	.add-set-btn
+		margin-right : 5px
