@@ -12,13 +12,12 @@ html
 
 	body(ng-app="BodyApp", ng-controller="MainCtrl")
 
-		header.navbar.navbar-default.navbar-fixed-top( role="navigation" )
+		header.navbar.navbar-static-top( role="banner" )
 			div.container
 				div.navbar-header
-					div.navbar-brand(href="#")
-						button.btn.btn-default.th-sidemenu-toggle(role="button")
-							span.glyphicon.glyphicon-align-justify
-						span app
+					a.navbar-brand(href="#") app
+					button.btn.btn-default.th-sidemenu-toggle(role="button")
+						span.glyphicon.glyphicon-align-justify
 
 		div.content
 				div.container.ng-view

@@ -24,15 +24,24 @@ div.exercise
 				span.reps(ng-bind="set.reps")
 			div.col-xs-3
 				button.btn.btn-xs(
-					ng-show="$index == data.activeSetIdx"
+					ng-show="$index == data.set.index"
 					ng-click="toggleUpsertModal($event)"
 				)
 					//- data-toggle="modal"
 					//- data-target="#upsertSetModal"
 					i.fa.fa-plus
 
+	div.container.completion
+		button.btn.btn-success.icon-right(
+			type="button"
+			ng-disabled="!data.completable"
+			ng-click="complete()"
+		)
+			span exercise complete
+			i.fa.fa-check
 
-	th-modal( 
+
+	th-modal(
 		show="data.upsertModal.show"
 		pos="data.upsertModal.pos"
 		confirm = "data.upsertModal.confirmed"
@@ -44,13 +53,13 @@ div.exercise
 			div.raw
 				div.col-xs-6
 					th-number-input(
-						value="data.activeSet.heft"
+						value="data.upsertModal.set.heft"
 						step="5"
 					)
 
 				div.col-xs-6
 					th-number-input(
-						value="data.activeSet.reps"
+						value="data.upsertModal.set.reps"
 						step="1"
 					)
 

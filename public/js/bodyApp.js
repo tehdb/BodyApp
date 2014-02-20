@@ -16,49 +16,65 @@ angular.module("BodyApp", ["ngRoute", "ngResource", "ngAnimate"]).constant("Sett
 ]);
 
 angular.module("BodyApp").controller("ExerciseCtrl", [
-  "$scope", "$routeParams", "$location", "ExercisesService", function(scp, rps, lcn, es) {
-    var _hideEditExerciseModal;
+  "$scope", "$routeParams", "$location", "ExercisesService", "SetsService", function(scp, rps, lcn, es, ss) {
+    var _hideEditExerciseModal, _init;
     scp.data = {
       exercise: null,
       muscles: null,
+      completable: false,
       sets: null,
       set: {
-        active: null,
-        activeIdx: 0,
-        temp: null
+        value: null,
+        index: 0
       },
-      activeSet: null,
-      activeSetIdx: 0,
       upsertModal: {
         show: false,
         pos: null,
-        confirmed: false
+        confirmed: false,
+        set: null
       }
     };
-    scp.data.sets = [
-      {
-        idx: 1,
-        heft: "100",
-        reps: 12,
-        type: "previous"
-      }, {
-        idx: 2,
-        heft: "100",
-        reps: 10,
-        type: "previous"
-      }, {
-        idx: 3,
-        heft: "100",
-        reps: 8,
-        type: "previous"
+    (_init = function() {
+      return es.getExercise(rps.id).then(function(exercise) {
+        scp.data.exercise = exercise;
+        es.getMuscles().then(function(muscles) {
+          return scp.data.muscles = muscles;
+        });
+        return ss.getLastExersiceSets(scp.data.exercise._id).then(function(sets) {
+          scp.data.sets = sets || [
+            {
+              idx: 1,
+              heft: 50,
+              reps: 10,
+              type: "incomplete"
+            }
+          ];
+          scp.data.set.value = scp.data.sets[scp.data.set.index];
+          return scp.data.upsertModal.set = angular.copy(scp.data.set.value);
+        });
+      });
+    })();
+    scp.$watch("data.upsertModal.confirmed", function(nv, ov) {
+      if (nv === true) {
+        if (scp.data.completable === false) {
+          scp.data.completable = true;
+        }
+        scp.data.set.value.heft = scp.data.upsertModal.set.heft;
+        scp.data.set.value.reps = scp.data.upsertModal.set.reps;
+        scp.data.set.value.type = "complete";
+        if (++scp.data.set.index > scp.data.sets.length - 1) {
+          scp.data.sets.push({
+            idx: scp.data.set.index + 1,
+            heft: scp.data.set.value.heft,
+            reps: scp.data.set.value.reps,
+            type: "incomplete"
+          });
+        }
+        scp.data.set.value = scp.data.sets[scp.data.set.index];
+        scp.data.upsertModal.set = angular.copy(scp.data.set.value);
+        scp.data.upsertModal.show = false;
+        return scp.data.upsertModal.confirmed = false;
       }
-    ];
-    scp.data.activeSet = scp.data.sets[scp.data.activeSetIdx];
-    es.getExercise(rps.id).then(function(exercise) {
-      return scp.data.exercise = exercise;
-    });
-    es.getMuscles().then(function(muscles) {
-      return scp.data.muscles = muscles;
     });
     _hideEditExerciseModal = function(cb) {
       var modal;
@@ -74,6 +90,23 @@ angular.module("BodyApp").controller("ExerciseCtrl", [
       event.stopPropagation();
       scp.data.upsertModal.show = !scp.data.upsertModal.show;
       return scp.data.upsertModal.pos = [event.pageX, event.pageY];
+    };
+    scp.complete = function() {
+      var c, completed, i, _i, _len;
+      completed = _.where(scp.data.sets, {
+        type: "complete"
+      });
+      for (i = _i = 0, _len = completed.length; _i < _len; i = ++_i) {
+        c = completed[i];
+        completed[i] = _.pick(c, "idx", "heft", "reps");
+      }
+      return ss.add(scp.data.exercise._id, completed).then(function(sets) {
+        scp.data.sets = sets;
+        scp.data.set.index = 0;
+        scp.data.set.value = scp.data.sets[scp.data.set.index];
+        scp.data.upsertModal.set = angular.copy(scp.data.set.value);
+        return scp.data.completable = false;
+      });
     };
     scp.submitForm = function() {
       var exercise;
@@ -448,7 +481,7 @@ angular.module("BodyApp").filter("musclegroup", function() {
 });
 
 angular.module("BodyApp").service("ExercisesService", [
-  "$q", "$resource", "$timeout", "$http", "$log", function(q, rsr, tmt, htp, lg) {
+  "$q", "$timeout", "$http", function(q, tmt, htp) {
     var ExercisesService, _es, _muscleGroups;
     ExercisesService = (function() {
       function ExercisesService() {
@@ -686,6 +719,58 @@ angular.module("BodyApp").service("ExercisesService", [
       },
       getMuscleGroups: function() {
         return _muscleGroups;
+      }
+    };
+  }
+]);
+
+angular.module("BodyApp").service("SetsService", [
+  "$q", "$timeout", "$http", function(q, tmt, htp) {
+    var Service, _s;
+    Service = (function() {
+      function Service() {}
+
+      Service.prototype.getExerciseSets = function() {
+        return null;
+        return [
+          {
+            idx: 1,
+            heft: "100",
+            reps: 12
+          }, {
+            idx: 2,
+            heft: "100",
+            reps: 10
+          }, {
+            idx: 3,
+            heft: "100",
+            reps: 8
+          }
+        ];
+      };
+
+      return Service;
+
+    })();
+    _s = new Service();
+    return {
+      getLastExersiceSets: function(exerciseId) {
+        var deferred;
+        deferred = q.defer();
+        tmt(function() {
+          console.log(exerciseId);
+          return deferred.resolve(_s.getExerciseSets());
+        }, 0);
+        return deferred.promise;
+      },
+      add: function(exerciseId, sets) {
+        var deferred;
+        deferred = q.defer();
+        tmt(function() {
+          console.log("save set", exerciseId, sets);
+          return deferred.resolve(sets);
+        }, 0);
+        return deferred.promise;
       }
     };
   }
