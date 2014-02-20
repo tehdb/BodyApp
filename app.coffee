@@ -3,6 +3,7 @@ routes = {
 	common :	require( "./server/routes/common.rt" )
 	exercises :	require( "./server/routes/exercises.rt" )
 	muscles :	require( "./server/routes/muscles.rt" )
+	sets :		require( "./server/routes/sets.rt" )
 }
 path = require( "path" )
 db = require( "./server/db" )
@@ -20,7 +21,7 @@ app
 	.use( app.router )
 	.use( express.static(path.join(__dirname, "public")) )
 	.use( express.errorHandler({dumpExceptions: true, showStack: true}) )
-	
+
 	# routes
 	.options(/\/api\/\w*\/(add|get)/,		routes.common.allowOrigin )
 
@@ -30,9 +31,13 @@ app
 	.get(	"/api/exercises/get/:id",		routes.exercises.find(db) )
 	.post(	"/api/exercises/upsert",		routes.exercises.upsert(db) )
 	.post(	"/api/exercises/delete/:id",	routes.exercises.delete(db) )
-	
+
 	.get(	"/api/muscles/list",			routes.muscles.getMuscles(db) )
 	.post(	"/api/muscles/add",				routes.muscles.addMuscle(db) )
 	.get(	"/api/muscles/get/:ids",		routes.muscles.getMusclesByIds(db) )
+
+
+	.get( 	"/api/sets/get/:id/:action?",	routes.sets.get(db) )
+	.post(	"/api/sets/add",				routes.sets.add(db) )
 
 	.listen( app.get("port") )

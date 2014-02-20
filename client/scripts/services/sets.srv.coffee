@@ -5,26 +5,16 @@ angular.module("BodyApp").service "SetsService", [
 			constructor : ->
 
 			getExerciseSets : ->
-				return null
-
 				return [{
 					idx : 1
-					heft : "100"
-					reps : 12
-				},{
-					idx : 2
-					heft : "100"
+					heft : 50
 					reps : 10
-				},{
-					idx : 3
-					heft : "100"
-					reps : 8
 				}]
 
 		_s = new Service()
 
 		return {
-				getLastExersiceSets : ( exerciseId ) ->
+				getLast : ( exerciseId ) ->
 					deferred = q.defer()
 					tmt( ->
 						console.log exerciseId

@@ -25,13 +25,8 @@ angular.module("BodyApp").controller "ExerciseCtrl", [
 				es.getMuscles().then (muscles) ->
 					scp.data.muscles = muscles
 
-				ss.getLastExersiceSets( scp.data.exercise._id ).then (sets) ->
-					scp.data.sets = sets || [{
-						idx : 1
-						heft : 50
-						reps : 10
-						type : "incomplete"
-					}]
+				ss.getLast( scp.data.exercise._id ).then (sets) ->
+					scp.data.sets = sets
 					scp.data.set.value = scp.data.sets[scp.data.set.index]
 					scp.data.upsertModal.set = angular.copy scp.data.set.value
 
@@ -51,7 +46,6 @@ angular.module("BodyApp").controller "ExerciseCtrl", [
 						idx : scp.data.set.index + 1
 						heft : scp.data.set.value.heft
 						reps : scp.data.set.value.reps
-						type : "incomplete"
 					}
 
 				scp.data.set.value = scp.data.sets[scp.data.set.index]

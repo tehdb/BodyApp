@@ -15,6 +15,14 @@ div.exercise
 
 	h2.heading Sets
 	div.container.sets
+		div.raw
+			div.col-xs-3
+				span Nr.
+			div.col-xs-3
+				span heft
+			div.col-xs-3
+				span reps
+
 		div.raw.set( ng-repeat="set in data.sets", ng-class="set.type")
 			div.col-xs-3
 				span.idx(ng-bind="set.idx")

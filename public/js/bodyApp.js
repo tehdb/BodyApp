@@ -40,15 +40,8 @@ angular.module("BodyApp").controller("ExerciseCtrl", [
         es.getMuscles().then(function(muscles) {
           return scp.data.muscles = muscles;
         });
-        return ss.getLastExersiceSets(scp.data.exercise._id).then(function(sets) {
-          scp.data.sets = sets || [
-            {
-              idx: 1,
-              heft: 50,
-              reps: 10,
-              type: "incomplete"
-            }
-          ];
+        return ss.getLast(scp.data.exercise._id).then(function(sets) {
+          scp.data.sets = sets;
           scp.data.set.value = scp.data.sets[scp.data.set.index];
           return scp.data.upsertModal.set = angular.copy(scp.data.set.value);
         });
@@ -66,8 +59,7 @@ angular.module("BodyApp").controller("ExerciseCtrl", [
           scp.data.sets.push({
             idx: scp.data.set.index + 1,
             heft: scp.data.set.value.heft,
-            reps: scp.data.set.value.reps,
-            type: "incomplete"
+            reps: scp.data.set.value.reps
           });
         }
         scp.data.set.value = scp.data.sets[scp.data.set.index];
@@ -731,20 +723,11 @@ angular.module("BodyApp").service("SetsService", [
       function Service() {}
 
       Service.prototype.getExerciseSets = function() {
-        return null;
         return [
           {
             idx: 1,
-            heft: "100",
-            reps: 12
-          }, {
-            idx: 2,
-            heft: "100",
+            heft: 50,
             reps: 10
-          }, {
-            idx: 3,
-            heft: "100",
-            reps: 8
           }
         ];
       };
@@ -754,7 +737,7 @@ angular.module("BodyApp").service("SetsService", [
     })();
     _s = new Service();
     return {
-      getLastExersiceSets: function(exerciseId) {
+      getLast: function(exerciseId) {
         var deferred;
         deferred = q.defer();
         tmt(function() {
