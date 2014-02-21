@@ -1,17 +1,21 @@
 mongoose = require 'mongoose'
 
-schema = mongoose.Schema({
+schema = mongoose.Schema()
+	{
 		title : {
-					type : String
-					unique : true
-					required : true
+			type : String
+			unique : true
+			required : true
 		},
 		descr : String
-		muscles : [{ muscle : String }]
+		muscles : [{
+			muscle : String
+		}]
 	},{
 		collection : 'exercises'
 	}
 )
+
 # TODO: validate data before save
 
 # exerciseSchema.pre('validate', (next) ->
@@ -26,4 +30,4 @@ schema = mongoose.Schema({
 # 	next()
 # )
 
-exports.Exercise = mongoose.model( 'Exercise', schema )
+exports.Exercise = mongoose.model 'Exercise', schema
