@@ -1,4 +1,4 @@
-
+mgs = require("mongoose")
 
 #	- 		- last
 #	all
@@ -37,12 +37,10 @@ exports.get = (db) ->
 
 			else if count[1] isnt ''
 				out = "get from #{count[0]} to #{count[1]}"
-
-
-
-
-
 		res.send( out || "no match" )
+
+
+
 
 exports.add = (db) ->
 	return (req, res) ->

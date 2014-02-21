@@ -1,9 +1,9 @@
-ExerciseSchema = require('../schemas/exercise.schm')
+Exercise = require('../schemas/exercise.schm').Exercise
 
 
 exports.list = (db) ->
 	return (req, res) ->
-		ExerciseSchema.find {}, (err, docs) ->
+		Exercise.find {}, (err, docs) ->
 			if err
 				res.status(500).json({ status : 'failure' })
 				return false
@@ -13,7 +13,7 @@ exports.list = (db) ->
 
 exports.find = (db) ->
 	return (req, res) ->
-		ExerciseSchema.findById req.params.id, (err, doc) ->
+		Exercise.findById req.params.id, (err, doc) ->
 			if err
 				res.status(500).json({ status : 'failure' })
 				return false
@@ -37,16 +37,16 @@ exports.upsert = (db) ->
 					muscles : rb.muscles
 				}
 
-				ExerciseSchema.findById rb._id, (err, doc) ->
+				Exercise.findById rb._id, (err, doc) ->
 					if doc?
-						ExerciseSchema.findByIdAndUpdate doc._id, exercise, (err, rec) ->
+						Exercise.findByIdAndUpdate doc._id, exercise, (err, rec) ->
 							if err
 								res.status(500).json({ status : 'failure' })
 								return false
 
 							res.send(rec)
 					else
-						es = new ExerciseSchema(exercise)
+						es = new Exercise(exercise)
 						es.save (err, rec) ->
 							if err
 								res.status(500).json({ status : 'failure'})
@@ -57,7 +57,7 @@ exports.upsert = (db) ->
 
 exports.delete = (db) ->
 	return (req, res) ->
-		ExerciseSchema.findByIdAndRemove req.params.id, (err, doc) ->
+		Exercise.findByIdAndRemove req.params.id, (err, doc) ->
 			if err
 				res.status(500).json({ status : 'failure' })
 				return false
