@@ -52,7 +52,7 @@ _upsertOne = ( obj, model, cb ) ->
 				cb( doc )
 
 exports.upsert = ( model ) ->
-	(req, res) ->
+	(req, res, next) ->
 		res.format
 			json : ->
 				rb = req.body
@@ -73,5 +73,24 @@ exports.upsert = ( model ) ->
 				else
 					_upsertOne rb, model, (doc) ->
 						res.send doc
+
+exports.remove = ( model ) ->
+	(req, res, next) ->
+		res.format
+			json : ->
+				id = req.body._id
+				if /^[0-9a-fA-F]{24}$/.test id
+					model.findById id, (err, doc) ->
+						next err if err
+						if doc?
+							model.findByIdAndRemove doc._id, (err, doc ) ->
+								next err if err
+								res.status(200).json({ message : "success" })
+						else
+							next new Error("Oid not found")
+				else
+					next new Error("Invalid Oid")
+
+
 
 

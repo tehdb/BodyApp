@@ -50,8 +50,9 @@ app
 
 
 
-	.get(	"/api/muscle/select/:action?",		routes.common.select( models.muscle ) )
-	.put(	"/api/muscle/upsert",				routes.common.upsert( models.muscle ) )
+	.get(		"/api/muscle/select/:action?",		routes.common.select( models.muscle ) )
+	.put(		"/api/muscle/upsert",				routes.common.upsert( models.muscle ) )
+	.delete(	"/api/muscle/remove",				routes.common.remove( models.muscle ) )
 
 	# .get(	"/api/muscle/select/:action?",		routes.muscle.select )
 	# .post(	"/api/muscle/upsert",				routes.muscle.upsert )
