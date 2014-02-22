@@ -5,6 +5,12 @@ routes = {
 	muscle :	require( "./server/routes/muscle.rt" )
 	exercise :	require( "./server/routes/exercise.rt" )
 }
+
+models = {
+	muscle : 	require('./server/schemas/muscle.shm').Muscle
+	exercise : 	require('./server/schemas/exercise.shm').Exercise
+}
+
 # muscles :	require( "./server/routes/muscles.rt" )
 # sets :		require( "./server/routes/sets.rt" )
 #exercise : 	require( "./server/routes/exercise.rt" )
@@ -44,11 +50,14 @@ app
 
 
 
-	.get(	"/api/muscle/select/:action?",		routes.muscle.select )
-	.post(	"/api/muscle/upsert",				routes.muscle.upsert )
+	.get(	"/api/muscle/select/:action?",		routes.common.select( models.muscle ) )
+	.put(	"/api/muscle/upsert",				routes.common.upsert( models.muscle ) )
 
-	.get(	"/api/exercise/select/:action?",	routes.exercise.select )
-	.post(	"/api/exercise/upsert",				routes.exercise.upsert )
+	# .get(	"/api/muscle/select/:action?",		routes.muscle.select )
+	# .post(	"/api/muscle/upsert",				routes.muscle.upsert )
+
+	# .get(	"/api/exercise/select/:action?",	routes.exercise.select )
+	# .post(	"/api/exercise/upsert",				routes.exercise.upsert )
 
 	# .get( 	"/api/promotion/select/:id/:action?",	routes.promotion.select(db) )
 	# .post(	"/api/promotion/upsert",				routes.promotion.upsert(db) )
