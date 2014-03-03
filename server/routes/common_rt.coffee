@@ -33,7 +33,7 @@ exports.select = ( model ) ->
 					res.json docs
 
 			else
-				res.json { empty : true }
+				next new Error("Invalid action")
 
 
 
@@ -43,13 +43,11 @@ _upsertOne = ( obj, model, cb ) ->
 		if doc?
 			delete obj._id
 			model.findByIdAndUpdate doc._id, obj, (err, doc ) ->
-				throw err if err
-				cb( doc )
+				cb( err, doc )
 		else
 			m = new model( obj)
 			m.save (err, doc) ->
-				throw err if err
-				cb( doc )
+				cb( err, doc )
 
 exports.upsert = ( model ) ->
 	(req, res, next) ->
@@ -62,7 +60,8 @@ exports.upsert = ( model ) ->
 					async.each(
 						rb
 						, (obj, cb) ->
-							_upsertOne obj, model, (doc) ->
+							_upsertOne obj, model, ( err, doc) ->
+								throw err if err
 								resultArr.push( doc )
 								cb()
 						, (err) ->
@@ -71,9 +70,14 @@ exports.upsert = ( model ) ->
 					)
 
 				else
-					_upsertOne rb, model, (doc) ->
+					_upsertOne rb, model, ( err, doc) ->
+						next err if err
 						res.send doc
 
+#
+# DELETE : /api/exercise/remove/
+# {"_id":"530506d8c96d36a583ea1175"}
+#
 exports.remove = ( model ) ->
 	(req, res, next) ->
 		res.format

@@ -1,6 +1,6 @@
 mongoose = require 'mongoose'
 
-shema = mongoose.Schema(
+muscle = mongoose.Schema(
 	{
 		name : {
 			type : String
@@ -17,11 +17,11 @@ shema = mongoose.Schema(
 )
 
 
-shema.methods.getActionRegex = ->
-	return /(id|group)-[A-Za-z0-9]+/
+muscle.methods.getActionRegex = ->
+	return /(id|group|name)-[A-Za-z0-9]+/
 
 
-shema.methods.handleAction = (action, cb) ->
+muscle.methods.handleAction = (action, cb) ->
 	action = action.split("-")
 	switch action[0]
 		when 'id'
@@ -34,10 +34,21 @@ shema.methods.handleAction = (action, cb) ->
 				cb new Error("Invalid Oid")
 
 		when 'group'
-			this.model('Muscle').find { group : action[1] }, (err, docs) ->
+			group = action[1]
+			this.model('Muscle').find { group :group }, (err, docs) ->
 				cb err if err
 				cb null, docs
+
+		when 'name'
+			name = decodeURI(action[1])
+			this.model('Muscle').findOne { name : name}, (err, doc) ->
+				cb err if err
+
+				if doc is null
+					cb new Error("Name not found")
+				else
+					cb null, doc
 		else
 			cb new Error("Action does not match any pattern")
 
-exports.Muscle = mongoose.model 'Muscle', shema
+exports.Muscle = mongoose.model 'Muscle', muscle

@@ -30,3 +30,7 @@ set/get enviroment variables
 	app.configure('production', function(){})
 
 
+run tests
+	mocha -w  --compilers coffee:coffee-script test/server/api/muscle_spec.coffee
+
+

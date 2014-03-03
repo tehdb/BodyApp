@@ -1,14 +1,14 @@
 express = require("express")
 
 routes = {
-	common :	require( "./server/routes/common.rt" )
-	muscle :	require( "./server/routes/muscle.rt" )
-	exercise :	require( "./server/routes/exercise.rt" )
+	common :	require( "./server/routes/common_rt" )
+	# muscle :	require( "./server/routes/muscle.rt" )
+	# exercise :	require( "./server/routes/exercise.rt" )
 }
 
 models = {
-	muscle : 	require('./server/schemas/muscle.shm').Muscle
-	exercise : 	require('./server/schemas/exercise.shm').Exercise
+	muscle : 	require('./server/schemas/muscle_shm').Muscle
+	exercise : 	require('./server/schemas/exercise_shm').Exercise
 }
 
 # muscles :	require( "./server/routes/muscles.rt" )
@@ -30,7 +30,7 @@ app
 	.use( express.methodOverride() )
 	.use( app.router )
 	.use( express.static(path.join(__dirname, "public")) )
-	.use( express.errorHandler({dumpExceptions: true, showStack: true}) )
+	.use( express.errorHandler({dumpExceptions: true, showStack: false}) )
 
 	# routes
 	.options(/\/api\/\w*\/(add|get)/,		routes.common.allowOrigin )
@@ -53,6 +53,10 @@ app
 	.get(		"/api/muscle/select/:action?",		routes.common.select( models.muscle ) )
 	.put(		"/api/muscle/upsert",				routes.common.upsert( models.muscle ) )
 	.delete(	"/api/muscle/remove",				routes.common.remove( models.muscle ) )
+
+	.get(		"/api/exercise/select/:action?",	routes.common.select( models.exercise ) )
+	.put(		"/api/exercise/upsert",				routes.common.upsert( models.exercise ) )
+	.delete(	"/api/exercise/remove",				routes.common.remove( models.exercise ) )
 
 	# .get(	"/api/muscle/select/:action?",		routes.muscle.select )
 	# .post(	"/api/muscle/upsert",				routes.muscle.upsert )
