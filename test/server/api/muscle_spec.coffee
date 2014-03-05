@@ -61,8 +61,7 @@ describe "muscle api", ->
 					, (err, res, body) ->
 						expect( err ).to.equal null
 						expect( res.statusCode ).to.equal 200
-						if ++removeCount is removeLength
-							done()
+						done() if ++removeCount is removeLength
 
 
 	it "should update one muscle", (done) ->

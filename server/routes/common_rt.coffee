@@ -25,7 +25,7 @@ module.exports = (app) ->
 		.delete(	"/api/exercise/remove",					_remove( models.exercise ) )
 
 		.use (err, req, res, next ) ->
-			res.status( err.status ).json( {"message" : err.message })
+			res.status( err.status ).json( {"message" : err.message } )
 
 
 _index = () ->
