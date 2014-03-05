@@ -49,7 +49,7 @@ _select = ( model ) ->
 		# select all
 		if not action?
 			model.find {}, (err, docs) ->
-				return next( err ) if err
+				return next( new HttpError(404, err.message ) ) if err # TODO: handle system error
 				res.json docs
 		else
 			m = new model()
@@ -90,13 +90,13 @@ _upsert = ( model ) ->
 								resultArr.push( doc )
 								cb()
 						, (err) ->
-							next err if err
+							return next( new HttpError(404, err.message ) ) if err # TODO: handle system error
 							res.send resultArr
 					)
 
 				else
 					_upsertOne rb, model, ( err, doc) ->
-						next err if err
+						return next( new HttpError(404, err.message ) ) if err # TODO: handle system error
 						res.send doc
 
 #

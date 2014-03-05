@@ -34,19 +34,17 @@ describe "muscle api", ->
 				name : "select test value #{i}"
 			})
 
-		request(
-			{
-				method : 'PUT'
-				uri : "#{HOST}upsert"
-				json : that.tempMuscleArray
-			}, (err, res, body) ->
-				expect( err ).to.equal null
-				expect( res.statusCode ).to.equal 200
-				expect( body ).to.be.jsonSchema( MUSCLE_ARRAY_SCHEMA )
+		request {
+					method : 'PUT'
+					uri : "#{HOST}upsert"
+					json : that.tempMuscleArray
+				}, (err, res, body) ->
+					expect( err ).to.equal null
+					expect( res.statusCode ).to.equal 200
+					expect( body ).to.be.jsonSchema( MUSCLE_ARRAY_SCHEMA )
 
-				that.tempMuscleArray = body
-				done()
-		)
+					that.tempMuscleArray = body
+					done()
 
 	# remove temp data
 	after (done) ->
@@ -69,19 +67,18 @@ describe "muscle api", ->
 		muscle.name += " updated"
 		muscle.group = 7
 
-		request(
-			{
-				method : 'PUT'
-				uri : "#{HOST}upsert"
-				json : muscle
-			}, (err, res, body) ->
-				expect( err ).to.equal null
-				expect( res.statusCode ).to.equal 200
-				expect( body._id ).to.equal muscle._id
-				expect( body.name ).to.equal muscle.name
-				expect( body.group ).to.equal muscle.group
-				done()
-		)
+		request {
+					method : 'PUT'
+					uri : "#{HOST}upsert"
+					json : muscle
+				}, (err, res, body) ->
+					expect( err ).to.equal null
+					expect( res.statusCode ).to.equal 200
+					expect( body._id ).to.equal muscle._id
+					expect( body.name ).to.equal muscle.name
+					expect( body.group ).to.equal muscle.group
+					done()
+
 
 	it "should update array of muscles", (done) ->
 		muscles = that.tempMuscleArray.slice(1,3)
@@ -89,23 +86,21 @@ describe "muscle api", ->
 		_.each muscles, (elm, idx) ->
 			muscles[idx].name += " updated"
 
-		request(
-			{
-				method : 'PUT'
-				uri : "#{HOST}upsert"
-				json : muscles
-			}, (err, res, body) ->
-				expect( err ).to.equal null
-				expect( res.statusCode ).to.equal 200
-				expect( body ).to.be.jsonSchema( MUSCLE_ARRAY_SCHEMA )
+		request {
+					method : 'PUT'
+					uri : "#{HOST}upsert"
+					json : muscles
+				}, (err, res, body) ->
+					expect( err ).to.equal null
+					expect( res.statusCode ).to.equal 200
+					expect( body ).to.be.jsonSchema( MUSCLE_ARRAY_SCHEMA )
 
-				# TODO: возможно более тщательней тестировать, проверить группу или сортировку?
-				_.each( body, (elm, idx) ->
-					expect( elm.name ).to.have.string(" updated")
-					expect( muscleIds ).to.contain( elm._id )
-				)
-				done()
-		)
+					# TODO: возможно более тщательней тестировать, проверить группу или сортировку?
+					_.each( body, (elm, idx) ->
+						expect( elm.name ).to.have.string(" updated")
+						expect( muscleIds ).to.contain( elm._id )
+					)
+					done()
 
 	it "should select all muscles", (done) ->
 		request {
