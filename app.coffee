@@ -1,16 +1,5 @@
 express = require("express")
 
-routes = {
-	common :	require( "./server/routes/common_rt" )
-	# muscle :	require( "./server/routes/muscle.rt" )
-	# exercise :	require( "./server/routes/exercise.rt" )
-}
-
-models = {
-	muscle : 	require('./server/schemas/muscle_shm').Muscle
-	exercise : 	require('./server/schemas/exercise_shm').Exercise
-}
-
 # muscles :	require( "./server/routes/muscles.rt" )
 # sets :		require( "./server/routes/sets.rt" )
 #exercise : 	require( "./server/routes/exercise.rt" )
@@ -30,41 +19,8 @@ app
 	.use( express.methodOverride() )
 	.use( app.router )
 	.use( express.static(path.join(__dirname, "public")) )
-	.use( express.errorHandler({dumpExceptions: true, showStack: false}) )
+	#.use( express.errorHandler({dumpExceptions: true, showStack: false}) )
 
-	# routes
-	.options(/\/api\/\w*\/(add|get)/,		routes.common.allowOrigin )
+require('./server/routes/common_rt')(app)
 
-	.get(	"/",							routes.common.index() )
-
-	# .get(	"/api/exercises/list",			routes.exercises.list(db) )
-	# .get(	"/api/exercises/get/:id",		routes.exercises.find(db) )
-	# .post(	"/api/exercises/upsert",		routes.exercises.upsert(db) )
-	# .post(	"/api/exercises/delete/:id",	routes.exercises.delete(db) )
-
-	# .get(	"/api/muscles/list",			routes.muscles.getMuscles(db) )
-	# .post(	"/api/muscles/add",				routes.muscles.addMuscle(db) )
-	# .get(	"/api/muscles/get/:ids",		routes.muscles.getMusclesByIds(db) )
-
-
-
-
-
-	.get(		"/api/muscle/select/:action?",		routes.common.select( models.muscle ) )
-	.put(		"/api/muscle/upsert",				routes.common.upsert( models.muscle ) )
-	.delete(	"/api/muscle/remove",				routes.common.remove( models.muscle ) )
-
-	.get(		"/api/exercise/select/:action?",	routes.common.select( models.exercise ) )
-	.put(		"/api/exercise/upsert",				routes.common.upsert( models.exercise ) )
-	.delete(	"/api/exercise/remove",				routes.common.remove( models.exercise ) )
-
-	# .get(	"/api/muscle/select/:action?",		routes.muscle.select )
-	# .post(	"/api/muscle/upsert",				routes.muscle.upsert )
-
-	# .get(	"/api/exercise/select/:action?",	routes.exercise.select )
-	# .post(	"/api/exercise/upsert",				routes.exercise.upsert )
-
-	# .get( 	"/api/promotion/select/:id/:action?",	routes.promotion.select(db) )
-	# .post(	"/api/promotion/upsert",				routes.promotion.upsert(db) )
-
-	.listen( app.get("port") )
+app.listen( app.get("port") )

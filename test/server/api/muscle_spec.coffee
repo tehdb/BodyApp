@@ -22,7 +22,7 @@ MUSCLE_ARRAY_SCHEMA = {
 	}
 }
 
-describe "muscle api selects", ->
+describe "muscle api", ->
 	that = @
 	that.tempMuscleArray = []
 
@@ -40,6 +40,10 @@ describe "muscle api selects", ->
 				uri : "#{HOST}upsert"
 				json : that.tempMuscleArray
 			}, (err, res, body) ->
+				expect( err ).to.equal null
+				expect( res.statusCode ).to.equal 200
+				expect( body ).to.be.jsonSchema( MUSCLE_ARRAY_SCHEMA )
+
 				that.tempMuscleArray = body
 				done()
 		)
@@ -55,9 +59,54 @@ describe "muscle api selects", ->
 						json : { _id : elm._id}
 					}
 					, (err, res, body) ->
-						done() if ++removeCount is removeLength
+						expect( err ).to.equal null
+						expect( res.statusCode ).to.equal 200
+						if ++removeCount is removeLength
+							done()
 
 
+	it "should update one muscle", (done) ->
+		muscle = that.tempMuscleArray[0]
+		muscle.name += " updated"
+		muscle.group = 7
+
+		request(
+			{
+				method : 'PUT'
+				uri : "#{HOST}upsert"
+				json : muscle
+			}, (err, res, body) ->
+				expect( err ).to.equal null
+				expect( res.statusCode ).to.equal 200
+				expect( body._id ).to.equal muscle._id
+				expect( body.name ).to.equal muscle.name
+				expect( body.group ).to.equal muscle.group
+				done()
+		)
+
+	it "should update array of muscles", (done) ->
+		muscles = that.tempMuscleArray.slice(1,3)
+		muscleIds = _.pluck( that.tempMuscleArray, '_id' )
+		_.each muscles, (elm, idx) ->
+			muscles[idx].name += " updated"
+
+		request(
+			{
+				method : 'PUT'
+				uri : "#{HOST}upsert"
+				json : muscles
+			}, (err, res, body) ->
+				expect( err ).to.equal null
+				expect( res.statusCode ).to.equal 200
+				expect( body ).to.be.jsonSchema( MUSCLE_ARRAY_SCHEMA )
+
+				# TODO: возможно более тщательней тестировать, проверить группу или сортировку?
+				_.each( body, (elm, idx) ->
+					expect( elm.name ).to.have.string(" updated")
+					expect( muscleIds ).to.contain( elm._id )
+				)
+				done()
+		)
 
 	it "should select all muscles", (done) ->
 		request {
@@ -113,7 +162,7 @@ describe "muscle api selects", ->
 					uri : "#{HOST}select/id-XXX"
 				}
 				, (err, res, body) ->
-					expect( res.statusCode ).to.equal 500
+					expect( res.statusCode ).to.equal 404
 					done()
 
 
@@ -123,7 +172,7 @@ describe "muscle api selects", ->
 					uri : "#{HOST}select/name-XXX"
 				}
 				, (err, res, body) ->
-					expect( res.statusCode ).to.equal 500
+					expect( res.statusCode ).to.equal 404
 					done()
 
 
@@ -133,8 +182,7 @@ describe "muscle api selects", ->
 					uri : "#{HOST}select/invalid-action"
 				}
 				, (err, res, body) ->
-					# console.log body
-					expect( res.statusCode ).to.equal 500
+					expect( res.statusCode ).to.equal 404
 					done()
 
 

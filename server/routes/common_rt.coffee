@@ -1,44 +1,68 @@
 _ = require("underscore")
 async = require("async")
+ObjectID = require('mongodb').ObjectID
+
+HttpError = require('../errors/HttpError').HttpError
+
+models = {
+	muscle : 	require('../schemas/muscle_shm').Muscle
+	exercise : 	require('../schemas/exercise_shm').Exercise
+}
 
 
+module.exports = (app) ->
+	app
+		.get(		"/",									_index() )
 
-exports.index = () ->
+		.options(	/\/api\/\w*\/(select|upsert|remove)/, 	_allowOrigin )
+
+		.get(		"/api/muscle/select/:action?",			_select( models.muscle ) )
+		.put(		"/api/muscle/upsert",					_upsert( models.muscle ) )
+		.delete(	"/api/muscle/remove",					_remove( models.muscle ) )
+
+		.get(		"/api/exercise/select/:action?",		_select( models.exercise ) )
+		.put(		"/api/exercise/upsert",					_upsert( models.exercise ) )
+		.delete(	"/api/exercise/remove",					_remove( models.exercise ) )
+
+		.use (err, req, res, next ) ->
+			res.status( err.status ).json( {"message" : err.message })
+
+
+_index = () ->
 	return (req, res) ->
 		res.render("index", {
 			title : "app"
 		})
 
-exports.allowOrigin = (req, res) ->
+
+_allowOrigin = (req, res) ->
 	res.header('Access-Control-Allow-Origin', '*')
 	res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS')
 	res.header('Access-Control-Allow-Headers', 'Content-Type')
 	res.end()
 
 
-exports.select = ( model ) ->
+_select = ( model ) ->
 	(req, res, next) ->
 		action = req.params.action
 
 		# select all
 		if not action?
 			model.find {}, (err, docs) ->
-				next err if err
+				return next( err ) if err
 				res.json docs
 		else
 			m = new model()
 			if m.getActionRegex().test action
 				m.handleAction action, (err, docs) ->
-					next err if err
+					return next( new HttpError(404, err.message ) ) if err
 					res.json docs
 
 			else
-				next new Error("Invalid action")
-
+				next new HttpError( 404, "Invalid action")
 
 
 _upsertOne = ( obj, model, cb ) ->
-
 	model.findOne { '_id' : obj._id }, (err, doc) ->
 		if doc?
 			delete obj._id
@@ -49,7 +73,8 @@ _upsertOne = ( obj, model, cb ) ->
 			m.save (err, doc) ->
 				cb( err, doc )
 
-exports.upsert = ( model ) ->
+
+_upsert = ( model ) ->
 	(req, res, next) ->
 		res.format
 			json : ->
@@ -78,22 +103,24 @@ exports.upsert = ( model ) ->
 # DELETE : /api/exercise/remove/
 # {"_id":"530506d8c96d36a583ea1175"}
 #
-exports.remove = ( model ) ->
+_remove = ( model ) ->
 	(req, res, next) ->
 		res.format
 			json : ->
-				id = req.body._id
-				if /^[0-9a-fA-F]{24}$/.test id
-					model.findById id, (err, doc) ->
-						next err if err
-						if doc?
-							model.findByIdAndRemove doc._id, (err, doc ) ->
-								next err if err
-								res.status(200).json({ message : "success" })
-						else
-							next new Error("Oid not found")
-				else
-					next new Error("Invalid Oid")
+				try
+					id = new ObjectID( req.body._id )
+				catch err
+					return cb new Error("Invalid Oid")
+
+				model.findById id, (err, doc) ->
+					next err if err # TODO: handle system error
+					if doc?
+						model.findByIdAndRemove doc._id, (err, doc ) ->
+							next err if err
+							res.status(200).json({ message : "success" })
+					else
+						next new HttpError( 404, "Oid not found")
+
 
 
 
