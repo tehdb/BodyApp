@@ -20,7 +20,7 @@ angular.module("BodyApp").service "ExercisesService", [
 			initData : ->
 				that = @
 
-				that.getExercisesFromServer().then (exercises) ->
+				that.getExercisesFromServer().then( (exercises) ->
 					that.getMusclesFromServer().then (muscles) ->
 						_.each exercises, ( exercise ) ->
 							exercise.muscles = _.clone _.filter muscles, (val) ->
@@ -30,6 +30,9 @@ angular.module("BodyApp").service "ExercisesService", [
 							exercises : exercises
 							muscles : muscles
 						})
+				).catch(->
+					console.log "was nun?"
+				)
 
 			getExercisesFromServer : ->
 				deferred = q.defer()

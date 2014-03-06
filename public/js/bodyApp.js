@@ -130,7 +130,7 @@ angular.module("BodyApp").controller("ExercisesCtrl", [
       muscleGroup: null,
       muscles: null,
       exercises: null,
-      filtered: null,
+      filtered: [],
       searchText: ''
     };
     scp.data.muscleGroup = scp.data.muscleGroups[0];
@@ -140,7 +140,10 @@ angular.module("BodyApp").controller("ExercisesCtrl", [
       muscles: []
     };
     es.getExercises().then(function(data) {
+      console.log(data);
       return scp.data.exercises = data;
+    })["catch"](function() {
+      return console.log("cant load data");
     });
     es.getMuscles().then(function(data) {
       return scp.data.muscles = data;
@@ -504,6 +507,8 @@ angular.module("BodyApp").service("ExercisesService", [
               muscles: muscles
             });
           });
+        })["catch"](function() {
+          return console.log("was nun?");
         });
       };
 

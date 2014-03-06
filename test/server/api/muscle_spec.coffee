@@ -112,7 +112,6 @@ describe "muscle api", ->
 					data = JSON.parse( body )
 					expect( err ).to.equal null
 					expect( res.statusCode ).to.equal 200
-					expect( _.isArray(data) ).to.be.true
 					expect( data ).to.have.length.of.at.least 3
 					expect( data ).to.be.jsonSchema( MUSCLE_ARRAY_SCHEMA )
 					done()

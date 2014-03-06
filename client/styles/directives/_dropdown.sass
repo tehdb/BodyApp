@@ -17,12 +17,19 @@
 		z-index : 2010
 		background : $th-white
 		// +box-shadow( 0 0 10px 5px $th-gray )
-		+border-radius( 5px )
+		//+border-radius( 5px )
+		+border-bottom-radius(5px)
 
 		li.th-option
 			padding : 5px 10px
 			font-size : 12px
 			cursor : pointer
+
+			&:first-child
+				+border-top-radius(0)
+
+			&:last-child
+				+border-bottom-radius(5px)
 
 			&:nth-child(even)
 				background : $th-white

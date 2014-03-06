@@ -7,6 +7,7 @@ HttpError = require('../errors/HttpError').HttpError
 models = {
 	muscle : 	require('../schemas/muscle_shm').Muscle
 	exercise : 	require('../schemas/exercise_shm').Exercise
+	promo : 	require('../schemas/promo_shm').Promo
 }
 
 
@@ -21,8 +22,12 @@ module.exports = (app) ->
 		.delete(	"/api/muscle/remove",					_remove( models.muscle ) )
 
 		.get(		"/api/exercise/select/:action?",		_select( models.exercise ) )
-		.put(		"/api/exercise/upsert",					    _upsert( models.exercise ) )
-		.delete(	"/api/exercise/remove",				  	_remove( models.exercise ) )
+		.put(		"/api/exercise/upsert",					_upsert( models.exercise ) )
+		.delete(	"/api/exercise/remove",					_remove( models.exercise ) )
+
+		.get(		"/api/promo/select/:action?",			_select( models.promo ) )
+		.put(		"/api/promo/upsert",					_upsert( models.promo ) )
+		.delete(	"/api/promo/remove",					_remove( models.promo ) )
 
 		.use (err, req, res, next ) ->
 			res.status( err.status ).json( {"message" : err.message } )
@@ -69,7 +74,7 @@ _upsertOne = ( obj, model, cb ) ->
 			model.findByIdAndUpdate doc._id, obj, (err, doc ) ->
 				cb( err, doc )
 		else
-			m = new model( obj)
+			m = new model( obj )
 			m.save (err, doc) ->
 				cb( err, doc )
 
@@ -80,6 +85,7 @@ _upsert = ( model ) ->
 			json : ->
 				rb = req.body
 
+				# TODO: move upsert to schema methods
 				if _.isArray( rb )
 					resultArr = []
 					async.each(

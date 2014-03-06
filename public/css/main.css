@@ -438,23 +438,42 @@ ul.th-justified-list li .btn {
   border: 1px solid #cccccc;
   z-index: 2010;
   background: white;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
+  -moz-border-radius-bottomleft: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
-/* line 22, ../../client/styles/directives/_dropdown.sass */
+/* line 23, ../../client/styles/directives/_dropdown.sass */
 .th-dropdown ul.th-menu li.th-option {
   padding: 5px 10px;
   font-size: 12px;
   cursor: pointer;
 }
-/* line 27, ../../client/styles/directives/_dropdown.sass */
+/* line 28, ../../client/styles/directives/_dropdown.sass */
+.th-dropdown ul.th-menu li.th-option:first-child {
+  -moz-border-radius-topleft: 0;
+  -webkit-border-top-left-radius: 0;
+  border-top-left-radius: 0;
+  -moz-border-radius-topright: 0;
+  -webkit-border-top-right-radius: 0;
+  border-top-right-radius: 0;
+}
+/* line 31, ../../client/styles/directives/_dropdown.sass */
+.th-dropdown ul.th-menu li.th-option:last-child {
+  -moz-border-radius-bottomleft: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+/* line 34, ../../client/styles/directives/_dropdown.sass */
 .th-dropdown ul.th-menu li.th-option:nth-child(even) {
   background: white;
 }
-/* line 30, ../../client/styles/directives/_dropdown.sass */
+/* line 37, ../../client/styles/directives/_dropdown.sass */
 .th-dropdown ul.th-menu li.th-option:hover {
   color: white;
   background: black;

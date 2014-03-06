@@ -6,7 +6,7 @@ angular.module("BodyApp").controller "ExercisesCtrl", [ "$scope", "ExercisesServ
 		muscleGroup : null
 		muscles : null
 		exercises : null
-		filtered : null
+		filtered : []
 		searchText : ''
 	}
 
@@ -18,9 +18,12 @@ angular.module("BodyApp").controller "ExercisesCtrl", [ "$scope", "ExercisesServ
 		muscles : []
 	}
 
-
-	es.getExercises().then (data) ->
+	es.getExercises().then((data) ->
+		console.log data
 		scp.data.exercises = data
+	).catch( ->
+		console.log "cant load data"
+	)
 
 
 	es.getMuscles().then (data) ->
