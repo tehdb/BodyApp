@@ -21,8 +21,8 @@ module.exports = (app) ->
 		.delete(	"/api/muscle/remove",					_remove( models.muscle ) )
 
 		.get(		"/api/exercise/select/:action?",		_select( models.exercise ) )
-		.put(		"/api/exercise/upsert",					_upsert( models.exercise ) )
-		.delete(	"/api/exercise/remove",					_remove( models.exercise ) )
+		.put(		"/api/exercise/upsert",					    _upsert( models.exercise ) )
+		.delete(	"/api/exercise/remove",				  	_remove( models.exercise ) )
 
 		.use (err, req, res, next ) ->
 			res.status( err.status ).json( {"message" : err.message } )

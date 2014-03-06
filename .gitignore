@@ -1,4 +1,5 @@
 .sass-cache/
 .temp/
+.idea/
 node_modules/
 public/vendor/

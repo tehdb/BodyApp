@@ -22,6 +22,7 @@ MUSCLE_ARRAY_SCHEMA = {
 	}
 }
 
+
 describe "muscle api", ->
 	that = @
 	that.tempMuscleArray = []
