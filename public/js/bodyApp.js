@@ -131,7 +131,11 @@ angular.module("BodyApp").controller("ExercisesCtrl", [
       muscles: null,
       exercises: null,
       filtered: [],
-      searchText: ''
+      searchText: '',
+      addExerciseModal: {
+        show: false,
+        confirmed: false
+      }
     };
     scp.data.muscleGroup = scp.data.muscleGroups[0];
     scp.addForm = {
@@ -377,6 +381,7 @@ angular.module("BodyApp").directive("thModal", [
     return {
       restrict: "E",
       scope: {
+        title: "@",
         show: "=",
         pos: "=",
         confirm: "="

@@ -3,7 +3,7 @@ div.th-modal(ng-show="show")
 
 	div.th-modal-content
 		div.th-modal-head
-			h5.pull-left Title
+			h5.pull-left(ng-bind="title")
 			button.btn.pull-right(
 				type="button"
 				ng-click="cancel($event)"

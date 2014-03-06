@@ -37,14 +37,56 @@ div.exercises
 
 
 	//- TODO: make it th-modal
-
-
-	button.btn.btn-primary(
-		data-toggle="modal"
-		data-target="#addExerciseModal"
-	)
+	button.btn.btn-primary( ng-click="data.addExerciseModal.show = !data.addExerciseModal.show")
 		i.fa.fa-plus
 		span &nbsp;add exercise
+
+
+		//- pos="data.addExerciseModal.pos"
+	th-modal(
+		title="add new exercise"
+		show="data.addExerciseModal.show"
+		confirm = "data.addExerciseModal.confirmed"
+	)
+		form.form-horizontal(role="form", name="exrcForm", ng-submit="submitForm()")
+			div.form-group
+				label.col-sm-2.control-label(for="exrcTitleInp") Title
+				//- ( ng-class="{ 'has-error' : exrcForm.title.$invalid && !exrcForm.title.$pristine }" )
+				div.col-sm-10
+					input.form-control(
+						id="exrcTitleInp"
+						type="text"
+						name="title"
+						placeholder="exercise title"
+						ng-model="addForm.title"
+						ng-required="true"
+					)
+
+			div.form-group
+				label.col-sm-2.control-label(for="exerciseDescrInp") Description
+				div.col-sm-10
+					textarea.form-control(
+						id="exerciseDescrInp",
+						rows="3",
+						placeholder="exercise description",
+						ng-model="addForm.descr"
+					)
+
+			div.form-group
+				label.col-sm-2.control-label Muscles
+				div.col-sm-10
+					//- TODO: generalize th-chosen
+					muscle-chosen(
+						options="data.muscles"
+						selected="addForm.muscles"
+					)
+
+	//- button.btn.btn-primary(
+	//- 	data-toggle="modal"
+	//- 	data-target="#addExerciseModal"
+	//- )
+	//- 	i.fa.fa-plus
+	//- 	span &nbsp;add exercise
 
 
 	div.modal.fade(

@@ -8,6 +8,11 @@ angular.module("BodyApp").controller "ExercisesCtrl", [ "$scope", "ExercisesServ
 		exercises : null
 		filtered : []
 		searchText : ''
+		addExerciseModal : {
+			show : false
+			confirmed : false
+		}
+
 	}
 
 	scp.data.muscleGroup = scp.data.muscleGroups[0]

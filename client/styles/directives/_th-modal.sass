@@ -6,21 +6,40 @@
 	bottom : 0
 	left : 0
 	z-index : 3000
+	padding : 15px
 
 	&.ng-hide-add, &.ng-hide-remove
 		display : block !important
 
 	&.ng-hide-add
-		+transition( opacity 0.3s linear )
-		opacity : 1
+		+transition( all 0.3s linear )
+
+		.th-modal-backdrop
+			opacity : 0.5
+		.th-modal-content
+			opacity : 1
+			+translateY( 0 )
 		&.ng-hide-add-active
-			opacity : 0
+			.th-modal-backdrop
+				opacity : 0
+			.th-modal-content
+				opacity : 0
+				+translateY( -200px )
 
 	&.ng-hide-remove
-		+transition( opacity 0.3s linear )
-		opacity : 0
+		+transition( all 0.3s linear )
+
+		.th-modal-backdrop
+			opacity : 0
+		.th-modal-content
+			opacity : 0
+			+translateY( -200px )
 		&.ng-hide-remove-active
-			opacity : 1
+			.th-modal-backdrop
+				opacity : 0.5
+			.th-modal-content
+				opacity : 1
+				+translateY( 0 )
 
 	.th-modal-backdrop
 		position : absolute
@@ -31,16 +50,16 @@
 		z-index : 3001
 		background : $th-black
 		opacity : 0.5
+		+transition( all 0.3s linear )
 
 	.th-modal-content
-		position : absolute
-		top : 0
-		left : 0
+		position : relative
 		padding : 10px
-		margin : 10px
+		margin : 0 auto
 		z-index : 3002
 		background : $th-white
 		+border-radius( 5px )
+		+transition( all 0.3s linear )
 
 		.th-modal-head
 			+clearfix

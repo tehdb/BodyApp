@@ -1,8 +1,9 @@
-angular.module("BodyApp").directive "thModal", [ 
+angular.module("BodyApp").directive "thModal", [
 	"$q",	"$timeout",
 	( q,	tmt ) ->
 		restrict : "E"
 		scope : {
+			title : "@"
 			show : "=" # or "=options"
 			pos : "="
 			confirm : "="
