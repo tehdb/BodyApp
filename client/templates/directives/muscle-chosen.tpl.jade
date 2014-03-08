@@ -1,5 +1,5 @@
 div.th-chosen(ng-click="toggleMenu($event)")
-	span.caret(ng-class="{'active' : toggles.showmenu}")
+	span.caret(ng-class="{'active' : data.toggles.showmenu}")
 
 	ul.selected
 		li( ng-repeat="s in selected" )
@@ -7,12 +7,12 @@ div.th-chosen(ng-click="toggleMenu($event)")
 			i.fa.fa-times( ng-click="unselect( $index, $event )" )
 
 
-	div.options( ng-show="toggles.showMenu" )
+	div.options( ng-show="data.toggles.showMenu" )
 		div.th-icon-btn.filter-btn(ng-click="toggleFilter($event)", title="filter")
 			i.fa.fa-filter
 
 
-		div.input-group.filter-form(ng-show="toggles.showFilter")
+		div.input-group.filter-form(ng-show="data.toggles.showFilter")
 			//- span.input-group-addon
 			//- 	i.fa.fa-search
 			input.form-control.filter(
@@ -42,7 +42,9 @@ div.th-chosen(ng-click="toggleMenu($event)")
 		div.th-icon-btn.add-btn(ng-click="toggleAddForm($event)", title="add option")
 			i.fa.fa-plus
 
-		div.input-group.add-form(ng-show="toggles.showAddForm")
+		div.input-group.add-form(
+			ng-show="data.toggles.showAddForm"
+		)
 			th-dropdown(
 				class="input-group-btn"
 				options="data.muscleGroups"
@@ -50,16 +52,16 @@ div.th-chosen(ng-click="toggleMenu($event)")
 			)
 
 			input.form-control(
-				type="text",
-				placeholder="add element",
-				ng-click="prevent($event)",
+				type="text"
+				placeholder="add element"
+				ng-click="prevent($event)"
 				ng-model="data.newMuscle"
 			)
 
 			span.input-group-btn
 				button.btn.btn-default(
-					type="button",
-					ng-click="add( $event )",
+					type="button"
+					ng-click="add( $event )"
 					ng-class="{ 'disabled' : data.newMuscle == ''}"
 				)
 					i.fa.fa-plus

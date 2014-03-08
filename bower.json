@@ -2,7 +2,7 @@
   "name": "bodyApp",
   "version": "0.0.1",
   "dependencies": {
-    "angular": "~1.2.14",
+    "angular": "~1.2.15",
     "angular-animate": "~1.2.13",
     "angular-cookies": "1.2.6",
     "angular-resource": "1.2.6",

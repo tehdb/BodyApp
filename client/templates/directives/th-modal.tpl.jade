@@ -12,8 +12,8 @@ div.th-modal(ng-show="show")
 
 		div.th-modal-body( ng-transclude )
 
-		div.th-modal-foot
-			div.confirm(ng-show="data.confirmable")
+		div.th-modal-foot(ng-show="data.confirmable")
+			div.confirm
 				button.btn.btn-danger.icon-left.cancel-btn(
 					type="button"
 					ng-click="cancel($event)"

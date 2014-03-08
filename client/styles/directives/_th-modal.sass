@@ -18,13 +18,13 @@
 			opacity : 0.5
 		.th-modal-content
 			opacity : 1
-			+translateY( 0 )
+			+scale( 1, 1 )
 		&.ng-hide-add-active
 			.th-modal-backdrop
 				opacity : 0
 			.th-modal-content
 				opacity : 0
-				+translateY( -200px )
+				+scale( 0.7, 0.7 )
 
 	&.ng-hide-remove
 		+transition( all 0.3s linear )
@@ -33,13 +33,13 @@
 			opacity : 0
 		.th-modal-content
 			opacity : 0
-			+translateY( -200px )
+			+scale( 0.7, 0.7  )
 		&.ng-hide-remove-active
 			.th-modal-backdrop
 				opacity : 0.5
 			.th-modal-content
 				opacity : 1
-				+translateY( 0 )
+				+scale( 1, 1 )
 
 	.th-modal-backdrop
 		position : absolute

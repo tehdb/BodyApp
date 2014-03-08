@@ -1,0 +1,14 @@
+div.muscle.view
+
+	div.controls
+		button.btn(
+			ng-class="{'active' : data.edit}"
+			type="button"
+			ng-click="data.edit = !data.edit"
+		)
+			i.fa.fa-edit
+
+		h1.title(ng-bind="data.muscle.name")
+
+
+	p(ng-bind="data.muscle.group.name")

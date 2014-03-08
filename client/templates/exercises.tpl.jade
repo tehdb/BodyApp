@@ -21,7 +21,9 @@ div.exercises
 
 
 	ul.th-justified-list
-		li(ng-repeat="exr in data.filtered = (data.exercises | filter:data.searchText | musclegroup:data.muscleGroup)")
+		li(
+			ng-repeat="exr in data.filtered = (data.exercises | filter:data.searchText | musclegroup:data.muscleGroup)"
+		)
 			div.thumb
 				i.fa.fa-picture-o
 
@@ -36,8 +38,7 @@ div.exercises
 					span(ng-bind="m.name")
 
 
-	//- TODO: make it th-modal
-	button.btn.btn-primary( ng-click="data.addExerciseModal.show = !data.addExerciseModal.show")
+	button.btn.btn-primary( ng-click="data.showAddExerciseModal = !data.showAddExerciseModal")
 		i.fa.fa-plus
 		span &nbsp;add exercise
 
@@ -45,10 +46,9 @@ div.exercises
 		//- pos="data.addExerciseModal.pos"
 	th-modal(
 		title="add new exercise"
-		show="data.addExerciseModal.show"
-		confirm = "data.addExerciseModal.confirmed"
+		show="data.showAddExerciseModal"
 	)
-		form.form-horizontal(role="form", name="exrcForm", ng-submit="submitForm()")
+		form.form-horizontal(ng-submit="submitAddExerciseForm()" name="form" novalidate)
 			div.form-group
 				label.col-sm-2.control-label(for="exrcTitleInp") Title
 				//- ( ng-class="{ 'has-error' : exrcForm.title.$invalid && !exrcForm.title.$pristine }" )
@@ -57,93 +57,36 @@ div.exercises
 						id="exrcTitleInp"
 						type="text"
 						name="title"
+						ng-model="data.newExercise.title"
+						required
 						placeholder="exercise title"
-						ng-model="addForm.title"
-						ng-required="true"
 					)
 
 			div.form-group
 				label.col-sm-2.control-label(for="exerciseDescrInp") Description
 				div.col-sm-10
 					textarea.form-control(
-						id="exerciseDescrInp",
-						rows="3",
-						placeholder="exercise description",
-						ng-model="addForm.descr"
+						id="exerciseDescrInp"
+						name="descr"
+						ng-model="data.newExercise.descr"
+						rows="3"
+						placeholder="exercise description"
 					)
 
 			div.form-group
 				label.col-sm-2.control-label Muscles
 				div.col-sm-10
-					//- TODO: generalize th-chosen
+					//- options="data.muscles"
 					muscle-chosen(
-						options="data.muscles"
-						selected="addForm.muscles"
+						selected="data.newExercise.muscles"
 					)
 
-	//- button.btn.btn-primary(
-	//- 	data-toggle="modal"
-	//- 	data-target="#addExerciseModal"
-	//- )
-	//- 	i.fa.fa-plus
-	//- 	span &nbsp;add exercise
+			button.btn.btn-success(
+				ng-disabled="form.$invalid"
+			)
+				i.fa.fa-plus
+				span &nbsp;add exercise
 
-
-	div.modal.fade(
-		id="addExerciseModal"
-		tabindex="-1"
-		role="dialog"
-	)
-		div.modal-dialog
-			div.modal-content
-				div.modal-header
-					button.close(
-						type="button"
-						data-dismiss="modal"
-						aria-hidden="true"
-					) &times;
-
-					h4.modal-title add exercise
-
-				div.modal-body
-					form.form-horizontal(role="form", name="exrcForm", ng-submit="submitForm()")
-						div.form-group
-							label.col-sm-2.control-label(for="exrcTitleInp") Title
-							//- ( ng-class="{ 'has-error' : exrcForm.title.$invalid && !exrcForm.title.$pristine }" )
-							div.col-sm-10
-								input.form-control(
-									id="exrcTitleInp"
-									type="text"
-									name="title"
-									placeholder="exercise title"
-									ng-model="addForm.title"
-									ng-required="true"
-								)
-
-						div.form-group
-							label.col-sm-2.control-label(for="exerciseDescrInp") Description
-							div.col-sm-10
-								textarea.form-control(
-									id="exerciseDescrInp",
-									rows="3",
-									placeholder="exercise description",
-									ng-model="addForm.descr"
-								)
-
-						div.form-group
-							label.col-sm-2.control-label Muscles
-							div.col-sm-10
-								//- TODO: generalize th-chosen
-								muscle-chosen(
-									options="data.muscles"
-									selected="addForm.muscles"
-								)
-
-						div.form-group
-							div.col-sm-offset-2.col-sm-10
-								button.btn.btn-default.pull-right(type="submit")
-									i.fa.fa-plus
-									span &nbsp;add exercise
 
 
 

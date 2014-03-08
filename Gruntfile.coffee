@@ -67,6 +67,9 @@ module.exports = (grunt) ->
 					# "public/index.html" : "client/templates/index.jade"
 					"public/tpl/home.html" : "client/templates/home.tpl.jade"
 					"public/tpl/exercises.html" : "client/templates/exercises.tpl.jade"
+					"public/tpl/muscles.html" : "client/templates/muscles_tpl.jade"
+					"public/tpl/muscle.html" : "client/templates/muscle.jade"
+
 					"public/tpl/exercise.html" : "client/templates/exercise.tpl.jade"
 					"public/tpl/muscle-chosen.tpl.html" : "client/templates/directives/muscle-chosen.tpl.jade"
 					"public/tpl/th-modal.tpl.html" : "client/templates/directives/th-modal.tpl.jade"
