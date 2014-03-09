@@ -328,6 +328,93 @@ ul.th-justified-list li .btn.btn-danger {
   margin-right: 5px;
 }
 
+/* line 3, ../../client/styles/pages/_muscles.sass */
+.muscles .search {
+  position: relative;
+  overflow: hidden;
+  *zoom: 1;
+}
+/* line 8, ../../client/styles/pages/_muscles.sass */
+.muscles .search button {
+  font-size: 14px;
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  margin-top: -12px;
+  border: 0 none;
+  outline: 0 none;
+  background: none;
+}
+/* line 19, ../../client/styles/pages/_muscles.sass */
+.muscles .search input {
+  display: block;
+  padding: 10px 5px 10px 35px;
+  margin: 0;
+  float: left;
+  cursor: pointer;
+  width: auto;
+  outline: 0 none;
+  font-size: 14px;
+  border-top: 1px solid #cccccc;
+  border-right: 0 none;
+  border-bottom: 1px solid #cccccc;
+  border-left: 1px solid #cccccc;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  -moz-border-radius-topleft: 4px;
+  -webkit-border-top-left-radius: 4px;
+  border-top-left-radius: 4px;
+  -moz-border-radius-bottomleft: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+/* line 37, ../../client/styles/pages/_muscles.sass */
+.muscles .search .select {
+  float: left;
+  position: relative;
+}
+/* line 41, ../../client/styles/pages/_muscles.sass */
+.muscles .search .select i {
+  position: absolute;
+  font-size: 10px;
+  top: 50%;
+  left: 10px;
+  margin-top: -5px;
+}
+/* line 48, ../../client/styles/pages/_muscles.sass */
+.muscles .search .select select {
+  padding: 10px 5px 10px 25px;
+  margin: 0;
+  cursor: pointer;
+  width: auto;
+  outline: 0 none;
+  font-size: 14px;
+  border: 1px solid #cccccc;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+  -moz-border-radius-topright: 4px;
+  -webkit-border-top-right-radius: 4px;
+  border-top-right-radius: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -webkit-border-bottom-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
 /* line 1, ../../client/styles/directives/_chosen.sass */
 .th-chosen {
   overflow: visible;
@@ -671,37 +758,37 @@ ul.th-justified-list li .btn.btn-danger {
   border-radius: 0;
 }
 
-/* line 31, ../../client/styles/main.sass */
+/* line 32, ../../client/styles/main.sass */
 body {
   background: transparent;
 }
 
-/* line 34, ../../client/styles/main.sass */
+/* line 35, ../../client/styles/main.sass */
 header {
   margin: 0;
 }
-/* line 37, ../../client/styles/main.sass */
+/* line 38, ../../client/styles/main.sass */
 header .th-sidemenu-toggle {
   margin-right: 20px;
 }
 
-/* line 40, ../../client/styles/main.sass */
+/* line 41, ../../client/styles/main.sass */
 .content {
   padding: 60px 0 60px 0;
 }
 
-/* line 43, ../../client/styles/main.sass */
+/* line 44, ../../client/styles/main.sass */
 .th-footer {
   border: 0 none;
   padding-top: 5px;
   margin-top: 10px;
 }
-/* line 48, ../../client/styles/main.sass */
+/* line 49, ../../client/styles/main.sass */
 .th-footer .btn {
   border-radius: 0;
   margin: 0;
 }
-/* line 55, ../../client/styles/main.sass */
+/* line 56, ../../client/styles/main.sass */
 .th-footer .btn .th-text {
   float: left;
   padding-left: 4px;
