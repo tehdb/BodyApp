@@ -1,4 +1,7 @@
-div.th-modal(ng-show="show")
+div.th-modal(
+	class="ng-hide"
+	ng-hide="!show"
+)
 	div.th-modal-backdrop(ng-click="cancel($event)")
 
 	div.th-modal-content

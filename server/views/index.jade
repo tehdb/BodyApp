@@ -3,15 +3,29 @@ html
 	head
 		title BodyApp
 
-		meta( name="viewport", content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1" )
+		meta( name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1" )
 
-		link( rel="stylesheet", href="vendor/bootstrap/dist/css/bootstrap.css" )
-		link( rel="stylesheet", href="vendor/bootstrap/dist/css/bootstrap-theme.css" )
-		link( rel="stylesheet", href="vendor/font-awesome/css/font-awesome.css" )
-		link( rel="stylesheet", href="css/main.css" )
+		link( rel="stylesheet" href="vendor/angular/angular-csp.css" )
+		link( rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.css" )
+		link( rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap-theme.css" )
+		link( rel="stylesheet" href="vendor/font-awesome/css/font-awesome.css" )
+		link( rel="stylesheet" href="css/main.css" )
 
+		script( src="vendor/underscore/underscore.js")
+		script( src="vendor/jquery/jquery.js" )
+		script( src="vendor/jquery.transit/jquery.transit.js" )
+		script( src="vendor/angular/angular.js" )
+		script( src="vendor/angular-animate/angular-animate.js" )
+		script( src="vendor/angular-route/angular-route.js" )
+		script( src="vendor/angular-resource/angular-resource.js" )
+		script( src="js/bodyApp.js" )
+		script( src="vendor/bootstrap/dist/js/bootstrap.js" )
 
-	body(ng-app="BodyApp", ng-controller="MainCtrl")
+	body(
+			ng-app="BodyApp"
+			ng-controller="MainCtrl"
+			ng-cloak
+	)
 
 		header.navbar.navbar-default.navbar-fixed-top( role="navigation" )
 			div.container
@@ -38,15 +52,6 @@ html
 				div.container.ng-view
 
 
-		script( src="vendor/underscore/underscore.js")
-		script( src="vendor/jquery/jquery.js" )
-		script( src="vendor/jquery.transit/jquery.transit.js" )
-		script( src="vendor/angular/angular.js" )
-		script( src="vendor/angular-animate/angular-animate.js" )
-		script( src="vendor/angular-route/angular-route.js" )
-		script( src="vendor/angular-resource/angular-resource.js" )
-		script( src="js/bodyApp.js" )
 
-		script( src="vendor/bootstrap/dist/js/bootstrap.js" )
 
 		//- script( src="vedor/requirejs/require.js", data-main="js/main.js")

@@ -19,7 +19,7 @@ angular.module("BodyApp").filter "musclegroup", ->
 
 				when 'muscles'
 					return _.filter list, (element) ->
-						return element.group is groupId
+						return element.group.id is groupId
 		return list
 
 

@@ -8,38 +8,47 @@
 	z-index : 3000
 	padding : 15px
 
+
 	&.ng-hide-add, &.ng-hide-remove
+		+transition( all 0.3s linear )
 		display : block !important
 
-	&.ng-hide-add
-		+transition( all 0.3s linear )
+	&.ng-hide-remove,
+	&.ng-hide-add.ng-hide-add-active
+		opacity : 0
 
-		.th-modal-backdrop
-			opacity : 0.5
-		.th-modal-content
-			opacity : 1
-			+scale( 1, 1 )
-		&.ng-hide-add-active
-			.th-modal-backdrop
-				opacity : 0
-			.th-modal-content
-				opacity : 0
-				+scale( 0.7, 0.7 )
+	&.ng-hide-add,
+	&.ng-hide-remove.ng-hide-remove-active
+		opacity : 1
 
-	&.ng-hide-remove
-		+transition( all 0.3s linear )
 
-		.th-modal-backdrop
-			opacity : 0
-		.th-modal-content
-			opacity : 0
-			+scale( 0.7, 0.7  )
-		&.ng-hide-remove-active
-			.th-modal-backdrop
-				opacity : 0.5
-			.th-modal-content
-				opacity : 1
-				+scale( 1, 1 )
+
+	// &.ng-hide-add
+	// 	.th-modal-backdrop
+	// 		opacity : 0.5
+	// 	.th-modal-content
+	// 		opacity : 1
+	// 		+scale( 1, 1 )
+
+	// 	&.ng-hide-add-active
+	// 		.th-modal-backdrop
+	// 			opacity : 0
+	// 		.th-modal-content
+	// 			opacity : 0
+	// 			+scale( 0.7, 0.7 )
+
+	// &.ng-hide-remove
+	// 	.th-modal-backdrop
+	// 		opacity : 0
+	// 	.th-modal-content
+	// 		opacity : 0
+	// 		+scale( 0.7, 0.7  )
+	// 	&.ng-hide-remove-active
+	// 		.th-modal-backdrop
+	// 			opacity : 0.5
+	// 		.th-modal-content
+	// 			opacity : 1
+	// 			+scale( 1, 1 )
 
 	.th-modal-backdrop
 		position : absolute

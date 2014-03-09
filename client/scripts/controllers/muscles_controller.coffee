@@ -15,8 +15,6 @@ angular.module("BodyApp").controller "MusclesController", [
 			}
 		}
 
-		console.log musclesService.getGroups()
-
 		musclesService.getAll().then (data) ->
 			scope.data.muscles = data
 
@@ -33,7 +31,7 @@ angular.module("BodyApp").controller "MusclesController", [
 
 			scope.data.form = {
 				_id : muscle._id
-				group : _.findWhere( scope.data.muscleGroups, { id : muscle.group })
+				group : muscle.group
 				name : muscle.name
 				update : true
 			}
@@ -56,64 +54,5 @@ angular.module("BodyApp").controller "MusclesController", [
 			musclesService.upsert(data).then ( data )->
 				scope.data.form.name = ''
 				scope.data.showMuscleModal = false
-				# console.log data
-				# scope.data.muscles.push( data )
-				# scope.data.form = {
-				# 	group : scope.data.muscleGroups[0]
-				# }
 
-
-
-		# console.log scope.data.muscleGroups
-
-		# scp.data = {
-		# 	muscleGroups : es.getMuscleGroups()
-		# 	muscleGroup : null
-		# 	muscles : null
-		# 	exercises : []
-		# 	filtered : []
-		# 	searchText : ''
-		# 	addExerciseModal : {
-		# 		show : false
-		# 		confirmed : false
-		# 	}
-
-		# }
-
-		# scp.data.muscleGroup = scp.data.muscleGroups[0]
-
-		# scp.addForm = {
-		# 	title : ''
-		# 	descr : ''
-		# 	muscles : []
-		# }
-
-		# es.getExercises().then((data) ->
-		# 	console.log data
-		# 	scp.data.exercises = data
-		# ).catch( ->
-		# 	console.log "cant load data"
-		# )
-
-
-		# es.getMuscles().then (data) ->
-		# 	scp.data.muscles = data
-
-		# # TODO: watch for changes on exercises/muscles
-
-		# scp.submitForm = ->
-		# 	if scp.exrcForm.$valid && scp.addForm.muscles.length > 0
-		# 		muscleIds = []
-		# 		_.each scp.addForm.muscles, (muscle) ->
-		# 			muscleIds.push( muscle._id )
-		# 		scp.addForm.muscles = muscleIds
-
-		# 		es.addExercise( scp.addForm ).then (data) ->
-		# 			# scp.data.exercises.push( data )
-		# 			scp.addForm = {
-		# 				title : ''
-		# 				descr : ''
-		# 				muscles : []
-		# 			}
-		# 			$('#addExerciseModal').modal('hide')
 ]

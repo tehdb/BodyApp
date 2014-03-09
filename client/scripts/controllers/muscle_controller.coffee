@@ -7,6 +7,6 @@ angular.module("BodyApp").controller "MuscleController", [
 
 		musclesService.getById( params.id ).then (data) ->
 			scope.data.muscle = data
-			scope.data.muscle.group = musclesService.getGroupById( data.group )
+			#scope.data.muscle.group = musclesService.getGroupById( data.group )
 
 ]
