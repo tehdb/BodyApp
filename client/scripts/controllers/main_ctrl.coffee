@@ -1,5 +1,5 @@
 
-angular.module("BodyApp").controller "MainCtrl", [ "$scope", ( scp ) ->
+angular.module("BodyApp").controller "MainController", [ "$scope", ( scp ) ->
 	scp.title = "main ctrl title"
 	scp.sidebarShow = false
 

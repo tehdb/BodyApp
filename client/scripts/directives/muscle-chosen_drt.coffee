@@ -7,7 +7,7 @@ angular.module("BodyApp").directive( "muscleChosen", [
 			selected : "="
 		}
 		replace : true
-		templateUrl : "tpl/muscle-chosen.tpl.html"
+		templateUrl : "tpl/directives/muscle-chosen.html"
 
 		link : (scp, elm, atr ) ->
 			scp.data = {

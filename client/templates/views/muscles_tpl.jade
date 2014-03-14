@@ -16,31 +16,29 @@ div.muscles.view
 			i.fa.fa-plus
 
 	div.search
-		//- th-dropdown(
-		//- 	class="input-group-btn",
-		//- 	options="data.muscleGroups"
-		//- 	selected="data.muscleGroup"
-		//- )
-
-		button(
-			type="button"
-		)
-			i.fa.fa-times-circle
-
-		input(
-			type="text"
-			ng-model="data.searchText"
-			placeholder="search muscle"
-		)
-
 		div.select
 			i.fa.fa-sort-asc
+
 			select(
 				ng-model="data.muscleGroup"
 				ng-options="g.name for g in data.muscleGroups"
 			)
 
-	p.text-danger(ng-show="data.filtered.length == 0" ) No entries
+		div.input
+			input(
+				type="text"
+				ng-model="data.searchText"
+				placeholder="search muscle"
+			)
+
+			button(
+				ng-hide="data.searchText == ''"
+				ng-click="data.searchText = ''"
+				type="button"
+			)
+				i.fa.fa-times-circle
+
+	p.warning.text-danger(ng-show="data.filtered.length == 0" ) No entries
 
 	ul.th-justified-list
 		li(
@@ -51,7 +49,7 @@ div.muscles.view
 			//-
 			a.btn.btn-danger(
 				role="button"
-				ng-click="upsertModal($index)"
+				ng-click="upmoveModal($index)"
 				ng-show="data.edit"
 			)
 				i.fa.fa-edit
@@ -74,23 +72,23 @@ div.muscles.view
 		)
 			div.form-group
 				label.col-sm-2.control-label(for="muscleGroupSelect") group
-				//- div.col-sm-10
-				//- 	select.form-control(
-				//- 		id="muscleGroupSelect"
-				//- 		ng-model="data.form.group"
-				//- 		ng-options="g.name for g in data.muscleGroups"
-				//- 		required
-				//- 	)
+				div.col-sm-10
+					select.form-control(
+						id="muscleGroupSelect"
+						ng-model="data.form.group"
+						ng-options="g.name for g in data.muscleGroups"
+						required
+					)
 
 			div.form-group
 				label.col-sm-2.control-label(for="muscleNameInput") name
 				div.col-sm-10
 					input.form-control(
 						id="muscleNameInput"
-						type="text"
-						placeholder="muscle name"
 						ng-model="data.form.name"
+						placeholder="muscle name"
 						required
+						type="text"
 					)
 
 			div(

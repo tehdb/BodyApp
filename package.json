@@ -33,7 +33,8 @@
     "time-grunt": "~0.2.1",
     "underscore": "~1.6.0",
     "frisby": "~0.7.9",
-    "chai-json-schema": "~1.0.10"
+    "chai-json-schema": "~1.0.10",
+    "grunt-file-regex-rename": "~0.1.0"
   },
   "dependencies": {}
 }

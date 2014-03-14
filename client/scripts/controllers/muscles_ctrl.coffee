@@ -1,10 +1,11 @@
 angular.module("BodyApp").controller "MusclesController", [
-	"$scope", "ExercisesService", "MusclesService",
-	( scope, exercisesService, musclesService ) ->
+	"$scope", "MusclesService", "ExercisesService",
+	( scope, musclesService, es ) ->
 		scope.data = {
 			title : "muscles"
 			muscles : []
 			filtered : null
+			searchText : ''
 			muscleGroup : musclesService.getGroups()?[0]
 			muscleGroups : musclesService.getGroups()
 			showMuscleModal : false
@@ -26,7 +27,7 @@ angular.module("BodyApp").controller "MusclesController", [
 			}
 			scope.data.showMuscleModal = true
 
-		scope.upsertModal = (index) ->
+		scope.upmoveModal = (index) ->
 			muscle = scope.data.filtered[index]
 
 			scope.data.form = {

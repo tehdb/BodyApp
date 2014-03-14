@@ -1,24 +1,24 @@
 angular.module("BodyApp", ["ngRoute", "ngResource", "ngAnimate"]).constant("Settings", {
   apis: {
-    muscle: "/api/muscle/",
-    exercise: "/api/exercise/"
+    muscle: "/api/muscle",
+    exercise: "/api/exercise"
   }
 }).config([
   "$routeProvider", function(rpr) {
     return rpr.when("/", {
-      templateUrl: "tpl/home.html",
-      controller: "HomeCtrl"
+      templateUrl: "tpl/views/home.html",
+      controller: "HomeController"
     }).when("/exercises", {
-      templateUrl: "tpl/exercises.html",
+      templateUrl: "tpl/views/exercises.html",
       controller: "ExercisesController"
     }).when("/exercise/:id", {
-      templateUrl: "tpl/exercise.html",
+      templateUrl: "tpl/views/exercise.html",
       controller: "ExerciseCtrl"
     }).when("/muscles", {
-      templateUrl: "tpl/muscles.html",
+      templateUrl: "tpl/views/muscles.html",
       controller: "MusclesController"
     }).when("/muscle/:id", {
-      templateUrl: "tpl/muscle.html",
+      templateUrl: "tpl/views/muscle.html",
       controller: "MuscleController"
     }).otherwise({
       redirectTo: "/"
@@ -134,37 +134,56 @@ angular.module("BodyApp").controller("ExerciseCtrl", [
 ]);
 
 angular.module("BodyApp").controller("ExercisesController", [
-  "$scope", "ExercisesService", "MusclesService", function(scope, exercisesService, musclesService) {
+  "$scope", "ExercisesService", "MusclesService", function(scope, es, ms) {
     scope.data = {
       title: "exercices",
+      showModal: false,
+      editMode: false,
       exercises: [],
-      muscleGroup: musclesService.getGroups()[0],
-      muscleGroups: musclesService.getGroups(),
-      newExercise: {},
-      showAddExerciseModal: false
+      filtered: null,
+      form: {}
     };
-    exercisesService.getAll().then(function(data) {
+    es.getAll().then(function(data) {
       return scope.data.exercises = data;
     });
-    return scope.submitAddExerciseForm = function() {
+    scope.insertModal = function() {
+      scope.data.form = {};
+      return scope.data.showModal = true;
+    };
+    scope.upmoveModal = function(index) {
       var exercise;
-      exercise = scope.data.newExercise;
-      exercise.muscles = _.pluck(exercise.muscles, '_id');
-      return exercisesService.upsert(exercise).then(function(data) {
-        scope.data.newExercise = {};
-        return scope.data.showAddExerciseModal = false;
+      exercise = scope.data.filtered[index];
+      scope.data.form = {
+        _id: exercise._id,
+        title: exercise.title,
+        descr: exercise.descr,
+        muscles: exercise.muscles
+      };
+      return scope.data.showModal = true;
+    };
+    scope.upsert = function() {
+      scope.data.form.muscles = _.pluck(scope.data.form.muscles, '_id');
+      return es.upsert(scope.data.form).then(function(data) {
+        scope.data.form = {};
+        return scope.data.showModal = false;
+      });
+    };
+    return scope.remove = function() {
+      return es.remove(scope.data.form).then(function(data) {
+        scope.data.form = {};
+        return scope.data.showModal = false;
       });
     };
   }
 ]);
 
-angular.module("BodyApp").controller("HomeCtrl", [
+angular.module("BodyApp").controller("HomeController", [
   "$scope", function($s) {
     return $s.title = "home";
   }
 ]);
 
-angular.module("BodyApp").controller("MainCtrl", [
+angular.module("BodyApp").controller("MainController", [
   "$scope", function(scp) {
     scp.title = "main ctrl title";
     scp.sidebarShow = false;
@@ -199,12 +218,13 @@ angular.module("BodyApp").controller("MuscleController", [
 ]);
 
 angular.module("BodyApp").controller("MusclesController", [
-  "$scope", "ExercisesService", "MusclesService", function(scope, exercisesService, musclesService) {
+  "$scope", "MusclesService", "ExercisesService", function(scope, musclesService, es) {
     var _ref, _ref1;
     scope.data = {
       title: "muscles",
       muscles: [],
       filtered: null,
+      searchText: '',
       muscleGroup: (_ref = musclesService.getGroups()) != null ? _ref[0] : void 0,
       muscleGroups: musclesService.getGroups(),
       showMuscleModal: false,
@@ -226,7 +246,7 @@ angular.module("BodyApp").controller("MusclesController", [
       };
       return scope.data.showMuscleModal = true;
     };
-    scope.upsertModal = function(index) {
+    scope.upmoveModal = function(index) {
       var muscle;
       muscle = scope.data.filtered[index];
       scope.data.form = {
@@ -262,32 +282,56 @@ angular.module("BodyApp").controller("MusclesController", [
   }
 ]);
 
-angular.module("BodyApp").directive("thDropdown", [
-  function() {
+angular.module("BodyApp").directive("thModal", [
+  "$q", "$timeout", function(q, tmt) {
     return {
       restrict: "E",
-      replace: true,
       scope: {
-        options: "=options",
-        selected: "=selected",
-        "class": "@class"
+        title: "@",
+        show: "=",
+        pos: "=",
+        confirm: "="
       },
-      templateUrl: "tpl/dropdown.tpl.html",
+      replace: true,
+      transclude: true,
+      templateUrl: "tpl/directives/modal.html",
       link: function(scp, elm, atr) {
-        var _$menu;
-        scp.hideMenu = true;
-        _$menu = $(elm).find('.th-menu');
-        scp.select = function(event, idx) {
+        var _$content;
+        _$content = elm.find('.th-modal-content:first');
+        scp.data = {
+          confirmable: false
+        };
+        scp.apply = function(event) {
           event.preventDefault();
           event.stopPropagation();
-          scp.selected = scp.options[idx];
-          return scp.hideMenu = true;
+          if (scp.confirm != null) {
+            scp.confirm = true;
+          }
+          return scp.show = false;
         };
-        return scp.toggle = function(event) {
+        scp.cancel = function(event) {
           event.preventDefault();
           event.stopPropagation();
-          return scp.hideMenu = !scp.hideMenu;
+          if (scp.confirm != null) {
+            scp.confirm = false;
+          }
+          return scp.show = false;
         };
+        return scp.$watch("show", function(nv, ov) {
+          var y, _ref;
+          if (nv === true) {
+            if (_.isBoolean(scp.confirm)) {
+              scp.data.confirmable = true;
+            }
+            y = (_ref = scp.pos) != null ? _ref[1] : void 0;
+            if (_.isNumber(y) && y > 10) {
+              y -= Math.round(_$content.height() / 2);
+              return _$content.css({
+                y: y
+              });
+            }
+          }
+        });
       }
     };
   }
@@ -301,7 +345,7 @@ angular.module("BodyApp").directive("muscleChosen", [
         selected: "="
       },
       replace: true,
-      templateUrl: "tpl/muscle-chosen.tpl.html",
+      templateUrl: "tpl/directives/muscle-chosen.html",
       link: function(scp, elm, atr) {
         var _$menu, _adjustMenu, _watchForChanges, _watchOptionChanges, _watchSelectedChanges;
         scp.data = {
@@ -435,61 +479,6 @@ angular.module("BodyApp").directive("muscleChosen", [
   }
 ]);
 
-angular.module("BodyApp").directive("thModal", [
-  "$q", "$timeout", function(q, tmt) {
-    return {
-      restrict: "E",
-      scope: {
-        title: "@",
-        show: "=",
-        pos: "=",
-        confirm: "="
-      },
-      replace: true,
-      transclude: true,
-      templateUrl: "tpl/th-modal.tpl.html",
-      link: function(scp, elm, atr) {
-        var _$content;
-        _$content = elm.find('.th-modal-content:first');
-        scp.data = {
-          confirmable: false
-        };
-        scp.apply = function(event) {
-          event.preventDefault();
-          event.stopPropagation();
-          if (scp.confirm != null) {
-            scp.confirm = true;
-          }
-          return scp.show = false;
-        };
-        scp.cancel = function(event) {
-          event.preventDefault();
-          event.stopPropagation();
-          if (scp.confirm != null) {
-            scp.confirm = false;
-          }
-          return scp.show = false;
-        };
-        return scp.$watch("show", function(nv, ov) {
-          var y, _ref;
-          if (nv === true) {
-            if (_.isBoolean(scp.confirm)) {
-              scp.data.confirmable = true;
-            }
-            y = (_ref = scp.pos) != null ? _ref[1] : void 0;
-            if (_.isNumber(y) && y > 10) {
-              y -= Math.round(_$content.height() / 2);
-              return _$content.css({
-                y: y
-              });
-            }
-          }
-        });
-      }
-    };
-  }
-]);
-
 angular.module("BodyApp").directive("thNumberInput", [
   "$q", "$timeout", function(q, tmt) {
     return {
@@ -501,7 +490,7 @@ angular.module("BodyApp").directive("thNumberInput", [
       },
       replace: true,
       transclude: false,
-      templateUrl: "tpl/th-number-input.tpl.html",
+      templateUrl: "tpl/directives/number-input.html",
       link: function(scp, elm, atr) {
         scp.increment = function() {
           if (!_.isNumber(scp.value)) {
@@ -547,64 +536,142 @@ angular.module("BodyApp").filter("musclegroup", function() {
 });
 
 angular.module("BodyApp").service("ExercisesService", [
-  "$q", "$timeout", "$http", "Settings", function(q, timeout, http, settings) {
-    var _exercises;
+  "$q", "$timeout", "$http", "MusclesService", "Settings", function(q, timeout, http, ms, sttgs) {
+    var that, _enrich, _exercises, _prepare;
+    that = this;
     _exercises = [];
-    return {
-      getAll: function() {
-        var deferred;
-        deferred = q.defer();
-        http({
-          url: "" + settings.apis.exercise + "select",
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json'
+    _enrich = function(exercise) {
+      var def, muscles, musclesCount, musclesLength;
+      def = q.defer();
+      musclesLength = exercise.muscles.length - 1;
+      musclesCount = 0;
+      muscles = [];
+      _.each(exercise.muscles, function(muscleId, muscleIdx, muscleIds) {
+        return ms.getById(muscleId).then(function(muscle) {
+          muscles.push(muscle);
+          if (++musclesCount > musclesLength) {
+            exercise.muscles = muscles;
+            return def.resolve(exercise);
           }
-        }).success(function(data, status, headers, config) {
+        });
+      });
+      return def.promise;
+    };
+    _prepare = function(data) {
+      var def, exercises, exercisesCount, exercisesLength;
+      def = q.defer();
+      if (_.isArray(data)) {
+        exercisesLength = data.length - 1;
+        exercisesCount = 0;
+        exercises = [];
+        _.each(data, function(element, index, list) {
+          return _enrich(element).then(function(data) {
+            exercises.push(data);
+            if (++exercisesCount > exercisesLength) {
+              return def.resolve(exercises);
+            }
+          });
+        });
+      } else {
+        _enrich(data).then(function(data) {
+          return def.resolve(data);
+        });
+      }
+      return def.promise;
+    };
+    this.getAll = function() {
+      var deferred;
+      deferred = q.defer();
+      http({
+        url: "" + sttgs.apis.exercise + "/select",
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json'
+        }
+      }).success(function(data, status, headers, config) {
+        return _prepare(data).then(function(data) {
           _exercises = data;
           return deferred.resolve(_exercises);
-        }).error(function(data, status, headers, config) {
-          return deferred.reject(status);
         });
-        return deferred.promise;
-      },
-      upsert: function(exercise) {
-        var deferred;
-        deferred = q.defer();
-        http({
-          url: "" + settings.apis.exercise + "upsert",
-          method: 'PUT',
-          data: exercise,
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json;charset=UTF-8'
-          }
-        }).success(function(data, status, headers, config) {
-          var element, index, _i, _len;
-          if (exercise._id != null) {
-            for (index = _i = 0, _len = _exercises.length; _i < _len; index = ++_i) {
-              element = _exercises[index];
-              if (element._id === exercise._id) {
-                _exercises[index] = data;
-                break;
-              }
-            }
-          } else {
+      }).error(function(data, status, headers, config) {
+        return deferred.reject(status);
+      });
+      return deferred.promise;
+    };
+    this.upsert = function(exercise) {
+      var def;
+      def = q.defer();
+      http({
+        url: "" + sttgs.apis.exercise + "/upsert",
+        method: 'PUT',
+        data: exercise,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8'
+        }
+      }).success(function(data, status, headers, config) {
+        var element, index, _i, _len, _results;
+        if (exercise._id == null) {
+          return _prepare(data).then(function(data) {
             _exercises.push(data);
+            return def.resolve(data);
+          });
+        } else {
+          _results = [];
+          for (index = _i = 0, _len = _exercises.length; _i < _len; index = ++_i) {
+            element = _exercises[index];
+            if (element._id === exercise._id) {
+              _prepare(data).then(function(data) {
+                _exercises[index] = data;
+                return def.resolve(data);
+              });
+              break;
+            } else {
+              _results.push(void 0);
+            }
           }
-          return deferred.resolve(data);
-        }).error(function(data, status, headers, config) {
-          return deferred.reject(status);
-        });
-        return deferred.promise;
-      }
+          return _results;
+        }
+      }).error(function(data, status, headers, config) {
+        return def.reject(status);
+      });
+      return def.promise;
+    };
+    this.remove = function(exercise) {
+      var defer;
+      defer = q.defer();
+      http({
+        url: "" + sttgs.apis.exercise + "/remove",
+        method: 'DELETE',
+        data: {
+          _id: exercise._id
+        },
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8'
+        }
+      }).success(function(data, status, headers, config) {
+        var element, index, _i, _len;
+        for (index = _i = 0, _len = _exercises.length; _i < _len; index = ++_i) {
+          element = _exercises[index];
+          if (element._id === exercise._id) {
+            _exercises.splice(index, 1);
+            break;
+          }
+        }
+        return defer.resolve(data);
+      }).error(function(data, status, headers, config) {
+        return defer.reject(status);
+      });
+      return defer.promise;
     };
   }
 ]);
 
 angular.module("BodyApp").service("MusclesService", [
   "$q", "$timeout", "$http", function(q, timeout, http) {
-    var _apply, _getAll, _getById, _getGroups, _groups, _muscles, _prepare, _remove, _upsert;
+    var that, _apply, _groups, _muscles, _prepare;
+    that = this;
     _muscles = [];
 /* Begin: client/database/musclegroups.json */
     _groups = [
@@ -649,7 +716,18 @@ angular.module("BodyApp").service("MusclesService", [
       }
       return cb(data);
     };
-    _getAll = function() {
+    _apply = function(cb) {
+      if (_.isEmpty(_muscles)) {
+        return that.getAll().then(function() {
+          return cb();
+        });
+      } else {
+        return timeout(function() {
+          return cb();
+        }, 0);
+      }
+    };
+    this.getAll = function() {
       var deferred;
       deferred = q.defer();
       if (_.isEmpty(_muscles)) {
@@ -674,21 +752,10 @@ angular.module("BodyApp").service("MusclesService", [
       }
       return deferred.promise;
     };
-    _apply = function(cb) {
-      if (_.isEmpty(_muscles)) {
-        return _getAll().then(function() {
-          return cb();
-        });
-      } else {
-        return timeout(function() {
-          return cb();
-        }, 0);
-      }
-    };
-    _getGroups = function() {
+    this.getGroups = function() {
       return _groups;
     };
-    _getById = function(id) {
+    this.getById = function(id) {
       var deferred;
       deferred = q.defer();
       _apply(function() {
@@ -698,7 +765,7 @@ angular.module("BodyApp").service("MusclesService", [
       });
       return deferred.promise;
     };
-    _upsert = function(muscle) {
+    this.upsert = function(muscle) {
       var deferred;
       deferred = q.defer();
       http({
@@ -737,7 +804,7 @@ angular.module("BodyApp").service("MusclesService", [
       });
       return deferred.promise;
     };
-    _remove = function(muscle) {
+    this.remove = function(muscle) {
       var deferred;
       deferred = q.defer();
       return http({
@@ -763,56 +830,6 @@ angular.module("BodyApp").service("MusclesService", [
       }).error(function(data, status, headers, config) {
         return deferred.reject(status);
       });
-    };
-    return {
-      getAll: _getAll,
-      getGroups: _getGroups,
-      getById: _getById,
-      upsert: _upsert,
-      remove: _remove
-    };
-  }
-]);
-
-angular.module("BodyApp").service("SetsService", [
-  "$q", "$timeout", "$http", function(q, tmt, htp) {
-    var Service, _s;
-    Service = (function() {
-      function Service() {}
-
-      Service.prototype.getExerciseSets = function() {
-        return [
-          {
-            idx: 1,
-            heft: 50,
-            reps: 10
-          }
-        ];
-      };
-
-      return Service;
-
-    })();
-    _s = new Service();
-    return {
-      getLast: function(exerciseId) {
-        var deferred;
-        deferred = q.defer();
-        tmt(function() {
-          console.log(exerciseId);
-          return deferred.resolve(_s.getExerciseSets());
-        }, 0);
-        return deferred.promise;
-      },
-      add: function(exerciseId, sets) {
-        var deferred;
-        deferred = q.defer();
-        tmt(function() {
-          console.log("save set", exerciseId, sets);
-          return deferred.resolve(sets);
-        }, 0);
-        return deferred.promise;
-      }
     };
   }
 ]);

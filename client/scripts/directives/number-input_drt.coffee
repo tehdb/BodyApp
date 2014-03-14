@@ -1,4 +1,4 @@
-angular.module("BodyApp").directive "thNumberInput", [ 
+angular.module("BodyApp").directive "thNumberInput", [
 	"$q",	"$timeout",
 	( q,	tmt ) ->
 		restrict : "E"
@@ -9,7 +9,7 @@ angular.module("BodyApp").directive "thNumberInput", [
 		}
 		replace : true
 		transclude : false
-		templateUrl : "tpl/th-number-input.tpl.html"
+		templateUrl : "tpl/directives/number-input.html"
 		link : (scp, elm, atr ) ->
 
 			scp.increment = ->

@@ -10,7 +10,7 @@ angular.module("BodyApp").directive "thModal", [
 		}
 		replace : true
 		transclude : true
-		templateUrl : "tpl/th-modal.tpl.html"
+		templateUrl : "tpl/directives/modal.html"
 		link : (scp, elm, atr ) ->
 			_$content = elm.find('.th-modal-content:first')
 			scp.data = {

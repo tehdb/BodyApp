@@ -1,11 +1,17 @@
-/* line 3, ../../client/styles/common/_common.sass */
+/* line 2, ../../client/styles/common/_common.sass */
+p.warning {
+  margin: 20px 0;
+  text-align: center;
+}
+
+/* line 6, ../../client/styles/common/_common.sass */
 ul.th-justified-list {
   list-style: none;
   margin: 0 -15px;
   padding: 0;
   min-height: 90px;
 }
-/* line 9, ../../client/styles/common/_common.sass */
+/* line 12, ../../client/styles/common/_common.sass */
 ul.th-justified-list li {
   border-bottom: 1px solid #cccccc;
   padding: 15px 60px 15px 15px;
@@ -13,34 +19,34 @@ ul.th-justified-list li {
   overflow: hidden;
   *zoom: 1;
 }
-/* line 15, ../../client/styles/common/_common.sass */
+/* line 18, ../../client/styles/common/_common.sass */
 ul.th-justified-list li.ng-enter, ul.th-justified-list li.ng-leave, ul.th-justified-list li.ng-move {
   -webkit-transition: all 0.3s linear;
   -moz-transition: all 0.3s linear;
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
 }
-/* line 19, ../../client/styles/common/_common.sass */
+/* line 22, ../../client/styles/common/_common.sass */
 ul.th-justified-list li.ng-enter, ul.th-justified-list li.ng-move {
   opacity: 0;
 }
-/* line 23, ../../client/styles/common/_common.sass */
+/* line 26, ../../client/styles/common/_common.sass */
 ul.th-justified-list li.ng-move.ng-move-active, ul.th-justified-list li.ng-enter.ng-enter-active {
   opacity: 1;
 }
-/* line 27, ../../client/styles/common/_common.sass */
+/* line 30, ../../client/styles/common/_common.sass */
 ul.th-justified-list li.ng-leave {
   opacity: 1;
 }
-/* line 31, ../../client/styles/common/_common.sass */
+/* line 34, ../../client/styles/common/_common.sass */
 ul.th-justified-list li.ng-leave.ng-leave-active {
   opacity: 0;
 }
-/* line 35, ../../client/styles/common/_common.sass */
+/* line 38, ../../client/styles/common/_common.sass */
 ul.th-justified-list li:last-child {
   border-bottom: 0 none;
 }
-/* line 38, ../../client/styles/common/_common.sass */
+/* line 41, ../../client/styles/common/_common.sass */
 ul.th-justified-list li .thumb {
   width: 64px;
   height: 64px;
@@ -54,13 +60,13 @@ ul.th-justified-list li .thumb {
   text-align: center;
   margin-right: 15px;
 }
-/* line 48, ../../client/styles/common/_common.sass */
+/* line 51, ../../client/styles/common/_common.sass */
 ul.th-justified-list li .thumb .glyphicon, ul.th-justified-list li .thumb i {
   color: #cccccc;
   font-size: 30px;
   line-height: 60px;
 }
-/* line 53, ../../client/styles/common/_common.sass */
+/* line 56, ../../client/styles/common/_common.sass */
 ul.th-justified-list li h2 {
   font-size: 14px;
   font-weight: bold;
@@ -68,12 +74,12 @@ ul.th-justified-list li h2 {
   margin: 0;
   padding: 0 0 10px 0;
 }
-/* line 60, ../../client/styles/common/_common.sass */
+/* line 63, ../../client/styles/common/_common.sass */
 ul.th-justified-list li p {
   font-size: 14px;
   font-weight: normal;
 }
-/* line 64, ../../client/styles/common/_common.sass */
+/* line 67, ../../client/styles/common/_common.sass */
 ul.th-justified-list li ul.tags {
   padding: 0;
   margin: 0;
@@ -81,7 +87,7 @@ ul.th-justified-list li ul.tags {
   overflow: hidden;
   *zoom: 1;
 }
-/* line 69, ../../client/styles/common/_common.sass */
+/* line 72, ../../client/styles/common/_common.sass */
 ul.th-justified-list li ul.tags li {
   font-size: 10px;
   padding: 4px 8px;
@@ -95,15 +101,15 @@ ul.th-justified-list li ul.tags li {
   -o-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 78, ../../client/styles/common/_common.sass */
+/* line 81, ../../client/styles/common/_common.sass */
 ul.th-justified-list li ul.tags li i {
   margin-right: 5px;
 }
-/* line 81, ../../client/styles/common/_common.sass */
+/* line 84, ../../client/styles/common/_common.sass */
 ul.th-justified-list li ul.tags li:last-child {
   margin-right: 0;
 }
-/* line 84, ../../client/styles/common/_common.sass */
+/* line 87, ../../client/styles/common/_common.sass */
 ul.th-justified-list li .badge {
   position: absolute;
   top: 10px;
@@ -111,7 +117,7 @@ ul.th-justified-list li .badge {
   background: none;
   color: #cccccc;
 }
-/* line 91, ../../client/styles/common/_common.sass */
+/* line 94, ../../client/styles/common/_common.sass */
 ul.th-justified-list li .btn {
   position: absolute;
   right: 5px;
@@ -123,13 +129,13 @@ ul.th-justified-list li .btn {
   -moz-box-shadow: none;
   box-shadow: none;
 }
-/* line 101, ../../client/styles/common/_common.sass */
+/* line 104, ../../client/styles/common/_common.sass */
 ul.th-justified-list li .btn.btn-danger {
   color: red;
   text-shadow: none;
 }
 
-/* line 105, ../../client/styles/common/_common.sass */
+/* line 108, ../../client/styles/common/_common.sass */
 .th-icon-btn {
   padding: 5px 10px;
   -webkit-border-radius: 2px;
@@ -138,7 +144,7 @@ ul.th-justified-list li .btn.btn-danger {
   -o-border-radius: 2px;
   border-radius: 2px;
 }
-/* line 108, ../../client/styles/common/_common.sass */
+/* line 111, ../../client/styles/common/_common.sass */
 .th-icon-btn:hover {
   color: white;
   background: black;
@@ -334,31 +340,16 @@ ul.th-justified-list li .btn.btn-danger {
   overflow: hidden;
   *zoom: 1;
 }
-/* line 8, ../../client/styles/pages/_muscles.sass */
-.muscles .search button {
-  font-size: 14px;
-  position: absolute;
-  left: 5px;
-  top: 50%;
-  margin-top: -12px;
-  border: 0 none;
-  outline: 0 none;
-  background: none;
-}
-/* line 19, ../../client/styles/pages/_muscles.sass */
-.muscles .search input {
-  display: block;
-  padding: 10px 5px 10px 35px;
+/* line 7, ../../client/styles/pages/_muscles.sass */
+.muscles .search select, .muscles .search input {
+  padding: 0;
   margin: 0;
-  float: left;
-  cursor: pointer;
+  display: block;
   width: auto;
   outline: 0 none;
+  border: 0 none;
   font-size: 14px;
-  border-top: 1px solid #cccccc;
-  border-right: 0 none;
-  border-bottom: 1px solid #cccccc;
-  border-left: 1px solid #cccccc;
+  cursor: pointer;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   -ms-border-radius: 0;
@@ -367,52 +358,74 @@ ul.th-justified-list li .btn.btn-danger {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+}
+/* line 20, ../../client/styles/pages/_muscles.sass */
+.muscles .search .select {
+  float: left;
+  position: relative;
+  margin-right: 10px;
+  z-index: 1001;
+  padding: 1px;
+}
+/* line 28, ../../client/styles/pages/_muscles.sass */
+.muscles .search .select:hover i {
+  color: red;
+}
+/* line 31, ../../client/styles/pages/_muscles.sass */
+.muscles .search .select i {
+  position: absolute;
+  font-size: 10px;
+  top: 50%;
+  right: 10px;
+  margin-top: -5px;
+}
+/* line 38, ../../client/styles/pages/_muscles.sass */
+.muscles .search .select select {
+  cursor: pointer;
+  padding: 5px 25px 5px 10px;
+  border-right: 1px solid #cccccc;
   -moz-border-radius-topleft: 4px;
   -webkit-border-top-left-radius: 4px;
   border-top-left-radius: 4px;
   -moz-border-radius-bottomleft: 4px;
   -webkit-border-bottom-left-radius: 4px;
   border-bottom-left-radius: 4px;
-}
-/* line 37, ../../client/styles/pages/_muscles.sass */
-.muscles .search .select {
-  float: left;
-  position: relative;
-}
-/* line 41, ../../client/styles/pages/_muscles.sass */
-.muscles .search .select i {
-  position: absolute;
-  font-size: 10px;
-  top: 50%;
-  left: 10px;
-  margin-top: -5px;
-}
-/* line 48, ../../client/styles/pages/_muscles.sass */
-.muscles .search .select select {
-  padding: 10px 5px 10px 25px;
-  margin: 0;
-  cursor: pointer;
-  width: auto;
-  outline: 0 none;
-  font-size: 14px;
-  border: 1px solid #cccccc;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
-  border-radius: 0;
-  -moz-border-radius-topright: 4px;
-  -webkit-border-top-right-radius: 4px;
-  border-top-right-radius: 4px;
-  -moz-border-radius-bottomright: 4px;
-  -webkit-border-bottom-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+}
+/* line 50, ../../client/styles/pages/_muscles.sass */
+.muscles .search .input {
+  width: 100%;
+  cursor: pointer;
+  position: relative;
+  padding: 5px 25px 5px 10px;
+  border: 1px solid #cccccc;
+  z-index: 1000;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+/* line 62, ../../client/styles/pages/_muscles.sass */
+.muscles .search .input input {
+  border: 0 none;
+}
+/* line 65, ../../client/styles/pages/_muscles.sass */
+.muscles .search .input button {
+  font-size: 14px;
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  margin-top: -12px;
+  border: 0 none;
+  outline: 0 none;
+  background: none;
+}
+/* line 75, ../../client/styles/pages/_muscles.sass */
+.muscles .search .input button:hover {
+  color: red;
 }
 
 /* line 1, ../../client/styles/directives/_chosen.sass */

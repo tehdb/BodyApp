@@ -1,6 +1,7 @@
 angular.module("BodyApp").service( "MusclesService", [
 	"$q", "$timeout", "$http",
 	( q, timeout, http ) ->
+		that = @
 		_muscles = []
 		_groups = "{{../client/database/musclegroups.json}}"
 
@@ -14,7 +15,19 @@ angular.module("BodyApp").service( "MusclesService", [
 
 			cb(data)
 
-		_getAll = ->
+		_apply = (cb) ->
+			if _.isEmpty( _muscles )
+				that.getAll().then ->
+					cb()
+			else
+				# timeout becouse of promise nature
+				timeout( ->
+					cb()
+				,0)
+
+
+
+		@getAll = ->
 			deferred = q.defer()
 			if _.isEmpty( _muscles )
 				http(
@@ -36,29 +49,19 @@ angular.module("BodyApp").service( "MusclesService", [
 
 			return deferred.promise
 
-		_apply = (cb) ->
-			if _.isEmpty( _muscles )
-				_getAll().then ->
-					cb()
-			else
-				# timeout becouse of promise nature
-				timeout( ->
-					cb()
-				,0)
 
-
-		_getGroups = ->
+		@getGroups = ->
 			return _groups
 
 
-		_getById = (id) ->
+		@getById = (id) ->
 			deferred = q.defer()
 			_apply ->
 				deferred.resolve( _.findWhere( _muscles, {_id : id }) )
 			return deferred.promise
 
 
-		_upsert = (muscle) ->
+		@upsert = (muscle) ->
 			deferred = q.defer()
 			http(
 				url : "/api/muscle/upsert"
@@ -90,7 +93,7 @@ angular.module("BodyApp").service( "MusclesService", [
 
 			return deferred.promise
 
-		_remove = (muscle) ->
+		@remove = (muscle) ->
 			deferred = q.defer()
 			http(
 				url : "/api/muscle/remove"
@@ -110,11 +113,5 @@ angular.module("BodyApp").service( "MusclesService", [
 			).error (data, status, headers, config) ->
 				deferred.reject( status )
 
-		return {
-			getAll : _getAll
-			getGroups : _getGroups
-			getById : _getById
-			upsert : _upsert
-			remove : _remove
-		}
+		return
 ])

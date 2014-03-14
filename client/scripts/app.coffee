@@ -2,34 +2,34 @@ angular
 	.module("BodyApp", ["ngRoute", "ngResource", "ngAnimate"])
 	.constant("Settings", {
 		apis : {
-			muscle : "/api/muscle/"
-			exercise : "/api/exercise/"
+			muscle : "/api/muscle"
+			exercise : "/api/exercise"
 		}
 	})
 	.config( ["$routeProvider", ( rpr ) ->
 		rpr
 			.when("/", {
-				templateUrl: "tpl/home.html",
-				controller: "HomeCtrl"
+				templateUrl: "tpl/views/home.html",
+				controller: "HomeController"
 			})
 
 			.when("/exercises", {
-				templateUrl: "tpl/exercises.html",
+				templateUrl: "tpl/views/exercises.html",
 				controller: "ExercisesController"
 			})
 
 			.when("/exercise/:id", {
-				templateUrl: "tpl/exercise.html",
+				templateUrl: "tpl/views/exercise.html",
 				controller: "ExerciseCtrl"
 			})
 
 			.when("/muscles", {
-				templateUrl: "tpl/muscles.html",
+				templateUrl: "tpl/views/muscles.html",
 				controller: "MusclesController"
 			})
 
 			.when("/muscle/:id", {
-				templateUrl : "tpl/muscle.html"
+				templateUrl : "tpl/views/muscle.html"
 				controller : "MuscleController"
 			})
 

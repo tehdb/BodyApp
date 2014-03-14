@@ -43,14 +43,12 @@ module.exports = (grunt) ->
 				bare : true
 				join : true
 				sourceMap : true
-
 			dist :
 				files :
 					".temp/bodyApp.js" : [
 						"client/scripts/app.coffe",
 						"client/scripts/**/*.coffee"
 					]
-
 			config :
 				files :
 					"public/js/main.js" : "client/config/main.coffee"
@@ -63,18 +61,34 @@ module.exports = (grunt) ->
 
 		jade :
 			dist :
-				files :
-					# "public/index.html" : "client/templates/index.jade"
-					"public/tpl/home.html" : "client/templates/home.tpl.jade"
-					"public/tpl/exercises.html" : "client/templates/exercises.tpl.jade"
-					"public/tpl/muscles.html" : "client/templates/muscles_tpl.jade"
-					"public/tpl/muscle.html" : "client/templates/muscle.jade"
+				options :
+					client: false
+					pretty: false
+				files : [{
+					cwd : "client/templates"
+					src : "**/*.jade"
+					dest : "public/tpl"
+					expand : true
+					ext: ".html"
+				}]
 
-					"public/tpl/exercise.html" : "client/templates/exercise.tpl.jade"
-					"public/tpl/muscle-chosen.tpl.html" : "client/templates/directives/muscle-chosen.tpl.jade"
-					"public/tpl/th-modal.tpl.html" : "client/templates/directives/th-modal.tpl.jade"
-					"public/tpl/th-number-input.tpl.html" : "client/templates/directives/th-number-input.tpl.jade"
-					"public/tpl/dropdown.tpl.html" : "client/templates/directives/dropdown.tpl.jade"
+		fileregexrename :
+			dist :
+				options :
+					replacements : [{
+						pattern : "_tpl"
+						replacement : ""
+
+					}]
+				files : [{
+					cwd : "public/tpl"
+					src : "**/*.html"
+					dest : "public/tpl"
+					expand : true
+					ext: ".html"
+				}]
+
+
 		uglify :
 			options :
 				# mangle : false
@@ -108,7 +122,14 @@ module.exports = (grunt) ->
 					base : "public"
 
 
-	grunt.registerTask( "build", ["coffee:dist", "coffee:config", "includes:database", "compass:dist", "jade:dist"])
+	grunt.registerTask( "build", [
+		"coffee:dist",
+		"coffee:config",
+		"includes:database",
+		"compass:dist",
+		"jade:dist",
+		"fileregexrename:dist"
+	])
 	grunt.registerTask( "dwatch", ["watch:common"])
 	grunt.registerTask( "server", ["connect:server:keepalive", "connect:livereload"])
 	grunt.registerTask( "default", [] )
