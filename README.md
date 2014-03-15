@@ -1,12 +1,13 @@
 ToDo
- - ~~fiter exercises~~
  - ~~edit/delete exercise~~
- - ~~set list~~
- - ~~add/edit set dialog~~
- - store sets
- - progress diagram
- - zoom exercise image
- - exercise animation
+ - refactor muscle chosen
+ - filter/search exercises
+ - exercises page
+ 	- set list
+ 	- add/edit set dialog
+ 	- store sets
+ 	- progress diagram
+	 - zoom exercise image
  - training days page
  - use npm passport for user authentication
 
