@@ -4,13 +4,13 @@ ToDo
 
 - exercises
 	- ~~edit / delete exercise~~
-	- refactor muscle chosen
 	- filter / search exercises
+	- refactor muscle chosen
 
 - exercise
 	- promo api
 	- promo service
-	- promo view
+	- promo route + view
 	- add / edit set dialog
 	- progress diagram
 

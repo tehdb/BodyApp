@@ -14,6 +14,7 @@ angular.module("BodyApp").controller "ExercisesController", [
 			scope.data.exercises = data
 
 		scope.insertModal = ->
+			scope.data.editMode = false
 			scope.data.form = {}
 			scope.data.showModal = true
 

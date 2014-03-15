@@ -63,15 +63,8 @@ angular.module("BodyApp").directive( "muscleChosen", [
 
 
 			do _watchSelectedChanges = ->
-				scp.$watch 'selected', ( newVal, oldVal ) ->
-					if _.isArray( newVal )
-						selectedIds = _.pluck( newVal, '_id')
-						available = angular.copy( scp.options )
-
-						scp.data.available = _.filter scp.options, (elm) ->
-							return not _.contains( selectedIds, elm._id)
-					else
-						scp.data.available = angular.copy( scp.options )
+				scp.$watch 'selected', (newVal) ->
+					scp.data.available = angular.copy( scp.options ) if _.isUndefined(newVal)
 
 				# scp.$watch( 'selected', (nv,ov) ->
 				# 	console.log "selected", nv

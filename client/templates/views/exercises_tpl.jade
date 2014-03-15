@@ -79,9 +79,7 @@ div.exercises.view
 				label.col-sm-2.control-label Muscles
 				div.col-sm-10
 					//- options="data.muscles"
-					muscle-chosen(
-						selected="data.form.muscles"
-					)
+					muscle-chosen( selected="data.form.muscles" )
 
 			//- insert controlls
 			div( ng-hide="data.editMode" )

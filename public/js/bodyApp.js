@@ -147,6 +147,7 @@ angular.module("BodyApp").controller("ExercisesController", [
       return scope.data.exercises = data;
     });
     scope.insertModal = function() {
+      scope.data.editMode = false;
       scope.data.form = {};
       return scope.data.showModal = true;
     };
@@ -394,8 +395,15 @@ angular.module("BodyApp").directive("muscleChosen", [
           }, true);
         })();
         (_watchSelectedChanges = function() {
-          return scp.$watch('selected', function(newVal) {
-            if (_.isUndefined(newVal)) {
+          return scp.$watch('selected', function(newVal, oldVal) {
+            var available, selectedIds;
+            if (_.isArray(newVal)) {
+              selectedIds = _.pluck(newVal, '_id');
+              available = angular.copy(scp.options);
+              return scp.data.available = _.filter(scp.options, function(elm) {
+                return !_.contains(selectedIds, elm._id);
+              });
+            } else {
               return scp.data.available = angular.copy(scp.options);
             }
           });
