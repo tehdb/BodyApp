@@ -1,14 +1,21 @@
 ToDo
- - ~~edit/delete exercise~~
- - refactor muscle chosen
- - filter/search exercises
- - exercises page
- 	- set list
- 	- add/edit set dialog
- 	- store sets
- 	- progress diagram
-	 - zoom exercise image
+
+- home
+
+- exercises
+	- ~~edit / delete exercise~~
+	- refactor muscle chosen
+	- filter / search exercises
+
+- exercise
+	- promo api
+	- promo service
+	- promo view
+	- add / edit set dialog
+	- progress diagram
+
  - training days page
+
  - use npm passport for user authentication
 
 
