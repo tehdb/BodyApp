@@ -135,8 +135,24 @@ ul.th-justified-list li .btn.btn-danger {
   text-shadow: none;
 }
 
-/* line 108, ../../client/styles/common/_common.sass */
-.th-icon-btn {
+/* line 1, ../../client/styles/common/_buttons.sass */
+.btn.btn-default {
+  background-image: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+/* line 6, ../../client/styles/common/_buttons.sass */
+.btn.btn-default.icon-left i {
+  margin-right: 5px;
+}
+/* line 10, ../../client/styles/common/_buttons.sass */
+.btn.btn-default.icon-right i {
+  margin-left: 5px;
+}
+
+/* line 13, ../../client/styles/common/_buttons.sass */
+.icon-btn {
   padding: 5px 10px;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -144,19 +160,151 @@ ul.th-justified-list li .btn.btn-danger {
   -o-border-radius: 2px;
   border-radius: 2px;
 }
-/* line 111, ../../client/styles/common/_common.sass */
-.th-icon-btn:hover {
+/* line 16, ../../client/styles/common/_buttons.sass */
+.icon-btn:hover {
   color: white;
   background: black;
 }
 
-/* line 3, ../../client/styles/common/_buttons.sass */
-.btn.icon-left i {
-  margin-right: 5px;
+/* line 25, ../../client/styles/common/_buttons.sass */
+.input-group .input-group-btn .select {
+  position: relative;
+  padding: 0;
+  margin: 0;
 }
-/* line 7, ../../client/styles/common/_buttons.sass */
-.btn.icon-right i {
-  margin-left: 5px;
+/* line 29, ../../client/styles/common/_buttons.sass */
+.input-group .input-group-btn .select i {
+  position: absolute;
+  font-size: 10px;
+  top: 50%;
+  right: 10px;
+  margin-top: -5px;
+}
+/* line 36, ../../client/styles/common/_buttons.sass */
+.input-group .input-group-btn .select select {
+  border: 0 none;
+  border-bottom: 1px solid #cccccc;
+  border-top: 1px solid #cccccc;
+  color: #333333;
+  cursor: pointer;
+  display: block;
+  font-size: 14px;
+  outline: 0 none;
+  padding: 6px 25px 6px 10px;
+  width: auto;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+/* line 57, ../../client/styles/common/_buttons.sass */
+.input-group .input-group-btn:first-child .select select {
+  -moz-border-radius-topright: 0;
+  -webkit-border-top-right-radius: 0;
+  border-top-right-radius: 0;
+  -moz-border-radius-bottomright: 0;
+  -webkit-border-bottom-right-radius: 0;
+  border-bottom-right-radius: 0;
+  -moz-border-radius-topleft: 4px;
+  -webkit-border-top-left-radius: 4px;
+  border-top-left-radius: 4px;
+  -moz-border-radius-bottomleft: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-right: 0 none;
+  border-left: 1px solid #cccccc;
+}
+/* line 65, ../../client/styles/common/_buttons.sass */
+.input-group .input-group-btn:last-child .select select {
+  -moz-border-radius-topright: 4px;
+  -webkit-border-top-right-radius: 4px;
+  border-top-right-radius: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -webkit-border-bottom-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  -moz-border-radius-topleft: 0;
+  -webkit-border-top-left-radius: 0;
+  border-top-left-radius: 0;
+  -moz-border-radius-bottomleft: 0;
+  -webkit-border-bottom-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-right: 1px solid #cccccc;
+  border-left: 0 none;
+}
+/* line 71, ../../client/styles/common/_buttons.sass */
+.input-group .input {
+  position: relative;
+  overflow: hidden;
+  *zoom: 1;
+}
+/* line 76, ../../client/styles/common/_buttons.sass */
+.input-group .input:not(:first-child):not(:last-child) input {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+}
+/* line 80, ../../client/styles/common/_buttons.sass */
+.input-group .input:first-child input {
+  -moz-border-radius-topright: 0;
+  -webkit-border-top-right-radius: 0;
+  border-top-right-radius: 0;
+  -moz-border-radius-bottomright: 0;
+  -webkit-border-bottom-right-radius: 0;
+  border-bottom-right-radius: 0;
+  -moz-border-radius-topleft: 4px;
+  -webkit-border-top-left-radius: 4px;
+  border-top-left-radius: 4px;
+  -moz-border-radius-bottomleft: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+/* line 84, ../../client/styles/common/_buttons.sass */
+.input-group .input:last-child input {
+  -moz-border-radius-topright: 4px;
+  -webkit-border-top-right-radius: 4px;
+  border-top-right-radius: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -webkit-border-bottom-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  -moz-border-radius-topleft: 0;
+  -webkit-border-top-left-radius: 0;
+  border-top-left-radius: 0;
+  -moz-border-radius-bottomleft: 0;
+  -webkit-border-bottom-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+/* line 89, ../../client/styles/common/_buttons.sass */
+.input-group .input:first-child:last-child input {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+/* line 92, ../../client/styles/common/_buttons.sass */
+.input-group .input button {
+  background: none;
+  border: 0 none;
+  font-size: 14px;
+  margin-top: -12px;
+  outline: 0 none;
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  z-index: 3;
+}
+/* line 103, ../../client/styles/common/_buttons.sass */
+.input-group .input button:hover {
+  color: red;
 }
 
 /* line 1, ../../client/styles/common/_sidebar.sass */
@@ -429,7 +577,7 @@ ul.th-justified-list li .btn.btn-danger {
 }
 
 /* line 1, ../../client/styles/directives/_chosen.sass */
-.th-chosen {
+.muscle-chosen {
   overflow: visible;
   border: 1px solid #cccccc;
   padding: 0 17px 6px 3px;
@@ -448,7 +596,7 @@ ul.th-justified-list li .btn.btn-danger {
   border-radius: 4px;
 }
 /* line 13, ../../client/styles/directives/_chosen.sass */
-.th-chosen .caret {
+.muscle-chosen .caret {
   position: absolute;
   right: 6px;
   top: 50%;
@@ -458,7 +606,7 @@ ul.th-justified-list li .btn.btn-danger {
   transition: all 0.4s linear;
 }
 /* line 18, ../../client/styles/directives/_chosen.sass */
-.th-chosen .caret.active {
+.muscle-chosen .caret.active {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
@@ -466,7 +614,7 @@ ul.th-justified-list li .btn.btn-danger {
   transform: rotate(180deg);
 }
 /* line 22, ../../client/styles/directives/_chosen.sass */
-.th-chosen ul.selected {
+.muscle-chosen ul.selected {
   overflow: visible;
   padding: 0;
   margin: 0;
@@ -475,7 +623,7 @@ ul.th-justified-list li .btn.btn-danger {
   *zoom: 1;
 }
 /* line 29, ../../client/styles/directives/_chosen.sass */
-.th-chosen ul.selected li {
+.muscle-chosen ul.selected li {
   float: left;
   color: black;
   margin: 6px 3px 0 3px;
@@ -494,11 +642,11 @@ ul.th-justified-list li .btn.btn-danger {
   text-overflow: ellipsis;
 }
 /* line 39, ../../client/styles/directives/_chosen.sass */
-.th-chosen ul.selected li span {
+.muscle-chosen ul.selected li span {
   display: inline-block;
 }
 /* line 42, ../../client/styles/directives/_chosen.sass */
-.th-chosen ul.selected li i {
+.muscle-chosen ul.selected li i {
   margin-left: 5px;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -511,12 +659,12 @@ ul.th-justified-list li .btn.btn-danger {
   transition: all 0.2s linear;
 }
 /* line 47, ../../client/styles/directives/_chosen.sass */
-.th-chosen ul.selected li i:hover {
+.muscle-chosen ul.selected li i:hover {
   background: black;
   color: white;
 }
 /* line 51, ../../client/styles/directives/_chosen.sass */
-.th-chosen div.options {
+.muscle-chosen div.options {
   display: block;
   position: absolute;
   top: 100%;
@@ -534,26 +682,20 @@ ul.th-justified-list li .btn.btn-danger {
   border-radius: 4px;
 }
 /* line 66, ../../client/styles/directives/_chosen.sass */
-.th-chosen div.options .filter-btn {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  z-index: 2020;
+.muscle-chosen div.options .filter-btn {
+  position: block;
 }
-/* line 72, ../../client/styles/directives/_chosen.sass */
-.th-chosen div.options .add-btn {
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-  z-index: 2020;
+/* line 69, ../../client/styles/directives/_chosen.sass */
+.muscle-chosen div.options .add-btn {
+  position: block;
 }
-/* line 80, ../../client/styles/directives/_chosen.sass */
-.th-chosen div.options .filter-form, .th-chosen div.options .add-form {
+/* line 74, ../../client/styles/directives/_chosen.sass */
+.muscle-chosen div.options .filter-form, .muscle-chosen div.options .add-form {
   margin: 5px 0;
   padding: 0 60px 0 0;
 }
-/* line 84, ../../client/styles/directives/_chosen.sass */
-.th-chosen div.options ul {
+/* line 78, ../../client/styles/directives/_chosen.sass */
+.muscle-chosen div.options ul {
   padding: 0;
   margin: 0 -5px 5px -5px;
   list-style: none;
@@ -562,8 +704,8 @@ ul.th-justified-list li .btn.btn-danger {
   overflow-x: hidden;
   overflow-y: scroll;
 }
-/* line 93, ../../client/styles/directives/_chosen.sass */
-.th-chosen div.options ul li {
+/* line 87, ../../client/styles/directives/_chosen.sass */
+.muscle-chosen div.options ul li {
   padding: 4px 8px;
   overflow: hidden;
   white-space: normal;
@@ -571,8 +713,8 @@ ul.th-justified-list li .btn.btn-danger {
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
 }
-/* line 100, ../../client/styles/directives/_chosen.sass */
-.th-chosen div.options ul li:hover {
+/* line 94, ../../client/styles/directives/_chosen.sass */
+.muscle-chosen div.options ul li:hover {
   color: white;
   text-shadow: 0 0 2px black;
 }

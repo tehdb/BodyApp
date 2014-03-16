@@ -1,4 +1,4 @@
-div.th-chosen(ng-click="toggleMenu($event)")
+div.muscle-chosen(ng-click="toggleMenu($event)")
 	span.caret(ng-class="{'active' : data.toggles.showmenu}")
 
 	ul.selected
@@ -8,25 +8,35 @@ div.th-chosen(ng-click="toggleMenu($event)")
 
 
 	div.options( ng-show="data.toggles.showMenu" )
-		div.th-icon-btn.filter-btn(ng-click="toggleFilter($event)", title="filter")
+
+		//- Filter
+		div.icon-btn.filter-btn.pull-left(ng-click="toggleFilter($event)", title="filter")
 			i.fa.fa-filter
 
 
-		div.input-group.filter-form(ng-show="data.toggles.showFilter")
-			input.form-control.filter(
-				type="text",
-				placeholder="filter",
-				ng-model="data.searchText",
-				ng-click="prevent($event)"
-			)
-			span.input-group-btn
-				button.btn.btn-default(
-					type="button",
-					ng-click="clear( $event )",
-					ng-class="{ 'disabled' : data.searchText == ''}"
+		div.input-group(ng-show="data.toggles.showFilter")
+			div.input
+				input.form-control(
+					type="text",
+					placeholder="filter",
+					ng-model="data.searchText",
+					ng-click="prevent($event)"
 				)
-					i.fa.fa-times
+				button(
+					ng-hide="data.searchText == ''"
+					ng-click="data.searchText = ''"
+					type="button"
+				)
+					i.fa.fa-times-circle
+			//- span.input-group-btn
+			//- 	button.btn.btn-default(
+			//- 		type="button",
+			//- 		ng-click="clear( $event )",
+			//- 		ng-class="{ 'disabled' : data.searchText == ''}"
+			//- 	)
+			//- 		i.fa.fa-times
 
+		//- muscles list
 		p.text-danger(ng-show="options.length == 0" ) No entries
 
 		ul
@@ -36,25 +46,32 @@ div.th-chosen(ng-click="toggleMenu($event)")
 			)
 				span( ng-bind="o.name" )
 
-
-		div.th-icon-btn.add-btn(ng-click="toggleAddForm($event)", title="add option")
-			i.fa.fa-plus
-
-		div.input-group.add-form(
+		//- add form
+		div.input-group(
 			ng-show="data.toggles.showAddForm"
 		)
-			th-dropdown(
-				class="input-group-btn"
-				options="data.muscleGroups"
-				selected="data.muscleGroup"
-			)
+			span.input-group-btn
+				div.select
+					i.fa.fa-sort-asc
+					select(
+						ng-model="data.newMuscleForm.group"
+						ng-options="g.name for g in data.muscleGroups"
+					)
 
-			input.form-control(
-				type="text"
-				placeholder="add element"
-				ng-click="prevent($event)"
-				ng-model="data.newMuscle"
-			)
+			div.input
+				input.form-control(
+					type="text"
+					placeholder="add element"
+					ng-click="prevent($event)"
+					ng-model="data.newMuscleForm.name"
+				)
+
+				button(
+					ng-hide="data.newMuscle == ''"
+					ng-click="data.newMuscle = ''"
+					type="button"
+				)
+					i.fa.fa-times-circle
 
 			span.input-group-btn
 				button.btn.btn-default(
@@ -64,3 +81,6 @@ div.th-chosen(ng-click="toggleMenu($event)")
 				)
 					i.fa.fa-plus
 
+
+		div.icon-btn.add-btn.pull-right(ng-click="toggleAddForm($event)", title="add option")
+			i.fa.fa-level-up

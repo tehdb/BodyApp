@@ -14,9 +14,11 @@ angular.module("BodyApp").directive( "muscleChosen", [
 				available : []
 				filtered : null
 				searchText : ''
-				newMuscle : ''
+				newMuscleForm : {
+					name : ''
+					group : musclesService.getGroups()[0]
+				}
 				muscleGroups : musclesService.getGroups()
-				muscleGroup : musclesService.getGroups()[0]
 				toggles : {
 					showMenu : false
 					showFilter : false
@@ -41,6 +43,9 @@ angular.module("BodyApp").directive( "muscleChosen", [
 
 			do _watchOptionChanges = ->
 				scp.$watch( 'options' , (nv,ov) ->
+					console.log nv
+
+
 					# on initialize
 					if nv? and not ov?
 						# check if options are selected
@@ -91,17 +96,17 @@ angular.module("BodyApp").directive( "muscleChosen", [
 					_adjustMenu()
 				, true )
 
-
+			# TODO: store muscle form over MuscleService
 			scp.add = (event) ->
 				event.preventDefault()
 				event.stopPropagation()
 
-				musclesService.upsert({
-					name : scp.data.newMuscle
-					group : scp.data.muscleGroup.id
-				}).then ( data )->
-					scp.options.push( data )
-					scp.data.newMuscle = ''
+				form = scp.data.newMuscleForm
+				form.group = form.group.id
+				musclesService.upsert( form ).then ( data )->
+					console.log data
+					# scp.options.push( data )
+					# scp.data.newMuscle = ''
 
 				# if scp.data.newMuscle isnt '' #and _selectedMuscleGroup isnt 0
 				# 	es.addMuscle({

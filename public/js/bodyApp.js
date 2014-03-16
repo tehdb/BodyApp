@@ -353,9 +353,11 @@ angular.module("BodyApp").directive("muscleChosen", [
           available: [],
           filtered: null,
           searchText: '',
-          newMuscle: '',
+          newMuscleForm: {
+            name: '',
+            group: musclesService.getGroups()[0]
+          },
           muscleGroups: musclesService.getGroups(),
-          muscleGroup: musclesService.getGroups()[0],
           toggles: {
             showMenu: false,
             showFilter: false,
@@ -380,6 +382,7 @@ angular.module("BodyApp").directive("muscleChosen", [
         (_watchOptionChanges = function() {
           return scp.$watch('options', function(nv, ov) {
             var filtered;
+            console.log(nv);
             if ((nv != null) && (ov == null)) {
               if (_.isArray(scp.selected) && scp.selected.length > 0) {
                 filtered = _.filter(nv, function(o) {
@@ -419,14 +422,13 @@ angular.module("BodyApp").directive("muscleChosen", [
           }, true);
         };
         scp.add = function(event) {
+          var form;
           event.preventDefault();
           event.stopPropagation();
-          return musclesService.upsert({
-            name: scp.data.newMuscle,
-            group: scp.data.muscleGroup.id
-          }).then(function(data) {
-            scp.options.push(data);
-            return scp.data.newMuscle = '';
+          form = scp.data.newMuscleForm;
+          form.group = form.group.id;
+          return musclesService.upsert(form).then(function(data) {
+            return console.log(data);
           });
         };
         scp.toggleMenu = function(event) {

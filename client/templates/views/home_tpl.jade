@@ -1,1 +1,82 @@
 h1(ng-bind="title")
+
+
+
+div(style="padding:10px 0;")
+	div.input-group
+		span.input-group-btn
+			button.btn.btn-default(type="button") Go
+		input.form-control(type="text")
+		span.input-group-btn
+			button.btn.btn-default(type="button") Go
+
+div(style="padding:10px 0;")
+	div.input-group
+		input.form-control(type="text")
+		span.input-group-btn
+			button.btn.btn-default(type="button") Go
+
+div(style="padding:10px 0;")
+	div.input-group
+		span.input-group-btn
+			button.btn.btn-default(type="button") Go
+		input.form-control(type="text")
+
+div(style="padding:10px 0;")
+	div.input-group
+		div.input
+			input.form-control(type="text")
+			button(
+				ng-hide="tempData == ''"
+				ng-click="tempData = ''"
+				type="button"
+			)
+				i.fa.fa-times-circle
+
+div(style="padding:10px 0;")
+	div.input-group
+		span.input-group-btn
+			div.select
+				i.fa.fa-sort-asc
+				select
+					option(selected) option1
+					option option2
+					option option3
+		div.input
+			input.form-control(type="text" ng-model="tempData" placeholder="here")
+			button(
+				ng-hide="tempData == ''"
+				ng-click="tempData = ''"
+				type="button"
+			)
+				i.fa.fa-times-circle
+
+		span.input-group-btn
+			button.btn.btn-default(type="button") Go
+
+
+div(style="padding:10px 0;")
+	div.input-group
+		span.input-group-btn
+			div.select
+				i.fa.fa-sort-asc
+				select
+					option(selected) option1
+					option option2
+					option option3
+		div.input
+			input.form-control(type="text")
+			button(
+				ng-hide="tempData == ''"
+				ng-click="tempData = ''"
+				type="button"
+			)
+				i.fa.fa-times-circle
+
+		span.input-group-btn
+			div.select
+				i.fa.fa-sort-asc
+				select
+					option(selected) option1
+					option option2
+					option option3

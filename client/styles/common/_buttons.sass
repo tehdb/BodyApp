@@ -1,4 +1,7 @@
-.btn
+.btn.btn-default
+	background-image : none
+	+box-shadow( none )
+
 	&.icon-left
 		i
 			margin-right : 5px
@@ -6,3 +9,97 @@
 	&.icon-right
 		i
 			margin-left : 5px
+
+.icon-btn
+	padding : 5px 10px
+	+border-radius( 2px )
+	&:hover
+		color : $th-white
+		background : $th-black
+
+.input-group
+
+	$borderColor : #ccc
+
+	.input-group-btn
+		.select
+			position : relative
+			padding : 0
+			margin : 0
+			i
+				position : absolute
+				font-size : 10px
+				top : 50%
+				right : 10px
+				margin-top : -5px
+
+			select
+				// background : rgb(224, 224, 224)
+				// background-image : linear-gradient(rgb(255, 255, 255) 0%, rgb(224, 224, 224) 100%)
+				border : 0 none
+				border-bottom : 1px solid $borderColor
+				border-top : 1px solid $borderColor
+				color : rgb(51, 51, 51)
+				cursor : pointer
+				display : block
+				font-size : 14px
+				outline : 0 none
+				padding : 6px 25px 6px 10px
+				width : auto
+				// +box-shadow( rgba(255, 255, 255, 0.14902) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px )
+				+box-shadow( none )
+				+border-radius( 0 )
+				+appearance( none )
+
+
+		&:first-child
+			.select
+				select
+					+border-right-radius( 0 )
+					+border-left-radius( 4px )
+					border-right : 0 none
+					border-left : 1px solid $borderColor
+
+		&:last-child
+			.select
+				select
+					+border-right-radius( 4px )
+					+border-left-radius( 0 )
+					border-right : 1px solid $borderColor
+					border-left : 0 none
+
+	.input
+		position : relative
+		+clearfix
+
+		&:not(:first-child):not(:last-child)
+			input
+				+border-radius( 0 )
+
+		&:first-child
+			input
+				+border-right-radius( 0 )
+				+border-left-radius( 4px )
+		&:last-child
+			input
+				+border-right-radius( 4px )
+				+border-left-radius( 0 )
+
+		&:first-child:last-child
+			input
+				+border-radius( 4px )
+
+		button
+			background : none
+			border : 0 none
+			font-size : 14px
+			margin-top : -12px
+			outline : 0 none
+			position : absolute
+			right : 5px
+			top : 50%
+			z-index : 3
+
+			&:hover
+				color : $th-red
+
