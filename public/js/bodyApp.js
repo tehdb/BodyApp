@@ -348,7 +348,7 @@ angular.module("BodyApp").directive("muscleChosen", [
       replace: true,
       templateUrl: "tpl/directives/muscle-chosen.html",
       link: function(scp, elm, atr) {
-        var _$menu, _adjustMenu, _watchForChanges, _watchOptionChanges, _watchSelectedChanges;
+        var _$menu, _adjustMenu, _watchForChanges, _watchSelectedChanges;
         scp.data = {
           available: [],
           filtered: null,
@@ -366,7 +366,7 @@ angular.module("BodyApp").directive("muscleChosen", [
         };
         scp.selected = scp.selected || [];
         musclesService.getAll().then(function(data) {
-          return scp.options = data;
+          return scp.data.options = data;
         });
         _$menu = $(elm).find('.options');
         _adjustMenu = function() {
@@ -379,35 +379,16 @@ angular.module("BodyApp").directive("muscleChosen", [
             return _$menu.css('y', dif);
           }
         };
-        (_watchOptionChanges = function() {
-          return scp.$watch('options', function(nv, ov) {
-            var filtered;
-            console.log(nv);
-            if ((nv != null) && (ov == null)) {
-              if (_.isArray(scp.selected) && scp.selected.length > 0) {
-                filtered = _.filter(nv, function(o) {
-                  return !_.contains(_.pluck(scp.selected, '_id'), o._id);
-                });
-                return scp.data.available = angular.copy(filtered);
-              } else {
-                return scp.data.available = angular.copy(nv);
-              }
-            } else if ((nv != null) && (ov != null) && nv !== ov) {
-              return scp.data.available.push(angular.copy(_.last(nv)));
-            }
-          }, true);
-        })();
         (_watchSelectedChanges = function() {
           return scp.$watch('selected', function(newVal, oldVal) {
-            var available, selectedIds;
+            var selectedIds;
             if (_.isArray(newVal)) {
               selectedIds = _.pluck(newVal, '_id');
-              available = angular.copy(scp.options);
-              return scp.data.available = _.filter(scp.options, function(elm) {
+              return scp.data.available = _.filter(scp.data.options, function(elm) {
                 return !_.contains(selectedIds, elm._id);
               });
             } else {
-              return scp.data.available = angular.copy(scp.options);
+              return scp.data.available = angular.copy(scp.data.options);
             }
           });
         })();
@@ -425,10 +406,11 @@ angular.module("BodyApp").directive("muscleChosen", [
           var form;
           event.preventDefault();
           event.stopPropagation();
-          form = scp.data.newMuscleForm;
+          form = angular.copy(scp.data.newMuscleForm);
           form.group = form.group.id;
           return musclesService.upsert(form).then(function(data) {
-            return console.log(data);
+            scp.data.available.push(data);
+            return scp.data.newMuscleForm.name = '';
           });
         };
         scp.toggleMenu = function(event) {
@@ -450,7 +432,7 @@ angular.module("BodyApp").directive("muscleChosen", [
         scp.unselect = function(index, event) {
           event.preventDefault();
           event.stopPropagation();
-          scp.options.push(scp.selected[index]);
+          scp.data.available.push(scp.selected[index]);
           return scp.selected.splice(index, 1);
         };
         scp.select = function(index, event) {
@@ -806,6 +788,7 @@ angular.module("BodyApp").service("MusclesService", [
         } else {
           return _prepare(data, function(data) {
             _muscles.push(data);
+            console.log(_muscles);
             return deferred.resolve(data);
           });
         }

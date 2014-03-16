@@ -86,6 +86,8 @@ angular.module("BodyApp").service( "MusclesService", [
 				else
 					_prepare data, (data) ->
 						_muscles.push( data )
+
+						console.log _muscles
 						deferred.resolve( data )
 
 			).error (data, status, headers, config) ->
