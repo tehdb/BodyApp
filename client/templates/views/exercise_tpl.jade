@@ -1,7 +1,7 @@
-div.exercise
-	h2( class="heading"
-		ng-bind="data.exercise.title"
-	)
+div.exercise.view
+
+	div.controls
+		h1.title(ng-bind="data.exercise.title")
 
 	div.thumb.pull-left
 		i.fa.fa-picture-o
@@ -13,7 +13,9 @@ div.exercise
 			i.fa.fa-male
 			span(ng-bind="m.name")
 
-	h2.heading Sets
+
+
+
 	div.container.sets
 		div.raw
 			div.col-xs-3
@@ -23,9 +25,9 @@ div.exercise
 			div.col-xs-3
 				span reps
 
-		div.raw.set( ng-repeat="set in data.sets", ng-class="set.type")
+		div.raw.set( ng-repeat="set in data.progress.sets", ng-class="set.type")
 			div.col-xs-3
-				span.idx(ng-bind="set.idx")
+				span.idx(ng-bind="set.inc")
 			div.col-xs-3
 				span.heft(ng-bind="set.heft | heft")
 			div.col-xs-3
@@ -35,9 +37,12 @@ div.exercise
 					ng-show="$index == data.set.index"
 					ng-click="toggleUpsertModal($event)"
 				)
-					//- data-toggle="modal"
-					//- data-target="#upsertSetModal"
 					i.fa.fa-plus
+
+		div.raw.date
+			div.col-xs-12
+				span Last progress {{data.progress.date | date:"'on' dd.MM.yy 'at' HH:mm"}}
+
 
 	div.container.completion
 		button.btn.btn-success.icon-right(
@@ -75,13 +80,13 @@ div.exercise
 
 
 
-	button.btn.btn-primary(
-		data-toggle="modal"
-		data-target="#editExerciseModal"
-	)
-		//-span.glyphicon.glyphicon-plus
-		i.fa.fa-pencil
-		span &nbsp;edit exercise
+
+	//- button.btn.btn-primary(
+	//- 	data-toggle="modal"
+	//- 	data-target="#editExerciseModal"
+	//- )
+	//- 	i.fa.fa-pencil
+	//- 	span &nbsp;edit exercise
 
 
 	div.modal.fade(

@@ -40,6 +40,11 @@ angular.module("BodyApp").directive( "muscleChosen", [
 				dif = wh - mh
 				_$menu.css('y', dif) if dif < 0
 
+			# TODO: weiter beobahten
+			# do _watchOptionChanges = ->
+			# 	scp.$watch scp.data.options, (newVal, oldVal) ->
+			# 		console.log newVal, oldVal
+
 
 			do _watchSelectedChanges = ->
 				scp.$watch 'selected', ( newVal, oldVal ) ->

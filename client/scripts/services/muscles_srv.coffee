@@ -26,7 +26,6 @@ angular.module("BodyApp").service( "MusclesService", [
 				,0)
 
 
-
 		@getAll = ->
 			deferred = q.defer()
 			if _.isEmpty( _muscles )
@@ -86,8 +85,6 @@ angular.module("BodyApp").service( "MusclesService", [
 				else
 					_prepare data, (data) ->
 						_muscles.push( data )
-
-						console.log _muscles
 						deferred.resolve( data )
 
 			).error (data, status, headers, config) ->

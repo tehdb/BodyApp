@@ -27,7 +27,7 @@ angular.module("BodyApp", ["ngRoute", "ngResource", "ngAnimate"]).constant("Sett
 ]);
 
 angular.module("BodyApp").controller("ExerciseCtrl", [
-  "$scope", "$routeParams", "$location", "ExercisesService", "SetsService", function(scp, rps, lcn, es, ss) {
+  "$scope", "$routeParams", "$location", "ExercisesService", "PromosService", function(scp, routeParams, location, es, ps) {
     var _hideEditExerciseModal, _init;
     scp.data = {
       exercise: null,
@@ -46,14 +46,11 @@ angular.module("BodyApp").controller("ExerciseCtrl", [
       }
     };
     (_init = function() {
-      return es.getExercise(rps.id).then(function(exercise) {
+      return es.getById(routeParams.id).then(function(exercise) {
         scp.data.exercise = exercise;
-        es.getMuscles().then(function(muscles) {
-          return scp.data.muscles = muscles;
-        });
-        return ss.getLast(scp.data.exercise._id).then(function(sets) {
-          scp.data.sets = sets;
-          scp.data.set.value = scp.data.sets[scp.data.set.index];
+        return ps.getLastProgress(scp.data.exercise._id).then(function(progress) {
+          scp.data.progress = progress;
+          scp.data.set.value = scp.data.progress.sets[scp.data.set.index];
           return scp.data.upsertModal.set = angular.copy(scp.data.set.value);
         });
       });
@@ -66,14 +63,14 @@ angular.module("BodyApp").controller("ExerciseCtrl", [
         scp.data.set.value.heft = scp.data.upsertModal.set.heft;
         scp.data.set.value.reps = scp.data.upsertModal.set.reps;
         scp.data.set.value.type = "complete";
-        if (++scp.data.set.index > scp.data.sets.length - 1) {
-          scp.data.sets.push({
+        if (++scp.data.set.index > scp.data.progress.sets.length - 1) {
+          scp.data.progress.sets.push({
             idx: scp.data.set.index + 1,
             heft: scp.data.set.value.heft,
             reps: scp.data.set.value.reps
           });
         }
-        scp.data.set.value = scp.data.sets[scp.data.set.index];
+        scp.data.set.value = scp.data.progress.sets[scp.data.set.index];
         scp.data.upsertModal.set = angular.copy(scp.data.set.value);
         scp.data.upsertModal.show = false;
         return scp.data.upsertModal.confirmed = false;
@@ -96,17 +93,17 @@ angular.module("BodyApp").controller("ExerciseCtrl", [
     };
     scp.complete = function() {
       var c, completed, i, _i, _len;
-      completed = _.where(scp.data.sets, {
+      completed = _.where(scp.data.progress.sets, {
         type: "complete"
       });
       for (i = _i = 0, _len = completed.length; _i < _len; i = ++_i) {
         c = completed[i];
-        completed[i] = _.pick(c, "idx", "heft", "reps");
+        completed[i] = _.pick(c, "inc", "heft", "reps");
       }
-      return ss.add(scp.data.exercise._id, completed).then(function(sets) {
-        scp.data.sets = sets;
+      return ps.add(scp.data.exercise._id, completed).then(function(progress) {
+        scp.data.progress = progress;
         scp.data.set.index = 0;
-        scp.data.set.value = scp.data.sets[scp.data.set.index];
+        scp.data.set.value = scp.data.progress.sets[scp.data.set.index];
         scp.data.upsertModal.set = angular.copy(scp.data.set.value);
         return scp.data.completable = false;
       });
@@ -125,7 +122,7 @@ angular.module("BodyApp").controller("ExerciseCtrl", [
       return es.deleteExercise(scp.data.exercise._id).then(function(data) {
         return _hideEditExerciseModal(function() {
           return scp.safeApply(function() {
-            return lcn.path('/exercises');
+            return location.path('/exercises');
           });
         });
       });
@@ -529,7 +526,7 @@ angular.module("BodyApp").filter("musclegroup", function() {
 
 angular.module("BodyApp").service("ExercisesService", [
   "$q", "$timeout", "$http", "MusclesService", "Settings", function(q, timeout, http, ms, sttgs) {
-    var that, _enrich, _exercises, _prepare;
+    var that, _apply, _enrich, _exercises, _prepare;
     that = this;
     _exercises = [];
     _enrich = function(exercise) {
@@ -571,24 +568,48 @@ angular.module("BodyApp").service("ExercisesService", [
       }
       return def.promise;
     };
-    this.getAll = function() {
-      var deferred;
-      deferred = q.defer();
-      http({
-        url: "" + sttgs.apis.exercise + "/select",
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json'
-        }
-      }).success(function(data, status, headers, config) {
-        return _prepare(data).then(function(data) {
-          _exercises = data;
-          return deferred.resolve(_exercises);
+    _apply = function() {
+      var def;
+      def = q.defer();
+      if (_.isEmpty(_exercises)) {
+        http({
+          url: "" + sttgs.apis.exercise + "/select",
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json'
+          }
+        }).success(function(data, status, headers, config) {
+          return _prepare(data).then(function(data) {
+            _exercises = data;
+            return def.resolve(_exercises);
+          });
+        }).error(function(data, status, headers, config) {
+          return deferred.reject(status);
         });
-      }).error(function(data, status, headers, config) {
-        return deferred.reject(status);
+      } else {
+        timeout(function() {
+          return def.resolve(_exercises);
+        }, 0);
+      }
+      return def.promise;
+    };
+    this.getAll = function() {
+      var def;
+      def = q.defer();
+      _apply().then(function() {
+        return def.resolve(_exercises);
       });
-      return deferred.promise;
+      return def.promise;
+    };
+    this.getById = function(id) {
+      var def;
+      def = q.defer();
+      _apply().then(function() {
+        return def.resolve(_.findWhere(_exercises, {
+          _id: id
+        }));
+      });
+      return def.promise;
     };
     this.upsert = function(exercise) {
       var def;
@@ -656,6 +677,25 @@ angular.module("BodyApp").service("ExercisesService", [
         return defer.reject(status);
       });
       return defer.promise;
+    };
+  }
+]);
+
+angular.module("BodyApp").service("LocalStorageService", [
+  "$q", function(q) {
+    var that;
+    that = this;
+    this.get = function(key) {
+      return localStorage.getItem(key);
+    };
+    this.set = function(key, val) {
+      return localStorage.setItem(key, val);
+    };
+    this.remove = function(key) {
+      return localStorage.removeItem(key);
+    };
+    this.clear = function() {
+      return localStorage.clear();
     };
   }
 ]);
@@ -788,7 +828,6 @@ angular.module("BodyApp").service("MusclesService", [
         } else {
           return _prepare(data, function(data) {
             _muscles.push(data);
-            console.log(_muscles);
             return deferred.resolve(data);
           });
         }
@@ -823,6 +862,99 @@ angular.module("BodyApp").service("MusclesService", [
       }).error(function(data, status, headers, config) {
         return deferred.reject(status);
       });
+    };
+  }
+]);
+
+angular.module("BodyApp").service("PromosService", [
+  "$q", "$timeout", "$http", "LocalStorageService", function(q, timeout, http, lss) {
+    var that, _getPromo, _init, _promos, _pushSetsToPromo, _store;
+    that = this;
+    _promos = null;
+    (_init = function() {
+      var schema, storred;
+      storred = JSON.parse(lss.get('promos'));
+      if (_.isUndefined(storred)) {
+        return schema = {};
+      }
+    })();
+    _store = function(exerciseId, progress) {
+      var def;
+      def = q.defer();
+      timeout(function() {
+        var elm, idx, newProgress, _i, _len, _results;
+        _results = [];
+        for (idx = _i = 0, _len = _promos.length; _i < _len; idx = ++_i) {
+          elm = _promos[idx];
+          if (elm.exercise === exerciseId) {
+            newProgress = {
+              date: new Date().getTime(),
+              sets: sets
+            };
+            _promos[idx].progress.push(newProgress);
+            def.resolve(newProgress);
+            break;
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
+      }, 0);
+      return def.promise;
+    };
+    _getPromo = function(exerciseId) {
+      if (_.isNull(_promos)) {
+        _promos = lss.get('promos');
+        if (_.isNull(_promos)) {
+          _promos = [];
+          _promos.push({
+            exercise: exerciseId,
+            progress: []
+          });
+          lss.set('promos', JSON.stringify(_promos));
+          return _promos[0];
+        } else {
+          _promos = JSON.parse(_promos);
+        }
+      }
+      return _.findWhere(_promos, {
+        exercise: exerciseId
+      });
+    };
+    _pushSetsToPromo = function(exerciseId, sets) {
+      var elm, idx, progress, promo, _i, _len;
+      promo = _getPromo(exerciseId);
+      progress = {
+        date: new Date().getTime(),
+        sets: sets
+      };
+      for (idx = _i = 0, _len = _promos.length; _i < _len; idx = ++_i) {
+        elm = _promos[idx];
+        if (elm.exercise === exerciseId) {
+          _promos[idx].progress.push(progress);
+          lss.set('promos', JSON.stringify(_promos));
+          break;
+        }
+      }
+      return progress;
+    };
+    this.getLastProgress = function(exerciseId) {
+      var def;
+      def = q.defer();
+      timeout(function() {
+        var promo;
+        promo = _getPromo(exerciseId);
+        return def.resolve(_.last(promo.progress));
+      }, 0);
+      return def.promise;
+    };
+    this.add = function(exerciseId, sets) {
+      var def;
+      def = q.defer();
+      $timeout(function() {
+        return def.resolve(_pushSetsToPromo(exerciseId, sets));
+      }, 0);
+      return def.promise;
     };
   }
 ]);

@@ -35,22 +35,55 @@ angular.module("BodyApp").service( "ExercisesService", [
 
 			return def.promise
 
+		_apply = () ->
+			def = q.defer()
+			if _.isEmpty( _exercises )
+				http(
+					url : "#{sttgs.apis.exercise}/select"
+					method : 'GET'
+					headers: {
+						'Accept' : 'application/json'
+					}
+				).success( (data, status, headers, config) ->
+					_prepare(data).then (data) ->
+						_exercises = data
+						def.resolve( _exercises )
+						
+				).error (data, status, headers, config) ->
+					deferred.reject( status )
+			else
+				timeout( ->
+					def.resolve( _exercises )
+				, 0 )
+
+			return def.promise
 
 		@getAll = ->
-			deferred = q.defer()
-			http(
-				url : "#{sttgs.apis.exercise}/select"
-				method : 'GET'
-				headers: {
-					'Accept' : 'application/json'
-				}
-			).success( (data, status, headers, config) ->
-				_prepare(data).then (data) ->
-					_exercises = data
-					deferred.resolve( _exercises )
-			).error (data, status, headers, config) ->
-				deferred.reject( status )
-			return deferred.promise
+			def = q.defer()
+			_apply().then ->
+				def.resolve( _exercises )
+
+			# http(
+			# 	url : "#{sttgs.apis.exercise}/select"
+			# 	method : 'GET'
+			# 	headers: {
+			# 		'Accept' : 'application/json'
+			# 	}
+			# ).success( (data, status, headers, config) ->
+			# 	_prepare(data).then (data) ->
+			# 		_exercises = data
+			# 		
+			# ).error (data, status, headers, config) ->
+			# 	def.reject( status )
+			return def.promise
+
+		@getById = ( id ) ->
+			def = q.defer()
+			_apply().then ->
+				def.resolve( _.findWhere( _exercises, { _id : id } ) )
+
+			return def.promise
+
 
 		@upsert = (exercise)->
 			def = q.defer()

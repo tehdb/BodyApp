@@ -15,7 +15,8 @@ div.muscles.view
 		)
 			i.fa.fa-plus
 
-	div.input-group
+	//- filter 
+	div.input-group( ng-hide="data.filtered.length <= 0" )
 		span.input-group-btn
 			div.select
 				i.fa.fa-sort-asc
@@ -36,28 +37,6 @@ div.muscles.view
 			)
 				i.fa.fa-times-circle
 
-	//- div.search
-		div.select
-			i.fa.fa-sort-asc
-
-			select(
-				ng-model="data.muscleGroup"
-				ng-options="g.name for g in data.muscleGroups"
-			)
-
-		div.input
-			input(
-				type="text"
-				ng-model="data.searchText"
-				placeholder="search muscle"
-			)
-
-			button(
-				ng-hide="data.searchText == ''"
-				ng-click="data.searchText = ''"
-				type="button"
-			)
-				i.fa.fa-times-circle
 
 	p.warning.text-danger(ng-show="data.filtered.length == 0" ) No entries
 

@@ -1,6 +1,6 @@
 angular.module("BodyApp").controller "ExerciseCtrl", [
-	"$scope", "$routeParams", "$location", "ExercisesService", "SetsService",
-	( scp, rps, lcn, es, ss ) ->
+	"$scope", "$routeParams", "$location", "ExercisesService", "PromosService",
+	( scp, routeParams, location, es, ps ) ->
 		scp.data = {
 			exercise : null
 			muscles : null
@@ -19,15 +19,15 @@ angular.module("BodyApp").controller "ExerciseCtrl", [
 		}
 
 		do _init = ->
-			es.getExercise( rps.id ).then (exercise) ->
+			es.getById( routeParams.id ).then (exercise) ->
 				scp.data.exercise = exercise
+				# es.getMuscles().then (muscles) ->
+				#	scp.data.muscles = muscles
 
-				es.getMuscles().then (muscles) ->
-					scp.data.muscles = muscles
-
-				ss.getLast( scp.data.exercise._id ).then (sets) ->
-					scp.data.sets = sets
-					scp.data.set.value = scp.data.sets[scp.data.set.index]
+				ps.getLastProgress( scp.data.exercise._id ).then ( progress ) ->
+					# scp.data.sets = progress.sets
+					scp.data.progress = progress
+					scp.data.set.value = scp.data.progress.sets[scp.data.set.index]
 					scp.data.upsertModal.set = angular.copy scp.data.set.value
 
 
@@ -41,14 +41,14 @@ angular.module("BodyApp").controller "ExerciseCtrl", [
 				scp.data.set.value.type = "complete"
 
 
-				if ++scp.data.set.index > scp.data.sets.length - 1
-					scp.data.sets.push {
+				if ++scp.data.set.index > scp.data.progress.sets.length - 1
+					scp.data.progress.sets.push {
 						idx : scp.data.set.index + 1
 						heft : scp.data.set.value.heft
 						reps : scp.data.set.value.reps
 					}
 
-				scp.data.set.value = scp.data.sets[scp.data.set.index]
+				scp.data.set.value = scp.data.progress.sets[scp.data.set.index]
 				scp.data.upsertModal.set = angular.copy scp.data.set.value
 				scp.data.upsertModal.show = false
 				scp.data.upsertModal.confirmed = false
@@ -69,14 +69,15 @@ angular.module("BodyApp").controller "ExerciseCtrl", [
 			scp.data.upsertModal.pos = [event.pageX, event.pageY]
 
 		scp.complete = ->
-			completed = _.where scp.data.sets, { type : "complete"}
+			completed = _.where scp.data.progress.sets, { type : "complete"}
 			for c, i in completed
-				completed[i] = _.pick c, "idx", "heft", "reps"
+				completed[i] = _.pick c, "inc", "heft", "reps"
 
-			ss.add( scp.data.exercise._id, completed ).then ( sets ) ->
-				scp.data.sets = sets
+
+			ps.add( scp.data.exercise._id, completed ).then ( progress ) ->
+				scp.data.progress = progress
 				scp.data.set.index = 0
-				scp.data.set.value = scp.data.sets[scp.data.set.index]
+				scp.data.set.value = scp.data.progress.sets[scp.data.set.index]
 				scp.data.upsertModal.set = angular.copy scp.data.set.value
 				scp.data.completable = false
 
@@ -95,6 +96,6 @@ angular.module("BodyApp").controller "ExerciseCtrl", [
 			es.deleteExercise( scp.data.exercise._id ).then (data) ->
 				_hideEditExerciseModal ->
 					scp.safeApply ->
-						lcn.path('/exercises')
+						location.path('/exercises')
 
 ]

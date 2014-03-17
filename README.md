@@ -14,9 +14,9 @@ ToDo
 	- add / edit set dialog
 	- progress diagram
 
- - training days page
+- training days page
 
- - use npm passport for user authentication
+- use npm passport for user authentication
 
 
 Get started

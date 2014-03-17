@@ -385,12 +385,6 @@ ul.th-justified-list li .btn.btn-danger {
 }
 
 /* line 3, ../../client/styles/pages/_exercise.sass */
-.exercise .heading {
-  margin-top: 0;
-  font-size: 14px;
-  font-weight: bold;
-}
-/* line 8, ../../client/styles/pages/_exercise.sass */
 .exercise .thumb {
   width: 64px;
   height: 64px;
@@ -404,13 +398,13 @@ ul.th-justified-list li .btn.btn-danger {
   text-align: center;
   margin-right: 15px;
 }
-/* line 18, ../../client/styles/pages/_exercise.sass */
+/* line 13, ../../client/styles/pages/_exercise.sass */
 .exercise .thumb .glyphicon, .exercise .thumb i {
   color: #cccccc;
   font-size: 30px;
   line-height: 60px;
 }
-/* line 23, ../../client/styles/pages/_exercise.sass */
+/* line 18, ../../client/styles/pages/_exercise.sass */
 .exercise .muscles {
   list-style: none;
   display: block;
@@ -418,7 +412,7 @@ ul.th-justified-list li .btn.btn-danger {
   overflow: hidden;
   *zoom: 1;
 }
-/* line 29, ../../client/styles/pages/_exercise.sass */
+/* line 24, ../../client/styles/pages/_exercise.sass */
 .exercise .muscles li {
   float: left;
   padding: 5px 10px;
@@ -431,9 +425,15 @@ ul.th-justified-list li .btn.btn-danger {
   -o-border-radius: 2px;
   border-radius: 2px;
 }
-/* line 37, ../../client/styles/pages/_exercise.sass */
+/* line 32, ../../client/styles/pages/_exercise.sass */
 .exercise .muscles li i {
   margin-right: 5px;
+}
+/* line 35, ../../client/styles/pages/_exercise.sass */
+.exercise .date {
+  font-size: 12px;
+  text-align: left;
+  color: #cccccc;
 }
 /* line 40, ../../client/styles/pages/_exercise.sass */
 .exercise .sets {
@@ -542,7 +542,7 @@ ul.th-justified-list li .btn.btn-danger {
   -moz-appearance: none;
   appearance: none;
 }
-/* line 50, ../../client/styles/pages/_muscles.sass */
+/* line 46, ../../client/styles/pages/_muscles.sass */
 .muscles .search .input {
   width: 100%;
   cursor: pointer;
@@ -556,11 +556,11 @@ ul.th-justified-list li .btn.btn-danger {
   -o-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 62, ../../client/styles/pages/_muscles.sass */
+/* line 55, ../../client/styles/pages/_muscles.sass */
 .muscles .search .input input {
   border: 0 none;
 }
-/* line 65, ../../client/styles/pages/_muscles.sass */
+/* line 58, ../../client/styles/pages/_muscles.sass */
 .muscles .search .input button {
   font-size: 14px;
   position: absolute;
@@ -571,7 +571,7 @@ ul.th-justified-list li .btn.btn-danger {
   outline: 0 none;
   background: none;
 }
-/* line 75, ../../client/styles/pages/_muscles.sass */
+/* line 68, ../../client/styles/pages/_muscles.sass */
 .muscles .search .input button:hover {
   color: red;
 }

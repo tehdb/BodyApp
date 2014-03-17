@@ -27,6 +27,7 @@ promo = mongoose.Schema(
 promo.methods.getActionRegex = ->
 	return /(id|exercise)-[A-Za-z0-9]+/
 
+
 promo.methods.handleAction = (action, cb) ->
 	action = action.split("-")
 	switch action[0]
