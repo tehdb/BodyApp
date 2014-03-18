@@ -9,14 +9,24 @@ ToDo
 
 - exercise
 	- promo api
-	- promo service
-	- promo route + view
-	- add / edit set dialog
+	- ~~promo service~~
+	- ~~promo route + view~~
+	- ~~add~~ / edit set dialog
 	- progress diagram
 
 - training days page
 
 - use npm passport for user authentication
+
+
+Prerequisites
+
+	nodejs, mongodb, sass/compass
+	
+	global npm packages:
+		npm install nodemon -g
+		npm install coffee-script -g
+
 
 
 Get started

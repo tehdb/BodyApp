@@ -27,7 +27,7 @@ angular.module("BodyApp", ["ngRoute", "ngResource", "ngAnimate"]).constant("Sett
 ]);
 
 angular.module("BodyApp").controller("ExerciseCtrl", [
-  "$scope", "$routeParams", "$location", "ExercisesService", "PromosService", function(scp, routeParams, location, es, ps) {
+  "$scope", "$routeParams", "$location", "ExercisesService", "PromosService", function(scp, routeParams, location, exercisesService, promosService) {
     var _hideEditExerciseModal, _init;
     scp.data = {
       exercise: null,
@@ -46,9 +46,9 @@ angular.module("BodyApp").controller("ExerciseCtrl", [
       }
     };
     (_init = function() {
-      return es.getById(routeParams.id).then(function(exercise) {
+      return exercisesService.getById(routeParams.id).then(function(exercise) {
         scp.data.exercise = exercise;
-        return ps.getLastProgress(scp.data.exercise._id).then(function(progress) {
+        return promosService.getLastProgress(scp.data.exercise._id).then(function(progress) {
           scp.data.progress = progress;
           scp.data.set.value = scp.data.progress.sets[scp.data.set.index];
           return scp.data.upsertModal.set = angular.copy(scp.data.set.value);
@@ -100,7 +100,7 @@ angular.module("BodyApp").controller("ExerciseCtrl", [
         c = completed[i];
         completed[i] = _.pick(c, "inc", "heft", "reps");
       }
-      return ps.add(scp.data.exercise._id, completed).then(function(progress) {
+      return promosService.add(scp.data.exercise._id, completed).then(function(progress) {
         scp.data.progress = progress;
         scp.data.set.index = 0;
         scp.data.set.value = scp.data.progress.sets[scp.data.set.index];
@@ -112,14 +112,14 @@ angular.module("BodyApp").controller("ExerciseCtrl", [
       var exercise;
       exercise = _.pick(scp.data.exercise, '_id', 'title', 'descr');
       exercise.muscles = _.pluck(scp.data.exercise.muscles, '_id');
-      return es.updateExercise(exercise).then(function(data) {
+      return exercisesService.updateExercise(exercise).then(function(data) {
         return _hideEditExerciseModal();
       });
     };
     return scp.deleteExercise = function(event) {
       event.preventDefault();
       event.stopPropagation();
-      return es.deleteExercise(scp.data.exercise._id).then(function(data) {
+      return exercisesService.deleteExercise(scp.data.exercise._id).then(function(data) {
         return _hideEditExerciseModal(function() {
           return scp.safeApply(function() {
             return location.path('/exercises');
@@ -868,41 +868,11 @@ angular.module("BodyApp").service("MusclesService", [
 
 angular.module("BodyApp").service("PromosService", [
   "$q", "$timeout", "$http", "LocalStorageService", function(q, timeout, http, lss) {
-    var that, _getPromo, _init, _promos, _pushSetsToPromo, _store;
+    var that, _getPromo, _promos, _pushSetsToPromo;
     that = this;
     _promos = null;
-    (_init = function() {
-      var schema, storred;
-      storred = JSON.parse(lss.get('promos'));
-      if (_.isUndefined(storred)) {
-        return schema = {};
-      }
-    })();
-    _store = function(exerciseId, progress) {
-      var def;
-      def = q.defer();
-      timeout(function() {
-        var elm, idx, newProgress, _i, _len, _results;
-        _results = [];
-        for (idx = _i = 0, _len = _promos.length; _i < _len; idx = ++_i) {
-          elm = _promos[idx];
-          if (elm.exercise === exerciseId) {
-            newProgress = {
-              date: new Date().getTime(),
-              sets: sets
-            };
-            _promos[idx].progress.push(newProgress);
-            def.resolve(newProgress);
-            break;
-          } else {
-            _results.push(void 0);
-          }
-        }
-        return _results;
-      }, 0);
-      return def.promise;
-    };
     _getPromo = function(exerciseId) {
+      var promo;
       if (_.isNull(_promos)) {
         _promos = lss.get('promos');
         if (_.isNull(_promos)) {
@@ -917,9 +887,18 @@ angular.module("BodyApp").service("PromosService", [
           _promos = JSON.parse(_promos);
         }
       }
-      return _.findWhere(_promos, {
+      promo = _.findWhere(_promos, {
         exercise: exerciseId
       });
+      if (_.isUndefined(promo)) {
+        promo = {
+          exercise: exerciseId,
+          progress: []
+        };
+        _promos.push(promo);
+        lss.set('promos', JSON.stringify(_promos));
+      }
+      return promo;
     };
     _pushSetsToPromo = function(exerciseId, sets) {
       var elm, idx, progress, promo, _i, _len;
@@ -942,16 +921,29 @@ angular.module("BodyApp").service("PromosService", [
       var def;
       def = q.defer();
       timeout(function() {
-        var promo;
+        var progress, promo;
         promo = _getPromo(exerciseId);
-        return def.resolve(_.last(promo.progress));
+        progress = _.last(promo.progress);
+        if (_.isUndefined(progress)) {
+          progress = {
+            date: null,
+            sets: [
+              {
+                inc: 1,
+                heft: 50,
+                reps: 10
+              }
+            ]
+          };
+        }
+        return def.resolve(progress);
       }, 0);
       return def.promise;
     };
     this.add = function(exerciseId, sets) {
       var def;
       def = q.defer();
-      $timeout(function() {
+      timeout(function() {
         return def.resolve(_pushSetsToPromo(exerciseId, sets));
       }, 0);
       return def.promise;

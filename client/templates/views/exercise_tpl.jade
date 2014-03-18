@@ -13,9 +13,6 @@ div.exercise.view
 			i.fa.fa-male
 			span(ng-bind="m.name")
 
-
-
-
 	div.container.sets
 		div.raw
 			div.col-xs-3
@@ -39,7 +36,7 @@ div.exercise.view
 				)
 					i.fa.fa-plus
 
-		div.raw.date
+		div.raw.date(ng-show="data.progress.date")
 			div.col-xs-12
 				span Last progress {{data.progress.date | date:"'on' dd.MM.yy 'at' HH:mm"}}
 
@@ -77,18 +74,6 @@ div.exercise.view
 					)
 
 
-
-
-
-
-	//- button.btn.btn-primary(
-	//- 	data-toggle="modal"
-	//- 	data-target="#editExerciseModal"
-	//- )
-	//- 	i.fa.fa-pencil
-	//- 	span &nbsp;edit exercise
-
-
 	div.modal.fade(
 		id="editExerciseModal"
 		tabindex="-1"
@@ -113,7 +98,6 @@ div.exercise.view
 					)
 						div.form-group
 							label.col-sm-2.control-label(for="exrcTitleInp") Title
-							//- ( ng-class="{ 'has-error' : exrcForm.title.$invalid && !exrcForm.title.$pristine }" )
 							div.col-sm-10
 								input.form-control(
 									id="exrcTitleInp"

@@ -1,6 +1,6 @@
 angular.module("BodyApp").controller "ExerciseCtrl", [
 	"$scope", "$routeParams", "$location", "ExercisesService", "PromosService",
-	( scp, routeParams, location, es, ps ) ->
+	( scp, routeParams, location, exercisesService, promosService ) ->
 		scp.data = {
 			exercise : null
 			muscles : null
@@ -19,12 +19,12 @@ angular.module("BodyApp").controller "ExerciseCtrl", [
 		}
 
 		do _init = ->
-			es.getById( routeParams.id ).then (exercise) ->
+			exercisesService.getById( routeParams.id ).then (exercise) ->
 				scp.data.exercise = exercise
-				# es.getMuscles().then (muscles) ->
+				# exercisesService.getMuscles().then (muscles) ->
 				#	scp.data.muscles = muscles
 
-				ps.getLastProgress( scp.data.exercise._id ).then ( progress ) ->
+				promosService.getLastProgress( scp.data.exercise._id ).then ( progress ) ->
 					# scp.data.sets = progress.sets
 					scp.data.progress = progress
 					scp.data.set.value = scp.data.progress.sets[scp.data.set.index]
@@ -68,13 +68,14 @@ angular.module("BodyApp").controller "ExerciseCtrl", [
 			scp.data.upsertModal.show = not scp.data.upsertModal.show
 			scp.data.upsertModal.pos = [event.pageX, event.pageY]
 
+
 		scp.complete = ->
 			completed = _.where scp.data.progress.sets, { type : "complete"}
 			for c, i in completed
 				completed[i] = _.pick c, "inc", "heft", "reps"
 
 
-			ps.add( scp.data.exercise._id, completed ).then ( progress ) ->
+			promosService.add( scp.data.exercise._id, completed ).then ( progress ) ->
 				scp.data.progress = progress
 				scp.data.set.index = 0
 				scp.data.set.value = scp.data.progress.sets[scp.data.set.index]
@@ -86,14 +87,14 @@ angular.module("BodyApp").controller "ExerciseCtrl", [
 			exercise = _.pick( scp.data.exercise, '_id', 'title', 'descr')
 			exercise.muscles = _.pluck( scp.data.exercise.muscles, '_id')
 
-			es.updateExercise( exercise ).then (data) ->
+			exercisesService.updateExercise( exercise ).then (data) ->
 				_hideEditExerciseModal()
 
 
 		scp.deleteExercise = (event)->
 			event.preventDefault()
 			event.stopPropagation()
-			es.deleteExercise( scp.data.exercise._id ).then (data) ->
+			exercisesService.deleteExercise( scp.data.exercise._id ).then (data) ->
 				_hideEditExerciseModal ->
 					scp.safeApply ->
 						location.path('/exercises')
