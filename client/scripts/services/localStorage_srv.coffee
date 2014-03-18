@@ -4,9 +4,16 @@ angular.module("BodyApp").service( "LocalStorageService", [
 		that = @
 
 		@get = ( key ) ->
-			return localStorage.getItem( key )
+			res = localStorage.getItem( key )
+			return null if _.isNull( res )
+
+			res = LZString.decompress( res )
+
+			return JSON.parse( res )
 
 		@set = ( key, val ) ->
+			val = JSON.stringify( val )
+			val = LZString.compress( val )
 			return localStorage.setItem( key, val )
 
 		@remove = ( key ) ->

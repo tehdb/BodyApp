@@ -29,32 +29,28 @@ angular.module("BodyApp").service( "PromosService", [
 
 
 		_getPromo = ( exerciseId ) ->
+			# get cached or storred data 
+			_promos = _promos || lss.get('promos')
 
-			# first initialize promos
+			# if no data in storage create new data object
 			if _.isNull( _promos )
+				_promos = []
+				_promos.push({
+					exercise : exerciseId
+					progress : []
+				})
 
-				# get storred data
-				_promos = lss.get('promos')
+				# store data
+				lss.set( 'promos', _promos )
+				return _promos[0]
 
-				# if no data in storage create new data object
-				if _.isNull( _promos )
-					_promos = []
-					_promos.push({
-						exercise : exerciseId
-						progress : []
-					})
 
-					# store data
-					lss.set('promos', JSON.stringify( _promos ))
-					return _promos[0]
-
-				# parse storred data
-				else
-					_promos = JSON.parse( _promos )
-
+			console.log _promos[0]
 
 			# find promo in cache
 			promo = _.findWhere( _promos, { exercise : exerciseId } )
+
+			console.log promo
 
 			# no promo in cache
 			if _.isUndefined( promo )
@@ -63,7 +59,7 @@ angular.module("BodyApp").service( "PromosService", [
 					progress : []
 				}
 				_promos.push( promo )
-				lss.set('promos', JSON.stringify( _promos ))
+				lss.set( 'promos', _promos )
 
 			return promo
 
@@ -78,7 +74,7 @@ angular.module("BodyApp").service( "PromosService", [
 			for elm, idx in _promos
 				if elm.exercise is exerciseId
 					_promos[idx].progress.push( progress )
-					lss.set('promos', JSON.stringify( _promos ))
+					lss.set('promos', _promos )
 					break
 
 			return progress

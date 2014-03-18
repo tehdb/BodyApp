@@ -686,9 +686,17 @@ angular.module("BodyApp").service("LocalStorageService", [
     var that;
     that = this;
     this.get = function(key) {
-      return localStorage.getItem(key);
+      var res;
+      res = localStorage.getItem(key);
+      if (_.isNull(res)) {
+        return null;
+      }
+      res = LZString.decompress(res);
+      return JSON.parse(res);
     };
     this.set = function(key, val) {
+      val = JSON.stringify(val);
+      val = LZString.compress(val);
       return localStorage.setItem(key, val);
     };
     this.remove = function(key) {
@@ -873,30 +881,28 @@ angular.module("BodyApp").service("PromosService", [
     _promos = null;
     _getPromo = function(exerciseId) {
       var promo;
+      _promos = _promos ||  lss.get('promos');
       if (_.isNull(_promos)) {
-        _promos = lss.get('promos');
-        if (_.isNull(_promos)) {
-          _promos = [];
-          _promos.push({
-            exercise: exerciseId,
-            progress: []
-          });
-          lss.set('promos', JSON.stringify(_promos));
-          return _promos[0];
-        } else {
-          _promos = JSON.parse(_promos);
-        }
+        _promos = [];
+        _promos.push({
+          exercise: exerciseId,
+          progress: []
+        });
+        lss.set('promos', _promos);
+        return _promos[0];
       }
+      console.log(_promos[0]);
       promo = _.findWhere(_promos, {
         exercise: exerciseId
       });
+      console.log(promo);
       if (_.isUndefined(promo)) {
         promo = {
           exercise: exerciseId,
           progress: []
         };
         _promos.push(promo);
-        lss.set('promos', JSON.stringify(_promos));
+        lss.set('promos', _promos);
       }
       return promo;
     };
@@ -911,7 +917,7 @@ angular.module("BodyApp").service("PromosService", [
         elm = _promos[idx];
         if (elm.exercise === exerciseId) {
           _promos[idx].progress.push(progress);
-          lss.set('promos', JSON.stringify(_promos));
+          lss.set('promos', _promos);
           break;
         }
       }
