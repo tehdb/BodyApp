@@ -62,10 +62,11 @@ angular.module("BodyApp").controller("ExerciseCtrl", [
         }
         scp.data.set.value.heft = scp.data.upsertModal.set.heft;
         scp.data.set.value.reps = scp.data.upsertModal.set.reps;
+        scp.data.set.value.inc = scp.data.set.index + 1;
         scp.data.set.value.type = "complete";
         if (++scp.data.set.index > scp.data.progress.sets.length - 1) {
           scp.data.progress.sets.push({
-            idx: scp.data.set.index + 1,
+            inc: scp.data.set.index + 1,
             heft: scp.data.set.value.heft,
             reps: scp.data.set.value.reps
           });
@@ -92,14 +93,13 @@ angular.module("BodyApp").controller("ExerciseCtrl", [
       return scp.data.upsertModal.pos = [event.pageX, event.pageY];
     };
     scp.complete = function() {
-      var c, completed, i, _i, _len;
+      var completed;
       completed = _.where(scp.data.progress.sets, {
         type: "complete"
       });
-      for (i = _i = 0, _len = completed.length; _i < _len; i = ++_i) {
-        c = completed[i];
-        completed[i] = _.pick(c, "inc", "heft", "reps");
-      }
+      _.each(completed, function(elm, idx, list) {
+        return completed[idx] = _.pick(elm, "inc", "heft", "reps");
+      });
       return promosService.add(scp.data.exercise._id, completed).then(function(progress) {
         scp.data.progress = progress;
         scp.data.set.index = 0;
@@ -280,7 +280,7 @@ angular.module("BodyApp").controller("MusclesController", [
   }
 ]);
 
-angular.module("BodyApp").directive("thModal", [
+angular.module("BodyApp").directive("modal", [
   "$q", "$timeout", function(q, tmt) {
     return {
       restrict: "E",
@@ -345,7 +345,7 @@ angular.module("BodyApp").directive("muscleChosen", [
       replace: true,
       templateUrl: "tpl/directives/muscle-chosen.html",
       link: function(scp, elm, atr) {
-        var _$menu, _adjustMenu, _watchForChanges, _watchSelectedChanges;
+        var _watchSelectedChanges;
         scp.data = {
           available: [],
           filtered: null,
@@ -365,17 +365,6 @@ angular.module("BodyApp").directive("muscleChosen", [
         musclesService.getAll().then(function(data) {
           return scp.data.options = data;
         });
-        _$menu = $(elm).find('.options');
-        _adjustMenu = function() {
-          var dif, mh, wh;
-          _$menu.css('y', 0);
-          wh = $(window).height() + $(document).scrollTop();
-          mh = _$menu.outerHeight() + _$menu.offset().top + 10;
-          dif = wh - mh;
-          if (dif < 0) {
-            return _$menu.css('y', dif);
-          }
-        };
         (_watchSelectedChanges = function() {
           return scp.$watch('selected', function(newVal, oldVal) {
             var selectedIds;
@@ -389,16 +378,6 @@ angular.module("BodyApp").directive("muscleChosen", [
             }
           });
         })();
-        _watchForChanges = function() {
-          scp.$watch('[data.toggles.showMenu, data.toggles.showFilter, data.toggles.showAddForm]', function(nv, ov) {
-            if (_.contains(nv, true)) {
-              return _adjustMenu();
-            }
-          }, true);
-          return scp.$watch('options', function(nv, ov) {
-            return _adjustMenu();
-          }, true);
-        };
         scp.add = function(event) {
           var form;
           event.preventDefault();
@@ -692,10 +671,11 @@ angular.module("BodyApp").service("LocalStorageService", [
         return null;
       }
       res = LZString.decompress(res);
-      return JSON.parse(res);
+      res = angular.fromJson(res);
+      return res;
     };
     this.set = function(key, val) {
-      val = JSON.stringify(val);
+      val = angular.toJson(val);
       val = LZString.compress(val);
       return localStorage.setItem(key, val);
     };
@@ -891,11 +871,9 @@ angular.module("BodyApp").service("PromosService", [
         lss.set('promos', _promos);
         return _promos[0];
       }
-      console.log(_promos[0]);
       promo = _.findWhere(_promos, {
         exercise: exerciseId
       });
-      console.log(promo);
       if (_.isUndefined(promo)) {
         promo = {
           exercise: exerciseId,

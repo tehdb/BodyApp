@@ -3,17 +3,22 @@ div.exercise.view
 	div.controls
 		h1.title(ng-bind="data.exercise.title")
 
-	div.thumb.pull-left
-		i.fa.fa-picture-o
+	div.info
+		div.thumb.pull-left
+			i.fa.fa-picture-o
 
-	p(ng-bind="data.exercise.descr")
+		p(ng-bind="data.exercise.descr")
 
-	ul.muscles
-		li(ng-repeat="m in data.exercise.muscles")
-			i.fa.fa-male
-			span(ng-bind="m.name")
+		ul.muscles
+			li(ng-repeat="m in data.exercise.muscles")
+				i.fa.fa-male
+				span(ng-bind="m.name")
 
 	div.container.sets
+		div.raw.date(ng-show="data.progress.date")
+			div.col-xs-12
+				span Last training {{data.progress.date | date:"'on' dd.MM.yy 'at' HH:mm"}}
+
 		div.raw
 			div.col-xs-3
 				span Nr.
@@ -24,39 +29,36 @@ div.exercise.view
 
 		div.raw.set( ng-repeat="set in data.progress.sets", ng-class="set.type")
 			div.col-xs-3
-				span.idx(ng-bind="set.inc")
+				span.inc(ng-bind="set.inc")
 			div.col-xs-3
 				span.heft(ng-bind="set.heft | heft")
 			div.col-xs-3
 				span.reps(ng-bind="set.reps")
 			div.col-xs-3
-				button.btn.btn-xs(
+				button.btn.btn-default.btn-xs(
 					ng-show="$index == data.set.index"
 					ng-click="toggleUpsertModal($event)"
 				)
-					i.fa.fa-plus
-
-		div.raw.date(ng-show="data.progress.date")
-			div.col-xs-12
-				span Last progress {{data.progress.date | date:"'on' dd.MM.yy 'at' HH:mm"}}
+					i.fa.fa-reply
 
 
-	div.container.completion
-		button.btn.btn-success.icon-right(
-			type="button"
-			ng-disabled="!data.completable"
-			ng-click="complete()"
-		)
-			span exercise complete
-			i.fa.fa-check
+		div.raw.completion
+			div.col-xs-12.text-center
+				button.btn.btn-success.icon-right(
+					type="button"
+					ng-disabled="!data.completable"
+					ng-click="complete()"
+				)
+					span exercise complete
+					i.fa.fa-check
 
 
-	th-modal(
+	modal(
 		show="data.upsertModal.show"
 		pos="data.upsertModal.pos"
 		confirm = "data.upsertModal.confirmed"
 	)
-		div.upsert-form
+		div.set-form
 			div.raw.heading
 				div.col-xs-6 heft
 				div.col-xs-6 reps
@@ -72,68 +74,5 @@ div.exercise.view
 						value="data.upsertModal.set.reps"
 						step="1"
 					)
-
-
-	div.modal.fade(
-		id="editExerciseModal"
-		tabindex="-1"
-		role="dialog"
-	)
-		div.modal-dialog
-			div.modal-content
-				div.modal-header
-					button.close(
-						type="button"
-						data-dismiss="modal"
-						aria-hidden="true"
-					) &times;
-
-					h4.modal-title edit exercise
-
-				div.modal-body
-					form.form-horizontal(
-						role="form"
-						name="updateForm"
-						ng-submit="submitForm()"
-					)
-						div.form-group
-							label.col-sm-2.control-label(for="exrcTitleInp") Title
-							div.col-sm-10
-								input.form-control(
-									id="exrcTitleInp"
-									type="text"
-									name="title"
-									placeholder="exercise title"
-									ng-model="data.exercise.title"
-									ng-required="true"
-								)
-
-						div.form-group
-							label.col-sm-2.control-label(for="exerciseDescrInp") Description
-							div.col-sm-10
-								textarea.form-control(
-									id="exerciseDescrInp",
-									rows="3",
-									placeholder="exercise description",
-									ng-model="data.exercise.descr"
-								)
-
-						div.form-group
-							label.col-sm-2.control-label Muscles
-							div.col-sm-10
-								muscle-chosen(
-									options="data.muscles"
-									selected="data.exercise.muscles"
-								)
-
-						div.form-group
-							div.col-sm-offset-2.col-sm-10
-								button.btn.btn-danger.pull-left(ng-click="deleteExercise($event)")
-									i.fa.fa-minus
-									span &nbsp;delete
-
-								button.btn.btn-success.pull-right(type="submit")
-									i.fa.fa-refresh
-									span &nbsp;update exercise
 
 

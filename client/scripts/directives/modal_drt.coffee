@@ -1,4 +1,4 @@
-angular.module("BodyApp").directive "thModal", [
+angular.module("BodyApp").directive "modal", [
 	"$q",	"$timeout",
 	( q,	tmt ) ->
 		restrict : "E"

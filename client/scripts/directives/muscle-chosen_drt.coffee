@@ -31,14 +31,6 @@ angular.module("BodyApp").directive( "muscleChosen", [
 				scp.data.options = data
 
 
-			_$menu = $(elm).find('.options')
-
-			_adjustMenu = ->
-				_$menu.css('y', 0)
-				wh = $(window).height() + $(document).scrollTop()
-				mh = _$menu.outerHeight() + _$menu.offset().top + 10
-				dif = wh - mh
-				_$menu.css('y', dif) if dif < 0
 
 			# TODO: weiter beobahten
 			# do _watchOptionChanges = ->
@@ -57,15 +49,23 @@ angular.module("BodyApp").directive( "muscleChosen", [
 
 
 			# do _watchForChanges = ->
-			_watchForChanges = ->
-				scp.$watch( '[data.toggles.showMenu, data.toggles.showFilter, data.toggles.showAddForm]', (nv, ov) ->
-					if _.contains( nv, true )
-						_adjustMenu()
-				, true )
+			# 	_$menu = $(elm).find('.options')
 
-				scp.$watch( 'options', (nv, ov) ->
-					_adjustMenu()
-				, true )
+			# 	_adjustMenu = ->
+			# 		_$menu.css('y', 0)
+			# 		wh = $(window).height() + $(document).scrollTop()
+			# 		mh = _$menu.outerHeight() + _$menu.offset().top + 10
+			# 		dif = wh - mh
+			# 		_$menu.css('y', dif) if dif < 0
+
+			# 	scp.$watch( '[data.toggles.showMenu, data.toggles.showFilter, data.toggles.showAddForm]', (nv, ov) ->
+			# 		if _.contains( nv, true )
+			# 			_adjustMenu()
+			# 	, true )
+
+			# 	scp.$watch( 'options', (nv, ov) ->
+			# 		_adjustMenu()
+			# 	, true )
 
 			# TODO: store muscle form over MuscleService
 			scp.add = (event) ->

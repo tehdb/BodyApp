@@ -1,21 +1,21 @@
 div.muscles.view
 	div.controls
 		button.btn(
+			type="button"
+			ng-click="insertModal()"
+		)
+			i.fa.fa-plus
+
+		h1.title(ng-bind="data.title")
+
+		button.btn(
 			ng-class="{'active' : data.edit}"
 			type="button"
 			ng-click="data.edit = !data.edit"
 		)
 			i.fa.fa-edit
 
-		h1.title(ng-bind="data.title")
-
-		button.btn(
-			type="button"
-			ng-click="insertModal()"
-		)
-			i.fa.fa-plus
-
-	//- filter 
+	//- filter
 	div.input-group( ng-hide="data.filtered.length <= 0" )
 		span.input-group-btn
 			div.select
@@ -61,7 +61,7 @@ div.muscles.view
 			)
 				i.fa.fa-chevron-right
 
-	th-modal(
+	modal(
 		title="add new muscle"
 		show="data.showMuscleModal"
 	)

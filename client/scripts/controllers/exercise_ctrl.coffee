@@ -38,12 +38,14 @@ angular.module("BodyApp").controller "ExerciseCtrl", [
 
 				scp.data.set.value.heft = scp.data.upsertModal.set.heft
 				scp.data.set.value.reps = scp.data.upsertModal.set.reps
+				# scp.data.set.value = _.pick( scp.data.upsertModal.set, "heft", "reps" )
+				scp.data.set.value.inc = scp.data.set.index + 1
 				scp.data.set.value.type = "complete"
 
 
 				if ++scp.data.set.index > scp.data.progress.sets.length - 1
 					scp.data.progress.sets.push {
-						idx : scp.data.set.index + 1
+						inc : scp.data.set.index + 1
 						heft : scp.data.set.value.heft
 						reps : scp.data.set.value.reps
 					}
@@ -70,10 +72,10 @@ angular.module("BodyApp").controller "ExerciseCtrl", [
 
 
 		scp.complete = ->
-			completed = _.where scp.data.progress.sets, { type : "complete"}
-			for c, i in completed
-				completed[i] = _.pick c, "inc", "heft", "reps"
+			completed = _.where( scp.data.progress.sets, { type : "complete" })
 
+			_.each completed , (elm, idx, list) ->
+				completed[idx] = _.pick( elm, "inc", "heft", "reps" )
 
 			promosService.add( scp.data.exercise._id, completed ).then ( progress ) ->
 				scp.data.progress = progress

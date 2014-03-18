@@ -1,5 +1,5 @@
 angular.module("BodyApp").service( "LocalStorageService", [
-	"$q", 
+	"$q",
 	( q ) ->
 		that = @
 
@@ -8,11 +8,11 @@ angular.module("BodyApp").service( "LocalStorageService", [
 			return null if _.isNull( res )
 
 			res = LZString.decompress( res )
-
-			return JSON.parse( res )
+			res = angular.fromJson( res )
+			return res
 
 		@set = ( key, val ) ->
-			val = JSON.stringify( val )
+			val = angular.toJson( val )
 			val = LZString.compress( val )
 			return localStorage.setItem( key, val )
 

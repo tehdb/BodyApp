@@ -1,14 +1,16 @@
-.btn.btn-default
-	background-image : none
-	+box-shadow( none )
+.btn
+	i:first-child
+		margin-right : 5px
 
-	&.icon-left
-		i
-			margin-right : 5px
+	i:last-child
+		margin-left : 5px
 
-	&.icon-right
-		i
-			margin-left : 5px
+	&.btn-default
+		background-image : none
+		+box-shadow( none )
+
+	&:hover
+		color : $th-red
 
 .icon-btn
 	padding : 5px 10px

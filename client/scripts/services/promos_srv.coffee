@@ -29,7 +29,7 @@ angular.module("BodyApp").service( "PromosService", [
 
 
 		_getPromo = ( exerciseId ) ->
-			# get cached or storred data 
+			# get cached or storred data
 			_promos = _promos || lss.get('promos')
 
 			# if no data in storage create new data object
@@ -44,13 +44,9 @@ angular.module("BodyApp").service( "PromosService", [
 				lss.set( 'promos', _promos )
 				return _promos[0]
 
-
-			console.log _promos[0]
-
 			# find promo in cache
 			promo = _.findWhere( _promos, { exercise : exerciseId } )
 
-			console.log promo
 
 			# no promo in cache
 			if _.isUndefined( promo )
@@ -84,7 +80,6 @@ angular.module("BodyApp").service( "PromosService", [
 			def = q.defer()
 			timeout( ->
 				promo = _getPromo( exerciseId )
-
 				progress = _.last( promo.progress )
 				if _.isUndefined( progress )
 					# TODO: get default set data for exercise

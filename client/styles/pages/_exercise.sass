@@ -1,44 +1,46 @@
 .exercise
 
-	.thumb
-		width : 64px
-		height : 64px
-		float : left
-		border : 1px solid $th-gray
-		+border-radius( 2px )
-		text-align : center
-		margin-right : 15px
-
-		// TODO: temp
-		.glyphicon, i
-			color : $th-gray
-			font-size : 30px
-			line-height : 60px
-
-	.muscles
-		list-style : none
-		display : block
-		padding : 0
+	.info
 		+clearfix
 
-		li
+		.thumb
+			width : 64px
+			height : 64px
 			float : left
-			padding : 5px 10px
-			margin : 0 5px 5px 0
-			color : $th-white
-			background : $th-gray
+			border : 1px solid $th-gray
 			+border-radius( 2px )
+			text-align : center
+			margin-right : 15px
 
-			i
-				margin-right : 5px
+			// TODO: temp
+			.glyphicon, i
+				color : $th-gray
+				font-size : 30px
+				line-height : 60px
 
-	.date
-		font-size : 12px
-		text-align : left
-		color : $th-gray
+		.muscles
+			list-style : none
+			display : block
+			padding : 0
+			+clearfix
+
+			li
+				float : left
+				padding : 5px 10px
+				margin : 0 5px 5px 0
+				color : $th-white
+				background : $th-gray
+				+border-radius( 2px )
+
+				i
+					margin-right : 5px
+
 
 	.sets
-		margin : 20px 0
+
+		margin : 10px 0
+		padding : 10px 0
+		border-top : 1px solid $th-gray
 
 		.raw
 			+clearfix
@@ -50,14 +52,15 @@
 			&.complete
 				color : $th-black
 
-			.btn
-				color : $th-white
+		.date
+			margin : 15px 0
+			font-size : 12px
+			color : $th-gray
 
-	.completion
-		margin : 15px 0
-		text-align : center
+		.completion
+			margin : 15px 0
 
-	.upsert-form
+	.set-form
 		.raw
 			margin : 10px 0
 			+clearfix
@@ -69,23 +72,3 @@
 			&.controls
 				margin-top : 20px
 
-
-	// ul.sets
-	// 	list-style : none
-	// 	margin : 20px 0
-
-	// 	li
-	// 		padding : 10px 0
-	// 		font-weight : bold
-	// 		width : 100%
-	// 		+clearfix
-
-	// 		&.last
-	// 			color : $th-gray
-
-	// 		div
-	// 			width : 33.33%
-	// 			float : left
-
-	.add-set-btn
-		margin-right : 5px
