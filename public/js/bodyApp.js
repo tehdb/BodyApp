@@ -20,6 +20,9 @@ angular.module("BodyApp", ["ngRoute", "ngResource", "ngAnimate"]).constant("Sett
     }).when("/muscle/:id", {
       templateUrl: "tpl/views/muscle.html",
       controller: "MuscleController"
+    }).when("/schedules/", {
+      templateUrl: "tpl/views/schedules.html",
+      controller: "SchedulesController"
     }).otherwise({
       redirectTo: "/"
     });
@@ -276,6 +279,26 @@ angular.module("BodyApp").controller("MusclesController", [
         scope.data.form.name = '';
         return scope.data.showMuscleModal = false;
       });
+    };
+  }
+]);
+
+angular.module("BodyApp").controller("SchedulesController", [
+  "$scope", "SchedulesService", function(scope, ss) {
+    var _data;
+    scope.data = {
+      title: "schedules",
+      schedules: null,
+      showFormModal: false,
+      formEditMode: false,
+      form: {}
+    };
+    _data = scope.data;
+    ss.getAll().then(function(data) {
+      return scope.data.schedules = data;
+    });
+    scope.insertModal = function() {
+      return scope.data.showFormModal = true;
     };
   }
 ]);
@@ -929,6 +952,33 @@ angular.module("BodyApp").service("PromosService", [
       def = q.defer();
       timeout(function() {
         return def.resolve(_pushSetsToPromo(exerciseId, sets));
+      }, 0);
+      return def.promise;
+    };
+  }
+]);
+
+angular.module("BodyApp").service("SchedulesService", [
+  "$q", "$timeout", "$http", "LocalStorageService", function(q, timeout, http, lss) {
+    var _schedules;
+    _schedules = [
+      {
+        "title": "Training day 1",
+        "descr": "shoulder and chest",
+        "exercises": [],
+        "repetition": "continues"
+      }, {
+        "title": "Training day 2",
+        "descr": "back and buttocks",
+        "exercises": [],
+        "repetition": "continues"
+      }
+    ];
+    this.getAll = function() {
+      var def;
+      def = q.defer();
+      timeout(function() {
+        return def.resolve(_schedules);
       }, 0);
       return def.promise;
     };

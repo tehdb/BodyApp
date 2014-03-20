@@ -1,0 +1,59 @@
+div.schedules.view
+	div.controls
+		button.btn(
+			type="button"
+			ng-click="insertModal()"
+		) 
+			i.fa.fa-plus
+
+		h1.title(ng-bind="data.title")
+
+	ul.th-justified-list
+		li(
+			ng-repeat="schedule in data.filtered = (data.schedules)"
+		)
+			h2.title(ng-bind="schedule.title")
+			div.descr(ng-bind="schedule.descr")
+
+			a.btn.btn-default(
+				role="button"
+				ng-href="/#/exercise/{{exr._id}}"
+				ng-hide="data.editMode"
+			)
+				i.fa.fa-chevron-right
+
+	modal(
+		title="add new schedule"
+		show="data.showFormModal"
+	)
+		form.form-horizontal(name="form" novalidate)
+			div.form-group
+				label.col-sm-2.control-label(for="exrcTitleInp") Title
+				div.col-sm-10
+					input.form-control(
+						id="exrcTitleInp"
+						ng-model="data.form.title"
+						placeholder="exercise title"
+						required
+						type="text"
+					)
+
+			div.form-group
+				label.col-sm-2.control-label(for="exerciseDescrInp") Description
+				div.col-sm-10
+					textarea.form-control(
+						id="exerciseDescrInp"
+						ng-model="data.form.descr"
+						rows="3"
+						placeholder="exercise description"
+					)
+
+			//- insert controlls
+			div( ng-hide="data.formEditMode" )
+				button.btn.btn-success(
+					ng-disabled="form.$invalid"
+					ng-click="upsert()"
+				)
+					i.fa.fa-plus
+					span add exercise
+

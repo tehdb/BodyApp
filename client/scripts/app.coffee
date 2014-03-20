@@ -33,6 +33,11 @@ angular
 				controller : "MuscleController"
 			})
 
+			.when("/schedules/", {
+				templateUrl : "tpl/views/schedules.html"
+				controller : "SchedulesController"
+			})
+
 			.otherwise({
 				redirectTo: "/"
 			})
