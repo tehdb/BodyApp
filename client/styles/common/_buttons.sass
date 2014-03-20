@@ -14,10 +14,25 @@
 
 .icon-btn
 	padding : 5px 10px
-	+border-radius( 2px )
+	outline : 0 none
+	border : 0 none
+	background : none
+	
+	i, i:last-child, i:first-child
+		margin : 0
+		padding : 0
+
+
+
+	&:hover,
+	&:focus,
+	&:active
+		background : none
+		outline : none
+		border : none
+
 	&:hover
-		color : $th-white
-		background : $th-black
+		color : $th-red
 
 .input-group
 

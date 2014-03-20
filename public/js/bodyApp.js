@@ -284,21 +284,98 @@ angular.module("BodyApp").controller("MusclesController", [
 ]);
 
 angular.module("BodyApp").controller("SchedulesController", [
-  "$scope", "SchedulesService", function(scope, ss) {
+  "$scope", "SchedulesService", "ExercisesService", function(scope, ss, es) {
     var _data;
     scope.data = {
       title: "schedules",
       schedules: null,
+      exercises: null,
       showFormModal: false,
       formEditMode: false,
-      form: {}
+      form: {
+        title: '',
+        descr: '',
+        exercises: [],
+        repetition: ''
+      }
     };
     _data = scope.data;
     ss.getAll().then(function(data) {
       return scope.data.schedules = data;
     });
+    es.getAll().then(function(data) {
+      return scope.data.exercises = data;
+    });
     scope.insertModal = function() {
-      return scope.data.showFormModal = true;
+      scope.data.showFormModal = true;
+      return false;
+    };
+    scope.upsert = function() {
+      console.log(scope.data.form);
+      return false;
+    };
+  }
+]);
+
+angular.module("BodyApp").directive("chosen", [
+  "$q", "$timeout", function(q, timeout) {
+    return {
+      restrict: "E",
+      scope: {
+        options: "=",
+        optionTitle: "@",
+        placeholder: "@",
+        selected: "="
+      },
+      replace: true,
+      transclude: false,
+      templateUrl: "tpl/directives/chosen.html",
+      link: function(scope, element, attrs) {
+        scope.data = {
+          showMenu: false,
+          selected: [],
+          available: null,
+          multiSelect: []
+        };
+        scope.$watch('options', function(nv, ov) {
+          if (nv != null) {
+            return scope.data.available = angular.copy(nv);
+          }
+        }, true);
+        scope.toggleMenu = function() {
+          scope.data.showMenu = !scope.data.showMenu;
+          return false;
+        };
+        scope.select = function(index) {
+          var option;
+          option = scope.data.available.splice(index, 1);
+          scope.data.selected.push(option[0]);
+          return false;
+        };
+        scope.isMultiSelected = function(index) {
+          return _.contains(scope.data.multiSelect, index);
+        };
+        scope.multiSelect = function(event, index) {
+          event.preventDefault();
+          event.stopPropagation();
+          if (index === -1) {
+            console.log(scope.data.multiSelect);
+            return scope.data.showMenu = false;
+          } else {
+            if (scope.isMultiSelected(index)) {
+              return scope.data.multiSelect = _.without(scope.data.multiSelect, index);
+            } else {
+              return scope.data.multiSelect.push(index);
+            }
+          }
+        };
+        scope.unselect = function(index) {
+          var option;
+          option = scope.data.selected.splice(index, 1);
+          scope.data.available.push(option[0]);
+          return false;
+        };
+      }
     };
   }
 ]);

@@ -1,0 +1,40 @@
+div.chosen( ng-click="toggleMenu()" )
+
+	span.caret( ng-class="{'active' : data.showMenu}" )
+
+	//- i.fa.fa-times.caret( ng-class="{'active' : data.showMenu}")
+
+	div.selected
+		span.placeholder(
+			ng-bind="placeholder"
+			ng-show="data.selected.length == 0"
+		)
+
+		ul
+			li( ng-repeat="option in data.selected" )
+				span(ng-bind="option[optionTitle]")
+				i.fa.fa-times( ng-click="unselect( $index )" )
+
+	div.options(ng-show="data.showMenu")
+		p.text-danger(ng-show="data.available.length == 0" ) No entries
+
+		ul
+			li(
+				ng-click="select( $index )"
+				ng-repeat="option in data.available"
+			)
+
+				button.btn.btn-default.icon-btn(
+					type="button"
+					ng-click="multiSelect($event, $index)"
+				)
+					i.fa.fa-square-o(ng-hide="isMultiSelected($index)")
+					i.fa.fa-check-square-o(ng-show="isMultiSelected($index)")
+
+
+				span( ng-bind="option[optionTitle]" )
+
+		button.btn.btn-default(type="button" ng-click="multiSelect($event, -1)")
+			i.fa.fa-check
+
+

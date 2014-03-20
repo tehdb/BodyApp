@@ -22,38 +22,64 @@ div.schedules.view
 			)
 				i.fa.fa-chevron-right
 
-	modal(
-		title="add new schedule"
-		show="data.showFormModal"
-	)
-		form.form-horizontal(name="form" novalidate)
-			div.form-group
-				label.col-sm-2.control-label(for="exrcTitleInp") Title
-				div.col-sm-10
-					input.form-control(
-						id="exrcTitleInp"
-						ng-model="data.form.title"
-						placeholder="exercise title"
-						required
-						type="text"
-					)
+	//- modal(
+	//- 	title="add new schedule"
+	//- 	show="data.showFormModal"
+	//- )
 
-			div.form-group
-				label.col-sm-2.control-label(for="exerciseDescrInp") Description
-				div.col-sm-10
-					textarea.form-control(
-						id="exerciseDescrInp"
-						ng-model="data.form.descr"
-						rows="3"
-						placeholder="exercise description"
-					)
-
-			//- insert controlls
-			div( ng-hide="data.formEditMode" )
-				button.btn.btn-success(
-					ng-disabled="form.$invalid"
-					ng-click="upsert()"
+	form.form-horizontal(name="form" novalidate)
+		div.form-group
+			label.col-sm-2.control-label Title
+			div.col-sm-10
+				input.form-control(
+					ng-model="data.form.title"
+					placeholder="exercise title"
+					type="text"
+					required
 				)
-					i.fa.fa-plus
-					span add exercise
+
+		div.form-group
+			label.col-sm-2.control-label Description
+			div.col-sm-10
+				textarea.form-control(
+					ng-model="data.form.descr"
+					rows="3"
+					placeholder="exercise description"
+				)
+
+		div.form-group
+			label.col-sm-2.control-label Exercises
+			div.col-sm-10
+				chosen(
+					options="data.exercises"
+					option-title="title"
+					selected="data.form.exercises"
+					placeholder="select exercises"
+					required
+				)
+				//- div.filter
+				//- div.insert
+
+		div.form-group
+			label.col-sm-2.control-label Repetition
+			div.col-sm-10
+				select.form-control(
+					ng-model="data.form.repetition"
+					required
+				)
+					option(selected) continues
+					option daily
+					option weekly
+
+
+		//- insert controlls
+		div( ng-hide="data.formEditMode" )
+			button.btn.btn-success(
+				ng-disabled="form.$invalid"
+				ng-click="upsert()"
+			)
+				i.fa.fa-plus
+				span add schedule
+
+
 
