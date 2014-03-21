@@ -1,20 +1,27 @@
 angular.module("BodyApp")
 .directive( "chosen", [
-
-	"$q", "$timeout",
-	( q, timeout ) ->
+	"$q", "$timeout", "$compile", 
+	( q, timeout, compile ) ->
 		restrict : "E"
 		scope : {
-			options : "="
-			optionTitle : "@"
 			placeholder : "@"
+			options : "="
 			selected : "="
 		}
 		replace : true
-		transclude : false
+		transclude : true
 		templateUrl : "tpl/directives/chosen.html"
 		link : (scope, element, attrs ) ->
 
+			_optionTemplate = null
+
+			do ->
+				ot = element.find( "div[option-template]" )
+				cls = ot.attr('option-template')
+				tpl = '<div class="' + cls + '">' + ot.html() + '</div>'
+				_optionTemplate = tpl
+
+			## set default data ################################################
 			scope.data = {
 				showMenu : false
 				selected : []
@@ -22,11 +29,17 @@ angular.module("BodyApp")
 				multiSelect : []
 			}
 
+
+			## init watchers ###################################################
 			scope.$watch( 'options', (nv, ov) ->
 				scope.data.available = angular.copy nv if nv?
 			, true)
+			
+			scope.getOptionTemplate = ->
+				return _optionTemplate 
 
 
+			## public methods ##################################################
 			scope.toggleMenu =  ->
 				scope.data.showMenu = !scope.data.showMenu
 
@@ -67,4 +80,21 @@ angular.module("BodyApp")
 
 
 			return
+]).directive( "chosenOption", [
+	"$compile",
+	(compile) ->
+		scope : {
+			template : "&"
+			option : "="
+		}
+		restrict : "E"
+		replace : true
+		template : '<div class="option"></div>'
+		link : (scope, element, attrs ) ->
+			_template= scope.template()
+			
+			if not _.isUndefined( _template )
+				element.html( compile( _template )(scope) )
+
+
 ])

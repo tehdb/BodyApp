@@ -52,11 +52,17 @@ div.schedules.view
 			div.col-sm-10
 				chosen(
 					options="data.exercises"
-					option-title="title"
 					selected="data.form.exercises"
 					placeholder="select exercises"
 					required
 				)
+					div(ng-hide="true" option-template="exercise")
+						div.thumb
+							i.fa.fa-picture-o
+						div.title(ng-bind="option.title")
+						div.descr(ng-bind="option.descr")
+
+				//- span transclude
 				//- div.filter
 				//- div.insert
 

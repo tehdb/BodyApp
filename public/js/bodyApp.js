@@ -318,19 +318,27 @@ angular.module("BodyApp").controller("SchedulesController", [
 ]);
 
 angular.module("BodyApp").directive("chosen", [
-  "$q", "$timeout", function(q, timeout) {
+  "$q", "$timeout", "$compile", function(q, timeout, compile) {
     return {
       restrict: "E",
       scope: {
-        options: "=",
-        optionTitle: "@",
         placeholder: "@",
+        options: "=",
         selected: "="
       },
       replace: true,
-      transclude: false,
+      transclude: true,
       templateUrl: "tpl/directives/chosen.html",
       link: function(scope, element, attrs) {
+        var _optionTemplate;
+        _optionTemplate = null;
+        (function() {
+          var cls, ot, tpl;
+          ot = element.find("div[option-template]");
+          cls = ot.attr('option-template');
+          tpl = '<div class="' + cls + '">' + ot.html() + '</div>';
+          return _optionTemplate = tpl;
+        })();
         scope.data = {
           showMenu: false,
           selected: [],
@@ -342,6 +350,9 @@ angular.module("BodyApp").directive("chosen", [
             return scope.data.available = angular.copy(nv);
           }
         }, true);
+        scope.getOptionTemplate = function() {
+          return _optionTemplate;
+        };
         scope.toggleMenu = function() {
           scope.data.showMenu = !scope.data.showMenu;
           return false;
@@ -375,6 +386,25 @@ angular.module("BodyApp").directive("chosen", [
           scope.data.available.push(option[0]);
           return false;
         };
+      }
+    };
+  }
+]).directive("chosenOption", [
+  "$compile", function(compile) {
+    return {
+      scope: {
+        template: "&",
+        option: "="
+      },
+      restrict: "E",
+      replace: true,
+      template: '<div class="option"></div>',
+      link: function(scope, element, attrs) {
+        var _template;
+        _template = scope.template();
+        if (!_.isUndefined(_template)) {
+          return element.html(compile(_template)(scope));
+        }
       }
     };
   }
