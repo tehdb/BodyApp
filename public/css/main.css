@@ -586,6 +586,31 @@ ul.th-justified-list li .btn.btn-danger {
   color: red;
 }
 
+/* line 5, ../../client/styles/pages/_schedules.sass */
+.schedules .chosen .exercise .thumb {
+  width: 64px;
+  height: 64px;
+  float: left;
+  border: 1px solid black;
+  text-align: center;
+  margin-right: 15px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+}
+/* line 14, ../../client/styles/pages/_schedules.sass */
+.schedules .chosen .exercise .thumb .glyphicon, .schedules .chosen .exercise .thumb i {
+  color: black;
+  font-size: 30px;
+  line-height: 60px;
+}
+/* line 20, ../../client/styles/pages/_schedules.sass */
+.schedules .chosen .exercise .title {
+  font-weight: bold;
+}
+
 /* line 1, ../../client/styles/directives/_chosen.sass */
 .muscle-chosen {
   overflow: visible;
@@ -843,6 +868,7 @@ ul.th-justified-list li .btn.btn-danger {
 }
 /* line 172, ../../client/styles/directives/_chosen.sass */
 .chosen div.options ul {
+  position: relative;
   padding: 0;
   margin: 0 -5px 5px -5px;
   list-style: none;
@@ -851,19 +877,26 @@ ul.th-justified-list li .btn.btn-danger {
   overflow-x: hidden;
   overflow-y: scroll;
 }
-/* line 181, ../../client/styles/directives/_chosen.sass */
+/* line 182, ../../client/styles/directives/_chosen.sass */
 .chosen div.options ul li {
-  padding: 4px 8px;
+  position: relative;
+  padding: 5px 30px 4px 10px;
   overflow: hidden;
   white-space: normal;
   -ms-text-overflow: ellipsis;
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
 }
-/* line 185, ../../client/styles/directives/_chosen.sass */
+/* line 187, ../../client/styles/directives/_chosen.sass */
 .chosen div.options ul li:hover {
-  color: white;
-  text-shadow: 0 0 2px black;
+  background: #cccccc;
+}
+/* line 192, ../../client/styles/directives/_chosen.sass */
+.chosen div.options ul li .multi-select {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  margin-top: -15px;
 }
 
 /* line 1, ../../client/styles/directives/_dropdown.sass */
@@ -1060,37 +1093,37 @@ ul.th-justified-list li .btn.btn-danger {
   border-radius: 0;
 }
 
-/* line 32, ../../client/styles/main.sass */
+/* line 33, ../../client/styles/main.sass */
 body {
   background: transparent;
 }
 
-/* line 35, ../../client/styles/main.sass */
+/* line 36, ../../client/styles/main.sass */
 header {
   margin: 0;
 }
-/* line 38, ../../client/styles/main.sass */
+/* line 39, ../../client/styles/main.sass */
 header .th-sidemenu-toggle {
   margin-right: 20px;
 }
 
-/* line 41, ../../client/styles/main.sass */
+/* line 42, ../../client/styles/main.sass */
 .content {
   padding: 60px 0 60px 0;
 }
 
-/* line 44, ../../client/styles/main.sass */
+/* line 45, ../../client/styles/main.sass */
 .th-footer {
   border: 0 none;
   padding-top: 5px;
   margin-top: 10px;
 }
-/* line 49, ../../client/styles/main.sass */
+/* line 50, ../../client/styles/main.sass */
 .th-footer .btn {
   border-radius: 0;
   margin: 0;
 }
-/* line 56, ../../client/styles/main.sass */
+/* line 57, ../../client/styles/main.sass */
 .th-footer .btn .th-text {
   float: left;
   padding-left: 4px;

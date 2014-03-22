@@ -1,4 +1,4 @@
-angular.module("BodyApp", ["ngRoute", "ngResource", "ngAnimate"]).constant("Settings", {
+angular.module("BodyApp", ["ngRoute", "ngResource", "ngAnimate", "ngSanitize"]).constant("Settings", {
   apis: {
     muscle: "/api/muscle",
     exercise: "/api/exercise"
@@ -323,6 +323,7 @@ angular.module("BodyApp").directive("chosen", [
       restrict: "E",
       scope: {
         placeholder: "@",
+        optionLabel: "@",
         options: "=",
         selected: "="
       },
@@ -354,24 +355,30 @@ angular.module("BodyApp").directive("chosen", [
           return _optionTemplate;
         };
         scope.toggleMenu = function() {
-          scope.data.showMenu = !scope.data.showMenu;
-          return false;
+          event.preventDefault();
+          event.stopPropagation();
+          return scope.data.showMenu = !scope.data.showMenu;
         };
-        scope.select = function(index) {
+        scope.select = function(event, index) {
           var option;
+          event.preventDefault();
           option = scope.data.available.splice(index, 1);
-          scope.data.selected.push(option[0]);
-          return false;
+          return scope.data.selected.push(option[0]);
         };
         scope.isMultiSelected = function(index) {
           return _.contains(scope.data.multiSelect, index);
         };
         scope.multiSelect = function(event, index) {
+          var selected;
           event.preventDefault();
           event.stopPropagation();
           if (index === -1) {
-            console.log(scope.data.multiSelect);
-            return scope.data.showMenu = false;
+            selected = scope.data.available.multisplice(scope.data.multiSelect);
+            _.each(selected, function(element) {
+              return scope.data.selected.push(element);
+            });
+            scope.data.showMenu = false;
+            return scope.data.multiSelect = [];
           } else {
             if (scope.isMultiSelected(index)) {
               return scope.data.multiSelect = _.without(scope.data.multiSelect, index);
@@ -380,8 +387,10 @@ angular.module("BodyApp").directive("chosen", [
             }
           }
         };
-        scope.unselect = function(index) {
+        scope.unselect = function(event, index) {
           var option;
+          event.preventDefault();
+          event.stopPropagation();
           option = scope.data.selected.splice(index, 1);
           scope.data.available.push(option[0]);
           return false;

@@ -3,7 +3,7 @@ div.schedules.view
 		button.btn(
 			type="button"
 			ng-click="insertModal()"
-		) 
+		)
 			i.fa.fa-plus
 
 		h1.title(ng-bind="data.title")
@@ -52,15 +52,17 @@ div.schedules.view
 			div.col-sm-10
 				chosen(
 					options="data.exercises"
+					option-label="title"
 					selected="data.form.exercises"
 					placeholder="select exercises"
 					required
 				)
+					//- option template
 					div(ng-hide="true" option-template="exercise")
 						div.thumb
 							i.fa.fa-picture-o
 						div.title(ng-bind="option.title")
-						div.descr(ng-bind="option.descr")
+						//- div.descr(ng-bind="option.descr")
 
 				//- span transclude
 				//- div.filter

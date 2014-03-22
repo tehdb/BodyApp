@@ -11,6 +11,7 @@ html
 		link( rel="stylesheet" href="vendor/font-awesome/css/font-awesome.css" )
 		link( rel="stylesheet" href="css/main.css" )
 
+
 		script( src="vendor/underscore/underscore.js")
 		script( src="vendor/lz-string/libs/lz-string-1.3.3.js")
 
@@ -21,6 +22,8 @@ html
 		script( src="vendor/angular-animate/angular-animate.js" )
 		script( src="vendor/angular-route/angular-route.js" )
 		script( src="vendor/angular-resource/angular-resource.js" )
+		script( src="vendor/angular-sanitize/angular-sanitize.js" )
+		script( src="js/utils.js")
 		script( src="js/bodyApp.js" )
 		//- script( src="vendor/bootstrap/dist/js/bootstrap.js" )
 
@@ -41,19 +44,19 @@ html
 			ul.list-group
 				a.list-group-item( href="/" )
 					i.fa.fa-home
-					span &nbsp;Home
+					span Home
+
 				a.list-group-item( href="/#/exercises" )
 					i.fa.fa-bars
-					span &nbsp;Exercises
+					span Exercises
 
 				a.list-group-item( href="/#/muscles" )
 					i.fa.fa-male
-					span &nbsp;Muscles
-
+					span Muscles
 
 				a.list-group-item( href="/#/schedules" )
 					i.fa.fa-tasks
-					span &nbsp;Schedules
+					span Schedules
 
 
 		div.content

@@ -1,5 +1,5 @@
-div.chosen( ng-click="toggleMenu()" )
-	
+div.chosen( ng-click="toggleMenu($event)" )
+
 
 	span.caret( ng-class="{'active' : data.showMenu}" )
 
@@ -13,34 +13,29 @@ div.chosen( ng-click="toggleMenu()" )
 
 		ul
 			li( ng-repeat="option in data.selected" )
-				//- TODO: title dynamic 
-				span(ng-bind="option.title")
-				i.fa.fa-times( ng-click="unselect( $index )" )
+				span(ng-bind="option[optionLabel]")
+				i.fa.fa-times( ng-click="unselect( $event, $index )" )
 
 	div.options(ng-show="data.showMenu")
 		p.text-danger(ng-show="data.available.length == 0" ) No entries
 
 		ul
 			li(
-				ng-click="select( $index )"
+				ng-click="select( $event, $index )"
 				ng-repeat="option in data.available"
 			)
-				button.btn.btn-default.icon-btn.pull-right(
+				button.btn.btn-default.icon-btn.multi-select(
 					type="button"
 					ng-click="multiSelect($event, $index)"
 				)
 					i.fa.fa-square-o(ng-hide="isMultiSelected($index)")
 					i.fa.fa-check-square-o(ng-show="isMultiSelected($index)")
 
-
 				chosen-option( template="getOptionTemplate()" option="option")
-				
-
-				//- span( ng-bind="option[optionTitle]" )
 
 
 		button.btn.btn-default.pull-right(type="button" ng-click="multiSelect($event, -1)")
 			span select
-			i.fa.fa-check 
+			i.fa.fa-check
 
 		div.addons(ng-transclude)
