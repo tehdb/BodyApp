@@ -324,6 +324,7 @@ angular.module("BodyApp").directive("chosen", [
       scope: {
         placeholder: "@",
         optionLabel: "@",
+        fullscreen: "@",
         options: "=",
         selected: "="
       },
@@ -372,13 +373,23 @@ angular.module("BodyApp").directive("chosen", [
           var selected;
           event.preventDefault();
           event.stopPropagation();
-          if (index === -1) {
+          if (index === 'apply') {
             selected = scope.data.available.multisplice(scope.data.multiSelect);
             _.each(selected, function(element) {
               return scope.data.selected.push(element);
             });
             scope.data.showMenu = false;
             return scope.data.multiSelect = [];
+          } else if (index === 'all') {
+            if (scope.data.multiSelect.length !== scope.data.available.length) {
+              return _.each(scope.data.available, function(element, index) {
+                if (!scope.isMultiSelected(index)) {
+                  return scope.data.multiSelect.push(index);
+                }
+              });
+            } else {
+              return scope.data.multiSelect = [];
+            }
           } else {
             if (scope.isMultiSelected(index)) {
               return scope.data.multiSelect = _.without(scope.data.multiSelect, index);

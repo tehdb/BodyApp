@@ -6,6 +6,7 @@ angular.module("BodyApp")
 		scope : {
 			placeholder : "@"
 			optionLabel : "@"
+			fullscreen : "@"
 			options : "="
 			selected : "="
 		}
@@ -61,13 +62,25 @@ angular.module("BodyApp")
 				event.preventDefault()
 				event.stopPropagation()
 
-				if index is -1
+
+				if index is 'apply'
 					selected = scope.data.available.multisplice( scope.data.multiSelect )
 					_.each selected, (element) ->
 						scope.data.selected.push( element )
 
 					scope.data.showMenu = false
 					scope.data.multiSelect = []
+
+				else if index is 'all'
+					# toggle select/unselect all
+					if scope.data.multiSelect.length isnt scope.data.available.length
+						_.each scope.data.available, (element, index ) ->
+							scope.data.multiSelect.push( index ) if  !scope.isMultiSelected(index)
+					else
+						scope.data.multiSelect = []
+
+						# console.log "unselect"
+
 				else
 					if scope.isMultiSelected( index )
 						scope.data.multiSelect = _.without( scope.data.multiSelect, index )
