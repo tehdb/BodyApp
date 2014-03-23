@@ -16,9 +16,22 @@ div.chosen( ng-click="toggleMenu($event)" )
 				span(ng-bind="option[optionLabel]")
 				i.fa.fa-times( ng-click="unselect( $event, $index )" )
 
-	div.options(ng-show="data.showMenu" ng-class="{'fullscreen' : fullscreen}")
+	div.options(ng-show="data.showMenu" ng-class="{fullscreen : fullscreen}")
 		p.text-danger(ng-show="data.available.length == 0" ) No entries
 
+
+		div.control-panel
+			button.btn.btn-default.icon-btn.pull-left(
+				type="button"
+				ng-disabled="data.multiSelect.length == 0"
+				ng-click="multiSelect($event, 'apply')"
+			)
+				i.fa.fa-check
+				span apply selection
+
+			button.btn.btn-default.icon-btn.pull-right(ng-click="multiSelect($event, 'all')" )
+				span select all
+				i.fa.fa-level-down
 
 		ul
 			li(
@@ -33,18 +46,6 @@ div.chosen( ng-click="toggleMenu($event)" )
 					i.fa.fa-check-square-o(ng-show="isMultiSelected($index)")
 
 				chosen-option( template="getOptionTemplate()" option="option")
-
-		div.control-panel
-			button.btn.btn-default.pull-left(
-				type="button"
-				ng-disabled="data.multiSelect.length == 0"
-				ng-click="multiSelect($event, 'apply')"
-			)
-				i.fa.fa-check
-				span apply selection
-
-			button.btn.btn-default.icon-btn.pull-right(ng-click="multiSelect($event, 'all')" )
-				i.fa.fa-level-up
 
 
 		div.addons(ng-transclude)

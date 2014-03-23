@@ -167,24 +167,32 @@ ul.th-justified-list li .btn.btn-danger {
   margin: 0;
   padding: 0;
 }
-/* line 27, ../../client/styles/common/_buttons.sass */
+/* line 25, ../../client/styles/common/_buttons.sass */
+.icon-btn span:first-child {
+  padding-right: 5px;
+}
+/* line 28, ../../client/styles/common/_buttons.sass */
+.icon-btn span:last-child {
+  padding-left: 5px;
+}
+/* line 31, ../../client/styles/common/_buttons.sass */
 .icon-btn:hover, .icon-btn:focus, .icon-btn:active {
   background: none;
   outline: none;
   border: none;
 }
-/* line 34, ../../client/styles/common/_buttons.sass */
+/* line 38, ../../client/styles/common/_buttons.sass */
 .icon-btn:hover {
   color: red;
 }
 
-/* line 42, ../../client/styles/common/_buttons.sass */
+/* line 46, ../../client/styles/common/_buttons.sass */
 .input-group .input-group-btn .select {
   position: relative;
   padding: 0;
   margin: 0;
 }
-/* line 46, ../../client/styles/common/_buttons.sass */
+/* line 50, ../../client/styles/common/_buttons.sass */
 .input-group .input-group-btn .select i {
   position: absolute;
   font-size: 10px;
@@ -192,7 +200,7 @@ ul.th-justified-list li .btn.btn-danger {
   right: 10px;
   margin-top: -5px;
 }
-/* line 53, ../../client/styles/common/_buttons.sass */
+/* line 57, ../../client/styles/common/_buttons.sass */
 .input-group .input-group-btn .select select {
   border: 0 none;
   border-bottom: 1px solid #cccccc;
@@ -216,7 +224,7 @@ ul.th-justified-list li .btn.btn-danger {
   -moz-appearance: none;
   appearance: none;
 }
-/* line 74, ../../client/styles/common/_buttons.sass */
+/* line 78, ../../client/styles/common/_buttons.sass */
 .input-group .input-group-btn:first-child .select select {
   -moz-border-radius-topright: 0;
   -webkit-border-top-right-radius: 0;
@@ -233,7 +241,7 @@ ul.th-justified-list li .btn.btn-danger {
   border-right: 0 none;
   border-left: 1px solid #cccccc;
 }
-/* line 82, ../../client/styles/common/_buttons.sass */
+/* line 86, ../../client/styles/common/_buttons.sass */
 .input-group .input-group-btn:last-child .select select {
   -moz-border-radius-topright: 4px;
   -webkit-border-top-right-radius: 4px;
@@ -250,13 +258,13 @@ ul.th-justified-list li .btn.btn-danger {
   border-right: 1px solid #cccccc;
   border-left: 0 none;
 }
-/* line 88, ../../client/styles/common/_buttons.sass */
+/* line 92, ../../client/styles/common/_buttons.sass */
 .input-group .input {
   position: relative;
   overflow: hidden;
   *zoom: 1;
 }
-/* line 93, ../../client/styles/common/_buttons.sass */
+/* line 97, ../../client/styles/common/_buttons.sass */
 .input-group .input:not(:first-child):not(:last-child) input {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -264,7 +272,7 @@ ul.th-justified-list li .btn.btn-danger {
   -o-border-radius: 0;
   border-radius: 0;
 }
-/* line 97, ../../client/styles/common/_buttons.sass */
+/* line 101, ../../client/styles/common/_buttons.sass */
 .input-group .input:first-child input {
   -moz-border-radius-topright: 0;
   -webkit-border-top-right-radius: 0;
@@ -279,7 +287,7 @@ ul.th-justified-list li .btn.btn-danger {
   -webkit-border-bottom-left-radius: 4px;
   border-bottom-left-radius: 4px;
 }
-/* line 101, ../../client/styles/common/_buttons.sass */
+/* line 105, ../../client/styles/common/_buttons.sass */
 .input-group .input:last-child input {
   -moz-border-radius-topright: 4px;
   -webkit-border-top-right-radius: 4px;
@@ -294,7 +302,7 @@ ul.th-justified-list li .btn.btn-danger {
   -webkit-border-bottom-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-/* line 106, ../../client/styles/common/_buttons.sass */
+/* line 110, ../../client/styles/common/_buttons.sass */
 .input-group .input:first-child:last-child input {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -302,7 +310,7 @@ ul.th-justified-list li .btn.btn-danger {
   -o-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 109, ../../client/styles/common/_buttons.sass */
+/* line 113, ../../client/styles/common/_buttons.sass */
 .input-group .input button {
   background: none;
   border: 0 none;
@@ -314,7 +322,7 @@ ul.th-justified-list li .btn.btn-danger {
   top: 50%;
   z-index: 3;
 }
-/* line 120, ../../client/styles/common/_buttons.sass */
+/* line 124, ../../client/styles/common/_buttons.sass */
 .input-group .input button:hover {
   color: red;
 }
@@ -901,19 +909,20 @@ ul.th-justified-list li .btn.btn-danger {
   left: 0;
   padding: 5px;
   margin: 0;
+  border: 0 none;
 }
-/* line 195, ../../client/styles/directives/_chosen.sass */
+/* line 196, ../../client/styles/directives/_chosen.sass */
 .chosen div.options.fullscreen ul > li:not(:last-child) {
   border-bottom: 1px solid #cccccc;
 }
-/* line 198, ../../client/styles/directives/_chosen.sass */
+/* line 199, ../../client/styles/directives/_chosen.sass */
 .chosen div.options .control-panel {
   width: 100%;
   padding: 0 0 10px 0;
   overflow: hidden;
   *zoom: 1;
 }
-/* line 203, ../../client/styles/directives/_chosen.sass */
+/* line 204, ../../client/styles/directives/_chosen.sass */
 .chosen div.options ul {
   position: relative;
   padding: 0;
@@ -924,7 +933,7 @@ ul.th-justified-list li .btn.btn-danger {
   overflow-x: hidden;
   overflow-y: scroll;
 }
-/* line 213, ../../client/styles/directives/_chosen.sass */
+/* line 214, ../../client/styles/directives/_chosen.sass */
 .chosen div.options ul li {
   position: relative;
   padding: 10px 30px 10px 10px;
@@ -934,11 +943,11 @@ ul.th-justified-list li .btn.btn-danger {
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
 }
-/* line 218, ../../client/styles/directives/_chosen.sass */
+/* line 219, ../../client/styles/directives/_chosen.sass */
 .chosen div.options ul li:hover {
   background: #cccccc;
 }
-/* line 223, ../../client/styles/directives/_chosen.sass */
+/* line 224, ../../client/styles/directives/_chosen.sass */
 .chosen div.options ul li .multi-select {
   position: absolute;
   top: 50%;
