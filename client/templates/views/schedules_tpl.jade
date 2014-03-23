@@ -51,7 +51,7 @@ div.schedules.view
 			label.col-sm-2.control-label Exercises
 			div.col-sm-10
 				chosen(
-					options="data.exercises"
+					options="data.exercises | exercise:data.exerciseSearchText"
 					option-label="title"
 					fullscreen="true"
 					selected="data.form.exercises"
@@ -67,22 +67,23 @@ div.schedules.view
 
 					//- filter
 					div.input-group
-						span.input-group-btn
-							div.select
-								i.fa.fa-sort-asc
-								select(
-									ng-model="data.muscleGroup"
-									ng-options="g.name for g in data.muscleGroups"
-								)
+						//- span.input-group-btn
+						//- 	div.select
+						//- 		i.fa.fa-sort-asc
+						//- 		select(
+						//- 			ng-model="data.muscleGroup"
+						//- 			ng-options="g.name for g in data.muscleGroups"
+						//- 		)
 						div.input
 							input.form-control(
 								type="text"
-								ng-model="data.searchText"
-								placeholder="search muscle"
+								tabindex="1"
+								ng-model="data.exerciseSearchText"
+								placeholder="search for exercise"
 							)
 							button(
-								ng-hide="data.searchText == ''"
-								ng-click="data.searchText = ''"
+								ng-hide="data.exerciseSearchText == ''"
+								ng-click="data.exerciseSearchText = ''"
 								type="button"
 							)
 								i.fa.fa-times-circle

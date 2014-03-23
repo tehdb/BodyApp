@@ -627,6 +627,20 @@ angular.module("BodyApp").directive("thNumberInput", [
   }
 ]);
 
+angular.module("BodyApp").filter("exercise", function() {
+  return function(list, text) {
+    var filtered;
+    if ((text != null ? text.length : void 0) >= 3) {
+      filtered = _.filter(list, function(element) {
+        return element.title.indexOf(text) !== -1;
+      });
+      console.log(filtered);
+      return filtered;
+    }
+    return list;
+  };
+});
+
 angular.module("BodyApp").filter("heft", function() {
   return function(val, type) {
     return "" + val + " kg";
