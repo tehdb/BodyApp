@@ -26,6 +26,8 @@ Prerequisites
 	global npm packages:
 		npm install nodemon -g
 		npm install coffee-script -g
+		npm install bower -g
+		npm install grunt-cli -g
 
 
 
