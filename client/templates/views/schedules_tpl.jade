@@ -51,7 +51,7 @@ div.schedules.view
 			label.col-sm-2.control-label Exercises
 			div.col-sm-10
 				chosen(
-					options="data.exercises | exercise:data.exerciseSearchText"
+					options="data.filteredExercises"
 					option-label="title"
 					fullscreen="true"
 					selected="data.form.exercises"
@@ -67,18 +67,21 @@ div.schedules.view
 
 					//- filter
 					div.input-group
-						//- span.input-group-btn
-						//- 	div.select
-						//- 		i.fa.fa-sort-asc
-						//- 		select(
-						//- 			ng-model="data.muscleGroup"
-						//- 			ng-options="g.name for g in data.muscleGroups"
-						//- 		)
+						span.input-group-btn
+							div.select
+								i.fa.fa-sort-asc
+								select(
+									ng-model="data.exerciseFilter.selectedGroup"
+									ng-options="g.name for g in data.exerciseFilter.muscleGroups"
+									ng-change="exerciseMuscleGroupChange()"
+								)
 						div.input
 							input.form-control(
 								type="text"
 								tabindex="1"
 								ng-model="data.exerciseSearchText"
+								ng-keypress="filterExercises($event)"
+								ng-change="exerciseSearchTextChange()"
 								placeholder="search for exercise"
 							)
 							button(
@@ -87,9 +90,6 @@ div.schedules.view
 								type="button"
 							)
 								i.fa.fa-times-circle
-				//- span transclude
-				//- div.filter
-				//- div.insert
 
 		div.form-group
 			label.col-sm-2.control-label Repetition

@@ -2,16 +2,19 @@
 p.warning {
   margin: 20px 0;
   text-align: center;
+  height: 85px;
+  line-height: 85px;
+  width: 100%;
 }
 
-/* line 6, ../../client/styles/common/_common.sass */
+/* line 9, ../../client/styles/common/_common.sass */
 ul.th-justified-list {
   list-style: none;
   margin: 0 -15px;
   padding: 0;
   min-height: 90px;
 }
-/* line 12, ../../client/styles/common/_common.sass */
+/* line 15, ../../client/styles/common/_common.sass */
 ul.th-justified-list li {
   border-bottom: 1px solid #cccccc;
   padding: 15px 60px 15px 15px;
@@ -19,34 +22,34 @@ ul.th-justified-list li {
   overflow: hidden;
   *zoom: 1;
 }
-/* line 18, ../../client/styles/common/_common.sass */
+/* line 21, ../../client/styles/common/_common.sass */
 ul.th-justified-list li.ng-enter, ul.th-justified-list li.ng-leave, ul.th-justified-list li.ng-move {
   -webkit-transition: all 0.3s linear;
   -moz-transition: all 0.3s linear;
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
 }
-/* line 21, ../../client/styles/common/_common.sass */
+/* line 24, ../../client/styles/common/_common.sass */
 ul.th-justified-list li.ng-enter, ul.th-justified-list li.ng-move {
   opacity: 0;
 }
-/* line 24, ../../client/styles/common/_common.sass */
+/* line 27, ../../client/styles/common/_common.sass */
 ul.th-justified-list li.ng-move.ng-move-active, ul.th-justified-list li.ng-enter.ng-enter-active {
   opacity: 1;
 }
-/* line 27, ../../client/styles/common/_common.sass */
+/* line 30, ../../client/styles/common/_common.sass */
 ul.th-justified-list li.ng-leave {
   opacity: 1;
 }
-/* line 30, ../../client/styles/common/_common.sass */
+/* line 33, ../../client/styles/common/_common.sass */
 ul.th-justified-list li.ng-leave.ng-leave-active {
   opacity: 0;
 }
-/* line 34, ../../client/styles/common/_common.sass */
+/* line 37, ../../client/styles/common/_common.sass */
 ul.th-justified-list li:last-child {
   border-bottom: 0 none;
 }
-/* line 37, ../../client/styles/common/_common.sass */
+/* line 40, ../../client/styles/common/_common.sass */
 ul.th-justified-list li .thumb {
   width: 64px;
   height: 64px;
@@ -60,13 +63,13 @@ ul.th-justified-list li .thumb {
   text-align: center;
   margin-right: 15px;
 }
-/* line 47, ../../client/styles/common/_common.sass */
+/* line 50, ../../client/styles/common/_common.sass */
 ul.th-justified-list li .thumb .glyphicon, ul.th-justified-list li .thumb i {
   color: #cccccc;
   font-size: 30px;
   line-height: 60px;
 }
-/* line 52, ../../client/styles/common/_common.sass */
+/* line 55, ../../client/styles/common/_common.sass */
 ul.th-justified-list li h2 {
   font-size: 14px;
   font-weight: bold;
@@ -74,12 +77,12 @@ ul.th-justified-list li h2 {
   margin: 0;
   padding: 0 0 10px 0;
 }
-/* line 59, ../../client/styles/common/_common.sass */
+/* line 62, ../../client/styles/common/_common.sass */
 ul.th-justified-list li p {
   font-size: 14px;
   font-weight: normal;
 }
-/* line 63, ../../client/styles/common/_common.sass */
+/* line 66, ../../client/styles/common/_common.sass */
 ul.th-justified-list li ul.tags {
   padding: 0;
   margin: 0;
@@ -87,7 +90,7 @@ ul.th-justified-list li ul.tags {
   overflow: hidden;
   *zoom: 1;
 }
-/* line 68, ../../client/styles/common/_common.sass */
+/* line 71, ../../client/styles/common/_common.sass */
 ul.th-justified-list li ul.tags li {
   font-size: 10px;
   padding: 4px 8px;
@@ -101,15 +104,15 @@ ul.th-justified-list li ul.tags li {
   -o-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 77, ../../client/styles/common/_common.sass */
+/* line 80, ../../client/styles/common/_common.sass */
 ul.th-justified-list li ul.tags li i {
   margin-right: 5px;
 }
-/* line 80, ../../client/styles/common/_common.sass */
+/* line 83, ../../client/styles/common/_common.sass */
 ul.th-justified-list li ul.tags li:last-child {
   margin-right: 0;
 }
-/* line 83, ../../client/styles/common/_common.sass */
+/* line 86, ../../client/styles/common/_common.sass */
 ul.th-justified-list li .badge {
   position: absolute;
   top: 10px;
@@ -117,7 +120,7 @@ ul.th-justified-list li .badge {
   background: none;
   color: #cccccc;
 }
-/* line 90, ../../client/styles/common/_common.sass */
+/* line 93, ../../client/styles/common/_common.sass */
 ul.th-justified-list li .btn {
   position: absolute;
   right: 5px;
@@ -129,7 +132,7 @@ ul.th-justified-list li .btn {
   -moz-box-shadow: none;
   box-shadow: none;
 }
-/* line 100, ../../client/styles/common/_common.sass */
+/* line 103, ../../client/styles/common/_common.sass */
 ul.th-justified-list li .btn.btn-danger {
   color: red;
   text-shadow: none;
@@ -617,6 +620,7 @@ ul.th-justified-list li .btn.btn-danger {
 /* line 20, ../../client/styles/pages/_schedules.sass */
 .schedules .chosen .exercise .title {
   font-weight: bold;
+  font-size: 14px;
 }
 
 /* line 1, ../../client/styles/directives/_chosen.sass */
@@ -782,31 +786,20 @@ ul.th-justified-list li .btn.btn-danger {
   border-radius: 4px;
 }
 /* line 114, ../../client/styles/directives/_chosen.sass */
-.chosen .caret {
+.chosen > button {
   position: absolute;
-  right: 6px;
+  right: 0;
   top: 50%;
-  -webkit-transition: all 0.4s linear;
-  -moz-transition: all 0.4s linear;
-  -o-transition: all 0.4s linear;
-  transition: all 0.4s linear;
+  margin-top: -15px;
 }
-/* line 119, ../../client/styles/directives/_chosen.sass */
-.chosen .caret.active {
-  -webkit-transform: rotate(180deg);
-  -moz-transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
-  -o-transform: rotate(180deg);
-  transform: rotate(180deg);
-}
-/* line 124, ../../client/styles/directives/_chosen.sass */
+/* line 125, ../../client/styles/directives/_chosen.sass */
 .chosen div.selected .placeholder {
   color: #cccccc;
   padding: 8px 10px 0px;
   display: block;
   font-size: 14px;
 }
-/* line 130, ../../client/styles/directives/_chosen.sass */
+/* line 131, ../../client/styles/directives/_chosen.sass */
 .chosen div.selected ul {
   overflow: visible;
   padding: 0;
@@ -815,7 +808,7 @@ ul.th-justified-list li .btn.btn-danger {
   overflow: hidden;
   *zoom: 1;
 }
-/* line 137, ../../client/styles/directives/_chosen.sass */
+/* line 138, ../../client/styles/directives/_chosen.sass */
 .chosen div.selected ul li {
   float: left;
   color: black;
@@ -834,29 +827,15 @@ ul.th-justified-list li .btn.btn-danger {
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
 }
-/* line 147, ../../client/styles/directives/_chosen.sass */
+/* line 148, ../../client/styles/directives/_chosen.sass */
 .chosen div.selected ul li span {
   display: inline-block;
 }
-/* line 150, ../../client/styles/directives/_chosen.sass */
-.chosen div.selected ul li i {
-  margin-left: 5px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  -ms-border-radius: 2px;
-  -o-border-radius: 2px;
-  border-radius: 2px;
-  -webkit-transition: all 0.2s linear;
-  -moz-transition: all 0.2s linear;
-  -o-transition: all 0.2s linear;
-  transition: all 0.2s linear;
+/* line 151, ../../client/styles/directives/_chosen.sass */
+.chosen div.selected ul li .btn {
+  font-size: 12px;
 }
-/* line 155, ../../client/styles/directives/_chosen.sass */
-.chosen div.selected ul li i:hover {
-  background: black;
-  color: white;
-}
-/* line 159, ../../client/styles/directives/_chosen.sass */
+/* line 154, ../../client/styles/directives/_chosen.sass */
 .chosen div.options {
   display: block;
   position: absolute;
@@ -874,7 +853,7 @@ ul.th-justified-list li .btn.btn-danger {
   -o-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 172, ../../client/styles/directives/_chosen.sass */
+/* line 167, ../../client/styles/directives/_chosen.sass */
 .chosen div.options.ng-hide-add, .chosen div.options.ng-hide-remove {
   -webkit-transition: all 0.3s linear;
   -moz-transition: all 0.3s linear;
@@ -882,7 +861,7 @@ ul.th-justified-list li .btn.btn-danger {
   transition: all 0.3s linear;
   display: block !important;
 }
-/* line 176, ../../client/styles/directives/_chosen.sass */
+/* line 171, ../../client/styles/directives/_chosen.sass */
 .chosen div.options.ng-hide-remove, .chosen div.options.ng-hide-add.ng-hide-add-active {
   opacity: 0;
   -webkit-transform: scale(0, 0);
@@ -891,7 +870,7 @@ ul.th-justified-list li .btn.btn-danger {
   -o-transform: scale(0, 0);
   transform: scale(0, 0);
 }
-/* line 181, ../../client/styles/directives/_chosen.sass */
+/* line 176, ../../client/styles/directives/_chosen.sass */
 .chosen div.options.ng-hide-add, .chosen div.options.ng-hide-remove.ng-hide-remove-active {
   opacity: 1;
   -webkit-transform: scale(1, 1);
@@ -900,7 +879,7 @@ ul.th-justified-list li .btn.btn-danger {
   -o-transform: scale(1, 1);
   transform: scale(1, 1);
 }
-/* line 186, ../../client/styles/directives/_chosen.sass */
+/* line 181, ../../client/styles/directives/_chosen.sass */
 .chosen div.options.fullscreen {
   position: fixed;
   top: 0;
@@ -911,12 +890,19 @@ ul.th-justified-list li .btn.btn-danger {
   margin: 0;
   border: 0 none;
 }
-/* line 196, ../../client/styles/directives/_chosen.sass */
+/* line 191, ../../client/styles/directives/_chosen.sass */
 .chosen div.options.fullscreen ul > li:not(:last-child) {
   border-bottom: 1px solid #cccccc;
 }
+/* line 194, ../../client/styles/directives/_chosen.sass */
+.chosen div.options .control-panel-top {
+  width: 100%;
+  padding: 0 0 10px 0;
+  overflow: hidden;
+  *zoom: 1;
+}
 /* line 199, ../../client/styles/directives/_chosen.sass */
-.chosen div.options .control-panel {
+.chosen div.options .control-panel-bottom {
   width: 100%;
   padding: 0 0 10px 0;
   overflow: hidden;
@@ -947,7 +933,7 @@ ul.th-justified-list li .btn.btn-danger {
 .chosen div.options ul li:hover {
   background: #cccccc;
 }
-/* line 224, ../../client/styles/directives/_chosen.sass */
+/* line 222, ../../client/styles/directives/_chosen.sass */
 .chosen div.options ul li .multi-select {
   position: absolute;
   top: 50%;

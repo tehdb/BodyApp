@@ -284,8 +284,8 @@ angular.module("BodyApp").controller("MusclesController", [
 ]);
 
 angular.module("BodyApp").controller("SchedulesController", [
-  "$scope", "SchedulesService", "ExercisesService", function(scope, ss, es) {
-    var _data;
+  "$scope", "SchedulesService", "ExercisesService", "MusclesService", "exerciseFilter", function(scope, ss, es, ms, ef) {
+    var _ref;
     scope.data = {
       title: "schedules",
       schedules: null,
@@ -297,14 +297,18 @@ angular.module("BodyApp").controller("SchedulesController", [
         descr: '',
         exercises: [],
         repetition: ''
+      },
+      exerciseFilter: {
+        muscleGroups: ms.getGroups(),
+        selectedGroup: (_ref = ms.getGroups()) != null ? _ref[0] : void 0
       }
     };
-    _data = scope.data;
     ss.getAll().then(function(data) {
       return scope.data.schedules = data;
     });
     es.getAll().then(function(data) {
-      return scope.data.exercises = data;
+      scope.data.exercises = data;
+      return scope.data.filteredExercises = data;
     });
     scope.insertModal = function() {
       scope.data.showFormModal = true;
@@ -313,6 +317,26 @@ angular.module("BodyApp").controller("SchedulesController", [
     scope.upsert = function() {
       console.log(scope.data.form);
       return false;
+    };
+    scope.exerciseSearchTextChange = function() {
+      var available, selected;
+      selected = _.pluck(scope.data.form.exercises, '_id');
+      available = _.filter(scope.data.exercises, function(element) {
+        return !_.contains(selected, element._id);
+      });
+      if (scope.data.exerciseSearchText.length >= 3) {
+        return scope.data.filteredExercises = ef(available, scope.data.exerciseSearchText, 'text');
+      } else {
+        return scope.data.filteredExercises = available;
+      }
+    };
+    scope.exerciseMuscleGroupChange = function() {
+      var available, selected;
+      selected = _.pluck(scope.data.form.exercises, '_id');
+      available = _.filter(scope.data.exercises, function(element) {
+        return !_.contains(selected, element._id);
+      });
+      return scope.data.filteredExercises = ef(available, scope.data.exerciseFilter.selectedGroup.id, 'group');
     };
   }
 ]);
@@ -343,11 +367,11 @@ angular.module("BodyApp").directive("chosen", [
         })();
         scope.data = {
           showMenu: false,
-          selected: [],
           available: null,
           multiSelect: []
         };
         scope.$watch('options', function(nv, ov) {
+          scope.data.multiSelect = [];
           if (nv != null) {
             return scope.data.available = angular.copy(nv);
           }
@@ -355,7 +379,7 @@ angular.module("BodyApp").directive("chosen", [
         scope.getOptionTemplate = function() {
           return _optionTemplate;
         };
-        scope.toggleMenu = function() {
+        scope.toggleMenu = function(event) {
           event.preventDefault();
           event.stopPropagation();
           return scope.data.showMenu = !scope.data.showMenu;
@@ -364,7 +388,8 @@ angular.module("BodyApp").directive("chosen", [
           var option;
           event.preventDefault();
           option = scope.data.available.splice(index, 1);
-          return scope.data.selected.push(option[0]);
+          scope.selected.push(option[0]);
+          return scope.data.showMenu = false;
         };
         scope.isMultiSelected = function(index) {
           return _.contains(scope.data.multiSelect, index);
@@ -376,7 +401,7 @@ angular.module("BodyApp").directive("chosen", [
           if (index === 'apply') {
             selected = scope.data.available.multisplice(scope.data.multiSelect);
             _.each(selected, function(element) {
-              return scope.data.selected.push(element);
+              return scope.selected.push(element);
             });
             scope.data.showMenu = false;
             return scope.data.multiSelect = [];
@@ -402,7 +427,7 @@ angular.module("BodyApp").directive("chosen", [
           var option;
           event.preventDefault();
           event.stopPropagation();
-          option = scope.data.selected.splice(index, 1);
+          option = scope.selected.splice(index, 1);
           scope.data.available.push(option[0]);
           return false;
         };
@@ -628,14 +653,33 @@ angular.module("BodyApp").directive("thNumberInput", [
 ]);
 
 angular.module("BodyApp").filter("exercise", function() {
-  return function(list, text) {
-    var filtered;
-    if ((text != null ? text.length : void 0) >= 3) {
-      filtered = _.filter(list, function(element) {
-        return element.title.indexOf(text) !== -1;
-      });
-      console.log(filtered);
-      return filtered;
+  return function(list, query, type) {
+    switch (type) {
+      case 'text':
+        if ((query != null ? query.length : void 0) >= 3) {
+          return _.filter(list, function(exercise) {
+            var _ref, _ref1;
+            return ((_ref = exercise.title) != null ? _ref.indexOf(query) : void 0) !== -1 || ((_ref1 = exercise.descr) != null ? _ref1.indexOf(query) : void 0) !== -1;
+          });
+        }
+        break;
+      case 'group':
+        if (query === 0) {
+          return list;
+        }
+        return _.filter(list, function(exercise) {
+          var muscle, res, _i, _len, _ref;
+          res = false;
+          _ref = exercise.muscles;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            muscle = _ref[_i];
+            if (muscle.group.id === query) {
+              res = true;
+              break;
+            }
+          }
+          return res;
+        });
     }
     return list;
   };

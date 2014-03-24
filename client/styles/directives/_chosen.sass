@@ -111,13 +111,14 @@
 	+user-select( none )
 	+border-radius( 4px )
 
-	.caret
+	& > button
 		position : absolute
-		right : 6px
+		right : 0
 		top : 50%
-		+transition( all 0.4s linear )
-		&.active
-			+rotate( 180deg )
+		margin-top : -15px
+		// +transition( all 0.4s linear )
+		// &.active
+		// 	+rotate( 180deg )
 
 	div.selected
 
@@ -147,14 +148,8 @@
 				span
 					display : inline-block
 
-				i
-					margin-left : 5px
-					+border-radius( 2px )
-					+transition( all 0.2s linear )
-
-					&:hover
-						background : $th-black
-						color : $th-white
+				.btn
+					font-size : 12px
 
 	div.options
 		display : block
@@ -196,7 +191,12 @@
 			ul > li:not(:last-child)
 				border-bottom : 1px solid $th-gray
 
-		.control-panel
+		.control-panel-top
+			width : 100%
+			padding : 0 0 10px 0
+			+clearfix
+
+		.control-panel-bottom
 			width : 100%
 			padding : 0 0 10px 0
 			+clearfix
@@ -218,8 +218,6 @@
 
 				&:hover
 					background : $th-gray
-					// color : $th-white
-					// +text-shadow( 0 0 2px $th-black)
 
 				.multi-select
 					position : absolute

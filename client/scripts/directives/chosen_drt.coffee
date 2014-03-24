@@ -28,7 +28,7 @@ angular.module("BodyApp")
 			## set default data ################################################
 			scope.data = {
 				showMenu : false
-				selected : []
+				# selected : []
 				available : null
 				multiSelect : []
 			}
@@ -36,6 +36,7 @@ angular.module("BodyApp")
 
 			## init watchers ###################################################
 			scope.$watch( 'options', (nv, ov) ->
+				scope.data.multiSelect = []
 				scope.data.available = angular.copy nv if nv?
 			, true)
 
@@ -44,16 +45,19 @@ angular.module("BodyApp")
 
 
 			## public methods ##################################################
-			scope.toggleMenu =  ->
+			scope.toggleMenu = ( event ) ->
 				event.preventDefault()
 				event.stopPropagation()
+
 				scope.data.showMenu = !scope.data.showMenu
 
 			scope.select = ( event, index) ->
 				event.preventDefault()
 				# event.stopPropagation()
 				option = scope.data.available.splice( index, 1)
-				scope.data.selected.push( option[0] )
+				scope.selected.push( option[0] )
+				scope.data.showMenu = false
+
 
 			scope.isMultiSelected = ( index ) ->
 				_.contains( scope.data.multiSelect, index )
@@ -62,11 +66,10 @@ angular.module("BodyApp")
 				event.preventDefault()
 				event.stopPropagation()
 
-
 				if index is 'apply'
 					selected = scope.data.available.multisplice( scope.data.multiSelect )
 					_.each selected, (element) ->
-						scope.data.selected.push( element )
+						scope.selected.push( element )
 
 					scope.data.showMenu = false
 					scope.data.multiSelect = []
@@ -91,7 +94,7 @@ angular.module("BodyApp")
 			scope.unselect = (event, index) ->
 				event.preventDefault()
 				event.stopPropagation()
-				option = scope.data.selected.splice( index, 1 )
+				option = scope.selected.splice( index, 1 )
 				scope.data.available.push( option[0] )
 				return false
 

@@ -1,37 +1,42 @@
-div.chosen( ng-click="toggleMenu($event)" )
-
-
-	span.caret( ng-class="{'active' : data.showMenu}" )
-
-	//- i.fa.fa-times.caret( ng-class="{'active' : data.showMenu}")
+div.chosen
+	button.btn.btn-default.icon-btn.toggle-btn(
+		type="button"
+		ng-click="toggleMenu($event)"
+	)
+		i.fa.fa-chevron-down(ng-hide="data.showMenu")
+		i.fa.fa-chevron-up(ng-show="data.showMenu")
 
 	div.selected
 		span.placeholder(
 			ng-bind="placeholder"
-			ng-show="data.selected.length == 0"
+			ng-show="selected.length == 0"
 		)
 
 		ul
-			li( ng-repeat="option in data.selected" )
+			li( ng-repeat="option in selected" )
 				span(ng-bind="option[optionLabel]")
-				i.fa.fa-times( ng-click="unselect( $event, $index )" )
+				button.btn.icon-btn(
+					type="button"
+					ng-click="unselect( $event, $index )"
+				)
+					i.fa.fa-times
 
 	div.options(ng-show="data.showMenu" ng-class="{fullscreen : fullscreen}")
-		p.text-danger(ng-show="data.available.length == 0" ) No entries
 
 
-		div.control-panel
+		div.control-panel-top
 			button.btn.btn-default.icon-btn.pull-left(
 				type="button"
-				ng-disabled="data.multiSelect.length == 0"
-				ng-click="multiSelect($event, 'apply')"
+				ng-click="toggleMenu($event)"
 			)
-				i.fa.fa-check
-				span apply selection
+				i.fa.fa-times
+				span cancel
 
 			button.btn.btn-default.icon-btn.pull-right(ng-click="multiSelect($event, 'all')" )
 				span select all
 				i.fa.fa-level-down
+
+		p.warning.text-danger(ng-show="data.available.length == 0" ) No entries
 
 		ul
 			li(
@@ -48,5 +53,13 @@ div.chosen( ng-click="toggleMenu($event)" )
 
 				chosen-option( template="getOptionTemplate()" option="option")
 
+		div.control-panel-bottom
+			button.btn.btn-default.icon-btn.pull-right(
+				type="button"
+				ng-disabled="data.multiSelect.length == 0"
+				ng-click="multiSelect($event, 'apply')"
+			)
+				span apply selection
+				i.fa.fa-check
 
 		div.addons(ng-transclude)
