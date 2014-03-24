@@ -318,6 +318,10 @@ angular.module("BodyApp").controller("SchedulesController", [
       console.log(scope.data.form);
       return false;
     };
+    scope.exerciseSearchTextClear = function() {
+      scope.data.exerciseSearchText = '';
+      return scope.exerciseSearchTextChange();
+    };
     scope.exerciseSearchTextChange = function() {
       var available, selected;
       selected = _.pluck(scope.data.form.exercises, '_id');
@@ -356,26 +360,47 @@ angular.module("BodyApp").directive("chosen", [
       transclude: true,
       templateUrl: "tpl/directives/chosen.html",
       link: function(scope, element, attrs) {
-        var _optionTemplate;
+        var _initFullScreen, _initOptionTemplate, _initScopeData, _initWatchers, _optionTemplate;
         _optionTemplate = null;
-        (function() {
+        _initScopeData = function() {
+          return scope.data = {
+            showMenu: false,
+            available: null,
+            multiSelect: []
+          };
+        };
+        _initOptionTemplate = function() {
           var cls, ot, tpl;
           ot = element.find("div[option-template]");
           cls = ot.attr('option-template');
           tpl = '<div class="' + cls + '">' + ot.html() + '</div>';
           return _optionTemplate = tpl;
-        })();
-        scope.data = {
-          showMenu: false,
-          available: null,
-          multiSelect: []
         };
-        scope.$watch('options', function(nv, ov) {
-          scope.data.multiSelect = [];
-          if (nv != null) {
-            return scope.data.available = angular.copy(nv);
+        _initWatchers = function() {
+          return scope.$watch('options', function(nv, ov) {
+            scope.data.multiSelect = [];
+            if (nv != null) {
+              return scope.data.available = angular.copy(nv);
+            }
+          }, true);
+        };
+        _initFullScreen = function() {
+          var oh;
+          oh = $(window).height();
+          oh -= element.find('.control-panel-top:first').outerHeight();
+          oh -= element.find('.control-panel-bottom:first').outerHeight();
+          oh -= element.find('.addons:first').outerHeight();
+          oh -= 10;
+          return element.find('.options:first ul:first').css('max-height', oh);
+        };
+        (function() {
+          _initScopeData();
+          _initOptionTemplate();
+          _initWatchers();
+          if (scope.fullscreen === 'true') {
+            return _initFullScreen();
           }
-        }, true);
+        })();
         scope.getOptionTemplate = function() {
           return _optionTemplate;
         };
@@ -387,8 +412,10 @@ angular.module("BodyApp").directive("chosen", [
         scope.select = function(event, index) {
           var option;
           event.preventDefault();
+          event.stopPropagation();
           option = scope.data.available.splice(index, 1);
           scope.selected.push(option[0]);
+          scope.data.multiSelect = [];
           return scope.data.showMenu = false;
         };
         scope.isMultiSelected = function(index) {
@@ -403,8 +430,8 @@ angular.module("BodyApp").directive("chosen", [
             _.each(selected, function(element) {
               return scope.selected.push(element);
             });
-            scope.data.showMenu = false;
-            return scope.data.multiSelect = [];
+            scope.data.multiSelect = [];
+            return scope.data.showMenu = false;
           } else if (index === 'all') {
             if (scope.data.multiSelect.length !== scope.data.available.length) {
               return _.each(scope.data.available, function(element, index) {
@@ -658,8 +685,12 @@ angular.module("BodyApp").filter("exercise", function() {
       case 'text':
         if ((query != null ? query.length : void 0) >= 3) {
           return _.filter(list, function(exercise) {
-            var _ref, _ref1;
-            return ((_ref = exercise.title) != null ? _ref.indexOf(query) : void 0) !== -1 || ((_ref1 = exercise.descr) != null ? _ref1.indexOf(query) : void 0) !== -1;
+            var res;
+            res = false;
+            if (exercise.title.search(query) !== -1) {
+              res = true;
+            }
+            return res;
           });
         }
         break;

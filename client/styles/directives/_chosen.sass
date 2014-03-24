@@ -216,6 +216,25 @@
 				padding : 10px 30px 10px 10px
 				+text-overflow
 
+				&.ng-enter, &.ng-leave, &.ng-move
+					+transition( all 0.3s linear )
+
+				&.ng-enter, &.ng-move
+					opacity : 0
+					+translateX(10px)
+
+				&.ng-move.ng-move-active, &.ng-enter.ng-enter-active
+					opacity : 1
+					+translateX(0)
+
+				&.ng-leave
+					opacity : 1
+					+translateX(0)
+
+				&.ng-leave.ng-leave-active
+					opacity : 0
+					+translateX(10px)
+
 				&:hover
 					background : $th-gray
 
@@ -224,6 +243,11 @@
 					top : 50%
 					right : 0
 					margin-top : -15px
+		.addons
+			padding : 0 5px
+			position : absolute
+			bottom : 5px
+			left : 0
 
 
 

@@ -78,7 +78,6 @@ div.schedules.view
 						div.input
 							input.form-control(
 								type="text"
-								tabindex="1"
 								ng-model="data.exerciseSearchText"
 								ng-keypress="filterExercises($event)"
 								ng-change="exerciseSearchTextChange()"
@@ -86,7 +85,7 @@ div.schedules.view
 							)
 							button(
 								ng-hide="data.exerciseSearchText == ''"
-								ng-click="data.exerciseSearchText = ''"
+								ng-click="exerciseSearchTextClear()"
 								type="button"
 							)
 								i.fa.fa-times-circle

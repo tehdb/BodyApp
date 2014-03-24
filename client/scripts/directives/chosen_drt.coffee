@@ -14,31 +14,42 @@ angular.module("BodyApp")
 		transclude : true
 		templateUrl : "tpl/directives/chosen.html"
 		link : (scope, element, attrs ) ->
-
 			_optionTemplate = null
 
-			## set option template #############################################
-			do ->
+			_initScopeData = ->
+				scope.data = {
+					showMenu : false
+					# selected : []
+					available : null
+					multiSelect : []
+				}
+
+			_initOptionTemplate = ->
 				ot = element.find( "div[option-template]" )
 				cls = ot.attr('option-template')
 				tpl = '<div class="' + cls + '">' + ot.html() + '</div>'
 				_optionTemplate = tpl
 
+			_initWatchers = ->
+				scope.$watch( 'options', (nv, ov) ->
+					scope.data.multiSelect = []
+					scope.data.available = angular.copy nv if nv?
+				, true)
 
-			## set default data ################################################
-			scope.data = {
-				showMenu : false
-				# selected : []
-				available : null
-				multiSelect : []
-			}
+			_initFullScreen = ->
+				oh = $(window).height()
+				oh -= element.find('.control-panel-top:first').outerHeight()
+				oh -= element.find('.control-panel-bottom:first').outerHeight()
+				oh -= element.find('.addons:first').outerHeight()
+				oh -= 10
+				element.find('.options:first ul:first').css('max-height', oh)
 
 
-			## init watchers ###################################################
-			scope.$watch( 'options', (nv, ov) ->
-				scope.data.multiSelect = []
-				scope.data.available = angular.copy nv if nv?
-			, true)
+			do ->
+				_initScopeData()
+				_initOptionTemplate()
+				_initWatchers()
+				_initFullScreen() if scope.fullscreen is 'true'
 
 			scope.getOptionTemplate = ->
 				return _optionTemplate
@@ -53,9 +64,10 @@ angular.module("BodyApp")
 
 			scope.select = ( event, index) ->
 				event.preventDefault()
-				# event.stopPropagation()
+				event.stopPropagation()
 				option = scope.data.available.splice( index, 1)
 				scope.selected.push( option[0] )
+				scope.data.multiSelect = []
 				scope.data.showMenu = false
 
 
@@ -71,8 +83,8 @@ angular.module("BodyApp")
 					_.each selected, (element) ->
 						scope.selected.push( element )
 
-					scope.data.showMenu = false
 					scope.data.multiSelect = []
+					scope.data.showMenu = false
 
 				else if index is 'all'
 					# toggle select/unselect all

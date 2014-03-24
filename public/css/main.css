@@ -930,15 +930,65 @@ ul.th-justified-list li .btn.btn-danger {
   text-overflow: ellipsis;
 }
 /* line 219, ../../client/styles/directives/_chosen.sass */
+.chosen div.options ul li.ng-enter, .chosen div.options ul li.ng-leave, .chosen div.options ul li.ng-move {
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+/* line 222, ../../client/styles/directives/_chosen.sass */
+.chosen div.options ul li.ng-enter, .chosen div.options ul li.ng-move {
+  opacity: 0;
+  -webkit-transform: translateX(10px);
+  -moz-transform: translateX(10px);
+  -ms-transform: translateX(10px);
+  -o-transform: translateX(10px);
+  transform: translateX(10px);
+}
+/* line 226, ../../client/styles/directives/_chosen.sass */
+.chosen div.options ul li.ng-move.ng-move-active, .chosen div.options ul li.ng-enter.ng-enter-active {
+  opacity: 1;
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  -o-transform: translateX(0);
+  transform: translateX(0);
+}
+/* line 230, ../../client/styles/directives/_chosen.sass */
+.chosen div.options ul li.ng-leave {
+  opacity: 1;
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  -o-transform: translateX(0);
+  transform: translateX(0);
+}
+/* line 234, ../../client/styles/directives/_chosen.sass */
+.chosen div.options ul li.ng-leave.ng-leave-active {
+  opacity: 0;
+  -webkit-transform: translateX(10px);
+  -moz-transform: translateX(10px);
+  -ms-transform: translateX(10px);
+  -o-transform: translateX(10px);
+  transform: translateX(10px);
+}
+/* line 238, ../../client/styles/directives/_chosen.sass */
 .chosen div.options ul li:hover {
   background: #cccccc;
 }
-/* line 222, ../../client/styles/directives/_chosen.sass */
+/* line 241, ../../client/styles/directives/_chosen.sass */
 .chosen div.options ul li .multi-select {
   position: absolute;
   top: 50%;
   right: 0;
   margin-top: -15px;
+}
+/* line 246, ../../client/styles/directives/_chosen.sass */
+.chosen div.options .addons {
+  padding: 0 5px;
+  position: absolute;
+  bottom: 5px;
+  left: 0;
 }
 
 /* line 1, ../../client/styles/directives/_dropdown.sass */

@@ -41,6 +41,9 @@ angular.module("BodyApp").controller("SchedulesController", [
 		# 	if event.keyCode is 13 and scope.data.exerciseSearchText.length >= 3
 		# 		 scope.data.filteredExercises = angular.copy ef(scope.data.exercises, scope.data.exerciseSearchText )
 
+		scope.exerciseSearchTextClear = ->
+			scope.data.exerciseSearchText = ''
+			scope.exerciseSearchTextChange()
 
 		scope.exerciseSearchTextChange = ->
 			# get options without selected
