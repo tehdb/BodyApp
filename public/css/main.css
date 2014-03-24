@@ -1051,8 +1051,8 @@ ul.th-justified-list li .btn.btn-danger {
   background: black;
 }
 
-/* line 2, ../../client/styles/directives/_th-modal.sass */
-.th-modal {
+/* line 2, ../../client/styles/directives/_modal.sass */
+.modal {
   position: fixed;
   top: 0;
   right: 0;
@@ -1061,24 +1061,24 @@ ul.th-justified-list li .btn.btn-danger {
   z-index: 3000;
   padding: 15px;
 }
-/* line 12, ../../client/styles/directives/_th-modal.sass */
-.th-modal.ng-hide-add, .th-modal.ng-hide-remove {
+/* line 12, ../../client/styles/directives/_modal.sass */
+.modal.ng-hide-add, .modal.ng-hide-remove {
   -webkit-transition: all 0.3s linear;
   -moz-transition: all 0.3s linear;
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
   display: block !important;
 }
-/* line 16, ../../client/styles/directives/_th-modal.sass */
-.th-modal.ng-hide-remove, .th-modal.ng-hide-add.ng-hide-add-active {
+/* line 16, ../../client/styles/directives/_modal.sass */
+.modal.ng-hide-remove, .modal.ng-hide-add.ng-hide-add-active {
   opacity: 0;
 }
-/* line 20, ../../client/styles/directives/_th-modal.sass */
-.th-modal.ng-hide-add, .th-modal.ng-hide-remove.ng-hide-remove-active {
+/* line 20, ../../client/styles/directives/_modal.sass */
+.modal.ng-hide-add, .modal.ng-hide-remove.ng-hide-remove-active {
   opacity: 1;
 }
-/* line 53, ../../client/styles/directives/_th-modal.sass */
-.th-modal .th-modal-backdrop {
+/* line 53, ../../client/styles/directives/_modal.sass */
+.modal .th-modal-backdrop {
   position: absolute;
   top: 0;
   right: 0;
@@ -1092,8 +1092,8 @@ ul.th-justified-list li .btn.btn-danger {
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
 }
-/* line 64, ../../client/styles/directives/_th-modal.sass */
-.th-modal .th-modal-content {
+/* line 64, ../../client/styles/directives/_modal.sass */
+.modal .th-modal-content {
   position: relative;
   padding: 10px;
   margin: 0 auto;
@@ -1109,38 +1109,38 @@ ul.th-justified-list li .btn.btn-danger {
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
 }
-/* line 73, ../../client/styles/directives/_th-modal.sass */
-.th-modal .th-modal-content .th-modal-head {
+/* line 73, ../../client/styles/directives/_modal.sass */
+.modal .th-modal-content .th-modal-head {
   overflow: hidden;
   *zoom: 1;
 }
-/* line 76, ../../client/styles/directives/_th-modal.sass */
-.th-modal .th-modal-content .th-modal-head h5 {
+/* line 76, ../../client/styles/directives/_modal.sass */
+.modal .th-modal-content .th-modal-head h5 {
   font-size: 15px;
   font-weight: bold;
   padding-left: 15px;
 }
-/* line 82, ../../client/styles/directives/_th-modal.sass */
-.th-modal .th-modal-content .th-modal-head .btn {
+/* line 82, ../../client/styles/directives/_modal.sass */
+.modal .th-modal-content .th-modal-head .btn {
   background: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
 }
-/* line 88, ../../client/styles/directives/_th-modal.sass */
-.th-modal .th-modal-content .th-modal-foot {
+/* line 88, ../../client/styles/directives/_modal.sass */
+.modal .th-modal-content .th-modal-foot {
   margin-top: 20px;
   padding-bottom: 15px;
   overflow: hidden;
   *zoom: 1;
 }
-/* line 93, ../../client/styles/directives/_th-modal.sass */
-.th-modal .th-modal-content .th-modal-foot .cancel-btn {
+/* line 93, ../../client/styles/directives/_modal.sass */
+.modal .th-modal-content .th-modal-foot .cancel-btn {
   float: left;
   margin-left: 15px;
 }
-/* line 97, ../../client/styles/directives/_th-modal.sass */
-.th-modal .th-modal-content .th-modal-foot .apply-btn {
+/* line 97, ../../client/styles/directives/_modal.sass */
+.modal .th-modal-content .th-modal-foot .apply-btn {
   float: right;
   margin-right: 15px;
 }

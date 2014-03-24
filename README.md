@@ -5,7 +5,7 @@ ToDo
 - exercises
 	- ~~edit / delete exercise~~
 	- filter / search exercises
-	- refactor muscle chosen
+	- use chosen instead of muscle-chosen
 
 - exercise
 	- promo api
@@ -13,6 +13,16 @@ ToDo
 	- ~~promo route + view~~
 	- ~~add~~ / edit set dialog
 	- progress diagram
+
+- chosen directive
+	- improve dropdown behavior
+	- improve full screen behavior
+
+- number-input directive
+	- remove prefix
+
+- schedules page
+	- upsert / delete schedules
 
 - training days page
 
@@ -22,7 +32,7 @@ ToDo
 Prerequisites
 
 	nodejs, mongodb, sass/compass
-	
+
 	global npm packages:
 		npm install nodemon -g
 		npm install coffee-script -g
