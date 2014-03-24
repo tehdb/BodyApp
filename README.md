@@ -31,7 +31,7 @@ ToDo
 
 Prerequisites
 
-	nodejs, mongodb, sass/compass
+	nodejs/npm, mongodb, compass/sass
 
 	global npm packages:
 		npm install nodemon -g
