@@ -1054,13 +1054,16 @@ ul.th-justified-list li .btn.btn-danger {
   display: block;
   top: 0;
   width: 100%;
+  height: 100%;
   left: 0;
   z-index: 3000;
   padding: 15px;
   overflow-x: hidden;
   overflow-y: scroll;
+  overflow: hidden;
+  *zoom: 1;
 }
-/* line 16, ../../client/styles/directives/_modal.sass */
+/* line 18, ../../client/styles/directives/_modal.sass */
 .th-modal.ng-hide-add, .th-modal.ng-hide-remove {
   -webkit-transition: all 0.3s linear;
   -moz-transition: all 0.3s linear;
@@ -1068,15 +1071,15 @@ ul.th-justified-list li .btn.btn-danger {
   transition: all 0.3s linear;
   display: block !important;
 }
-/* line 20, ../../client/styles/directives/_modal.sass */
+/* line 22, ../../client/styles/directives/_modal.sass */
 .th-modal.ng-hide-remove, .th-modal.ng-hide-add.ng-hide-add-active {
   opacity: 0;
 }
-/* line 24, ../../client/styles/directives/_modal.sass */
+/* line 26, ../../client/styles/directives/_modal.sass */
 .th-modal.ng-hide-add, .th-modal.ng-hide-remove.ng-hide-remove-active {
   opacity: 1;
 }
-/* line 57, ../../client/styles/directives/_modal.sass */
+/* line 59, ../../client/styles/directives/_modal.sass */
 .th-modal .th-modal-backdrop {
   position: absolute;
   top: 0;
@@ -1091,7 +1094,7 @@ ul.th-justified-list li .btn.btn-danger {
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
 }
-/* line 68, ../../client/styles/directives/_modal.sass */
+/* line 70, ../../client/styles/directives/_modal.sass */
 .th-modal .th-modal-content {
   position: relative;
   padding: 10px;
@@ -1108,37 +1111,37 @@ ul.th-justified-list li .btn.btn-danger {
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
 }
-/* line 77, ../../client/styles/directives/_modal.sass */
+/* line 79, ../../client/styles/directives/_modal.sass */
 .th-modal .th-modal-content .th-modal-head {
   overflow: hidden;
   *zoom: 1;
 }
-/* line 80, ../../client/styles/directives/_modal.sass */
+/* line 82, ../../client/styles/directives/_modal.sass */
 .th-modal .th-modal-content .th-modal-head h5 {
   font-size: 15px;
   font-weight: bold;
   padding-left: 15px;
 }
-/* line 86, ../../client/styles/directives/_modal.sass */
+/* line 88, ../../client/styles/directives/_modal.sass */
 .th-modal .th-modal-content .th-modal-head .btn {
   background: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
 }
-/* line 92, ../../client/styles/directives/_modal.sass */
+/* line 94, ../../client/styles/directives/_modal.sass */
 .th-modal .th-modal-content .th-modal-foot {
   margin-top: 20px;
   padding-bottom: 15px;
   overflow: hidden;
   *zoom: 1;
 }
-/* line 97, ../../client/styles/directives/_modal.sass */
+/* line 99, ../../client/styles/directives/_modal.sass */
 .th-modal .th-modal-content .th-modal-foot .cancel-btn {
   float: left;
   margin-left: 15px;
 }
-/* line 101, ../../client/styles/directives/_modal.sass */
+/* line 103, ../../client/styles/directives/_modal.sass */
 .th-modal .th-modal-content .th-modal-foot .apply-btn {
   float: right;
   margin-right: 15px;
