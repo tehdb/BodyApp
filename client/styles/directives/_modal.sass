@@ -1,13 +1,17 @@
 
-.modal
+.th-modal
 	position : fixed
+	display : block
 	top : 0
-	right : 0
-	bottom : 0
+	width : 100%
+	// max-height : 100%
+	// right : 0
+	// bottom : 0
 	left : 0
 	z-index : 3000
 	padding : 15px
-
+	overflow-x : hidden
+	overflow-y : scroll
 
 	&.ng-hide-add, &.ng-hide-remove
 		+transition( all 0.3s linear )

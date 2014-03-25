@@ -12,7 +12,7 @@ angular.module("BodyApp").directive "modal", [
 		transclude : true
 		templateUrl : "tpl/directives/modal.html"
 		link : (scp, elm, atr ) ->
-			_$content = elm.find('.th-modal-content:first')
+			_$content = elm.find('.modal-content:first')
 			scp.data = {
 				confirmable : false
 			}
@@ -28,8 +28,6 @@ angular.module("BodyApp").directive "modal", [
 				event.stopPropagation()
 				scp.confirm = false if scp.confirm?
 				scp.show = false
-
-
 
 			scp.$watch "show", (nv,ov) ->
 				if nv is true

@@ -94,7 +94,6 @@ angular.module("BodyApp")
 					else
 						scope.data.multiSelect = []
 
-						# console.log "unselect"
 
 				else
 					if scope.isMultiSelected( index )

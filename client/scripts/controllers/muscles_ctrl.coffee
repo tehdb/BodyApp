@@ -26,6 +26,7 @@ angular.module("BodyApp").controller "MusclesController", [
 				update : false
 			}
 			scope.data.showMuscleModal = true
+			console.log scope.data.showMuscleModal
 
 		scope.upmoveModal = (index) ->
 			muscle = scope.data.filtered[index]

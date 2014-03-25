@@ -27,6 +27,7 @@ angular.module("BodyApp").controller "ExercisesController", [
 			scope.data.form = {}
 			scope.data.showModal = true
 
+
 		scope.upmoveModal = (index) ->
 			exercise = scope.data.filtered[index]
 			scope.data.form = {

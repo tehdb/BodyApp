@@ -2,10 +2,12 @@ ToDo
 
 - home
 
+
 - exercises
 	- ~~edit / delete exercise~~
-	- filter / search exercises
+	- ~~filter / search exercises~~
 	- use chosen instead of muscle-chosen
+
 
 - exercise
 	- promo api
@@ -14,17 +16,26 @@ ToDo
 	- ~~add~~ / edit set dialog
 	- progress diagram
 
+
+- modal directive
+	- improve full screen behavior ( scroll, position )
+
+
 - chosen directive
 	- improve dropdown behavior
 	- improve full screen behavior
 
+
 - number-input directive
 	- remove prefix
+
 
 - schedules page
 	- upsert / delete schedules
 
+
 - training days page
+
 
 - use npm passport for user authentication
 

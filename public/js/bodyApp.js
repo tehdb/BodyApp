@@ -253,7 +253,8 @@ angular.module("BodyApp").controller("MusclesController", [
         name: '',
         update: false
       };
-      return scope.data.showMuscleModal = true;
+      scope.data.showMuscleModal = true;
+      return console.log(scope.data.showMuscleModal);
     };
     scope.upmoveModal = function(index) {
       var muscle;
@@ -505,7 +506,7 @@ angular.module("BodyApp").directive("modal", [
       templateUrl: "tpl/directives/modal.html",
       link: function(scp, elm, atr) {
         var _$content;
-        _$content = elm.find('.th-modal-content:first');
+        _$content = elm.find('.modal-content:first');
         scp.data = {
           confirmable: false
         };
