@@ -1,14 +1,23 @@
 angular.module("BodyApp").controller "ExercisesController", [
 	"$scope", "ExercisesService", "MusclesService",
 	( scope, es, ms ) ->
-		scope.data = {
-			title : "exercices"
-			showModal : false
-			editMode : false
-			exercises : []
-			filtered : null
-			form : {}
-		}
+
+		_initData = ->
+			scope.data = {
+				title : "exercices"
+				showModal : false
+				editMode : false
+				exercises : []
+				filtered : null
+				form : {}
+			}
+
+			scope.data.muscleGroups = ms.getGroups()
+			scope.data.muscleGroup = scope.data.muscleGroups[0]
+
+		do ->
+			_initData()
+
 
 		es.getAll().then (data) ->
 			scope.data.exercises = data

@@ -135,14 +135,22 @@ angular.module("BodyApp").controller("ExerciseCtrl", [
 
 angular.module("BodyApp").controller("ExercisesController", [
   "$scope", "ExercisesService", "MusclesService", function(scope, es, ms) {
-    scope.data = {
-      title: "exercices",
-      showModal: false,
-      editMode: false,
-      exercises: [],
-      filtered: null,
-      form: {}
+    var _initData;
+    _initData = function() {
+      scope.data = {
+        title: "exercices",
+        showModal: false,
+        editMode: false,
+        exercises: [],
+        filtered: null,
+        form: {}
+      };
+      scope.data.muscleGroups = ms.getGroups();
+      return scope.data.muscleGroup = scope.data.muscleGroups[0];
     };
+    (function() {
+      return _initData();
+    })();
     es.getAll().then(function(data) {
       return scope.data.exercises = data;
     });
