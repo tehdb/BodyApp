@@ -299,6 +299,7 @@ angular.module("BodyApp").controller("SchedulesController", [
       title: "schedules",
       schedules: null,
       exercises: null,
+      exerciseSearchText: '',
       showFormModal: false,
       formEditMode: false,
       form: {
@@ -374,6 +375,7 @@ angular.module("BodyApp").directive("chosen", [
         _initScopeData = function() {
           return scope.data = {
             showMenu: false,
+            showAddons: false,
             available: null,
             multiSelect: []
           };
@@ -394,13 +396,14 @@ angular.module("BodyApp").directive("chosen", [
           }, true);
         };
         _initFullScreen = function() {
-          var oh;
-          oh = $(window).height();
-          oh -= element.find('.control-panel-top:first').outerHeight();
-          oh -= element.find('.control-panel-bottom:first').outerHeight();
-          oh -= element.find('.addons:first').outerHeight();
-          oh -= 10;
-          return element.find('.options:first ul:first').css('max-height', oh);
+          console.log("init full screen");
+          return scope.$watch("data.showMenu", function(nv, ov) {
+            if (nv === true) {
+              return $('body').addClass('modal-open');
+            } else {
+              return $('body').removeClass('modal-open');
+            }
+          });
         };
         (function() {
           _initScopeData();
@@ -529,6 +532,7 @@ angular.module("BodyApp").directive("modal", [
         return scp.$watch("show", function(nv, ov) {
           var y, _ref;
           if (nv === true) {
+            $('body').addClass('modal-open');
             if (_.isBoolean(scp.confirm)) {
               scp.data.confirmable = true;
             }
@@ -539,6 +543,8 @@ angular.module("BodyApp").directive("modal", [
                 y: y
               });
             }
+          } else {
+            return $('body').removeClass('modal-open');
           }
         });
       }

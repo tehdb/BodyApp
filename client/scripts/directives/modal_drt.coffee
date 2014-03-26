@@ -31,11 +31,14 @@ angular.module("BodyApp").directive "modal", [
 
 			scp.$watch "show", (nv,ov) ->
 				if nv is true
+					$('body').addClass('modal-open')
 					scp.data.confirmable = true if _.isBoolean( scp.confirm )
 
 					y = scp.pos?[1]
 					if _.isNumber(y) and y > 10
 						y -= Math.round( _$content.height() / 2 )
 						_$content.css({ y : y })
+				else
+					$('body').removeClass('modal-open')
 
 ]

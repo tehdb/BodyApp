@@ -2,12 +2,12 @@ div.th-modal(
 	class="ng-hide"
 	ng-hide="!show"
 )
-	div.th-modal-backdrop(ng-click="cancel($event)")
+	//- div.th-modal-backdrop(ng-click="cancel($event)")
 
 	div.th-modal-content
 		div.th-modal-head
 			h5.pull-left(ng-bind="title")
-			button.btn.pull-right(
+			button.btn.icon-btn.pull-right(
 				type="button"
 				ng-click="cancel($event)"
 			)
@@ -16,17 +16,16 @@ div.th-modal(
 		div.th-modal-body( ng-transclude )
 
 		div.th-modal-foot(ng-show="data.confirmable")
-			div.confirm
-				button.btn.btn-danger.icon-left.cancel-btn(
-					type="button"
-					ng-click="cancel($event)"
-				)
-					i.fa.fa-times
-					span cancel
+			button.btn.btn-danger.icon-left.cancel-btn(
+				type="button"
+				ng-click="cancel($event)"
+			)
+				i.fa.fa-times
+				span cancel
 
-				button.btn.btn-success.icon-right.apply-btn(
-					type="button"
-					ng-click="apply($event)"
-				)
-					span apply
-					i.fa.fa-check
+			button.btn.btn-success.icon-right.apply-btn(
+				type="button"
+				ng-click="apply($event)"
+			)
+				span apply
+				i.fa.fa-check

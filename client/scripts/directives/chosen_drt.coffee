@@ -19,6 +19,7 @@ angular.module("BodyApp")
 			_initScopeData = ->
 				scope.data = {
 					showMenu : false
+					showAddons : false
 					# selected : []
 					available : null
 					multiSelect : []
@@ -36,14 +37,20 @@ angular.module("BodyApp")
 					scope.data.available = angular.copy nv if nv?
 				, true)
 
+			# _initFullScreen = ->
+			# 	oh = $(window).height()
+			# 	oh -= element.find('.control-panel-top:first').outerHeight()
+			# 	oh -= element.find('.control-panel-bottom:first').outerHeight()
+			# 	oh -= element.find('.addons:first').outerHeight()
+			# 	oh -= 10
+			# 	element.find('.options:first ul:first').css('max-height', oh)
 			_initFullScreen = ->
-				oh = $(window).height()
-				oh -= element.find('.control-panel-top:first').outerHeight()
-				oh -= element.find('.control-panel-bottom:first').outerHeight()
-				oh -= element.find('.addons:first').outerHeight()
-				oh -= 10
-				element.find('.options:first ul:first').css('max-height', oh)
-
+				console.log "init full screen"
+				scope.$watch "data.showMenu", (nv,ov) ->
+					if nv is true
+						$('body').addClass('modal-open')
+					else
+						$('body').removeClass('modal-open')
 
 			do ->
 				_initScopeData()

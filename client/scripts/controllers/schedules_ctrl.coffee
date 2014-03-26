@@ -5,6 +5,7 @@ angular.module("BodyApp").controller("SchedulesController", [
 			title : "schedules"
 			schedules : null
 			exercises : null
+			exerciseSearchText : ''
 			showFormModal : false
 			formEditMode : false
 			form : {

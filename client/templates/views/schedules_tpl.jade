@@ -84,7 +84,7 @@ div.schedules.view
 								placeholder="search for exercise"
 							)
 							button(
-								ng-hide="data.exerciseSearchText == ''"
+								ng-show="data.exerciseSearchText.length > 0"
 								ng-click="exerciseSearchTextClear()"
 								type="button"
 							)

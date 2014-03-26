@@ -33,11 +33,20 @@ div.chosen
 				type="button"
 				ng-click="toggleMenu($event)"
 			)
-				span cancel
 				i.fa.fa-times
 
+			button.btn.btn-default.icon-btn.pull-left(
+				type="button"
+				ng-click="data.showAddons = !data.showAddons"
+			)
+				i.fa.fa-chevron-down(ng-hide="data.showAddons")
+				i.fa.fa-chevron-up(ng-show="data.showAddons")
 
-		div.addons(ng-transclude)
+
+		div.addons(
+			ng-transclude
+			ng-show="data.showAddons"
+		)
 
 		p.warning.text-danger(ng-show="data.available.length == 0" ) No entries
 

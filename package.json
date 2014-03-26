@@ -36,5 +36,8 @@
     "chai-json-schema": "~1.0.10",
     "grunt-file-regex-rename": "~0.1.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "grunt-contrib-compass": "^0.7.2",
+    "load-grunt-tasks": "^0.4.0"
+  }
 }

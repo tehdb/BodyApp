@@ -1,88 +1,47 @@
 
 .th-modal
-	position : fixed
-	display : block
-	top : 0
-	width : 100%
-	height : 100%
-	// max-height : 100%
-	// right : 0
-	// bottom : 0
-	left : 0
-	z-index : 3000
-	padding : 15px
-	overflow-x : hidden
+	overflow-x : auto
 	overflow-y : scroll
-	+clearfix
+	position : fixed
+	top : 0
+	right : 0
+	bottom : 0
+	left : 0
+	background  : $modal-background 
+	z-index : $zindex-modal
 
 	&.ng-hide-add, &.ng-hide-remove
 		+transition( all 0.3s linear )
-		display : block !important
 
-	&.ng-hide-remove,
-	&.ng-hide-add.ng-hide-add-active
-		opacity : 0
+	&.ng-hide-remove, &.ng-hide-add.ng-hide-add-active
+		+scale(0,0)
 
-	&.ng-hide-add,
-	&.ng-hide-remove.ng-hide-remove-active
-		opacity : 1
-
-
-
-	// &.ng-hide-add
-	// 	.th-modal-backdrop
-	// 		opacity : 0.5
-	// 	.th-modal-content
-	// 		opacity : 1
-	// 		+scale( 1, 1 )
-
-	// 	&.ng-hide-add-active
-	// 		.th-modal-backdrop
-	// 			opacity : 0
-	// 		.th-modal-content
-	// 			opacity : 0
-	// 			+scale( 0.7, 0.7 )
-
-	// &.ng-hide-remove
-	// 	.th-modal-backdrop
-	// 		opacity : 0
-	// 	.th-modal-content
-	// 		opacity : 0
-	// 		+scale( 0.7, 0.7  )
-	// 	&.ng-hide-remove-active
-	// 		.th-modal-backdrop
-	// 			opacity : 0.5
-	// 		.th-modal-content
-	// 			opacity : 1
-	// 			+scale( 1, 1 )
-
-	.th-modal-backdrop
-		position : absolute
-		top : 0
-		right : 0
-		bottom : 0
-		left : 0
-		z-index : 3001
-		background : $th-black
-		opacity : 0.5
-		+transition( all 0.3s linear )
+	&.ng-hide-add, &.ng-hide-remove.ng-hide-remove-active
+		+scale(1,1)
+		background  : $modal-background
 
 	.th-modal-content
 		position : relative
-		padding : 10px
-		margin : 0 auto
-		z-index : 3002
+		padding : 0 0 10px 0
+		margin : 10px
 		background : $th-white
+		+box-shadow( 0 0 10px 5px $modal-background )
 		+border-radius( 5px )
 		+transition( all 0.3s linear )
 
+		@media (min-width: $screen-md-min)
+			width : $modal-max-width
+			margin : 10px auto
+
+
 		.th-modal-head
+			padding : 0
 			+clearfix
 
 			h5
-				font-size : 15px
+				margin-left : 10px
+				font-size : 12pt
 				font-weight : bold
-				padding-left : 15px
 
 
 			.btn
@@ -90,30 +49,16 @@
 				+box-shadow( none )
 
 		.th-modal-body
+			padding : 0 10px
 
 		.th-modal-foot
-			margin-top : 20px
-			padding-bottom : 15px
+			padding : 0 10px
 			+clearfix
 
 			.cancel-btn
 				float : left
-				margin-left : 15px
 
 			.apply-btn
 				float : right
-				margin-right : 15px
 
 
-
-// .th-modal-show-setup
-// 	opacity : 0
-
-// 	&.th-modal-show-start
-// 		opacity : 1
-
-// .th-modal-hide-setup
-// 	opacity : 1
-
-// 	&.th-modal-hide-start
-// 		opacity : 1
