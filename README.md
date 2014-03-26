@@ -1,48 +1,38 @@
 ToDo
 
-- home
+- pages 
+	- home
+	- exercises
+		- ~~edit / delete exercise~~
+		- ~~filter / search exercises~~
+		- use chosen instead of muscle-chosen
+	- exercise
+		- ~~promo service~~
+		- ~~promo route + view~~
+		- ~~add~~ / edit set dialog
+		- progress diagram
 
+	- schedules page
+		- upsert / delete schedules
+	- training days page
+- directives
+	- modal
+		- ~~improve full screen behavior ( scroll, position )~~
+		- ~~background on animation~~
+		- fixed position( ~~top, center, bottom~~, top-left, top-right, bottom-left, bottom-right )
+		- dynamic position to event target
+	- chosen
+		- ~~improve full screen behavior~~
+		- improve dropdown behavior
+	- number-input
+		- remove prefix
 
-- exercises
-	- ~~edit / delete exercise~~
-	- ~~filter / search exercises~~
-	- use chosen instead of muscle-chosen
-
-
-- exercise
+- tools
+	- use npm passport for user authentication
+- REST
+	- ~~muscles api~~
+	- ~~exercises api~~
 	- promo api
-	- ~~promo service~~
-	- ~~promo route + view~~
-	- ~~add~~ / edit set dialog
-	- progress diagram
-
-
-- modal directive
-	- ~~improve full screen behavior ( scroll, position )~~
-	- ~~background on animation~~
-	- fixed position( ~~top, center, bottom~~, top-left, top-right, bottom-left, bottom-right
-	- dynamic position to event target
-
-
-
-- chosen directive
-	- ~~improve full screen behavior~
-	- improve dropdown behavior
-
-
-- number-input directive
-	- remove prefix
-
-
-- schedules page
-	- upsert / delete schedules
-
-
-- training days page
-
-
-- use npm passport for user authentication
-
 
 Prerequisites
 
