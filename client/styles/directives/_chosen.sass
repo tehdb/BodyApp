@@ -168,13 +168,11 @@
 			+transition( all 0.3s linear )
 			display : block !important
 
-		&.ng-hide-remove,
-		&.ng-hide-add.ng-hide-add-active
+		&.ng-hide-remove, &.ng-hide-add.ng-hide-add-active
 			opacity : 0
 			+scale(0,0)
 
-		&.ng-hide-add,
-		&.ng-hide-remove.ng-hide-remove-active
+		&.ng-hide-add, &.ng-hide-remove.ng-hide-remove-active
 			opacity : 1
 			+scale(1,1)
 
@@ -192,7 +190,7 @@
 				border-bottom : 1px solid $th-gray
 
 			@media (min-width: $screen-md-min)
-				// background  : $modal-background 
+				// background  : $modal-background
 				width : $modal-max-width
 				margin : 10px auto
 				+box-shadow( 0 0 10px 5px $modal-background )

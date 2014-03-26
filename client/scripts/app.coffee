@@ -38,6 +38,11 @@ angular
 				controller : "SchedulesController"
 			})
 
+			.when("/features/", {
+				templateUrl : "tpl/views/features.html"
+				controller : "FeaturesController"
+			})
+
 			.otherwise({
 				redirectTo: "/"
 			})

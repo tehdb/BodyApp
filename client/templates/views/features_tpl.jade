@@ -1,0 +1,114 @@
+h1(ng-bind="data.title")
+
+
+h2 input group
+
+div(style="padding:10px 0;")
+	div.input-group
+		span.input-group-btn
+			button.btn.btn-default(type="button") Go
+		input.form-control(type="text")
+		span.input-group-btn
+			button.btn.btn-default(type="button") Go
+
+div(style="padding:10px 0;")
+	div.input-group
+		input.form-control(type="text")
+		span.input-group-btn
+			button.btn.btn-default(type="button") Go
+
+div(style="padding:10px 0;")
+	div.input-group
+		span.input-group-btn
+			button.btn.btn-default(type="button") Go
+		input.form-control(type="text")
+
+div(style="padding:10px 0;")
+	div.input-group
+		div.input
+			input.form-control(type="text")
+			button(
+				ng-hide="tempData == ''"
+				ng-click="tempData = ''"
+				type="button"
+			)
+				i.fa.fa-times-circle
+
+div(style="padding:10px 0;")
+	div.input-group
+		span.input-group-btn
+			div.select
+				i.fa.fa-sort-asc
+				select
+					option(selected) option1
+					option option2
+					option option3
+		div.input
+			input.form-control(type="text" ng-model="tempData" placeholder="here")
+			button(
+				ng-hide="tempData == ''"
+				ng-click="tempData = ''"
+				type="button"
+			)
+				i.fa.fa-times-circle
+
+		span.input-group-btn
+			button.btn.btn-default(type="button") Go
+
+
+div(style="padding:10px 0;")
+	div.input-group
+		span.input-group-btn
+			div.select
+				i.fa.fa-sort-asc
+				select
+					option(selected) option1
+					option option2
+					option option3
+		div.input
+			input.form-control(type="text")
+			button(
+				ng-hide="tempData == ''"
+				ng-click="tempData = ''"
+				type="button"
+			)
+				i.fa.fa-times-circle
+
+		span.input-group-btn
+			div.select
+				i.fa.fa-sort-asc
+				select
+					option(selected) option1
+					option option2
+					option option3
+
+h2 modal
+
+div.btn-group
+	button.btn.btn-default( type="button" ng-click="test.ModalTop = !test.ModalTop" )
+		span modal top
+
+	button.btn.btn-default( type="button" ng-click="test.modalCenter = !test.modalCenter" )
+		span modal center
+
+	button.btn.btn-default( type="button" ng-click="test.modalBottom = !test.modalBottom" )
+		span modal bottom
+
+	button.btn.btn-default( type="button" ng-click="test.modalLarge = !test.modalLarge" )
+		span modal large
+
+modal( title="modal top" show="test.ModalTop" position="top" )
+	p Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+
+modal( title="modal center" show="test.modalCenter" position="center" )
+	p Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+
+modal( title="modal bottom" show="test.modalBottom" position="bottom" )
+	p Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+
+modal( title="modal large" show="test.modalLarge" position="center" )
+	p
+		| Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+		| Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+		| Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+		| Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer

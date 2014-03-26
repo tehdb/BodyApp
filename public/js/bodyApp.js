@@ -23,6 +23,9 @@ angular.module("BodyApp", ["ngRoute", "ngResource", "ngAnimate", "ngSanitize"]).
     }).when("/schedules/", {
       templateUrl: "tpl/views/schedules.html",
       controller: "SchedulesController"
+    }).when("/features/", {
+      templateUrl: "tpl/views/features.html",
+      controller: "FeaturesController"
     }).otherwise({
       redirectTo: "/"
     });
@@ -182,6 +185,14 @@ angular.module("BodyApp").controller("ExercisesController", [
         scope.data.form = {};
         return scope.data.showModal = false;
       });
+    };
+  }
+]);
+
+angular.module("BodyApp").controller("FeaturesController", [
+  "$scope", function(scope) {
+    scope.data = {
+      title: "Features"
     };
   }
 ]);
@@ -495,54 +506,72 @@ angular.module("BodyApp").directive("chosen", [
 ]);
 
 angular.module("BodyApp").directive("modal", [
-  "$q", "$timeout", function(q, tmt) {
+  "$q", "$timeout", function(q, timeout) {
     return {
       restrict: "E",
       scope: {
         title: "@",
         show: "=",
-        pos: "=",
+        position: "@",
         confirm: "="
       },
       replace: true,
       transclude: true,
       templateUrl: "tpl/directives/modal.html",
-      link: function(scp, elm, atr) {
-        var _$content;
-        _$content = elm.find('.modal-content:first');
-        scp.data = {
+      link: function(scope, element, attrs) {
+        var $_content, _applyPosition;
+        $_content = element.find('.th-modal-content:first');
+        _applyPosition = function() {
+          var ah, wh, y;
+          switch (scope.position) {
+            case 'center':
+              ah = $_content.actual('outerHeight');
+              wh = $(window).height();
+              console.log(ah, wh);
+              y = Math.round((wh - ah) / 2);
+              if (y > 0) {
+                return $_content.css({
+                  y: y
+                });
+              }
+              break;
+            case 'bottom':
+              ah = $_content.actual('outerHeight');
+              wh = $(window).height();
+              y = Math.round(wh - 20 - ah);
+              if (y > 0) {
+                return $_content.css({
+                  y: y
+                });
+              }
+          }
+        };
+        scope.data = {
           confirmable: false
         };
-        scp.apply = function(event) {
+        scope.apply = function(event) {
           event.preventDefault();
           event.stopPropagation();
-          if (scp.confirm != null) {
-            scp.confirm = true;
+          if (scope.confirm != null) {
+            scope.confirm = true;
           }
-          return scp.show = false;
+          return scope.show = false;
         };
-        scp.cancel = function(event) {
+        scope.cancel = function(event) {
           event.preventDefault();
           event.stopPropagation();
-          if (scp.confirm != null) {
-            scp.confirm = false;
+          if (scope.confirm != null) {
+            scope.confirm = false;
           }
-          return scp.show = false;
+          return scope.show = false;
         };
-        return scp.$watch("show", function(nv, ov) {
-          var y, _ref;
+        return scope.$watch("show", function(nv, ov) {
           if (nv === true) {
             $('body').addClass('modal-open');
-            if (_.isBoolean(scp.confirm)) {
-              scp.data.confirmable = true;
+            if (_.isBoolean(scope.confirm)) {
+              scope.data.confirmable = true;
             }
-            y = (_ref = scp.pos) != null ? _ref[1] : void 0;
-            if (_.isNumber(y) && y > 10) {
-              y -= Math.round(_$content.height() / 2);
-              return _$content.css({
-                y: y
-              });
-            }
+            return _applyPosition();
           } else {
             return $('body').removeClass('modal-open');
           }

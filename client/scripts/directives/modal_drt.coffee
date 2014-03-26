@@ -1,43 +1,66 @@
 angular.module("BodyApp").directive "modal", [
-	"$q",	"$timeout",
-	( q,	tmt ) ->
+	"$q", "$timeout",
+	( q, timeout ) ->
 		restrict : "E"
 		scope : {
 			title : "@"
 			show : "=" # or "=options"
-			pos : "="
+			position : "@"
 			confirm : "="
+
 		}
 		replace : true
 		transclude : true
 		templateUrl : "tpl/directives/modal.html"
-		link : (scp, elm, atr ) ->
-			_$content = elm.find('.modal-content:first')
-			scp.data = {
+		link : (scope, element, attrs ) ->
+
+			$_content = element.find('.th-modal-content:first')
+
+			_applyPosition = ->
+				switch scope.position
+					#when 'top' # default
+
+					when 'center'
+						ah = $_content.actual( 'outerHeight' )
+						wh = $(window).height()
+						console.log ah, wh
+						y = Math.round( (wh - ah ) / 2 )
+						$_content.css({y:y}) if y > 0
+
+					when 'bottom'
+						ah = $_content.actual( 'outerHeight' )
+						wh = $(window).height()
+						y = Math.round( (wh - 20 - ah ) )
+						$_content.css({y:y}) if y > 0
+
+
+
+
+			scope.data = {
 				confirmable : false
 			}
 
-			scp.apply = (event) ->
+			scope.apply = (event) ->
 				event.preventDefault()
 				event.stopPropagation()
-				scp.confirm = true if scp.confirm?
-				scp.show = false
+				scope.confirm = true if scope.confirm?
+				scope.show = false
 
-			scp.cancel = (event) ->
+			scope.cancel = (event) ->
 				event.preventDefault()
 				event.stopPropagation()
-				scp.confirm = false if scp.confirm?
-				scp.show = false
+				scope.confirm = false if scope.confirm?
+				scope.show = false
 
-			scp.$watch "show", (nv,ov) ->
+			scope.$watch "show", (nv,ov) ->
 				if nv is true
 					$('body').addClass('modal-open')
-					scp.data.confirmable = true if _.isBoolean( scp.confirm )
-
-					y = scp.pos?[1]
-					if _.isNumber(y) and y > 10
-						y -= Math.round( _$content.height() / 2 )
-						_$content.css({ y : y })
+					scope.data.confirmable = true if _.isBoolean( scope.confirm )
+					_applyPosition()
+					# y = scope.pos?[1]
+					# if _.isNumber(y) and y > 10
+					# 	y -= Math.round( _$content.height() / 2 )
+					# 	_$content.css({ y : y })
 				else
 					$('body').removeClass('modal-open')
 

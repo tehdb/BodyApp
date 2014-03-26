@@ -17,6 +17,7 @@ html
 
 		script( src="vendor/jquery/dist/jquery.js" )
 		script( src="vendor/jquery.transit/jquery.transit.js" )
+		script( src="vendor/jquery.actual/jquery.actual.js")
 
 		script( src="vendor/angular/angular.js" )
 		script( src="vendor/angular-animate/angular-animate.js" )
@@ -36,7 +37,7 @@ html
 		header.navbar.navbar-default.navbar-fixed-top( role="navigation" )
 			div.container
 				div.navbar-header
-					a.navbar-brand(href="#") 
+					a.navbar-brand(href="#")
 						i.fa.fa-home
 						span Home
 					button.btn.btn-default.navbar-toggle(role="button", ng-click="toggleSidebar()")
@@ -46,18 +47,23 @@ html
 					ul.nav.navbar-nav
 						li
 							a.icon-btn( href="/#/exercises" )
-								i.fa.fa-bars 
+								i.fa.fa-bars
 								span Exercises
-						
+
 						li
 							a.icon-btn( href="/#/muscles" )
 								i.fa.fa-male
 								span Muscles
-						
+
 						li
 							a.icon-btn( href="/#/schedules" )
 								i.fa.fa-tasks
 								span Schedules
+
+						li
+							a.icon-btn( href="/#/features" )
+								i.fa.fa-cogs
+								span Features
 
 		div.sidebar(ng-click="toggleSidebar(false)", ng-class="{ 'sidebar-show' : sidebarShow}")
 			ul.list-group
@@ -72,6 +78,10 @@ html
 				a.list-group-item( href="/#/schedules" )
 					i.fa.fa-tasks
 					span Schedules
+
+				a.list-group-item( href="/#/features" )
+					i.fa.fa-cogs
+					span Features
 
 
 		div.content

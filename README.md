@@ -19,12 +19,15 @@ ToDo
 
 - modal directive
 	- ~~improve full screen behavior ( scroll, position )~~
-	- background on animation
+	- ~~background on animation~~
+	- fixed position( ~~top, center, bottom~~, top-left, top-right, bottom-left, bottom-right
+	- dynamic position to event target
+
 
 
 - chosen directive
-	- improve dropdown behavior
 	- ~~improve full screen behavior~
+	- improve dropdown behavior
 
 
 - number-input directive
