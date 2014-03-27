@@ -1073,52 +1073,31 @@ ul.th-justified-list li .btn.btn-danger {
   background: black;
 }
 
-/* line 2, ../../client/styles/directives/_modal.sass */
-.th-modal {
-  overflow-x: auto;
-  overflow-y: scroll;
+/* line 2, ../../client/styles/directives/_dialog.sass */
+.dialog {
+  overflow: hidden;
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.3);
   z-index: 1050;
+  background: none;
 }
-/* line 13, ../../client/styles/directives/_modal.sass */
-.th-modal.ng-hide-add, .th-modal.ng-hide-remove {
-  -webkit-transition: -webkit-transform 0.3s linear, background 0.3s linear;
-  -webkit-transition-delay: 0s, 0.4s;
-  -moz-transition: -webkit-transform 0.3s linear, background 0.3s linear 0.4s;
-  -o-transition: -webkit-transform 0.3s linear, background 0.3s linear 0.4s;
-  transition: -webkit-transform 0.3s linear, background 0.3s linear 0.4s;
-  display: block !important;
-}
-/* line 17, ../../client/styles/directives/_modal.sass */
-.th-modal.ng-hide-remove, .th-modal.ng-hide-add.ng-hide-add-active {
-  opacity: 0;
-  -webkit-transform: scale(0, 0);
-  -moz-transform: scale(0, 0);
-  -ms-transform: scale(0, 0);
-  -o-transform: scale(0, 0);
-  transform: scale(0, 0);
-  background: rgba(0, 0, 0, 0);
-}
-/* line 22, ../../client/styles/directives/_modal.sass */
-.th-modal.ng-hide-add, .th-modal.ng-hide-remove.ng-hide-remove-active {
-  opacity: 1;
-  -webkit-transform: scale(1, 1);
-  -moz-transform: scale(1, 1);
-  -ms-transform: scale(1, 1);
-  -o-transform: scale(1, 1);
-  transform: scale(1, 1);
+/* line 12, ../../client/styles/directives/_dialog.sass */
+.dialog.type-modal {
   background: rgba(0, 0, 0, 0.3);
 }
-/* line 27, ../../client/styles/directives/_modal.sass */
-.th-modal .th-modal-content {
+/* line 15, ../../client/styles/directives/_dialog.sass */
+.dialog.overflow {
+  overflow-y: scroll;
+}
+/* line 19, ../../client/styles/directives/_dialog.sass */
+.dialog .dialog-content {
+  display: table-cell;
+  opacity: 0;
   position: relative;
   padding: 0 0 10px 0;
-  margin: 10px;
   background: white;
   -webkit-box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
@@ -1129,48 +1108,41 @@ ul.th-justified-list li .btn.btn-danger {
   -o-border-radius: 5px;
   border-radius: 5px;
 }
-@media (min-width: 768px) {
-  /* line 27, ../../client/styles/directives/_modal.sass */
-  .th-modal .th-modal-content {
-    width: 600px;
-    margin: 10px auto;
-  }
-}
-/* line 41, ../../client/styles/directives/_modal.sass */
-.th-modal .th-modal-content .th-modal-head {
+/* line 28, ../../client/styles/directives/_dialog.sass */
+.dialog .dialog-content .dialog-head {
   padding: 0;
   overflow: hidden;
   *zoom: 1;
 }
-/* line 45, ../../client/styles/directives/_modal.sass */
-.th-modal .th-modal-content .th-modal-head h5 {
+/* line 32, ../../client/styles/directives/_dialog.sass */
+.dialog .dialog-content .dialog-head h5 {
   margin-left: 10px;
   font-size: 12pt;
   font-weight: bold;
 }
-/* line 51, ../../client/styles/directives/_modal.sass */
-.th-modal .th-modal-content .th-modal-head .btn {
+/* line 38, ../../client/styles/directives/_dialog.sass */
+.dialog .dialog-content .dialog-head .btn {
   background: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
 }
-/* line 55, ../../client/styles/directives/_modal.sass */
-.th-modal .th-modal-content .th-modal-body {
+/* line 42, ../../client/styles/directives/_dialog.sass */
+.dialog .dialog-content .dialog-body {
   padding: 0 10px;
 }
-/* line 58, ../../client/styles/directives/_modal.sass */
-.th-modal .th-modal-content .th-modal-foot {
+/* line 45, ../../client/styles/directives/_dialog.sass */
+.dialog .dialog-content .dialog-foot {
   padding: 0 10px;
   overflow: hidden;
   *zoom: 1;
 }
-/* line 62, ../../client/styles/directives/_modal.sass */
-.th-modal .th-modal-content .th-modal-foot .cancel-btn {
+/* line 49, ../../client/styles/directives/_dialog.sass */
+.dialog .dialog-content .dialog-foot .cancel-btn {
   float: left;
 }
-/* line 65, ../../client/styles/directives/_modal.sass */
-.th-modal .th-modal-content .th-modal-foot .apply-btn {
+/* line 52, ../../client/styles/directives/_dialog.sass */
+.dialog .dialog-content .dialog-foot .apply-btn {
   float: right;
 }
 
@@ -1214,39 +1186,39 @@ ul.th-justified-list li .btn.btn-danger {
   border-radius: 0;
 }
 
-/* line 33, ../../client/styles/main.sass */
+/* line 34, ../../client/styles/main.sass */
 body {
   background: transparent;
 }
 
-/* line 36, ../../client/styles/main.sass */
+/* line 37, ../../client/styles/main.sass */
 header {
   margin: 0;
 }
-/* line 39, ../../client/styles/main.sass */
+/* line 40, ../../client/styles/main.sass */
 header .th-sidemenu-toggle {
   margin-right: 20px;
 }
 
-/* line 42, ../../client/styles/main.sass */
+/* line 43, ../../client/styles/main.sass */
 .content {
   padding: 60px 0 60px 0;
   overflow: hidden;
   *zoom: 1;
 }
 
-/* line 46, ../../client/styles/main.sass */
+/* line 47, ../../client/styles/main.sass */
 .th-footer {
   border: 0 none;
   padding-top: 5px;
   margin-top: 10px;
 }
-/* line 51, ../../client/styles/main.sass */
+/* line 52, ../../client/styles/main.sass */
 .th-footer .btn {
   border-radius: 0;
   margin: 0;
 }
-/* line 58, ../../client/styles/main.sass */
+/* line 59, ../../client/styles/main.sass */
 .th-footer .btn .th-text {
   float: left;
   padding-left: 4px;

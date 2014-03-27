@@ -1,0 +1,55 @@
+
+.dialog
+	overflow : hidden
+	position : fixed
+	top : 0
+	right : 0
+	bottom : 0
+	left : 0
+	z-index : $zindex-modal
+	background : none
+
+	&.type-modal
+		background : $modal-background
+
+	&.overflow
+		overflow-y : scroll
+
+
+	.dialog-content
+		display : table-cell
+		opacity : 0
+		position : relative
+		padding : 0 0 10px 0
+		background : $th-white
+		+box-shadow( 0 0 10px 5px $modal-background )
+		+border-radius( 5px )
+
+		.dialog-head
+			padding : 0
+			+clearfix
+
+			h5
+				margin-left : 10px
+				font-size : 12pt
+				font-weight : bold
+
+
+			.btn
+				background : none
+				+box-shadow( none )
+
+		.dialog-body
+			padding : 0 10px
+
+		.dialog-foot
+			padding : 0 10px
+			+clearfix
+
+			.cancel-btn
+				float : left
+
+			.apply-btn
+				float : right
+
+

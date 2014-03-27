@@ -1,9 +1,13 @@
 angular
 	.module("BodyApp", ["ngRoute", "ngResource", "ngAnimate", "ngSanitize"])
-	.constant("Settings", {
+	.constant("SETTINGS", {
 		apis : {
 			muscle : "/api/muscle"
 			exercise : "/api/exercise"
+		}
+
+		, dialog : {
+			
 		}
 	})
 	.config( ["$routeProvider", ( rpr ) ->

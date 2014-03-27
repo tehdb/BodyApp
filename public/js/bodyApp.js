@@ -1,8 +1,9 @@
-angular.module("BodyApp", ["ngRoute", "ngResource", "ngAnimate", "ngSanitize"]).constant("Settings", {
+angular.module("BodyApp", ["ngRoute", "ngResource", "ngAnimate", "ngSanitize"]).constant("SETTINGS", {
   apis: {
     muscle: "/api/muscle",
     exercise: "/api/exercise"
-  }
+  },
+  dialog: {}
 }).config([
   "$routeProvider", function(rpr) {
     return rpr.when("/", {
@@ -505,49 +506,133 @@ angular.module("BodyApp").directive("chosen", [
   }
 ]);
 
-angular.module("BodyApp").directive("modal", [
-  "$q", "$timeout", function(q, timeout) {
+angular.module("BodyApp").directive("dialog", [
+  "$q", "$timeout", "SETTINGS", function(q, timeout, sttgs) {
     return {
       restrict: "E",
       scope: {
         title: "@",
         show: "=",
+        type: "@",
         position: "@",
+        trigger: "=",
         confirm: "="
       },
       replace: true,
       transclude: true,
-      templateUrl: "tpl/directives/modal.html",
+      templateUrl: "tpl/directives/dialog.html",
       link: function(scope, element, attrs) {
-        var $_content, _applyPosition;
-        $_content = element.find('.th-modal-content:first');
-        _applyPosition = function() {
-          var ah, wh, y;
+        var $_content, _applyPosition, _initModal, _initPopuver, _initTooltip, _positionAbsolute, _positionRelative;
+        $_content = element.find('.dialog-content:first');
+        scope.type = scope.type || 'modal';
+        _initModal = function() {
+          return element.addClass('type-modal').click(function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            return scope.$apply(function() {
+              return scope.show = false;
+            });
+          });
+        };
+        _initPopuver = function() {};
+        _initTooltip = function() {};
+        (function() {
+          switch (scope.type) {
+            case 'modal':
+              return _initModal();
+            case 'popover':
+              return _initPopuver();
+            case 'tooltip':
+              return _initTooltip();
+          }
+        })();
+        _positionAbsolute = function() {
+          var ah, aw, wh, ww, x, y, _ref, _ref1;
+          wh = $(window).height();
+          ww = $(window).width();
+          $_content.css({
+            'max-width': ww >= 768 ? 600 : ww - 20
+          });
+          ah = $_content.actual('outerHeight');
+          aw = $_content.actual('outerWidth');
+          x = ((_ref = scope.trigger) != null ? _ref.clientX : void 0) || Math.round(ww / 2);
+          y = ((_ref1 = scope.trigger) != null ? _ref1.clientY : void 0) || Math.round(wh / 2);
+          $_content.css({
+            x: x - Math.round(aw / 2),
+            y: y - Math.round(ah / 2),
+            opacity: 0,
+            scale: 0
+          });
           switch (scope.position) {
+            case 'top':
+              x = Math.round((ww - aw) / 2);
+              y = 10;
+              break;
             case 'center':
-              ah = $_content.actual('outerHeight');
-              wh = $(window).height();
-              console.log(ah, wh);
+              x = Math.round((ww - aw) / 2);
               y = Math.round((wh - ah) / 2);
-              if (y > 0) {
-                return $_content.css({
-                  y: y
-                });
-              }
               break;
             case 'bottom':
-              ah = $_content.actual('outerHeight');
-              wh = $(window).height();
+              x = Math.round((ww - aw) / 2);
               y = Math.round(wh - 20 - ah);
-              if (y > 0) {
-                return $_content.css({
-                  y: y
-                });
-              }
+              break;
+            case 'top-left':
+              x = 10;
+              y = 10;
+              break;
+            case 'left':
+              x = 10;
+              y = Math.round((wh - ah) / 2);
+              break;
+            case 'right':
+              x = ww - aw - 10;
+              y = Math.round((wh - ah) / 2);
+              break;
+            case 'top-right':
+              x = ww - aw - 10;
+              y = 10;
+              break;
+            case 'bottom-left':
+              x = 10;
+              y = wh - ah - 10;
+              break;
+            case 'bottom-right':
+              x = ww - aw - 10;
+              y = wh - ah - 10;
+              break;
+            default:
+              x = Math.round((ww - aw) / 2);
+              y = 10;
+          }
+          $_content.transition({
+            x: x < 10 ? 10 : x,
+            y: y < 10 ? 10 : y,
+            opacity: 1,
+            scale: 1
+          }, 400, 'out', function() {});
+          if ((y + ah + 10) > wh) {
+            return element.addClass('overflow');
+          } else {
+            return element.removeClass('overflow');
           }
         };
-        scope.data = {
-          confirmable: false
+        _positionRelative = function() {
+          return console.log(scope.trigger.target);
+        };
+        _applyPosition = function() {
+          switch (scope.type) {
+            case 'modal':
+              return _positionAbsolute();
+            case 'popover':
+              return _positionRelative();
+            case 'tooltip':
+              return _initTooltip();
+          }
+        };
+        scope.prevent = function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+          return console.log("prevent");
         };
         scope.apply = function(event) {
           event.preventDefault();
@@ -568,9 +653,6 @@ angular.module("BodyApp").directive("modal", [
         return scope.$watch("show", function(nv, ov) {
           if (nv === true) {
             $('body').addClass('modal-open');
-            if (_.isBoolean(scope.confirm)) {
-              scope.data.confirmable = true;
-            }
             return _applyPosition();
           } else {
             return $('body').removeClass('modal-open');

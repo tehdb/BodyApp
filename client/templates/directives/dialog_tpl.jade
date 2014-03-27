@@ -1,9 +1,9 @@
-div.th-modal(
+div.dialog(
 	class="ng-hide"
 	ng-hide="!show"
 )
-	div.th-modal-content
-		div.th-modal-head
+	div.dialog-content( ng-click="prevent($event)")
+		div.dialog-head
 			h5.pull-left(ng-bind="title")
 			button.btn.icon-btn.pull-right(
 				type="button"
@@ -11,9 +11,9 @@ div.th-modal(
 			)
 				i.fa.fa-times
 
-		div.th-modal-body( ng-transclude )
+		div.dialog-body( ng-transclude )
 
-		div.th-modal-foot(ng-show="data.confirmable")
+		div.dialog-foot(ng-show="data.confirmable")
 			button.btn.btn-danger.icon-left.cancel-btn(
 				type="button"
 				ng-click="cancel($event)"

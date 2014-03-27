@@ -1,114 +1,187 @@
-h1(ng-bind="data.title")
+div.feaures
+	h1(ng-bind="data.title")
 
 
-h2 input group
+	h2 input group
 
-div(style="padding:10px 0;")
-	div.input-group
-		span.input-group-btn
-			button.btn.btn-default(type="button") Go
-		input.form-control(type="text")
-		span.input-group-btn
-			button.btn.btn-default(type="button") Go
-
-div(style="padding:10px 0;")
-	div.input-group
-		input.form-control(type="text")
-		span.input-group-btn
-			button.btn.btn-default(type="button") Go
-
-div(style="padding:10px 0;")
-	div.input-group
-		span.input-group-btn
-			button.btn.btn-default(type="button") Go
-		input.form-control(type="text")
-
-div(style="padding:10px 0;")
-	div.input-group
-		div.input
+	div(style="padding:10px 0;")
+		div.input-group
+			span.input-group-btn
+				button.btn.btn-default(type="button") Go
 			input.form-control(type="text")
-			button(
-				ng-hide="tempData == ''"
-				ng-click="tempData = ''"
-				type="button"
-			)
-				i.fa.fa-times-circle
+			span.input-group-btn
+				button.btn.btn-default(type="button") Go
 
-div(style="padding:10px 0;")
-	div.input-group
-		span.input-group-btn
-			div.select
-				i.fa.fa-sort-asc
-				select
-					option(selected) option1
-					option option2
-					option option3
-		div.input
-			input.form-control(type="text" ng-model="tempData" placeholder="here")
-			button(
-				ng-hide="tempData == ''"
-				ng-click="tempData = ''"
-				type="button"
-			)
-				i.fa.fa-times-circle
-
-		span.input-group-btn
-			button.btn.btn-default(type="button") Go
-
-
-div(style="padding:10px 0;")
-	div.input-group
-		span.input-group-btn
-			div.select
-				i.fa.fa-sort-asc
-				select
-					option(selected) option1
-					option option2
-					option option3
-		div.input
+	div(style="padding:10px 0;")
+		div.input-group
 			input.form-control(type="text")
-			button(
-				ng-hide="tempData == ''"
-				ng-click="tempData = ''"
-				type="button"
-			)
-				i.fa.fa-times-circle
+			span.input-group-btn
+				button.btn.btn-default(type="button") Go
 
-		span.input-group-btn
-			div.select
-				i.fa.fa-sort-asc
-				select
-					option(selected) option1
-					option option2
-					option option3
+	div(style="padding:10px 0;")
+		div.input-group
+			span.input-group-btn
+				button.btn.btn-default(type="button") Go
+			input.form-control(type="text")
 
-h2 modal
+	div(style="padding:10px 0;")
+		div.input-group
+			div.input
+				input.form-control(type="text")
+				button(
+					ng-hide="tempData == ''"
+					ng-click="tempData = ''"
+					type="button"
+				)
+					i.fa.fa-times-circle
 
-div.btn-group
-	button.btn.btn-default( type="button" ng-click="test.ModalTop = !test.ModalTop" )
-		span modal top
+	div(style="padding:10px 0;")
+		div.input-group
+			span.input-group-btn
+				div.select
+					i.fa.fa-sort-asc
+					select
+						option(selected) option1
+						option option2
+						option option3
+			div.input
+				input.form-control(type="text" ng-model="tempData" placeholder="here")
+				button(
+					ng-hide="tempData == ''"
+					ng-click="tempData = ''"
+					type="button"
+				)
+					i.fa.fa-times-circle
 
-	button.btn.btn-default( type="button" ng-click="test.modalCenter = !test.modalCenter" )
-		span modal center
+			span.input-group-btn
+				button.btn.btn-default(type="button") Go
 
-	button.btn.btn-default( type="button" ng-click="test.modalBottom = !test.modalBottom" )
-		span modal bottom
 
-	button.btn.btn-default( type="button" ng-click="test.modalLarge = !test.modalLarge" )
-		span modal large
+	div(style="padding:10px 0;")
+		div.input-group
+			span.input-group-btn
+				div.select
+					i.fa.fa-sort-asc
+					select
+						option(selected) option1
+						option option2
+						option option3
+			div.input
+				input.form-control(type="text")
+				button(
+					ng-hide="tempData == ''"
+					ng-click="tempData = ''"
+					type="button"
+				)
+					i.fa.fa-times-circle
 
-modal( title="modal top" show="test.ModalTop" position="top" )
-	p Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+			span.input-group-btn
+				div.select
+					i.fa.fa-sort-asc
+					select
+						option(selected) option1
+						option option2
+						option option3
 
-modal( title="modal center" show="test.modalCenter" position="center" )
-	p Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+	//- ################################################################
+	//- ################################################################
+	//- ################################################################
+	h2 dialog
 
-modal( title="modal bottom" show="test.modalBottom" position="bottom" )
-	p Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+	h3 positioning
 
-modal( title="modal large" show="test.modalLarge" position="center" )
-	p
-		| Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-		| Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-		| Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
-		| Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer
+
+	div.btn-group
+		button.btn.btn-default(type="button" ng-click="dialogData.dialogTopLeft = !dialogData.dialogTopLeft; dialogData.trigger = $event")
+			span top left
+		
+		button.btn.btn-default( type="button" ng-click="dialogData.dialogTop = !dialogData.dialogTop; dialogData.trigger = $event" )
+			span top
+		
+		button.btn.btn-default(type="button" ng-click="dialogData.dialogTopRight = !dialogData.dialogTopRight; dialogData.trigger = $event")
+			span top right
+
+
+	div.btn-group
+		button.btn.btn-default( type="button" ng-click="dialogData.dialogCenter = !dialogData.dialogCenter; dialogData.trigger = $event" )
+			span center
+
+
+	div.btn-group
+		button.btn.btn-default(type="button" ng-click="dialogData.modaBottomLeft = !dialogData.modaBottomLeft; dialogData.trigger = $event")
+			span bottom left
+
+		button.btn.btn-default( type="button" ng-click="dialogData.dialogBottom = !dialogData.dialogBottom; dialogData.trigger = $event" )
+			span bottom
+		
+		button.btn.btn-default(type="button" ng-click="dialogData.dialogBottomRight = !dialogData.dialogBottomRight; dialogData.trigger = $event")
+			span bottom right
+
+
+	div.btn-group
+		button.btn.btn-default( type="button" ng-click="dialogData.dialogLarge = !dialogData.dialogLarge; dialogData.trigger = $event" )
+			span large
+
+
+	dialog( title="dialog top" show="dialogData.dialogTop" trigger="dialogData.trigger" position="top" )
+		p Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+
+	dialog( title="dialog center" show="dialogData.dialogCenter" trigger="dialogData.trigger" position="center" )
+		p Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+
+	dialog( title="dialog bottom" show="dialogData.dialogBottom" trigger="dialogData.trigger" position="bottom" )
+		p Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+
+	dialog( title="dialog large" show="dialogData.dialogLarge" trigger="dialogData.trigger" position="center" )
+		p
+			| Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+			| Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+			| Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+			| Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer
+
+	dialog( title="dialog top left" show="dialogData.dialogTopLeft" trigger="dialogData.trigger" position="top-left")
+		p(style="width:300px") Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+
+	dialog( title="dialog top right" show="dialogData.dialogTopRight" trigger="dialogData.trigger" position="top-right")
+		p(style="width:300px") Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+
+	dialog( title="dialog bottom left" show="dialogData.modaBottomLeft" trigger="dialogData.trigger" position="bottom-left")
+		p(style="width:300px") Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+
+	dialog( title="dialog bottom right" show="dialogData.dialogBottomRight" trigger="dialogData.trigger" position="bottom-right")
+		p(style="width:300px") Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+
+
+	h3 modal
+	div.btn-group
+		button.btn.btn-default( type="button" 
+			ng-click="dialogData.typeModal = !dialogData.typeModal" 
+		) modal
+
+	dialog( type="modal"
+		title="dialog type modal" 
+		show="dialogData.typeModal"
+		position="center"
+	)
+		p Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+
+
+
+	//- ################################################################
+	//- ################################################################
+	//- ################################################################
+
+	h2 popover
+
+	div.btn.btn-default( type="button" 
+		ng-click="dialogData.typePopoverBottom = !dialogData.typePopoverBottom; dialogData.trigger = $event" 
+	) popover bottom
+
+	dialog( type="popover"
+		title="dialog type popover"
+		show="dialogData.typePopoverBottom"
+		position="bottom"
+		trigger="dialogData.trigger"
+	)
+		p Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+
