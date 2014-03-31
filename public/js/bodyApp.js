@@ -524,7 +524,6 @@ angular.module("BodyApp").directive("dialog", [
       link: function(scope, element, attrs) {
         var $_content, _applyPosition, _initModal, _initPopuver, _initTooltip, _positionAbsolute, _positionRelative;
         $_content = element.find('.dialog-content:first');
-        scope.type = scope.type || 'modal';
         _initModal = function() {
           return element.addClass('type-modal').click(function(event) {
             event.preventDefault();
@@ -547,7 +546,7 @@ angular.module("BodyApp").directive("dialog", [
           }
         })();
         _positionAbsolute = function() {
-          var ah, aw, wh, ww, x, y, _ref, _ref1;
+          var ah, aw, pos, wh, ww, x, y, _ref, _ref1;
           wh = $(window).height();
           ww = $(window).width();
           $_content.css({
@@ -555,6 +554,7 @@ angular.module("BodyApp").directive("dialog", [
           });
           ah = $_content.actual('outerHeight');
           aw = $_content.actual('outerWidth');
+          scope.position = scope.position || 'center';
           x = ((_ref = scope.trigger) != null ? _ref.clientX : void 0) || Math.round(ww / 2);
           y = ((_ref1 = scope.trigger) != null ? _ref1.clientY : void 0) || Math.round(wh / 2);
           $_content.css({
@@ -563,47 +563,27 @@ angular.module("BodyApp").directive("dialog", [
             opacity: 0,
             scale: 0
           });
-          switch (scope.position) {
-            case 'top':
-              x = Math.round((ww - aw) / 2);
-              y = 10;
-              break;
-            case 'center':
-              x = Math.round((ww - aw) / 2);
-              y = Math.round((wh - ah) / 2);
-              break;
-            case 'bottom':
-              x = Math.round((ww - aw) / 2);
-              y = Math.round(wh - 20 - ah);
-              break;
-            case 'top-left':
-              x = 10;
-              y = 10;
-              break;
-            case 'left':
-              x = 10;
-              y = Math.round((wh - ah) / 2);
-              break;
-            case 'right':
-              x = ww - aw - 10;
-              y = Math.round((wh - ah) / 2);
-              break;
-            case 'top-right':
-              x = ww - aw - 10;
-              y = 10;
-              break;
-            case 'bottom-left':
-              x = 10;
-              y = wh - ah - 10;
-              break;
-            case 'bottom-right':
-              x = ww - aw - 10;
-              y = wh - ah - 10;
-              break;
-            default:
-              x = Math.round((ww - aw) / 2);
-              y = 10;
-          }
+          pos = scope.position.split("-");
+          x = (function() {
+            switch (false) {
+              case pos[1] !== 'left':
+                return 10;
+              case pos[1] !== 'right':
+                return ww - aw - 10;
+              default:
+                return Math.round((ww - aw) / 2);
+            }
+          })();
+          y = (function() {
+            switch (false) {
+              case pos[0] !== 'top':
+                return 10;
+              case pos[0] !== 'bottom':
+                return wh - ah - 10;
+              default:
+                return Math.round((wh - ah) / 2);
+            }
+          })();
           $_content.transition({
             x: x < 10 ? 10 : x,
             y: y < 10 ? 10 : y,
@@ -627,6 +607,8 @@ angular.module("BodyApp").directive("dialog", [
               return _positionRelative();
             case 'tooltip':
               return _initTooltip();
+            default:
+              return _positionAbsolute();
           }
         };
         scope.prevent = function(event) {

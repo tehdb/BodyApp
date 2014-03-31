@@ -8,9 +8,11 @@
 	left : 0
 	z-index : $zindex-modal
 	background : none
+	pointer-events : none
 
 	&.type-modal
 		background : $modal-background
+		pointer-events : all
 
 	&.overflow
 		overflow-y : scroll
@@ -22,6 +24,7 @@
 		position : relative
 		padding : 0 0 10px 0
 		background : $th-white
+		pointer-events : all
 		+box-shadow( 0 0 10px 5px $modal-background )
 		+border-radius( 5px )
 

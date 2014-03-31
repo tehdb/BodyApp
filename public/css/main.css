@@ -1083,22 +1083,25 @@ ul.th-justified-list li .btn.btn-danger {
   left: 0;
   z-index: 1050;
   background: none;
+  pointer-events: none;
 }
-/* line 12, ../../client/styles/directives/_dialog.sass */
+/* line 13, ../../client/styles/directives/_dialog.sass */
 .dialog.type-modal {
   background: rgba(0, 0, 0, 0.3);
+  pointer-events: all;
 }
-/* line 15, ../../client/styles/directives/_dialog.sass */
+/* line 17, ../../client/styles/directives/_dialog.sass */
 .dialog.overflow {
   overflow-y: scroll;
 }
-/* line 19, ../../client/styles/directives/_dialog.sass */
+/* line 21, ../../client/styles/directives/_dialog.sass */
 .dialog .dialog-content {
   display: table-cell;
   opacity: 0;
   position: relative;
   padding: 0 0 10px 0;
   background: white;
+  pointer-events: all;
   -webkit-box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
@@ -1108,40 +1111,40 @@ ul.th-justified-list li .btn.btn-danger {
   -o-border-radius: 5px;
   border-radius: 5px;
 }
-/* line 28, ../../client/styles/directives/_dialog.sass */
+/* line 31, ../../client/styles/directives/_dialog.sass */
 .dialog .dialog-content .dialog-head {
   padding: 0;
   overflow: hidden;
   *zoom: 1;
 }
-/* line 32, ../../client/styles/directives/_dialog.sass */
+/* line 35, ../../client/styles/directives/_dialog.sass */
 .dialog .dialog-content .dialog-head h5 {
   margin-left: 10px;
   font-size: 12pt;
   font-weight: bold;
 }
-/* line 38, ../../client/styles/directives/_dialog.sass */
+/* line 41, ../../client/styles/directives/_dialog.sass */
 .dialog .dialog-content .dialog-head .btn {
   background: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
 }
-/* line 42, ../../client/styles/directives/_dialog.sass */
+/* line 45, ../../client/styles/directives/_dialog.sass */
 .dialog .dialog-content .dialog-body {
   padding: 0 10px;
 }
-/* line 45, ../../client/styles/directives/_dialog.sass */
+/* line 48, ../../client/styles/directives/_dialog.sass */
 .dialog .dialog-content .dialog-foot {
   padding: 0 10px;
   overflow: hidden;
   *zoom: 1;
 }
-/* line 49, ../../client/styles/directives/_dialog.sass */
+/* line 52, ../../client/styles/directives/_dialog.sass */
 .dialog .dialog-content .dialog-foot .cancel-btn {
   float: left;
 }
-/* line 52, ../../client/styles/directives/_dialog.sass */
+/* line 55, ../../client/styles/directives/_dialog.sass */
 .dialog .dialog-content .dialog-foot .apply-btn {
   float: right;
 }

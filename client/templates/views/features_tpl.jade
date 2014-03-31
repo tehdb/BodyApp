@@ -94,10 +94,10 @@ div.feaures
 	div.btn-group
 		button.btn.btn-default(type="button" ng-click="dialogData.dialogTopLeft = !dialogData.dialogTopLeft; dialogData.trigger = $event")
 			span top left
-		
+
 		button.btn.btn-default( type="button" ng-click="dialogData.dialogTop = !dialogData.dialogTop; dialogData.trigger = $event" )
 			span top
-		
+
 		button.btn.btn-default(type="button" ng-click="dialogData.dialogTopRight = !dialogData.dialogTopRight; dialogData.trigger = $event")
 			span top right
 
@@ -113,7 +113,7 @@ div.feaures
 
 		button.btn.btn-default( type="button" ng-click="dialogData.dialogBottom = !dialogData.dialogBottom; dialogData.trigger = $event" )
 			span bottom
-		
+
 		button.btn.btn-default(type="button" ng-click="dialogData.dialogBottomRight = !dialogData.dialogBottomRight; dialogData.trigger = $event")
 			span bottom right
 
@@ -123,7 +123,11 @@ div.feaures
 			span large
 
 
-	dialog( title="dialog top" show="dialogData.dialogTop" trigger="dialogData.trigger" position="top" )
+	dialog( title="dialog top"
+		show="dialogData.dialogTop"
+		trigger="dialogData.trigger"
+		position="top"
+	)
 		p Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
 
 	dialog( title="dialog center" show="dialogData.dialogCenter" trigger="dialogData.trigger" position="center" )
@@ -154,15 +158,15 @@ div.feaures
 
 	h3 modal
 	div.btn-group
-		button.btn.btn-default( type="button" 
-			ng-click="dialogData.typeModal = !dialogData.typeModal" 
+		button.btn.btn-default( type="button"
+			ng-click="dialogData.typeModal = !dialogData.typeModal"
 		) modal
 
 	dialog( type="modal"
-		title="dialog type modal" 
+		title="dialog type modal"
 		show="dialogData.typeModal"
-		position="center"
 	)
+		//- position="center"
 		p Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
 
 
@@ -173,8 +177,8 @@ div.feaures
 
 	h2 popover
 
-	div.btn.btn-default( type="button" 
-		ng-click="dialogData.typePopoverBottom = !dialogData.typePopoverBottom; dialogData.trigger = $event" 
+	div.btn.btn-default( type="button"
+		ng-click="dialogData.typePopoverBottom = !dialogData.typePopoverBottom; dialogData.trigger = $event"
 	) popover bottom
 
 	dialog( type="popover"
