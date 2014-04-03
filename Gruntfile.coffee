@@ -19,10 +19,6 @@ module.exports = (grunt) ->
 				]
 				tasks : ["build"]
 
-			config :
-				files : ["client/config/main.coffee"]
-				tasks : ["coffee:config"]
-
 			scripts :
 				files : ["client/scripts/**/*.coffee", "client/database/**/*.json"]
 				tasks : [
@@ -49,9 +45,6 @@ module.exports = (grunt) ->
 						"client/scripts/app.coffe",
 						"client/scripts/**/*.coffee"
 					]
-			config :
-				files :
-					"public/js/main.js" : "client/config/main.coffee"
 
 		compass :
 			dist :
@@ -106,6 +99,11 @@ module.exports = (grunt) ->
 				files :
 					"public/js/bodyApp.js" : ".temp/bodyApp.js"
 
+		copy :
+			utils :
+				files :
+					"public/js/utils.js" : "client/extra/utils.js"
+
 		connect :
 			options :
 				port : 9000
@@ -124,7 +122,6 @@ module.exports = (grunt) ->
 
 	grunt.registerTask( "build", [
 		"coffee:dist",
-		"coffee:config",
 		"includes:database",
 		"compass:dist",
 		"jade:dist",
