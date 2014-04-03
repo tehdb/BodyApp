@@ -4,4 +4,7 @@ npm-debug.log
 .temp/
 .idea/
 node_modules/
+public/css/
+public/js/
+public/tpl/
 public/vendor/
