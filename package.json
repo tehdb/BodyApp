@@ -4,7 +4,7 @@
   "description": "ultimative fitness app",
   "scripts": {
     "prestart": "grunt build",
-    "start": "nodemon app.coffee"
+    "start": "nodemon server/app.coffee"
   },
   "engines": {
     "node": ">=0.8.0"
@@ -23,7 +23,6 @@
     "grunt-contrib-uglify": "~0.3.2",
     "grunt-contrib-watch": "~0.5.3",
     "grunt-includes": "~0.4.1",
-    "grunt-karma": "~0.6.2",
     "grunt-newer": "~0.6.1",
     "jade": "~1.1.5",
     "load-grunt-tasks": "~0.2.0",

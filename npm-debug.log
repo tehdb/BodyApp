@@ -1,0 +1,312 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'install' ]
+2 info using npm@1.4.3
+3 info using node@v0.10.26
+4 warn package.json bodyApp@0.0.1 No repository field.
+5 verbose readDependencies using package.json deps
+6 verbose install where, deps [ '/Users/tehdb/Projects/BodyApp',
+6 verbose install   [ 'grunt-contrib-compass',
+6 verbose install     'load-grunt-tasks',
+6 verbose install     'async',
+6 verbose install     'express',
+6 verbose install     'grunt',
+6 verbose install     'grunt-contrib-coffee',
+6 verbose install     'grunt-contrib-connect',
+6 verbose install     'grunt-contrib-copy',
+6 verbose install     'grunt-contrib-jade',
+6 verbose install     'grunt-contrib-uglify',
+6 verbose install     'grunt-contrib-watch',
+6 verbose install     'grunt-includes',
+6 verbose install     'grunt-newer',
+6 verbose install     'jade',
+6 verbose install     'mongodb',
+6 verbose install     'mongoose',
+6 verbose install     'request',
+6 verbose install     'time-grunt',
+6 verbose install     'underscore',
+6 verbose install     'frisby',
+6 verbose install     'chai-json-schema',
+6 verbose install     'grunt-file-regex-rename' ] ]
+7 info preinstall bodyApp@0.0.1
+8 verbose readDependencies using package.json deps
+9 verbose already installed skipping async@~0.2.10 /Users/tehdb/Projects/BodyApp
+10 verbose already installed skipping grunt-contrib-compass@~0.7.0 /Users/tehdb/Projects/BodyApp
+11 verbose already installed skipping load-grunt-tasks@~0.2.0 /Users/tehdb/Projects/BodyApp
+12 verbose already installed skipping express@~3.4.8 /Users/tehdb/Projects/BodyApp
+13 verbose already installed skipping grunt@~0.4.2 /Users/tehdb/Projects/BodyApp
+14 verbose already installed skipping grunt-contrib-coffee@~0.8.2 /Users/tehdb/Projects/BodyApp
+15 verbose already installed skipping grunt-contrib-connect@~0.5.0 /Users/tehdb/Projects/BodyApp
+16 verbose already installed skipping grunt-contrib-copy@~0.4.1 /Users/tehdb/Projects/BodyApp
+17 verbose already installed skipping grunt-contrib-jade@~0.9.1 /Users/tehdb/Projects/BodyApp
+18 verbose already installed skipping grunt-contrib-uglify@~0.3.2 /Users/tehdb/Projects/BodyApp
+19 verbose already installed skipping grunt-contrib-watch@~0.5.3 /Users/tehdb/Projects/BodyApp
+20 verbose already installed skipping grunt-includes@~0.4.1 /Users/tehdb/Projects/BodyApp
+21 verbose already installed skipping jade@~1.1.5 /Users/tehdb/Projects/BodyApp
+22 verbose already installed skipping grunt-newer@~0.6.1 /Users/tehdb/Projects/BodyApp
+23 verbose already installed skipping mongodb@~1.3.23 /Users/tehdb/Projects/BodyApp
+24 verbose already installed skipping mongoose@~3.8.7 /Users/tehdb/Projects/BodyApp
+25 verbose already installed skipping request@~2.34.0 /Users/tehdb/Projects/BodyApp
+26 verbose already installed skipping time-grunt@~0.2.1 /Users/tehdb/Projects/BodyApp
+27 verbose already installed skipping underscore@~1.6.0 /Users/tehdb/Projects/BodyApp
+28 verbose already installed skipping frisby@~0.7.9 /Users/tehdb/Projects/BodyApp
+29 verbose already installed skipping chai-json-schema@~1.0.10 /Users/tehdb/Projects/BodyApp
+30 verbose already installed skipping grunt-file-regex-rename@~0.1.0 /Users/tehdb/Projects/BodyApp
+31 silly resolved []
+32 info build /Users/tehdb/Projects/BodyApp
+33 verbose linkStuff [ false, false, false, '/Users/tehdb/Projects' ]
+34 info linkStuff bodyApp@0.0.1
+35 verbose linkBins bodyApp@0.0.1
+36 verbose linkMans bodyApp@0.0.1
+37 verbose rebuildBundles bodyApp@0.0.1
+38 verbose rebuildBundles [ '.bin',
+38 verbose rebuildBundles   'async',
+38 verbose rebuildBundles   'chai',
+38 verbose rebuildBundles   'chai-json-schema',
+38 verbose rebuildBundles   'express',
+38 verbose rebuildBundles   'frisby',
+38 verbose rebuildBundles   'grunt',
+38 verbose rebuildBundles   'grunt-contrib-coffee',
+38 verbose rebuildBundles   'grunt-contrib-compass',
+38 verbose rebuildBundles   'grunt-contrib-connect',
+38 verbose rebuildBundles   'grunt-contrib-copy',
+38 verbose rebuildBundles   'grunt-contrib-jade',
+38 verbose rebuildBundles   'grunt-contrib-uglify',
+38 verbose rebuildBundles   'grunt-contrib-watch',
+38 verbose rebuildBundles   'grunt-file-regex-rename',
+38 verbose rebuildBundles   'grunt-includes',
+38 verbose rebuildBundles   'grunt-karma',
+38 verbose rebuildBundles   'grunt-newer',
+38 verbose rebuildBundles   'jade',
+38 verbose rebuildBundles   'karma',
+38 verbose rebuildBundles   'karma-chrome-launcher',
+38 verbose rebuildBundles   'karma-coffee-preprocessor',
+38 verbose rebuildBundles   'karma-firefox-launcher',
+38 verbose rebuildBundles   'karma-html2js-preprocessor',
+38 verbose rebuildBundles   'karma-jasmine',
+38 verbose rebuildBundles   'karma-phantomjs-launcher',
+38 verbose rebuildBundles   'karma-requirejs',
+38 verbose rebuildBundles   'karma-script-launcher',
+38 verbose rebuildBundles   'load-grunt-tasks',
+38 verbose rebuildBundles   'mongodb',
+38 verbose rebuildBundles   'mongoose',
+38 verbose rebuildBundles   'monk',
+38 verbose rebuildBundles   'request',
+38 verbose rebuildBundles   'requirejs',
+38 verbose rebuildBundles   'time-grunt',
+38 verbose rebuildBundles   'underscore' ]
+39 verbose rebuild bundle /Users/tehdb/Projects/BodyApp/node_modules/chai
+40 info build /Users/tehdb/Projects/BodyApp/node_modules/chai
+41 info preinstall chai@1.9.0
+42 verbose linkStuff [ false,
+42 verbose linkStuff   false,
+42 verbose linkStuff   false,
+42 verbose linkStuff   '/Users/tehdb/Projects/BodyApp/node_modules' ]
+43 info linkStuff chai@1.9.0
+44 verbose linkBins chai@1.9.0
+45 verbose linkMans chai@1.9.0
+46 verbose rebuildBundles chai@1.9.0
+47 verbose rebuildBundles [ 'assertion-error', 'deep-eql' ]
+48 info install chai@1.9.0
+49 info postinstall chai@1.9.0
+50 verbose rebuild bundle /Users/tehdb/Projects/BodyApp/node_modules/grunt-karma
+51 info build /Users/tehdb/Projects/BodyApp/node_modules/grunt-karma
+52 info preinstall grunt-karma@0.6.2
+53 verbose linkStuff [ false,
+53 verbose linkStuff   false,
+53 verbose linkStuff   false,
+53 verbose linkStuff   '/Users/tehdb/Projects/BodyApp/node_modules' ]
+54 info linkStuff grunt-karma@0.6.2
+55 verbose linkBins grunt-karma@0.6.2
+56 verbose linkMans grunt-karma@0.6.2
+57 verbose rebuildBundles grunt-karma@0.6.2
+58 verbose rebuildBundles [ 'optimist' ]
+59 info install grunt-karma@0.6.2
+60 info postinstall grunt-karma@0.6.2
+61 verbose rebuild bundle /Users/tehdb/Projects/BodyApp/node_modules/karma
+62 info build /Users/tehdb/Projects/BodyApp/node_modules/karma
+63 info preinstall karma@0.12.3
+64 verbose linkStuff [ false,
+64 verbose linkStuff   false,
+64 verbose linkStuff   false,
+64 verbose linkStuff   '/Users/tehdb/Projects/BodyApp/node_modules' ]
+65 info linkStuff karma@0.12.3
+66 verbose linkBins karma@0.12.3
+67 verbose link bins [ {}, '/Users/tehdb/Projects/BodyApp/node_modules/.bin', false ]
+68 verbose linkMans karma@0.12.3
+69 verbose rebuildBundles karma@0.12.3
+70 verbose rebuildBundles [ '.bin',
+70 verbose rebuildBundles   'chokidar',
+70 verbose rebuildBundles   'colors',
+70 verbose rebuildBundles   'connect',
+70 verbose rebuildBundles   'di',
+70 verbose rebuildBundles   'glob',
+70 verbose rebuildBundles   'graceful-fs',
+70 verbose rebuildBundles   'http-proxy',
+70 verbose rebuildBundles   'lodash',
+70 verbose rebuildBundles   'log4js',
+70 verbose rebuildBundles   'mime',
+70 verbose rebuildBundles   'minimatch',
+70 verbose rebuildBundles   'optimist',
+70 verbose rebuildBundles   'q',
+70 verbose rebuildBundles   'rimraf',
+70 verbose rebuildBundles   'socket.io',
+70 verbose rebuildBundles   'source-map',
+70 verbose rebuildBundles   'useragent' ]
+71 info install karma@0.12.3
+72 info postinstall karma@0.12.3
+73 verbose rebuild bundle /Users/tehdb/Projects/BodyApp/node_modules/karma-chrome-launcher
+74 info build /Users/tehdb/Projects/BodyApp/node_modules/karma-chrome-launcher
+75 info preinstall karma-chrome-launcher@0.1.2
+76 verbose linkStuff [ false,
+76 verbose linkStuff   false,
+76 verbose linkStuff   false,
+76 verbose linkStuff   '/Users/tehdb/Projects/BodyApp/node_modules' ]
+77 info linkStuff karma-chrome-launcher@0.1.2
+78 verbose linkBins karma-chrome-launcher@0.1.2
+79 verbose linkMans karma-chrome-launcher@0.1.2
+80 verbose rebuildBundles karma-chrome-launcher@0.1.2
+81 info install karma-chrome-launcher@0.1.2
+82 info postinstall karma-chrome-launcher@0.1.2
+83 verbose rebuild bundle /Users/tehdb/Projects/BodyApp/node_modules/karma-coffee-preprocessor
+84 info build /Users/tehdb/Projects/BodyApp/node_modules/karma-coffee-preprocessor
+85 info preinstall karma-coffee-preprocessor@0.1.2
+86 verbose linkStuff [ false,
+86 verbose linkStuff   false,
+86 verbose linkStuff   false,
+86 verbose linkStuff   '/Users/tehdb/Projects/BodyApp/node_modules' ]
+87 info linkStuff karma-coffee-preprocessor@0.1.2
+88 verbose linkBins karma-coffee-preprocessor@0.1.2
+89 verbose linkMans karma-coffee-preprocessor@0.1.2
+90 verbose rebuildBundles karma-coffee-preprocessor@0.1.2
+91 verbose rebuildBundles [ '.bin', 'coffee-script' ]
+92 info install karma-coffee-preprocessor@0.1.2
+93 info postinstall karma-coffee-preprocessor@0.1.2
+94 verbose rebuild bundle /Users/tehdb/Projects/BodyApp/node_modules/karma-firefox-launcher
+95 info build /Users/tehdb/Projects/BodyApp/node_modules/karma-firefox-launcher
+96 info preinstall karma-firefox-launcher@0.1.3
+97 verbose linkStuff [ false,
+97 verbose linkStuff   false,
+97 verbose linkStuff   false,
+97 verbose linkStuff   '/Users/tehdb/Projects/BodyApp/node_modules' ]
+98 info linkStuff karma-firefox-launcher@0.1.3
+99 verbose linkBins karma-firefox-launcher@0.1.3
+100 verbose linkMans karma-firefox-launcher@0.1.3
+101 verbose rebuildBundles karma-firefox-launcher@0.1.3
+102 info install karma-firefox-launcher@0.1.3
+103 info postinstall karma-firefox-launcher@0.1.3
+104 verbose rebuild bundle /Users/tehdb/Projects/BodyApp/node_modules/karma-html2js-preprocessor
+105 info build /Users/tehdb/Projects/BodyApp/node_modules/karma-html2js-preprocessor
+106 info preinstall karma-html2js-preprocessor@0.1.0
+107 verbose linkStuff [ false,
+107 verbose linkStuff   false,
+107 verbose linkStuff   false,
+107 verbose linkStuff   '/Users/tehdb/Projects/BodyApp/node_modules' ]
+108 info linkStuff karma-html2js-preprocessor@0.1.0
+109 verbose linkBins karma-html2js-preprocessor@0.1.0
+110 verbose linkMans karma-html2js-preprocessor@0.1.0
+111 verbose rebuildBundles karma-html2js-preprocessor@0.1.0
+112 info install karma-html2js-preprocessor@0.1.0
+113 info postinstall karma-html2js-preprocessor@0.1.0
+114 verbose rebuild bundle /Users/tehdb/Projects/BodyApp/node_modules/karma-jasmine
+115 info build /Users/tehdb/Projects/BodyApp/node_modules/karma-jasmine
+116 info preinstall karma-jasmine@0.2.2
+117 verbose linkStuff [ false,
+117 verbose linkStuff   false,
+117 verbose linkStuff   false,
+117 verbose linkStuff   '/Users/tehdb/Projects/BodyApp/node_modules' ]
+118 info linkStuff karma-jasmine@0.2.2
+119 verbose linkBins karma-jasmine@0.2.2
+120 verbose linkMans karma-jasmine@0.2.2
+121 verbose rebuildBundles karma-jasmine@0.2.2
+122 info install karma-jasmine@0.2.2
+123 info postinstall karma-jasmine@0.2.2
+124 verbose rebuild bundle /Users/tehdb/Projects/BodyApp/node_modules/karma-phantomjs-launcher
+125 info build /Users/tehdb/Projects/BodyApp/node_modules/karma-phantomjs-launcher
+126 info preinstall karma-phantomjs-launcher@0.1.2
+127 verbose linkStuff [ false,
+127 verbose linkStuff   false,
+127 verbose linkStuff   false,
+127 verbose linkStuff   '/Users/tehdb/Projects/BodyApp/node_modules' ]
+128 info linkStuff karma-phantomjs-launcher@0.1.2
+129 verbose linkBins karma-phantomjs-launcher@0.1.2
+130 verbose linkMans karma-phantomjs-launcher@0.1.2
+131 verbose rebuildBundles karma-phantomjs-launcher@0.1.2
+132 verbose rebuildBundles [ '.bin', 'phantomjs' ]
+133 info install karma-phantomjs-launcher@0.1.2
+134 info postinstall karma-phantomjs-launcher@0.1.2
+135 verbose rebuild bundle /Users/tehdb/Projects/BodyApp/node_modules/karma-requirejs
+136 info build /Users/tehdb/Projects/BodyApp/node_modules/karma-requirejs
+137 info preinstall karma-requirejs@0.2.1
+138 verbose linkStuff [ false,
+138 verbose linkStuff   false,
+138 verbose linkStuff   false,
+138 verbose linkStuff   '/Users/tehdb/Projects/BodyApp/node_modules' ]
+139 info linkStuff karma-requirejs@0.2.1
+140 verbose linkBins karma-requirejs@0.2.1
+141 verbose linkMans karma-requirejs@0.2.1
+142 verbose rebuildBundles karma-requirejs@0.2.1
+143 info install karma-requirejs@0.2.1
+144 info postinstall karma-requirejs@0.2.1
+145 verbose rebuild bundle /Users/tehdb/Projects/BodyApp/node_modules/karma-script-launcher
+146 info build /Users/tehdb/Projects/BodyApp/node_modules/karma-script-launcher
+147 info preinstall karma-script-launcher@0.1.0
+148 verbose linkStuff [ false,
+148 verbose linkStuff   false,
+148 verbose linkStuff   false,
+148 verbose linkStuff   '/Users/tehdb/Projects/BodyApp/node_modules' ]
+149 info linkStuff karma-script-launcher@0.1.0
+150 verbose linkBins karma-script-launcher@0.1.0
+151 verbose linkMans karma-script-launcher@0.1.0
+152 verbose rebuildBundles karma-script-launcher@0.1.0
+153 info install karma-script-launcher@0.1.0
+154 info postinstall karma-script-launcher@0.1.0
+155 verbose rebuild bundle /Users/tehdb/Projects/BodyApp/node_modules/monk
+156 info build /Users/tehdb/Projects/BodyApp/node_modules/monk
+157 info preinstall monk@0.7.1
+158 verbose linkStuff [ false,
+158 verbose linkStuff   false,
+158 verbose linkStuff   false,
+158 verbose linkStuff   '/Users/tehdb/Projects/BodyApp/node_modules' ]
+159 info linkStuff monk@0.7.1
+160 verbose linkBins monk@0.7.1
+161 verbose linkMans monk@0.7.1
+162 verbose rebuildBundles monk@0.7.1
+163 verbose rebuildBundles [ 'debug', 'mongoskin' ]
+164 info install monk@0.7.1
+165 info postinstall monk@0.7.1
+166 verbose rebuild bundle /Users/tehdb/Projects/BodyApp/node_modules/requirejs
+167 info build /Users/tehdb/Projects/BodyApp/node_modules/requirejs
+168 info preinstall requirejs@2.1.10
+169 verbose linkStuff [ false,
+169 verbose linkStuff   false,
+169 verbose linkStuff   false,
+169 verbose linkStuff   '/Users/tehdb/Projects/BodyApp/node_modules' ]
+170 info linkStuff requirejs@2.1.10
+171 verbose linkBins requirejs@2.1.10
+172 verbose link bins [ { 'r.js': './bin/r.js' },
+172 verbose link bins   '/Users/tehdb/Projects/BodyApp/node_modules/.bin',
+172 verbose link bins   false ]
+173 verbose linkMans requirejs@2.1.10
+174 verbose rebuildBundles requirejs@2.1.10
+175 info install requirejs@2.1.10
+176 info postinstall requirejs@2.1.10
+177 info install bodyApp@0.0.1
+178 info postinstall bodyApp@0.0.1
+179 info prepublish bodyApp@0.0.1
+180 error peerinvalid The package karma does not satisfy its siblings' peerDependencies requirements!
+180 error peerinvalid Peer karma-chrome-launcher@0.1.2 wants karma@>=0.9.3
+180 error peerinvalid Peer karma-html2js-preprocessor@0.1.0 wants karma@>=0.9
+180 error peerinvalid Peer karma-jasmine@0.2.2 wants karma@>=0.9
+180 error peerinvalid Peer karma-requirejs@0.2.1 wants karma@>=0.9
+180 error peerinvalid Peer karma-script-launcher@0.1.0 wants karma@>=0.9
+180 error peerinvalid Peer karma-firefox-launcher@0.1.3 wants karma@>=0.9
+180 error peerinvalid Peer karma-coffee-preprocessor@0.1.2 wants karma@>=0.9
+180 error peerinvalid Peer grunt-karma@0.6.2 wants karma@~0.10.0
+180 error peerinvalid Peer karma-phantomjs-launcher@0.1.2 wants karma@>=0.9
+181 error System Darwin 13.1.0
+182 error command "/usr/local/bin/node" "/usr/local/bin/npm" "install"
+183 error cwd /Users/tehdb/Projects/BodyApp
+184 error node -v v0.10.26
+185 error npm -v 1.4.3
+186 error code EPEERINVALID
+187 verbose exit [ 1, true ]

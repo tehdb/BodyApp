@@ -16,6 +16,9 @@ module.exports = function(config) {
 		],
 		exclude: [],
 		reporters: ["progress"],
+		preprocessors : {
+			'**/*.coffee': 'coffee'
+		},
 		port: 9876,
 		colors: true,
 		logLevel: config.LOG_INFO,
