@@ -1,0 +1,122 @@
+div.muscles.view
+	div.controls
+		button.btn(
+			type="button"
+			ng-click="insertModal()"
+		)
+			i.fa.fa-plus
+
+		h1.title(ng-bind="data.title")
+
+		button.btn(
+			ng-class="{'active' : data.edit}"
+			type="button"
+			ng-click="data.edit = !data.edit"
+		)
+			i.fa.fa-edit
+
+	//- filter
+	div.input-group
+		span.input-group-btn
+			div.select
+				i.fa.fa-sort-asc
+				select(
+					ng-model="data.muscleGroup"
+					ng-options="g.name for g in data.muscleGroups"
+				)
+		div.input
+			input.form-control(
+				type="text"
+				ng-model="data.searchText"
+				placeholder="search muscle"
+			)
+			button(
+				ng-hide="data.searchText == ''"
+				ng-click="data.searchText = ''"
+				type="button"
+			)
+				i.fa.fa-times-circle
+
+
+	p.warning.text-danger(ng-show="data.filtered.length == 0" ) No entries
+
+	ul.th-justified-list
+		li(
+			ng-repeat="m in data.filtered = (data.muscles | filter:data.searchText |  musclegroup:data.muscleGroup.id:'muscles' )"
+		)
+			h2(ng-bind="m.name")
+
+			//-
+			a.btn.btn-danger(
+				role="button"
+				ng-click="upmoveModal($index)"
+				ng-show="data.edit"
+			)
+				i.fa.fa-edit
+
+			a.btn.btn-default(
+				role="button"
+				ng-href="/#/muscle/{{m._id}}"
+				ng-hide="data.edit"
+			)
+				i.fa.fa-chevron-right
+
+	//- modal(
+	//- 	title="add new muscle"
+	//- 	show="data.showMuscleModal"
+	//- )
+
+	//- 	form.form-horizontal(
+	//- 		name="form"
+	//- 		novalidate
+	//- 	)
+	//- 		div.form-group
+	//- 			label.col-sm-2.control-label(for="muscleGroupSelect") group
+	//- 			div.col-sm-10
+	//- 				select.form-control(
+	//- 					id="muscleGroupSelect"
+	//- 					ng-model="data.form.group"
+	//- 					ng-options="g.name for g in data.muscleGroups"
+	//- 					required
+	//- 				)
+
+	//- 		div.form-group
+	//- 			label.col-sm-2.control-label(for="muscleNameInput") name
+	//- 			div.col-sm-10
+	//- 				input.form-control(
+	//- 					id="muscleNameInput"
+	//- 					ng-model="data.form.name"
+	//- 					placeholder="muscle name"
+	//- 					required
+	//- 					type="text"
+	//- 				)
+
+	//- 		div(
+	//- 			ng-show="data.form.update == false"
+	//- 		)
+	//- 			button.btn.btn-success(
+	//- 				ng-disabled="form.$invalid"
+	//- 				ng-click="upsert()"
+	//- 			)
+	//- 				i.fa.fa-plus
+	//- 				span &nbsp;add muscle
+
+	//- 		div(
+	//- 			ng-show="data.form.update == true"
+	//- 		)
+	//- 			button.btn.btn-danger(
+	//- 				ng-click="remove()"
+	//- 			)
+	//- 				i.fa.fa-trash-o
+	//- 				span &nbsp;delete
+
+	//- 			button.btn.btn-success.pull-right(
+	//- 				ng-disabled="form.$invalid"
+	//- 				ng-click="upsert()"
+	//- 			)
+	//- 				i.fa.fa-plus
+	//- 				span &nbsp;update
+
+
+
+

@@ -60,26 +60,48 @@ module.exports = (grunt) ->
 				files : [{
 					cwd : "client/templates"
 					src : "**/*.jade"
-					dest : "public/tpl"
+					# dest : "public/tpl"
+					dest : ".temp/templates"
 					expand : true
 					ext: ".html"
 				}]
 
-		fileregexrename :
-			dist :
+		# replace text in files using strings, regexs or functions
+		replace :
+			# escape single quotes in tempaltes for inclusion
+			escape : 
+				src: ['.temp/templates/**/*.html']
+				overwrite: true
+				replacements: [{
+					from: 	/'/g
+					to:		'\\\''
+				}]
+
+
+		includes :
+			templates :
 				options :
-					replacements : [{
-						pattern : "_tpl"
-						replacement : ""
+					includeRegexp : /['"]{{([^'"]+)}}['"]/
+					# includeRegexp : /{{(.+)}}/
+					debug : false
+				files :
+					"public/js/bodyApp.js" : ".temp/bodyApp.js"
 
-					}]
-				files : [{
-					cwd : "public/tpl"
-					src : "**/*.html"
-					dest : "public/tpl"
-					expand : true
-					ext: ".html"
-				}]
+		# fileregexrename :
+		# 	dist :
+		# 		options :
+		# 			replacements : [{
+		# 				pattern : "_tpl"
+		# 				replacement : ""
+
+		# 			}]
+		# 		files : [{
+		# 			cwd : "public/tpl"
+		# 			src : "**/*.html"
+		# 			dest : "public/tpl"
+		# 			expand : true
+		# 			ext: ".html"
+		# 		}]
 
 
 		uglify :
@@ -91,18 +113,20 @@ module.exports = (grunt) ->
 				files :
 					"public/js/bodyApp.min.js" : "public/js/bodyApp.js"
 
-		includes :
-			database :
-				options :
-					includeRegexp : /['"]{{([^'"]+)}}['"]/
-					debug : true
-				files :
-					"public/js/bodyApp.js" : ".temp/bodyApp.js"
 
 		copy :
 			utils :
 				files :
-					"public/js/utils.js" : "client/extra/utils.js"
+					"public/js/utils.js" 	: "client/extra/utils.js"
+			
+			templates : 
+				files : [{
+					expand: true
+					cwd: '.temp/templates/'
+					src: ['**'],
+					# src : ".temp/templates/*"
+					dest : "public/tpl/"
+				}]
 
 		connect :
 			options :
@@ -122,10 +146,12 @@ module.exports = (grunt) ->
 
 	grunt.registerTask( "build", [
 		"coffee:dist",
-		"includes:database",
-		"compass:dist",
 		"jade:dist",
-		"fileregexrename:dist"
+		"replace:escape",
+		"includes:templates",
+		#"copy:templates",		# TODO: copy only 
+		"compass:dist"
+		# "fileregexrename:dist"
 	])
 	grunt.registerTask( "dwatch", ["watch:common"])
 	grunt.registerTask( "server", ["connect:server:keepalive", "connect:livereload"])

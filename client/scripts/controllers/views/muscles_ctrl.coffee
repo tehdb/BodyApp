@@ -1,6 +1,6 @@
 angular.module("BodyApp").controller "MusclesController", [
-	"$scope", "MusclesService", "ExercisesService",
-	( scope, musclesService, es ) ->
+	"$scope", "$modal", "MusclesService", "ExercisesService",
+	( scope, $modal, musclesService, es ) ->
 		scope.data = {
 			title : "muscles"
 			muscles : []
@@ -19,7 +19,18 @@ angular.module("BodyApp").controller "MusclesController", [
 		musclesService.getAll().then (data) ->
 			scope.data.muscles = data
 
+		# TODO: pарберись с resolve
 		scope.insertModal = ->
+			modalInstance = $modal.open({
+				template: '"{{templates/dialogs/muscle.html}}"'
+				controller: 'MuscleDialogCtrl'
+				resolve : {
+					title : ->
+						return 'add new muscle'
+				}
+			})
+
+			return false
 			scope.data.form = {
 				group : musclesService.getGroups()?[0]
 				name : ''

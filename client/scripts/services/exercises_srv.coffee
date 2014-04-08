@@ -1,6 +1,6 @@
 
 angular.module("BodyApp").service( "ExercisesService", [
-	"$q", "$timeout", "$http", "MusclesService", "Settings",
+	"$q", "$timeout", "$http", "MusclesService", "SETTINGS",
 	( q, timeout, http, ms, sttgs ) ->
 		that = @
 		_exercises = []

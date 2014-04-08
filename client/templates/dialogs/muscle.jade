@@ -1,0 +1,76 @@
+div.modal-header
+	h5(ng-bind="data.title")
+	button.btn.icon-btn.pull-right(
+		type="button"
+		ng-click="cancel($event)"
+	)
+		i.fa.fa-times
+
+div.modal-body
+	form.form-horizontal(
+		name="form"
+		novalidate
+	)
+		div.form-group
+			label.col-sm-2.control-label(for="muscleGroupSelect") group
+			div.col-sm-10
+				select.form-control(
+					id="muscleGroupSelect"
+					ng-model="data.form.group"
+					ng-options="g.name for g in data.muscleGroups"
+					required
+				)
+
+		div.form-group
+			label.col-sm-2.control-label(for="muscleNameInput") name
+			div.col-sm-10
+				input.form-control(
+					id="muscleNameInput"
+					ng-model="data.form.name"
+					placeholder="muscle name"
+					required
+					type="text"
+				)
+
+		div(
+			ng-show="data.form.update == false"
+		)
+			button.btn.btn-success(
+				ng-disabled="form.$invalid"
+				ng-click="upsert()"
+			)
+				i.fa.fa-plus
+				span &nbsp;add muscle
+
+		div(
+			ng-show="data.form.update == true"
+		)
+			button.btn.btn-danger(
+				ng-click="remove()"
+			)
+				i.fa.fa-trash-o
+				span &nbsp;delete
+
+			button.btn.btn-success.pull-right(
+				ng-disabled="form.$invalid"
+				ng-click="upsert()"
+			)
+				i.fa.fa-plus
+				span &nbsp;update
+
+div.modal-footer
+	button.btn.btn-danger(
+		ng-click="remove()"
+	)
+		i.fa.fa-trash-o
+		span delete
+
+	button.btn.btn-success(
+		ng-disabled="form.$invalid"
+		ng-click="upsert()"
+	)
+		i.fa.fa-plus
+		span add muscle
+
+
+
