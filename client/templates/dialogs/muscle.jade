@@ -1,8 +1,8 @@
 div.modal-header
 	h5(ng-bind="data.title")
-	button.btn.icon-btn.pull-right(
+	button.btn.icon-btn(
 		type="button"
-		ng-click="cancel($event)"
+		ng-click="dismiss($event)"
 	)
 		i.fa.fa-times
 
@@ -16,7 +16,7 @@ div.modal-body
 			div.col-sm-10
 				select.form-control(
 					id="muscleGroupSelect"
-					ng-model="data.form.group"
+					ng-model="data.muscleGroup"
 					ng-options="g.name for g in data.muscleGroups"
 					required
 				)
@@ -59,11 +59,11 @@ div.modal-body
 				span &nbsp;update
 
 div.modal-footer
-	button.btn.btn-danger(
-		ng-click="remove()"
-	)
-		i.fa.fa-trash-o
-		span delete
+	//- button.btn.btn-danger(
+	//- 	ng-click="remove()"
+	//- )
+	//- 	i.fa.fa-trash-o
+	//- 	span delete
 
 	button.btn.btn-success(
 		ng-disabled="form.$invalid"

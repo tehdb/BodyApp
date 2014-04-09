@@ -11,7 +11,7 @@
 $color : transparent
 $th-gray : #ccc
 
-
+// common
 @import "common/variables"
 @import "common/mixins"
 @import "common/common"
@@ -19,17 +19,22 @@ $th-gray : #ccc
 @import "common/sidebar"
 @import "common/views"
 
+// ui
+@import "ui/modal"
+
+// directives
+@import "directives/chosen"
+@import "directives/dropdown"
+@import "directives/dialog"
+@import "directives/th-number-input"
+
+// pages
 @import "pages/exercises"
 @import "pages/exercise"
 @import "pages/muscles"
 @import "pages/schedules"
 @import "pages/feaures"
 
-
-@import "directives/chosen"
-@import "directives/dropdown"
-@import "directives/dialog"
-@import "directives/th-number-input"
 
 body
 	background : $color

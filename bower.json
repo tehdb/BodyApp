@@ -13,6 +13,7 @@
     "jquery.transit": "~0.9.9",
     "json3": "~3.3.0",
     "lz-string": "*",
-    "underscore": "~1.6.0"
+    "underscore": "~1.6.0",
+    "bootstrap": "~3.1.1"
   }
 }
