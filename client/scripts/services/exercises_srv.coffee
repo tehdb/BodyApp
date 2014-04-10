@@ -87,6 +87,10 @@ angular.module("BodyApp").service( "ExercisesService", [
 
 		@upsert = (exercise)->
 			def = q.defer()
+
+			# if exercise.muscles are objects pluck just id's
+			exercise.muscles = _.pluck( exercise.muscles, '_id') if _.isObject(exercise.muscles[0])
+
 			http(
 				url : "#{sttgs.apis.exercise}/upsert"
 				method : 'PUT'

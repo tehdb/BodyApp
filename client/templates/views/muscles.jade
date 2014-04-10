@@ -12,6 +12,7 @@ div.muscles.view
 			ng-class="{'active' : data.edit}"
 			type="button"
 			ng-click="data.edit = !data.edit"
+			ng-show="data.filtered.length"
 		)
 			i.fa.fa-edit
 
@@ -60,63 +61,6 @@ div.muscles.view
 				ng-hide="data.edit"
 			)
 				i.fa.fa-chevron-right
-
-	//- modal(
-	//- 	title="add new muscle"
-	//- 	show="data.showMuscleModal"
-	//- )
-
-	//- 	form.form-horizontal(
-	//- 		name="form"
-	//- 		novalidate
-	//- 	)
-	//- 		div.form-group
-	//- 			label.col-sm-2.control-label(for="muscleGroupSelect") group
-	//- 			div.col-sm-10
-	//- 				select.form-control(
-	//- 					id="muscleGroupSelect"
-	//- 					ng-model="data.form.group"
-	//- 					ng-options="g.name for g in data.muscleGroups"
-	//- 					required
-	//- 				)
-
-	//- 		div.form-group
-	//- 			label.col-sm-2.control-label(for="muscleNameInput") name
-	//- 			div.col-sm-10
-	//- 				input.form-control(
-	//- 					id="muscleNameInput"
-	//- 					ng-model="data.form.name"
-	//- 					placeholder="muscle name"
-	//- 					required
-	//- 					type="text"
-	//- 				)
-
-	//- 		div(
-	//- 			ng-show="data.form.update == false"
-	//- 		)
-	//- 			button.btn.btn-success(
-	//- 				ng-disabled="form.$invalid"
-	//- 				ng-click="upsert()"
-	//- 			)
-	//- 				i.fa.fa-plus
-	//- 				span &nbsp;add muscle
-
-	//- 		div(
-	//- 			ng-show="data.form.update == true"
-	//- 		)
-	//- 			button.btn.btn-danger(
-	//- 				ng-click="remove()"
-	//- 			)
-	//- 				i.fa.fa-trash-o
-	//- 				span &nbsp;delete
-
-	//- 			button.btn.btn-success.pull-right(
-	//- 				ng-disabled="form.$invalid"
-	//- 				ng-click="upsert()"
-	//- 			)
-	//- 				i.fa.fa-plus
-	//- 				span &nbsp;update
-
 
 
 

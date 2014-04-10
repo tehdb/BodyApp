@@ -1,13 +1,13 @@
 angular.module("BodyApp").directive( "muscleChosen", [
 	"$q", "$timeout", "$compile", "MusclesService",
 	( q, tmt, cpl, musclesService ) ->
-		restrict : "E"
-		scope : {
+		restrict: "E"
+		scope: {
 			# options : "="
 			selected : "="
 		}
-		replace : true
-		templateUrl : "tpl/directives/muscle-chosen.html"
+		replace: true
+		template: '"{{templates/directives/muscle-chosen.html}}"'
 
 		link : (scp, elm, atr ) ->
 			scp.data = {
@@ -29,7 +29,7 @@ angular.module("BodyApp").directive( "muscleChosen", [
 			scp.selected = scp.selected || []
 			musclesService.getAll().then (data) ->
 				scp.data.options = data
-
+				scp.data.available = angular.copy( scp.data.options )
 
 
 			# TODO: weiter beobahten

@@ -7,30 +7,32 @@ div.modal-header
 		i.fa.fa-times
 
 div.modal-body
-	form.form-horizontal(
-		name="form"
-		novalidate
-	)
+	form.form-horizontal(name="form" novalidate)
 		div.form-group
-			label.col-sm-2.control-label(for="muscleGroupSelect") group
-			div.col-sm-10
-				select.form-control(
-					id="muscleGroupSelect"
-					ng-model="data.muscleForm.group"
-					ng-options="g.name for g in data.muscleGroups"
-					required
-				)
-
-		div.form-group
-			label.col-sm-2.control-label(for="muscleNameInput") name
+			label.col-sm-2.control-label(for="exrcTitleInp") Title
 			div.col-sm-10
 				input.form-control(
-					id="muscleNameInput"
-					ng-model="data.muscleForm.name"
-					placeholder="muscle name"
+					id="exrcTitleInp"
+					ng-model="data.form.title"
+					placeholder="exercise title"
 					required
 					type="text"
 				)
+
+		div.form-group
+			label.col-sm-2.control-label(for="exerciseDescrInp") Description
+			div.col-sm-10
+				textarea.form-control(
+					id="exerciseDescrInp"
+					ng-model="data.form.descr"
+					rows="3"
+					placeholder="exercise description"
+				)
+
+		div.form-group
+			label.col-sm-2.control-label Muscles
+			div.col-sm-10
+				muscle-chosen( selected="data.form.muscles" )
 
 div.modal-footer
 

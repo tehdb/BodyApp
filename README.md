@@ -16,7 +16,7 @@ TODO's
 		- upsert / delete schedules
 	- training days page
 - directives
-	- modal
+	- ~~modal~~ (switch to angular-ui-bootstrap)
 		- ~~improve full screen behavior ( scroll, position )~~
 		- ~~background on animation~~
 		- fixed position( ~~top, center, bottom~~, top-left, top-right, bottom-left, bottom-right )

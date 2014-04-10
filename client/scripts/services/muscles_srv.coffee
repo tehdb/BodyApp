@@ -1,6 +1,6 @@
 angular.module("BodyApp").service( "MusclesService", [
 	"$q", "$timeout", "$http",
-	( q, timeout, http ) ->
+	( q, timeout, http) ->
 		that = @
 		_muscles = []
 		_groups = "{{../client/database/musclegroups.json}}"
@@ -62,6 +62,10 @@ angular.module("BodyApp").service( "MusclesService", [
 
 		@upsert = (muscle) ->
 			deferred = q.defer()
+
+			# if muscle.group is object then get the id
+			muscle.group = muscle.group.id if _.isObject( muscle.group )
+
 			http(
 				url : "/api/muscle/upsert"
 				method : 'PUT'
@@ -94,6 +98,10 @@ angular.module("BodyApp").service( "MusclesService", [
 
 		@remove = (muscle) ->
 			deferred = q.defer()
+
+			# if muscle.group is object then get the id
+			muscle.group = muscle.group.id if _.isObject( muscle.group )
+
 			http(
 				url : "/api/muscle/remove"
 				method : 'DELETE'

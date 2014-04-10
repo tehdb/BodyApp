@@ -3,7 +3,7 @@ div.exercises.view
 
 		button.btn(
 			type="button"
-			ng-click="insertModal()"
+			ng-click="showInsertExerciseModal($event)"
 		)
 			i.fa.fa-plus
 
@@ -13,6 +13,7 @@ div.exercises.view
 			ng-class="{'active' : data.editMode}"
 			type="button"
 			ng-click="data.editMode = !data.editMode"
+			ng-show="data.filtered.length"
 		)
 			i.fa.fa-edit
 
@@ -72,61 +73,61 @@ div.exercises.view
 					i.fa.fa-male
 					span(ng-bind="m.name")
 
-	modal(
-		title="add new exercise"
-		show="data.showModal"
-	)
-		form.form-horizontal(name="form" novalidate)
-			div.form-group
-				label.col-sm-2.control-label(for="exrcTitleInp") Title
-				div.col-sm-10
-					input.form-control(
-						id="exrcTitleInp"
-						ng-model="data.form.title"
-						placeholder="exercise title"
-						required
-						type="text"
-					)
+	//- modal(
+	//- 	title="add new exercise"
+	//- 	show="data.showModal"
+	//- )
+	//- 	form.form-horizontal(name="form" novalidate)
+	//- 		div.form-group
+	//- 			label.col-sm-2.control-label(for="exrcTitleInp") Title
+	//- 			div.col-sm-10
+	//- 				input.form-control(
+	//- 					id="exrcTitleInp"
+	//- 					ng-model="data.form.title"
+	//- 					placeholder="exercise title"
+	//- 					required
+	//- 					type="text"
+	//- 				)
 
-			div.form-group
-				label.col-sm-2.control-label(for="exerciseDescrInp") Description
-				div.col-sm-10
-					textarea.form-control(
-						id="exerciseDescrInp"
-						ng-model="data.form.descr"
-						rows="3"
-						placeholder="exercise description"
-					)
+	//- 		div.form-group
+	//- 			label.col-sm-2.control-label(for="exerciseDescrInp") Description
+	//- 			div.col-sm-10
+	//- 				textarea.form-control(
+	//- 					id="exerciseDescrInp"
+	//- 					ng-model="data.form.descr"
+	//- 					rows="3"
+	//- 					placeholder="exercise description"
+	//- 				)
 
-			div.form-group
-				label.col-sm-2.control-label Muscles
-				div.col-sm-10
-					//- options="data.muscles"
-					muscle-chosen( selected="data.form.muscles" )
+	//- 		div.form-group
+	//- 			label.col-sm-2.control-label Muscles
+	//- 			div.col-sm-10
+	//- 				//- options="data.muscles"
+	//- 				muscle-chosen( selected="data.form.muscles" )
 
-			//- insert controlls
-			div( ng-hide="data.editMode" )
-				button.btn.btn-success(
-					ng-disabled="form.$invalid"
-					ng-click="upsert()"
-				)
-					i.fa.fa-plus
-					span add exercise
+	//- 		//- insert controlls
+	//- 		div( ng-hide="data.editMode" )
+	//- 			button.btn.btn-success(
+	//- 				ng-disabled="form.$invalid"
+	//- 				ng-click="upsert()"
+	//- 			)
+	//- 				i.fa.fa-plus
+	//- 				span add exercise
 
-			//- update controlls
-			div( ng-show="data.editMode" )
-				button.btn.btn-danger(
-					ng-click="remove()"
-				)
-					i.fa.fa-trash-o
-					span delete
+	//- 		//- update controlls
+	//- 		div( ng-show="data.editMode" )
+	//- 			button.btn.btn-danger(
+	//- 				ng-click="remove()"
+	//- 			)
+	//- 				i.fa.fa-trash-o
+	//- 				span delete
 
-				button.btn.btn-success.pull-right(
-					ng-disabled="form.$invalid"
-					ng-click="upsert()"
-				)
-					span update
-					i.fa.fa-check
+	//- 			button.btn.btn-success.pull-right(
+	//- 				ng-disabled="form.$invalid"
+	//- 				ng-click="upsert()"
+	//- 			)
+	//- 				span update
+	//- 				i.fa.fa-check
 
 
 

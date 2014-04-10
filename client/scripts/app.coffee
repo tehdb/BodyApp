@@ -1,5 +1,5 @@
 angular
-	.module('BodyApp', ['ngRoute', 'ngResource', 'ngAnimate', 'ngSanitize', 'ui.bootstrap'])
+	.module('BodyApp', ['ngRoute', 'ngAnimate', 'ngSanitize', 'ui.bootstrap'])
 	.constant('SETTINGS', {
 		apis : {
 			muscle : '/api/muscle'
