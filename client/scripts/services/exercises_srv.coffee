@@ -88,7 +88,7 @@ angular.module("BodyApp").service( "ExercisesService", [
 		@upsert = (exercise)->
 			def = q.defer()
 
-			# if exercise.muscles are objects pluck just id's
+			# if exercise.muscles are objects pluck just the id's
 			exercise.muscles = _.pluck( exercise.muscles, '_id') if _.isObject(exercise.muscles[0])
 
 			http(

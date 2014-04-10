@@ -16,24 +16,13 @@ angular.module("BodyApp").controller( "ExerciseDialogCtrl", [
 		do ->
 			if not _.isNull( preset )
 				$scope.data.delup = true
-				# $scope.data.muscleForm = _.omit( preset, '$$hashKey' )
+				$scope.data.form = _.omit( preset, '$$hashKey' )
 
 		$scope.upsert = (event) ->
 			event.preventDefault()
 			event.stopPropagation()
-			console.log $scope.data.form
-			# $scope.data.form.muscles = _.pluck( $scope.data.form.muscles, '_id')
-			$instance.close( 'upserted' )
-
-			# e_srv.upsert(scope.data.form).then (data) ->
-			# 	$instance.close( 'upserted' )
-
-		# 		
-		# $scope.upsert = (event) ->
-		# 	event.preventDefault()
-		# 	event.stopPropagation()
-		# 	m_srv.upsert( $scope.data.muscleForm ).then ( data ) ->
-		# 		$instance.close( 'upserted' )
+			e_srv.upsert(scope.data.form).then (data) ->
+				$instance.close( 'upserted' )
 
 		# $scope.remove = (event) ->
 		# 	event.preventDefault()
