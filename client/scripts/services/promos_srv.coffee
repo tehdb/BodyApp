@@ -62,6 +62,10 @@ angular.module("BodyApp").service( "PromosService", [
 
 		_pushSetsToPromo = ( exerciseId, sets ) ->
 			promo = _getPromo( exerciseId )
+
+			_.each sets , (elm, idx, list) ->
+				sets[idx] = _.pick( elm, "inc", "heft", "reps" )
+
 			progress = {
 				date : new Date().getTime()
 				sets : sets
@@ -99,6 +103,7 @@ angular.module("BodyApp").service( "PromosService", [
 
 		@add = ( exerciseId, sets ) ->
 			def = q.defer()
+			# sets = _.pick( sets, )
 			timeout(->
 				def.resolve( _pushSetsToPromo( exerciseId, sets ) )
 			,0)

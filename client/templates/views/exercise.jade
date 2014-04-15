@@ -36,8 +36,8 @@ div.exercise.view
 				span.reps(ng-bind="set.reps")
 			div.col-xs-3
 				button.btn.btn-default.btn-xs(
-					ng-show="$index == data.set.index"
-					ng-click="toggleUpsertModal($event)"
+					ng-show="$index == data.curSetIdx"
+					ng-click="doSetModal($event)"
 				)
 					i.fa.fa-reply
 
@@ -47,32 +47,32 @@ div.exercise.view
 				button.btn.btn-success.icon-right(
 					type="button"
 					ng-disabled="!data.completable"
-					ng-click="complete()"
+					ng-click="completeExercise($event)"
 				)
 					span exercise complete
 					i.fa.fa-check
 
 
-	modal(
-		show="data.upsertModal.show"
-		pos="data.upsertModal.pos"
-		confirm = "data.upsertModal.confirmed"
-	)
-		div.set-form
-			div.raw.heading
-				div.col-xs-6 heft
-				div.col-xs-6 reps
-			div.raw
-				div.col-xs-6
-					th-number-input(
-						value="data.upsertModal.set.heft"
-						step="5"
-					)
+	//- modal(
+	//- 	show="data.upsertModal.show"
+	//- 	pos="data.upsertModal.pos"
+	//- 	confirm = "data.upsertModal.confirmed"
+	//- )
+	//- 	div.set-form
+	//- 		div.raw.heading
+	//- 			div.col-xs-6 heft
+	//- 			div.col-xs-6 reps
+	//- 		div.raw
+	//- 			div.col-xs-6
+	//- 				th-number-input(
+	//- 					value="data.upsertModal.set.heft"
+	//- 					step="5"
+	//- 				)
 
-				div.col-xs-6
-					th-number-input(
-						value="data.upsertModal.set.reps"
-						step="1"
-					)
+	//- 			div.col-xs-6
+	//- 				th-number-input(
+	//- 					value="data.upsertModal.set.reps"
+	//- 					step="1"
+	//- 				)
 
 

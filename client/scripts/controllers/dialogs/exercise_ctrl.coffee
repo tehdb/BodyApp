@@ -16,21 +16,21 @@ angular.module("BodyApp").controller( "ExerciseDialogCtrl", [
 		do ->
 			if not _.isNull( preset )
 				$scope.data.delup = true
-				$scope.data.form = _.omit( preset, '$$hashKey' )
+				$scope.data.form = angular.copy( preset )
 
 		$scope.upsert = (event) ->
 			event.preventDefault()
 			event.stopPropagation()
-			e_srv.upsert(scope.data.form).then (data) ->
+			e_srv.upsert( $scope.data.form ).then (data) ->
 				$instance.close( 'upserted' )
 
-		# $scope.remove = (event) ->
-		# 	event.preventDefault()
-		# 	event.stopPropagation()
+		$scope.remove = (event) ->
+			event.preventDefault()
+			event.stopPropagation()
 
-		# 	if confirm("delete #{$scope.data.muscleForm.name}?")
-		# 		m_srv.remove( $scope.data.muscleForm ).then ( data) ->
-		# 			$instance.close( 'deleted' )
+			if confirm("delete #{$scope.data.form.title}?")
+				e_srv.remove( $scope.data.form ).then ( data) ->
+					$instance.close( 'deleted' )
 
 		$scope.dismiss = (event) ->
 			event.preventDefault()

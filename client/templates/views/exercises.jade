@@ -63,7 +63,7 @@ div.exercises.view
 			//- edit button
 			a.btn.btn-danger(
 				role="button"
-				ng-click="upmoveModal($index)"
+				ng-click="showInsertExerciseModal($event, $index)"
 				ng-show="data.editMode"
 			)
 				i.fa.fa-edit

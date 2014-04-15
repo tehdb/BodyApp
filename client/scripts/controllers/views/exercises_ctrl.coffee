@@ -4,6 +4,7 @@ angular.module("BodyApp").controller( "ExercisesController", [
 		# defaults
 		$scope.data = {
 			title : "exercices"
+			searchText : ''
 			editMode : false
 			exercises : []
 			filtered : null
@@ -15,17 +16,22 @@ angular.module("BodyApp").controller( "ExercisesController", [
 			$scope.data.muscleGroup = $scope.data.muscleGroups[0]
 
 			e_srv.getAll().then (data) ->
-				scope.data.exercises = data
+				$scope.data.exercises = data
 
-		$scope.showInsertExerciseModal = (event) ->
+		$scope.showInsertExerciseModal = (event, index) ->
 			event.preventDefault()
 			event.stopPropagation()
+			preset = ->
+				return null
+
+			if index?
+				preset = ->
+					return $scope.data.filtered[index]
+
 			$modal.open({
 				template: '"{{templates/dialogs/exercise.html}}"'
 				controller: 'ExerciseDialogCtrl'
-				resolve: { preset: ->
-					return null
-				}
+				resolve: { preset: preset }
 			})
 
 

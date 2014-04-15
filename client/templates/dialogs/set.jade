@@ -1,0 +1,44 @@
+div.modal-header
+	h5(ng-bind="data.title")
+	button.btn.icon-btn(
+		type="button"
+		ng-click="dismiss($event)"
+	)
+		i.fa.fa-times
+
+div.modal-body
+	div.set-form
+		div.raw.heading
+			div.col-xs-6 heft
+			div.col-xs-6 reps
+		div.raw
+			div.col-xs-6
+				th-number-input(
+					value="data.form.heft"
+					step="5"
+				)
+
+			div.col-xs-6
+				th-number-input(
+					value="data.form.reps"
+					step="1"
+				)
+
+div.modal-footer
+	button.btn.btn-default.pull-left(
+		type="button"
+		ng-click="dismiss($event)"
+	)
+		i.fa.fa-times
+		span cancel
+
+	button.btn.btn-success.pull-right(
+		type="button"
+		ng-click="done($event)"
+	)
+		span apply
+		i.fa.fa-check
+
+
+
+

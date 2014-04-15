@@ -1,7 +1,7 @@
 angular.module("BodyApp").controller( "MuscleDialogCtrl", [
 	'$scope', '$modalInstance', 'MusclesService', 'preset',
 	( $scope, $instance, m_srv, preset ) ->
-		
+
 		# defaults
 		$scope.data = {
 			title: 'muscle dialog'
@@ -10,14 +10,14 @@ angular.module("BodyApp").controller( "MuscleDialogCtrl", [
 			muscleForm: {
 				group : m_srv.getGroups()?[0]
 				name : ''
-			} 
+			}
 		}
 
 		# init
 		do ->
 			if not _.isNull( preset )
 				$scope.data.delup = true
-				$scope.data.muscleForm = _.omit( preset, '$$hashKey' )
+				$scope.data.muscleForm = angular.copy( preset )
 
 		$scope.upsert = (event) ->
 			event.preventDefault()
